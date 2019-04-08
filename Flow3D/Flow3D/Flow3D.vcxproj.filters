@@ -960,6 +960,24 @@
     <ClInclude Include="src\Flow3D\Layer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Flow3D\Window.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\glad\include\glad\glad.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\glad\include\KHR\khrplatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\GLFW\include\GLFW\glfw3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\GLFW\include\GLFW\glfw3native.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flow3D\OpenGLWindow.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp">
@@ -978,6 +996,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Flow3D\LayerStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="external_libraries\glad\src\glad.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flow3D\OpenGLWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

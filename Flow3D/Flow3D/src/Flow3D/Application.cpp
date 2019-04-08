@@ -9,7 +9,8 @@ namespace Flow {
 		// missing assert for making sure there is only one instance
 		s_Instance = this;
 
-		
+		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window->SetEventCallback(FLOW_BIND_EVENT_FUNCTION(Application::OnEvent));
 	}
 
 	Application::~Application()
@@ -19,10 +20,13 @@ namespace Flow {
 
 	void Application::Run()
 	{
+		
 		while (m_Running)
 		{
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(0.0);
+
+			m_Window->OnUpdate();
 		}
 	}
 

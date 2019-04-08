@@ -92,8 +92,12 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\GLFW\lib-vc2015;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -102,8 +106,12 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
     </ClCompile>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\GLFW\lib-x64;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -114,12 +122,16 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\GLFW\lib-vc2015;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -130,14 +142,22 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\GLFW\lib-x64;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="external_libraries\glad\include\glad\glad.h" />
+    <ClInclude Include="external_libraries\glad\include\KHR\khrplatform.h" />
+    <ClInclude Include="external_libraries\GLFW\include\GLFW\glfw3.h" />
+    <ClInclude Include="external_libraries\GLFW\include\GLFW\glfw3native.h" />
     <ClInclude Include="external_libraries\glm\common.hpp" />
     <ClInclude Include="external_libraries\glm\detail\compute_common.hpp" />
     <ClInclude Include="external_libraries\glm\detail\compute_vector_relational.hpp" />
@@ -453,14 +473,18 @@
     <ClInclude Include="src\Flow3D\LayerStack.hpp" />
     <ClInclude Include="src\Flow3D\Log.hpp" />
     <ClInclude Include="src\Flow3D\Math.hpp" />
+    <ClInclude Include="src\Flow3D\OpenGLWindow.hpp" />
+    <ClInclude Include="src\Flow3D\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="external_libraries\glad\src\glad.c" />
     <ClCompile Include="external_libraries\glm\detail\dummy.cpp" />
     <ClCompile Include="external_libraries\glm\detail\glm.cpp" />
     <ClCompile Include="src\Flow3D\Application.cpp" />
     <ClCompile Include="src\Flow3D\Layer.cpp" />
     <ClCompile Include="src\Flow3D\LayerStack.cpp" />
     <ClCompile Include="src\Flow3D\Log.cpp" />
+    <ClCompile Include="src\Flow3D\OpenGLWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="external_libraries\glm\detail\func_common.inl" />
