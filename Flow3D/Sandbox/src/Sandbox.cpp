@@ -10,7 +10,20 @@ public:
 
 	void OnUpdate(double deltaTime) override
 	{
-		
+		Flow::Input& input = Flow::Input::Get();
+		FLOW_CLIENT_TRACE("mouse at {0}", input.GetMousePosition().ToString());			
+	}
+
+	void OnEvent(Flow::Event& event) override 
+	{
+		if (event.GetEventType() == Flow::KeyPressedEvent::GetStaticType())
+		{
+			Flow::KeyPressedEvent& keyPressedEvent = (Flow::KeyPressedEvent&) event;
+			if (keyPressedEvent.GetKeyCode() == (int) Flow::Keycode::Escape)
+			{
+				Flow::Application::Get().Quit();
+			}
+		}
 	}
 };
 

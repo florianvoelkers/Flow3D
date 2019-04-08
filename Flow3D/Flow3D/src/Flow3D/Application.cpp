@@ -1,5 +1,9 @@
 #include "Application.hpp"
 
+#include "Input.hpp"
+
+#include "GLFW/glfw3.h"
+
 namespace Flow {
 
 	Application* Application::s_Instance = nullptr;
@@ -11,6 +15,8 @@ namespace Flow {
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(FLOW_BIND_EVENT_FUNCTION(Application::OnEvent));
+
+		PushLayer(new Input());
 	}
 
 	Application::~Application()
@@ -20,11 +26,15 @@ namespace Flow {
 
 	void Application::Run()
 	{
-		
+		double lastTime = glfwGetTime();
 		while (m_Running)
 		{
+			double current = glfwGetTime();
+			double elapsed = current - lastTime;
+			lastTime = current;
+
 			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(0.0);
+				layer->OnUpdate(elapsed);
 
 			m_Window->OnUpdate();
 		}

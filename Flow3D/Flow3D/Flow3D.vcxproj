@@ -469,6 +469,7 @@
     <ClInclude Include="src\Flow3D\Events\Event.hpp" />
     <ClInclude Include="src\Flow3D\Events\KeyEvent.hpp" />
     <ClInclude Include="src\Flow3D\Events\MouseEvent.hpp" />
+    <ClInclude Include="src\Flow3D\Input.hpp" />
     <ClInclude Include="src\Flow3D\Layer.hpp" />
     <ClInclude Include="src\Flow3D\LayerStack.hpp" />
     <ClInclude Include="src\Flow3D\Log.hpp" />
@@ -481,6 +482,7 @@
     <ClCompile Include="external_libraries\glm\detail\dummy.cpp" />
     <ClCompile Include="external_libraries\glm\detail\glm.cpp" />
     <ClCompile Include="src\Flow3D\Application.cpp" />
+    <ClCompile Include="src\Flow3D\Input.cpp" />
     <ClCompile Include="src\Flow3D\Layer.cpp" />
     <ClCompile Include="src\Flow3D\LayerStack.cpp" />
     <ClCompile Include="src\Flow3D\Log.cpp" />
