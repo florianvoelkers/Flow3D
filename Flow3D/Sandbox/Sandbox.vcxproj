@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -101,7 +101,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -113,7 +113,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -129,7 +129,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

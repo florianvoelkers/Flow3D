@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -102,7 +102,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -114,7 +114,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -130,7 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -138,12 +138,63 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\async.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\async_logger.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\common.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\async_logger_impl.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\circular_q.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\console_globals.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\file_helper.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\fmt_helper.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\logger_impl.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\log_msg.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\mpmc_blocking_q.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\null_mutex.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\os.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\pattern_formatter.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\periodic_worker.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\registry.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\details\thread_pool.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bin_to_hex.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\colors.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\core.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\format-inl.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\format.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\ostream.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\posix.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\printf.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\ranges.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\bundled\time.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\fmt.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\fmt\ostr.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\formatter.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\logger.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\android_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\ansicolor_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\base_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\basic_file_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\daily_file_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\dist_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\msvc_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\null_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\ostream_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\rotating_file_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\stdout_color_sinks.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\stdout_sinks.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\syslog_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\sinks\wincolor_sink.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\spdlog.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\tweakme.h" />
+    <ClInclude Include="external_libraries\spdlog\include\spdlog\version.h" />
     <ClInclude Include="src\Flow3D.hpp" />
     <ClInclude Include="src\Flow3D\Application.hpp" />
     <ClInclude Include="src\Flow3D\EntryPoint.hpp" />
+    <ClInclude Include="src\Flow3D\Log.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp" />
+    <ClCompile Include="src\Flow3D\Log.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

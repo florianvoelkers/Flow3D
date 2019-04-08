@@ -6,6 +6,8 @@ extern Flow3D::Application* Flow3D::CreateApplication();
 
 int main(int argc, char** argv)
 {
+	Flow::Log::Init();
+
 	auto app = Flow3D::CreateApplication();
 	app->Run();
 	delete app;
