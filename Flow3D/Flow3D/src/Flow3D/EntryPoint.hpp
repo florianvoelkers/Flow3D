@@ -2,13 +2,13 @@
 
 #ifdef FLOW_PLATFORM_WINDOWS
 
-extern Flow3D::Application* Flow3D::CreateApplication();
+extern Flow::Application* Flow::CreateApplication();
 
 int main(int argc, char** argv)
 {
 	Flow::Log::Init();
 
-	auto app = Flow3D::CreateApplication();
+	auto app = Flow::CreateApplication();
 	app->Run();
 	delete app;
 }
