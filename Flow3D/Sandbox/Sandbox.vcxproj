@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -101,7 +101,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -113,7 +113,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -129,7 +129,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -144,6 +144,20 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Sandbox.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\shader\Basic3D.vert" />
+    <None Include="resources\shader\Basic3DTextured.vert" />
+    <None Include="resources\shader\Colored.frag" />
+    <None Include="resources\shader\Textured.frag" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\textures\awesomeface.png" />
+    <Image Include="resources\textures\brickwall.jpg" />
+    <Image Include="resources\textures\brickwall_normal.jpg" />
+    <Image Include="resources\textures\container.jpg" />
+    <Image Include="resources\textures\logo.png" />
+    <Image Include="resources\textures\wall.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

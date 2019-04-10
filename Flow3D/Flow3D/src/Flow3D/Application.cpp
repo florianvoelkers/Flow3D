@@ -1,8 +1,7 @@
 #include "Application.hpp"
 
 #include "Input.hpp"
-
-#include "GLFW/glfw3.h"
+#include "Rendering/RenderingEngine.hpp"
 
 namespace Flow {
 
@@ -17,6 +16,7 @@ namespace Flow {
 		m_Window->SetEventCallback(FLOW_BIND_EVENT_FUNCTION(Application::OnEvent));
 
 		PushLayer(new Input());
+		PushLayer(new RenderingEngine(*m_Window));
 	}
 
 	Application::~Application()

@@ -10,8 +10,7 @@ public:
 
 	void OnUpdate(double deltaTime) override
 	{
-		Flow::Input& input = Flow::Input::Get();
-		FLOW_CLIENT_TRACE("mouse at {0}", input.GetMousePosition().ToString());			
+
 	}
 
 	void OnEvent(Flow::Event& event) override 
