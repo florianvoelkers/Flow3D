@@ -34,6 +34,7 @@ public:
 	{
 		FLOW_CLIENT_INFO("Welcome to the Sandbox Application of the Flow3D Engine!");
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Flow::ImGuiLayer());
 	}
 
 	~Sandbox()

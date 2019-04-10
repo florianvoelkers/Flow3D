@@ -412,6 +412,13 @@
     <ClInclude Include="external_libraries\glm\vec3.hpp" />
     <ClInclude Include="external_libraries\glm\vec4.hpp" />
     <ClInclude Include="external_libraries\glm\vector_relational.hpp" />
+    <ClInclude Include="external_libraries\imgui\imconfig.h" />
+    <ClInclude Include="external_libraries\imgui\imgui.h" />
+    <ClInclude Include="external_libraries\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="external_libraries\imgui\imgui_internal.h" />
+    <ClInclude Include="external_libraries\imgui\imstb_rectpack.h" />
+    <ClInclude Include="external_libraries\imgui\imstb_textedit.h" />
+    <ClInclude Include="external_libraries\imgui\imstb_truetype.h" />
     <ClInclude Include="external_libraries\spdlog\include\spdlog\async.h" />
     <ClInclude Include="external_libraries\spdlog\include\spdlog\async_logger.h" />
     <ClInclude Include="external_libraries\spdlog\include\spdlog\common.h" />
@@ -469,6 +476,7 @@
     <ClInclude Include="src\Flow3D\Events\Event.hpp" />
     <ClInclude Include="src\Flow3D\Events\KeyEvent.hpp" />
     <ClInclude Include="src\Flow3D\Events\MouseEvent.hpp" />
+    <ClInclude Include="src\Flow3D\ImGui\ImGuiLayer.hpp" />
     <ClInclude Include="src\Flow3D\Input.hpp" />
     <ClInclude Include="src\Flow3D\Layer.hpp" />
     <ClInclude Include="src\Flow3D\LayerStack.hpp" />
@@ -481,7 +489,13 @@
     <ClCompile Include="external_libraries\glad\src\glad.c" />
     <ClCompile Include="external_libraries\glm\detail\dummy.cpp" />
     <ClCompile Include="external_libraries\glm\detail\glm.cpp" />
+    <ClCompile Include="external_libraries\imgui\imgui.cpp" />
+    <ClCompile Include="external_libraries\imgui\imgui_demo.cpp" />
+    <ClCompile Include="external_libraries\imgui\imgui_draw.cpp" />
+    <ClCompile Include="external_libraries\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="external_libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Flow3D\Application.cpp" />
+    <ClCompile Include="src\Flow3D\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Flow3D\Input.cpp" />
     <ClCompile Include="src\Flow3D\Layer.cpp" />
     <ClCompile Include="src\Flow3D\LayerStack.cpp" />
