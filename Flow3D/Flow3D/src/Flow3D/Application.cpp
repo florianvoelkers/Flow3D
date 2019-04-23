@@ -14,9 +14,15 @@ namespace Flow {
 
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(FLOW_BIND_EVENT_FUNCTION(Application::OnEvent));
+		
+		m_Input = std::make_unique<Input>();
+		m_RenderingEngine = std::make_unique<RenderingEngine>(*m_Window);
 
-		PushLayer(new Input());
-		PushLayer(new RenderingEngine(*m_Window));
+		m_CurrentScene = std::make_unique<Scene>("TestScene");
+		FLOW_CORE_INFO("scene {0} created", m_CurrentScene->GetName());
+ 
+		m_CurrentScene->AddToScene(new GameObject(Vec3(7.0f, 1.0f, 0.0f)));
+
 	}
 
 	Application::~Application()
@@ -33,9 +39,16 @@ namespace Flow {
 			double elapsed = current - lastTime;
 			lastTime = current;
 
+			m_Input->OnUpdate(elapsed);
+
+			// scene should be part of the layer stack but it also should be uniquely accessible
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(elapsed);
 
+			m_CurrentScene->OnUpdate(elapsed);
+
+			// temporary, will be called from Renderable Components
+			m_RenderingEngine->OnUpdate(elapsed);
 			m_Window->OnUpdate();
 		}
 	}
@@ -50,12 +63,20 @@ namespace Flow {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(FLOW_BIND_EVENT_FUNCTION(Application::OnWindowClose));
 
+		m_Input->OnEvent(e);
+
+		// scene should be part of the layer stack but it also should be uniquely accessible
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
 			(*--it)->OnEvent(e);
 			if (e.m_Handled)
 				break;
 		}
+
+		m_CurrentScene->OnEvent(e);
+
+		// temporary, will be called from components
+		m_RenderingEngine->OnEvent(e);
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)

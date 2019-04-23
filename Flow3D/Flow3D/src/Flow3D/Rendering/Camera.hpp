@@ -61,7 +61,7 @@ namespace Flow {
 			m_Window = &window;
 
 			firstMouse = true;
-			lastMouse = Vec2(m_Window->GetWidth() / 2, m_Window->GetHeight() / 2);
+			lastMouse = Vec2((float)m_Window->GetWidth() / 2, (float)m_Window->GetHeight() / 2);
 		}
 
 		Mat4 GetViewMatrix()
@@ -126,7 +126,6 @@ namespace Flow {
 			}
 			if (input.GetKey(Keycode::PageUp))
 			{
-				FLOW_CORE_INFO("moved to position {0}", m_Position.ToString());
 				m_Position += m_Up * velocity;
 			}
 			if (input.GetKey(Keycode::PageDown))

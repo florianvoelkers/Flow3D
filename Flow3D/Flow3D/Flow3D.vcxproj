@@ -472,12 +472,14 @@
     <ClInclude Include="src\Flow3D.hpp" />
     <ClInclude Include="src\Flow3D\Application.hpp" />
     <ClInclude Include="src\Flow3D\Color.hpp" />
+    <ClInclude Include="src\Flow3D\Components\Component.hpp" />
     <ClInclude Include="src\Flow3D\Core.hpp" />
     <ClInclude Include="src\Flow3D\EntryPoint.hpp" />
     <ClInclude Include="src\Flow3D\Events\ApplicationEvent.hpp" />
     <ClInclude Include="src\Flow3D\Events\Event.hpp" />
     <ClInclude Include="src\Flow3D\Events\KeyEvent.hpp" />
     <ClInclude Include="src\Flow3D\Events\MouseEvent.hpp" />
+    <ClInclude Include="src\Flow3D\GameObject.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiLayer.hpp" />
     <ClInclude Include="src\Flow3D\Input.hpp" />
     <ClInclude Include="src\Flow3D\Layer.hpp" />
@@ -492,6 +494,8 @@
     <ClInclude Include="src\Flow3D\Rendering\Shapes\Cube.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Shapes\Plane.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Texture.hpp" />
+    <ClInclude Include="src\Flow3D\Scene.hpp" />
+    <ClInclude Include="src\Flow3D\Transform.hpp" />
     <ClInclude Include="src\Flow3D\Window.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -504,6 +508,7 @@
     <ClCompile Include="external_libraries\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="external_libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Flow3D\Application.cpp" />
+    <ClCompile Include="src\Flow3D\GameObject.cpp" />
     <ClCompile Include="src\Flow3D\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Flow3D\Input.cpp" />
     <ClCompile Include="src\Flow3D\Layer.cpp" />
@@ -516,6 +521,8 @@
     <ClCompile Include="src\Flow3D\Rendering\Shapes\Cube.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Shapes\Plane.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Texture.cpp" />
+    <ClCompile Include="src\Flow3D\Scene.cpp" />
+    <ClCompile Include="src\Flow3D\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="external_libraries\glm\detail\func_common.inl" />

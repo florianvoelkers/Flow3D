@@ -65,7 +65,7 @@ namespace Flow {
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
-		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
 		float time = (float)glfwGetTime();
 		io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
@@ -74,14 +74,15 @@ namespace Flow {
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui::NewFrame();
 
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		// don't show demo window anymore until i have a use for it
+		//static bool show = true;
+		//ImGui::ShowDemoWindow(&show);
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	void ImGuiLayer::OnEvent(Event & event)
+	void ImGuiLayer::OnEvent(Event& event)
 	{
 		EventDispatcher dispatcher(event);
 		dispatcher.Dispatch<MouseButtonPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseButtonPressedEvent));
@@ -159,7 +160,7 @@ namespace Flow {
 	bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent & event)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(event.GetWidth(), event.GetHeight());
+		io.DisplaySize = ImVec2((float)event.GetWidth(), (float)event.GetHeight());
 		io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 		glViewport(0, 0, event.GetWidth(), event.GetHeight());
 

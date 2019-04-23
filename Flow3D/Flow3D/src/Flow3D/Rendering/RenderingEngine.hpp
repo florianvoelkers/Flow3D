@@ -1,26 +1,24 @@
 #pragma once
 
-
-#include "Flow3D/Layer.hpp"
 #include "Flow3D/Window.hpp"
 #include "Camera.hpp"
 
 #include "glad/glad.h"
-#include "GLFW/glfw3.h"
+#include "GLFW/include/GLFW/glfw3.h"
 
 #include "Shapes/Cube.hpp"
 #include "Shapes/Plane.hpp"
 
 namespace Flow {
 
-	class RenderingEngine : public Layer
+	class RenderingEngine
 	{
 	public:
 		RenderingEngine(const Window& window);
 		virtual ~RenderingEngine() {}
 
-		void OnUpdate(double deltaTime) override;
-		void OnEvent(Event& event) override;
+		void OnUpdate(double deltaTime);
+		void OnEvent(Event& event);
 
 		void Render();
 		// TODO

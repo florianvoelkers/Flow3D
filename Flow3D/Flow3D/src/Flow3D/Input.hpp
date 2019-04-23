@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Layer.hpp"
 #include "Math.hpp"
 #include "Events/KeyEvent.hpp"
 #include "Events/MouseEvent.hpp"
@@ -120,13 +119,13 @@ namespace Flow {
 		Menu = 348
 	};
 
-	class Input : public Layer {
+	class Input {
 	public:
 		Input();
 		virtual ~Input() {}
 
-		void OnUpdate(double deltaTime) override;
-		void OnEvent(Event& event) override;
+		void OnUpdate(double deltaTime);
+		void OnEvent(Event& event);
 
 		inline static Input& Get() { return *s_Instance; }
 

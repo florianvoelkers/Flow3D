@@ -7,7 +7,7 @@ namespace Flow {
 	Input* Input::s_Instance = nullptr;
 
 	Input::Input()
-		: Layer("Input"), m_MousePosition(glm::vec2(0, 0))
+		: m_MousePosition(glm::vec2(0, 0))
 	{
 		// assert for making sure there is only one instance
 		s_Instance = this;

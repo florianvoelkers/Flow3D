@@ -8,7 +8,7 @@
 namespace Flow {
 
 	RenderingEngine::RenderingEngine(const Window& window)
-		: Layer("RenderingEngine"), m_Window(&window)
+		: m_Window(&window)
 	{
 		m_Camera = new Camera(Vec3(0.0f, 0.0f, 3.0f));
 		m_Camera->SetWindow(*m_Window);
