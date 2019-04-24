@@ -5,10 +5,13 @@ namespace Flow {
 	Scene::Scene(std::string name) 
 		: m_Name(name), Layer("Scene")
 	{
-		m_Root = std::make_unique<GameObject>();
+		m_Root = new GameObject();
 	}
 
-	Scene::~Scene(){}
+	Scene::~Scene()
+	{
+		delete m_Root;
+	}
 
 	void Scene::AddToScene(GameObject* gameObject)
 	{
@@ -27,8 +30,6 @@ namespace Flow {
 	void Scene::OnUpdate(double deltaTime)
 	{
 		m_Root->OnUpdate(deltaTime);
-		// render everything after it is updated
-		m_Root->Render();
 	}
 
 	void Scene::OnEvent(Event& event)

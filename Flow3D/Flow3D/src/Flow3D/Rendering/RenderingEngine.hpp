@@ -9,6 +9,8 @@
 #include "Shapes/Cube.hpp"
 #include "Shapes/Plane.hpp"
 
+#include "Flow3D/GameObject.hpp"
+
 namespace Flow {
 
 	class RenderingEngine
@@ -17,10 +19,10 @@ namespace Flow {
 		RenderingEngine(const Window& window);
 		virtual ~RenderingEngine() {}
 
-		void OnUpdate(double deltaTime);
+		void OnUpdate(double deltaTime, const GameObject& root);
 		void OnEvent(Event& event);
 
-		void Render();
+		void Render(const GameObject& root);
 		// TODO
 		// Light functions
 		// SetCamera

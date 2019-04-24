@@ -3,6 +3,8 @@
 #include "Input.hpp"
 #include "Rendering/RenderingEngine.hpp"
 
+#include "Components/Renderable.hpp"
+
 namespace Flow {
 
 	Application* Application::s_Instance = nullptr;
@@ -21,7 +23,21 @@ namespace Flow {
 		m_CurrentScene = std::make_unique<Scene>("TestScene");
 		FLOW_CORE_INFO("scene {0} created", m_CurrentScene->GetName());
  
-		m_CurrentScene->AddToScene(new GameObject(Vec3(7.0f, 1.0f, 0.0f)));
+		Texture containerTexture("resources/textures/container.jpg", "diffuse");
+		Texture brickTexture("resources/textures/brickwall.jpg", "diffuse");
+
+		GameObject* firstCube = new GameObject(Vec3(0.0f, 0.5f, 0.0f));
+		firstCube->AddComponent(new RenderableCube(firstCube, new Cube(brickTexture)));
+		m_CurrentScene->AddToScene(firstCube);
+
+		GameObject* secondCube = new GameObject(Vec3(1.5f, 0.5f, 0.0f));
+		firstCube->AddComponent(new RenderableCube(secondCube, new Cube(containerTexture)));
+		m_CurrentScene->AddToScene(secondCube);
+
+		GameObject* thirdCube = new GameObject(Vec3(-1.5f, 0.5f, 0.0f));
+		firstCube->AddComponent(new RenderableCube(thirdCube, new Cube(containerTexture)));
+		m_CurrentScene->AddToScene(thirdCube);
+
 
 	}
 
@@ -48,7 +64,7 @@ namespace Flow {
 			m_CurrentScene->OnUpdate(elapsed);
 
 			// temporary, will be called from Renderable Components
-			m_RenderingEngine->OnUpdate(elapsed);
+			m_RenderingEngine->OnUpdate(elapsed, m_CurrentScene->GetRoot());
 			m_Window->OnUpdate();
 		}
 	}

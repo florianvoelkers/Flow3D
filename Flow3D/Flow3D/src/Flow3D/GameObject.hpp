@@ -6,9 +6,10 @@
 #include "Math.hpp"
 #include "Events/Event.hpp"
 #include "Transform.hpp"
-#include "Components/Component.hpp"
 
 namespace Flow {
+
+	class Component; // because GameObject.hpp needs to be included in Component
 
 	class GameObject 
 	{
@@ -21,7 +22,7 @@ namespace Flow {
 
 		void OnUpdate(double deltaTime);
 		void OnEvent(Event& e);
-		void Render();
+		void Render(Mat4 view, Mat4 projection) const;
 
 		void SetActive(bool isActive) { m_IsActive = isActive; }
 		inline Transform* GetTransform() { return &m_Transform; }

@@ -21,8 +21,10 @@ namespace Flow {
 		void OnEvent(Event& event) override;
 
 		inline std::string GetName() { return m_Name; };
+		inline GameObject& GetRoot() { return *m_Root; } // is this correct?
+
 	private:
-		std::unique_ptr<GameObject> m_Root;
+		GameObject* m_Root;
 		std::string m_Name;
 
 		// TODO: Members for a main camera, directional light, other properties
