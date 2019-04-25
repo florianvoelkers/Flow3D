@@ -8,15 +8,36 @@
 
 namespace Flow {
 
-	// temporary solution to test GameObject / Component architecture
-	// Goal: stores Mesh and Material to create Model that needs to be rendered 
 	class RenderablePlane : public Component
 	{
-	public:
-		RenderablePlane(GameObject* gameObject, Plane* plane);
-		~RenderablePlane();
+		CLASS_DECLARATION(RenderablePlane)
 
-		virtual void Render(Mat4 view, Mat4 projection) override;
+	public:
+		RenderablePlane(GameObject* gameObject, Plane* plane)
+			: m_Plane(plane), Component(gameObject)
+		{
+		}
+
+		~RenderablePlane()
+		{
+			delete m_Plane;
+		}
+
+		virtual void Render(Mat4 view, Mat4 projection) override
+		{
+			// calculate position of model
+			// TODO: consider the parents Transform
+			Mat4 model = Mat4();
+			model.Translate(Vec3(0.0f, 0.0f, 0.0f)); // necessary to make sure it is at 0, 0, 0 ???
+			model.Translate(GetTransform()->m_Position);
+			model.Scale(GetTransform()->m_Scale);
+
+			// rotate around all axis; could produce gimbal lock?
+			model.Rotate(GetTransform()->m_Rotation.x, Vec3(1, 0, 0));
+			model.Rotate(GetTransform()->m_Rotation.y, Vec3(0, 1, 0));
+			model.Rotate(GetTransform()->m_Rotation.z, Vec3(0, 0, 1));
+			m_Plane->Draw(model, view, projection);
+		}
 
 	private:
 		Plane* m_Plane;

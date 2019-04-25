@@ -1127,13 +1127,7 @@
     <ClCompile Include="src\Flow3D\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Flow3D\Components\RenderableCube.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Flow3D\Components\RenderablePlane.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Flow3D\Components\FreeCamera.cpp">
+    <ClCompile Include="src\Flow3D\Components\ComponentClasses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
