@@ -472,6 +472,7 @@
     <ClInclude Include="src\Flow3D.hpp" />
     <ClInclude Include="src\Flow3D\Application.hpp" />
     <ClInclude Include="src\Flow3D\Color.hpp" />
+    <ClInclude Include="src\Flow3D\Components\FreeCamera.hpp" />
     <ClInclude Include="src\Flow3D\Components\Component.hpp" />
     <ClInclude Include="src\Flow3D\Components\RenderableCube.hpp" />
     <ClInclude Include="src\Flow3D\Components\RenderablePlane.hpp" />
@@ -510,6 +511,7 @@
     <ClCompile Include="external_libraries\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="external_libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\Flow3D\Application.cpp" />
+    <ClCompile Include="src\Flow3D\Components\FreeCamera.cpp" />
     <ClCompile Include="src\Flow3D\Components\RenderableCube.cpp" />
     <ClCompile Include="src\Flow3D\Components\RenderablePlane.cpp" />
     <ClCompile Include="src\Flow3D\GameObject.cpp" />

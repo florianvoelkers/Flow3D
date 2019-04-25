@@ -30,6 +30,7 @@ namespace Flow {
 
 		inline static Application& Get() { return *s_Instance; }
 		inline Window& GetWindow() { return *m_Window; }
+		inline GameObject& GetMainCamera() { m_CurrentScene->GetMainCamera(); }
 
 	private:
 		static Application* s_Instance;

@@ -10,7 +10,7 @@ namespace Flow {
 	RenderingEngine::RenderingEngine(const Window& window)
 		: m_Window(&window)
 	{
-		m_Camera = new Camera(Vec3(0.0f, 0.0f, 3.0f));
+		m_Camera = new Camera(Vec3(0.0f, 1.0f, 5.0f));
 		m_Camera->SetWindow(*m_Window);
 
 		glEnable(GL_DEPTH_TEST);

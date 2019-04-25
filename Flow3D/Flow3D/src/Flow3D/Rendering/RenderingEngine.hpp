@@ -31,10 +31,5 @@ namespace Flow {
 		const Window* m_Window;
 		Camera* m_Camera;
 
-		// just for testing purposes
-		Cube* testCube;
-		Cube* redCube;
-		Cube* yellowCube;
-		Plane* testPlane;
 	};
 }

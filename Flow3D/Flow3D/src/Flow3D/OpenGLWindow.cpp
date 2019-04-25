@@ -51,7 +51,7 @@ namespace Flow {
 		glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
 		// tell GLFW to capture our mouse
-		//glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{

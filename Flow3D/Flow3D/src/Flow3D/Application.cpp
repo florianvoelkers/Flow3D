@@ -3,9 +3,6 @@
 #include "Input.hpp"
 #include "Rendering/RenderingEngine.hpp"
 
-#include "Components/RenderableCube.hpp"
-#include "Components/RenderablePlane.hpp"
-
 namespace Flow {
 
 	Application* Application::s_Instance = nullptr;
@@ -21,28 +18,9 @@ namespace Flow {
 		m_Input = std::make_unique<Input>();
 		m_RenderingEngine = std::make_unique<RenderingEngine>(*m_Window);
 
-		m_CurrentScene = std::make_unique<Scene>("TestScene");
+		m_CurrentScene = std::make_unique<Scene>("TestScene", *m_Window);
 		FLOW_CORE_INFO("scene {0} created", m_CurrentScene->GetName());
- 
-		Texture containerTexture("resources/textures/container.jpg", "diffuse");
-		Texture brickTexture("resources/textures/brickwall.jpg", "diffuse");
-		Texture wallTexture("resources/textures/wall.jpg", "diffuse");
-
-		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(90.0f, 0.0f, 0.0f), Vec3(10.0f));
-		plane->AddComponent(new RenderablePlane(plane, new Plane(wallTexture)));
-		m_CurrentScene->AddToScene(plane);
-
-		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
-		firstCube->AddComponent(new RenderableCube(firstCube, new Cube(brickTexture)));
-		m_CurrentScene->AddToScene(firstCube);
-
-		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f));
-		firstCube->AddComponent(new RenderableCube(secondCube, new Cube(containerTexture)));
-		m_CurrentScene->AddToScene(secondCube);
-
-		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f));
-		firstCube->AddComponent(new RenderableCube(thirdCube, new Cube(containerTexture)));
-		m_CurrentScene->AddToScene(thirdCube);		
+		m_CurrentScene->OnAttach();
 	}
 
 	Application::~Application()
@@ -95,7 +73,7 @@ namespace Flow {
 
 		m_CurrentScene->OnEvent(e);
 
-		// temporary, will be called from components
+		// should call render directly; can be done when Camera is a component
 		m_RenderingEngine->OnEvent(e);
 	}
 

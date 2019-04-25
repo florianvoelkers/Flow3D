@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Layer.hpp"
+#include "Window.hpp"
 #include "GameObject.hpp"
 
 namespace Flow {
@@ -10,7 +11,7 @@ namespace Flow {
 	class Scene : public Layer
 	{
 	public:
-		Scene(std::string name);
+		Scene(std::string name, const Window& window);
 		~Scene();
 
 		void AddToScene(GameObject* gameObject);
@@ -22,11 +23,14 @@ namespace Flow {
 
 		inline std::string GetName() { return m_Name; };
 		inline GameObject& GetRoot() { return *m_Root; } // is this correct?
+		inline GameObject& GetMainCamera() { return *m_MainCamera; }
 
 	private:
+		const Window* m_Window;
 		GameObject* m_Root;
 		std::string m_Name;
+		GameObject* m_MainCamera;
 
-		// TODO: Members for a main camera, directional light, other properties
+		// TODO: Members directional light, other properties
 	};
 }
