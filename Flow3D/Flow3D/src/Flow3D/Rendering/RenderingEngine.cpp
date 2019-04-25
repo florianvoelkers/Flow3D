@@ -16,9 +16,6 @@ namespace Flow {
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		Texture wallTexture("resources/textures/wall.jpg", "diffuse");
-		testPlane = new Plane(wallTexture);
 	}
 
 	void RenderingEngine::OnUpdate(double deltaTime, const GameObject& root)
@@ -46,10 +43,5 @@ namespace Flow {
 		projection = Mat4::GetPerspectiveProjection(Math::Radians(m_Camera->m_Zoom), (float)m_Window->GetWidth() / (float)m_Window->GetHeight(), 0.1f, 100.0f);
 
 		root.Render(view, projection);
-
-		model.Translate(Vec3(0.0f, -0.01f, 0.0f));
-		model.Scale(Vec3(10.0f));
-		model.Rotate(90.0f, Vec3(1, 0, 0));
-		testPlane->Draw(model, view, projection);
 	}
 }

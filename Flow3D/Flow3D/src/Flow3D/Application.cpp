@@ -3,7 +3,8 @@
 #include "Input.hpp"
 #include "Rendering/RenderingEngine.hpp"
 
-#include "Components/Renderable.hpp"
+#include "Components/RenderableCube.hpp"
+#include "Components/RenderablePlane.hpp"
 
 namespace Flow {
 
@@ -25,20 +26,23 @@ namespace Flow {
  
 		Texture containerTexture("resources/textures/container.jpg", "diffuse");
 		Texture brickTexture("resources/textures/brickwall.jpg", "diffuse");
+		Texture wallTexture("resources/textures/wall.jpg", "diffuse");
 
-		GameObject* firstCube = new GameObject(Vec3(0.0f, 0.5f, 0.0f));
+		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(90.0f, 0.0f, 0.0f), Vec3(10.0f));
+		plane->AddComponent(new RenderablePlane(plane, new Plane(wallTexture)));
+		m_CurrentScene->AddToScene(plane);
+
+		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
 		firstCube->AddComponent(new RenderableCube(firstCube, new Cube(brickTexture)));
 		m_CurrentScene->AddToScene(firstCube);
 
-		GameObject* secondCube = new GameObject(Vec3(1.5f, 0.5f, 0.0f));
+		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f));
 		firstCube->AddComponent(new RenderableCube(secondCube, new Cube(containerTexture)));
 		m_CurrentScene->AddToScene(secondCube);
 
-		GameObject* thirdCube = new GameObject(Vec3(-1.5f, 0.5f, 0.0f));
+		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f));
 		firstCube->AddComponent(new RenderableCube(thirdCube, new Cube(containerTexture)));
-		m_CurrentScene->AddToScene(thirdCube);
-
-
+		m_CurrentScene->AddToScene(thirdCube);		
 	}
 
 	Application::~Application()

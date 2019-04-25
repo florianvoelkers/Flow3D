@@ -1044,7 +1044,10 @@
     <ClInclude Include="src\Flow3D\Transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Flow3D\Components\Renderable.hpp">
+    <ClInclude Include="src\Flow3D\Components\RenderableCube.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flow3D\Components\RenderablePlane.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1121,7 +1124,10 @@
     <ClCompile Include="src\Flow3D\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Flow3D\Components\Renderable.cpp">
+    <ClCompile Include="src\Flow3D\Components\RenderableCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flow3D\Components\RenderablePlane.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
