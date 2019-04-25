@@ -3,6 +3,8 @@
 #include "Input.hpp"
 #include "Rendering/RenderingEngine.hpp"
 
+#include "Log.hpp"
+
 namespace Flow {
 
 	Application* Application::s_Instance = nullptr;
@@ -46,7 +48,8 @@ namespace Flow {
 			m_CurrentScene->OnUpdate(elapsed);
 
 			// temporary, will be called from Renderable Components
-			m_RenderingEngine->OnUpdate(elapsed, m_CurrentScene->GetRoot());
+
+			m_RenderingEngine->Render(m_CurrentScene->GetRoot(), m_CurrentScene->GetMainCamera());
 			m_Window->OnUpdate();
 		}
 	}

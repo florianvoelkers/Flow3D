@@ -22,10 +22,7 @@ namespace Flow {
 		child->GetTransform()->SetParent(&m_Transform);
 	}
 
-	void GameObject::AddComponent(Component* component)
-	{
-		m_Components.push_back(component);
-	}
+
 
 	void GameObject::OnUpdate(double deltaTime)
 	{

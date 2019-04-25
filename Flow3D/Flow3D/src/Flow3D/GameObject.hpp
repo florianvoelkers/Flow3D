@@ -18,7 +18,16 @@ namespace Flow {
 		virtual ~GameObject();
 
 		void AddChild(GameObject* child);
-		void AddComponent(Component* component);
+
+		// from: https://stackoverflow.com/questions/44105058/how-does-unitys-getcomponent-work
+		template<class ComponentType, typename... Args>
+		void AddComponent(Args&&... params);
+		
+		template<class ComponentType, typename... Args>
+		ComponentType& GetComponent();
+
+		template<class ComponentType>
+		bool RemoveComponent();
 
 		void OnUpdate(double deltaTime);
 		void OnEvent(Event& e);
@@ -31,6 +40,62 @@ namespace Flow {
 		bool m_IsActive;
 		std::vector<GameObject*> m_Children;
 		Transform m_Transform;
-		std::vector<Component*> m_Components;
+		std::vector<std::unique_ptr<Component>> m_Components;
 	};
+
+	//***************
+	// GameObject::AddComponent
+	// perfect-forwards all params to the ComponentType constructor with the matching parameter list
+	// DEBUG: be sure to compare the arguments of this fn to the desired constructor to avoid perfect-forwarding failure cases
+	// EG: deduced initializer lists, decl-only static const int members, 0|NULL instead of nullptr, overloaded fn names, and bitfields
+	//***************
+	template<class ComponentType, typename ...Args>
+	inline void GameObject::AddComponent(Args&& ...params)
+	{
+		m_Components.emplace_back(new ComponentType(std::forward<Args>(params)...));
+	}
+
+	//***************
+	// GameObject::GetComponent
+	// returns the first component that matches the template type
+	// or that is derived from the template type
+	// EG: if the template type is Component, and components[0] type is BoxCollider
+	// then components[0] will be returned because it derives from Component
+	//***************
+	template<class ComponentType, typename ...Args>
+	inline ComponentType& GameObject::GetComponent()
+	{
+		for (auto&& component : m_Components)
+		{
+			if (component->IsClassType(ComponentType::Type))
+				return *static_cast<ComponentType*>(component.get());
+		}
+
+		return *std::unique_ptr< ComponentType >(nullptr);
+	}
+
+	//***************
+	// GameObject::RemoveComponent
+	// returns true on successful removal
+	// returns false if components is empty, or no such component exists
+	//***************
+	template<class ComponentType>
+	inline bool GameObject::RemoveComponent()
+	{
+		if (m_Components.empty())
+			return false;
+
+		auto& index = std::find_if(m_Components.begin(), 
+			m_Components.end(),
+			[classType = ComponentType::Type](auto& component) {
+			return component->IsClassType();
+		});
+
+		bool success = index != m_Components.end();
+
+		if (success)
+			m_Components.erase(index);
+
+		return success;
+	}
 }

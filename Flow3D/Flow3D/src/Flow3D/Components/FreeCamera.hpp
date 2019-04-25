@@ -109,6 +109,7 @@ namespace Flow {
 		}
 
 		Mat4 GetViewMatrix() { return Mat4::LookAt(GetTransform()->m_Position, GetTransform()->m_Position + m_Front, m_Up); }
+		float GetZoom() { return m_Zoom; }
 
 	private:
 		const Window* m_Window;

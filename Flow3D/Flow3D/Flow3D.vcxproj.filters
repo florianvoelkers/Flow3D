@@ -1026,9 +1026,6 @@
     <ClInclude Include="src\Flow3D\Rendering\Shapes\Plane.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Flow3D\Rendering\Camera.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Flow3D\Rendering\Mesh.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

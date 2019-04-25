@@ -23,7 +23,7 @@ namespace Flow {
 
 		inline std::string GetName() { return m_Name; };
 		inline GameObject& GetRoot() { return *m_Root; } // is this correct?
-		inline GameObject& GetMainCamera() { return *m_MainCamera; }
+		inline GameObject* GetMainCamera() { return m_MainCamera; }
 
 	private:
 		const Window* m_Window;

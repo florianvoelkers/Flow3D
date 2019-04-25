@@ -11,7 +11,7 @@ namespace Flow {
 	{
 		m_Root = new GameObject();
 		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f));
-		m_MainCamera->AddComponent(new FreeCamera(m_MainCamera, *m_Window));
+		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera, *m_Window);
 		AddToScene(m_MainCamera);
 	}
 
@@ -35,19 +35,19 @@ namespace Flow {
 
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
 		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(90.0f, 0.0f, 0.0f), Vec3(10.0f));
-		plane->AddComponent(new RenderablePlane(plane, new Plane(wallTexture)));
+		plane->AddComponent<RenderablePlane>(plane, new Plane(wallTexture));
 		AddToScene(plane);
 
 		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
-		firstCube->AddComponent(new RenderableCube(firstCube, new Cube(brickTexture)));
+		firstCube->AddComponent<RenderableCube>(firstCube, new Cube(brickTexture));
 		AddToScene(firstCube);
 
 		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f));
-		firstCube->AddComponent(new RenderableCube(secondCube, new Cube(containerTexture)));
+		firstCube->AddComponent<RenderableCube>(secondCube, new Cube(containerTexture));
 		AddToScene(secondCube);
 
 		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f));
-		firstCube->AddComponent(new RenderableCube(thirdCube, new Cube(containerTexture)));
+		firstCube->AddComponent<RenderableCube>(thirdCube, new Cube(containerTexture));
 		AddToScene(thirdCube);
 	}
 

@@ -490,7 +490,6 @@
     <ClInclude Include="src\Flow3D\Log.hpp" />
     <ClInclude Include="src\Flow3D\Math.hpp" />
     <ClInclude Include="src\Flow3D\OpenGLWindow.hpp" />
-    <ClInclude Include="src\Flow3D\Rendering\Camera.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Mesh.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\RenderingEngine.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Shader.hpp" />
