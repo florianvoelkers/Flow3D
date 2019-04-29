@@ -13,6 +13,7 @@ namespace Flow {
 
 	// Events are currently blocking
 
+	// all types of events; when creating a new one it needs to be added to the enum
 	enum class EventType
 	{
 		None = 0,
@@ -21,6 +22,7 @@ namespace Flow {
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
+	// all types of event categories; when creating a new one it needs to be added to the enum
 	enum EventCategory
 	{
 		None = 0,
@@ -37,6 +39,10 @@ namespace Flow {
 
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
+	// An event is defined by its type and category
+	// When something wants to react to events it should register to the EventDispatcher inside an OnEvent function
+	// if the event function returns true it means that the event has been handled and nothing else will handle the event
+	// if it returns false other subscribers to this particular event will handle it too
 	class Event
 	{
 		friend class EventDispatcher;

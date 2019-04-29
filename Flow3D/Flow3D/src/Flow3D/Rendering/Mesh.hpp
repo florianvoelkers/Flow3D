@@ -8,6 +8,7 @@
 
 namespace Flow {
 
+	// every information a certain Vertex has
 	struct Vertex {
 		Vec3 position;
 		Vec3 normal;
@@ -16,6 +17,7 @@ namespace Flow {
 		Vec3 bitangent;
 	};
 
+	// represents a mesh made up of vertices with indices and multiple textures
 	class Mesh {
 	public:
 		std::vector<Vertex> m_Vertices;

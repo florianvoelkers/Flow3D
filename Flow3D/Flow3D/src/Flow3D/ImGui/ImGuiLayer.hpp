@@ -7,6 +7,7 @@
 
 namespace Flow {
 
+	// Creates an ImGui Overlay for the engine which can be customized
 	class ImGuiLayer : public Layer
 	{
 	public:

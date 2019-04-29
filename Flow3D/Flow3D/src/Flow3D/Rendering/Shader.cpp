@@ -9,6 +9,7 @@ namespace Flow {
 
 	Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
 	{
+		// 1. retrieve the vertex/fragment source code from the file paths
 		std::string vertexCode;
 		std::string fragmentCode;
 		std::ifstream vertexShaderFile;
@@ -20,12 +21,20 @@ namespace Flow {
 
 		try
 		{
+			// open files
 			vertexShaderFile.open(vertexPath);
 			fragmentShaderFile.open(fragmentPath);
 			std::stringstream vertexShaderStream, fragmentShaderStream;
+			
+			// read file's buffer contents into streams
 			vertexShaderStream << vertexShaderFile.rdbuf();
 			fragmentShaderStream << fragmentShaderFile.rdbuf();
+
+			// close file handlers
 			vertexShaderFile.close();
+			fragmentShaderFile.close();
+
+			// convert stream into string
 			vertexCode = vertexShaderStream.str();
 			fragmentCode = fragmentShaderStream.str();
 		}
@@ -37,44 +46,32 @@ namespace Flow {
 		const char* vertexShaderCode = vertexCode.c_str();
 		const char* fragmentShaderCode = fragmentCode.c_str();
 
+		// 2. compile shaders
 		unsigned int vertex, fragment;
 
+		// vertex shader
 		vertex = glCreateShader(GL_VERTEX_SHADER);
 		glShaderSource(vertex, 1, &vertexShaderCode, NULL);
 		glCompileShader(vertex);
 
-		int success;
-		char infoLog[512];
-		glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(vertex, 512, NULL, infoLog);
-			FLOW_CORE_ERROR("SHADER::VERTEX::COMPILATION_FAILED\n\n{0}", infoLog);
-		}
+		CheckCompileErrors(vertex, "VERTEX");
 
+		// fragment shader
 		fragment = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragment, 1, &fragmentShaderCode, NULL);
 		glCompileShader(fragment);
 
-		glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
-		if (!success)
-		{
-			glGetShaderInfoLog(fragment, 512, NULL, infoLog);
-			FLOW_CORE_ERROR("SHADER::FRAGMENT::COMPILATION_FAILED\n\n{0}", infoLog);
-		}
+		CheckCompileErrors(fragment, "FRAGMENT");
 
+		// shader program
 		m_ID = glCreateProgram();
 		glAttachShader(m_ID, vertex);
 		glAttachShader(m_ID, fragment);
 		glLinkProgram(m_ID);
 
-		glGetProgramiv(m_ID, GL_LINK_STATUS, &success);
-		if (!success)
-		{
-			glGetProgramInfoLog(m_ID, 512, NULL, infoLog);
-			FLOW_CORE_ERROR("SHADER::PROGRAM::LINKING_FAILED\n\n{0}", infoLog);
-		}
+		CheckCompileErrors(m_ID, "Program");
 
+		// delete the shaders because they're linked into our program now and are no longer necessary
 		glDeleteShader(vertex);
 		glDeleteShader(fragment);
 	}
@@ -147,5 +144,30 @@ namespace Flow {
 	void Shader::SetMat4(const std::string & name, const Mat4 & mat) const
 	{
 		glUniformMatrix4fv(glGetUniformLocation(m_ID, name.c_str()), 1, GL_FALSE, &mat.mat[0][0]);
+	}
+
+	void Shader::CheckCompileErrors(GLuint shader, std::string type)
+	{
+		int success;
+		char infoLog[1024];
+		if (type != "PROGRAM")
+		{
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+				FLOW_CORE_ERROR("SHADER_COMPILATION_ERROR of type: {0}\n{1}\n{0}", type, infoLog);
+			}
+		}
+		else
+		{
+			glGetProgramiv(shader, GL_LINK_STATUS, &success);
+			if (!success)
+			{
+				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+				FLOW_CORE_ERROR("SHADER::PROGRAM::LINKING_FAILED\n\n{0}", infoLog);
+			}
+		}
+			
 	}
 }

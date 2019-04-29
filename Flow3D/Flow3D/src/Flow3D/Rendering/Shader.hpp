@@ -7,8 +7,11 @@
 #include <string>
 
 
+// taken from: https://learnopengl.com/code_viewer_gh.php?code=includes/learnopengl/shader.h
+
 namespace Flow {
 
+	// Holds the functionality needed to represent an OpenGL shader
 	class Shader {
 
 	public:
@@ -30,5 +33,8 @@ namespace Flow {
 		void SetMat2(const std::string &name, const Mat2 &mat) const;
 		void SetMat3(const std::string &name, const Mat3 &mat) const;
 		void SetMat4(const std::string &name, const Mat4 &mat) const;
+
+	private:
+		void CheckCompileErrors(GLuint shader, std::string type);
 	};
 }

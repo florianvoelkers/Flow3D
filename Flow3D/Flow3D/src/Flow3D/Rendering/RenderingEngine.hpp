@@ -12,17 +12,15 @@
 
 namespace Flow {
 
+	// Handles rendering graphics with OpenGL in a GLFW Window
 	class RenderingEngine
 	{
 	public:
 		RenderingEngine(const Window& window);
 		virtual ~RenderingEngine() {}
 
-		void OnUpdate(double deltaTime, const GameObject& root);
-		void OnEvent(Event& event);
-
 		void Render(const GameObject& root, GameObject* mainCamera); // TODO: is it bad to pass a pointer here?
-		// TODO
+		// TODO:
 		// Light functions
 		// SetCamera
 

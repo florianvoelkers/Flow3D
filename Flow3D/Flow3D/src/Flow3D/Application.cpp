@@ -21,7 +21,6 @@ namespace Flow {
 		m_RenderingEngine = std::make_unique<RenderingEngine>(*m_Window);
 
 		m_CurrentScene = std::make_unique<Scene>("TestScene", *m_Window);
-		FLOW_CORE_INFO("scene {0} created", m_CurrentScene->GetName());
 		m_CurrentScene->OnAttach();
 	}
 
@@ -46,9 +45,6 @@ namespace Flow {
 				layer->OnUpdate(elapsed);
 
 			m_CurrentScene->OnUpdate(elapsed);
-
-			// temporary, will be called from Renderable Components
-
 			m_RenderingEngine->Render(m_CurrentScene->GetRoot(), m_CurrentScene->GetMainCamera());
 			m_Window->OnUpdate();
 		}
@@ -75,9 +71,6 @@ namespace Flow {
 		}
 
 		m_CurrentScene->OnEvent(e);
-
-		// should call render directly; can be done when Camera is a component
-		m_RenderingEngine->OnEvent(e);
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)

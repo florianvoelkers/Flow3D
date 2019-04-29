@@ -8,6 +8,8 @@
 
 namespace Flow {
 
+	// This class will draw a cube depending on model, view and projection
+	// it provides several possibilites for declaration, e.g. with a texture, color or nothing
 	class Cube {
 
 	public:

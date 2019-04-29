@@ -4,6 +4,7 @@
 
 namespace Flow {
 
+	// holds data and functionality for textures
 	class Texture {
 	public:
 		unsigned int id;

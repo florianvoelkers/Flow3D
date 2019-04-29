@@ -8,6 +8,7 @@
 
 #include "Flow3D/Transform.hpp"
 #include "Flow3D/GameObject.hpp"
+#include "Flow3D/Core.hpp"
 
 /*
 Code for implementing template functions for components is taken from:
@@ -38,6 +39,11 @@ bool childclass::IsClassType( const std::size_t classType ) const {             
 
 namespace Flow {
 
+	// Components make up GameObjects and give them Data and Functionality
+	// Add a component to the GameObject and it will be updated, receive events
+	// and render; called from the Application
+	// A Component does not need to implement all functions and can implement only those it needs
+	// When creating a new type of component the CLASS_DEFINITION needs to be added in the ComponentClasses.cpp
 	class Component
 	{
 	public:
@@ -58,6 +64,6 @@ namespace Flow {
 		inline const Transform& GetTransform() const { return *m_GameObject->GetTransform(); }
 
 	protected:
-		GameObject* m_GameObject;
+		GameObject* m_GameObject; // TODO: smart pointer? 
 	};
 }

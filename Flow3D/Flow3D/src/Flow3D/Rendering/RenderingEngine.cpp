@@ -17,27 +17,20 @@ namespace Flow {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
-	void RenderingEngine::OnUpdate(double deltaTime, const GameObject& root)
-	{		
-	}
-
-	void RenderingEngine::OnEvent(Event& event)
-	{
-	}
-
 	void RenderingEngine::Render(const GameObject& root, GameObject* mainCamera)
 	{
+		// when beginning to render clear everything
 		glClearColor(0.18f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		Mat4 model = Mat4();
-		model.Translate(Vec3(0.0f, 0.0f, 0.0f));
-
+		// receive the view matrix from the current main camera
 		Mat4 view = mainCamera->GetComponent<FreeCamera>().GetViewMatrix();
 
+		// get the projection matrix
 		Mat4 projection = Mat4();
 		projection = Mat4::GetPerspectiveProjection(Math::Radians(mainCamera->GetComponent<FreeCamera>().GetZoom()), (float)m_Window->GetWidth() / (float)m_Window->GetHeight(), 0.1f, 100.0f);
 
+		// render the scene starting with the scenes root object which contains all scene objects
 		root.Render(view, projection);
 	}
 }

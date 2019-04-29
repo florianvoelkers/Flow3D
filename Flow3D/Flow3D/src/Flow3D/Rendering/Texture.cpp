@@ -25,6 +25,7 @@ namespace Flow {
 
 	}
 
+	// loads a texture from a texture file at a certain path
 	unsigned int Texture::LoadTextureFromFile(const char *path)
 	{
 		unsigned int textureID;

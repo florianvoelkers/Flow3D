@@ -8,6 +8,7 @@
 
 namespace Flow {
 
+	// Gives functionality to render a 2 dimensional plane at the position of the GameObject with the anchor of the Plane in the middle; 
 	class RenderablePlane : public Component
 	{
 		CLASS_DECLARATION(RenderablePlane)
@@ -28,7 +29,6 @@ namespace Flow {
 			// calculate position of model
 			// TODO: consider the parents Transform
 			Mat4 model = Mat4();
-			model.Translate(Vec3(0.0f, 0.0f, 0.0f)); // necessary to make sure it is at 0, 0, 0 ???
 			model.Translate(GetTransform()->m_Position);
 			model.Scale(GetTransform()->m_Scale);
 

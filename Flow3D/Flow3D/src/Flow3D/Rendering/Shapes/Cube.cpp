@@ -40,8 +40,10 @@ namespace Flow {
 		delete m_Shader;
 	}
 
+
 	void Cube::Draw(Mat4 model, Mat4 view, Mat4 projection)
 	{
+		// set data for the shader
 		m_Shader->Use();
 		if (m_IsTextured)
 		{
@@ -54,6 +56,7 @@ namespace Flow {
 		m_Shader->SetMat4("view", view);
 		m_Shader->SetMat4("projection", projection);
 
+		// render cube
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}
@@ -65,7 +68,7 @@ namespace Flow {
 
 	void Cube::SetupCube()
 	{
-
+		// setup the cubes vertices and indices 
 		float vertices[] = {
 			// front
 			-0.5f, -0.5f,  0.5f,	0.0f, 0.0f,
@@ -130,6 +133,7 @@ namespace Flow {
 			20, 22, 23
 		};
 
+		// use the standard shader for textures or color
 		if (m_IsTextured) {
 			m_Shader = new Shader("resources/shader/Basic3DTextured.vert", "resources/shader/Textured.frag");
 		}
@@ -138,6 +142,7 @@ namespace Flow {
 			m_Shader = new Shader("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
 		}
 
+		// set up buffers and configure vertex attributes
 		unsigned int VBO, EBO;
 		glGenVertexArrays(1, &VAO);
 		glGenBuffers(1, &VBO);
@@ -151,11 +156,13 @@ namespace Flow {
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
+		// position attribute
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
 		if (m_IsTextured)
 		{
+			// texture coordinates attribute
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 			glEnableVertexAttribArray(1);
 		}

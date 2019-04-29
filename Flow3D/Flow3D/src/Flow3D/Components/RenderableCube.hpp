@@ -8,6 +8,7 @@
 
 namespace Flow {
 
+	// Gives functionality and data for drawing a cube at the position of the GameObject with anchor in the middle
 	class RenderableCube : public Component 
 	{
 		CLASS_DECLARATION(RenderableCube)
@@ -29,7 +30,6 @@ namespace Flow {
 			// calculate position of model
 			// TODO: consider the parents Transform
 			Mat4 model = Mat4();
-			model.Translate(Vec3(0.0f, 0.0f, 0.0f)); // necessary to make sure it is at 0, 0, 0 ???
 			model.Translate(GetTransform()->m_Position);
 			model.Scale(GetTransform()->m_Scale);
 
