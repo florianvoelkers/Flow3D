@@ -4,6 +4,7 @@
 
 extern Flow::Application* Flow::CreateApplication();
 
+// Entry Point of the application 
 int main(int argc, char** argv)
 {
 	Flow::Log::Init();

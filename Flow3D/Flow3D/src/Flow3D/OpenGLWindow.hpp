@@ -6,6 +6,10 @@
 
 namespace Flow {
 
+	// Creates and sets up an OpenGl window using the GLFW library.
+	// It also handles forwarding window, key and mouse events by setting callbacks to GLFW event functions.
+	// The callback method for those events is set in Application.cpp.
+	// TODO: create functionality to customize the window and it's properties
 	class OpenGLWindow : public Window
 	{
 	public:

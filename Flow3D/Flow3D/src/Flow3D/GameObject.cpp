@@ -13,7 +13,7 @@ namespace Flow {
 
 	GameObject::~GameObject()
 	{
-	
+		m_Children.clear();
 	}
 
 	void GameObject::AddChild(GameObject* child)

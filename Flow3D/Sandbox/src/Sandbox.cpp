@@ -1,5 +1,6 @@
 #include "Flow3D.hpp"
 
+// just an example layer to test out the layer stack outside the engine
 class ExampleLayer : public Flow::Layer
 {
 public:
@@ -15,8 +16,10 @@ public:
 
 	void OnEvent(Flow::Event& event) override 
 	{
+		// just temporary solution; should dispatch the event and implement the reaction in a seperate function
 		if (event.GetEventType() == Flow::KeyPressedEvent::GetStaticType())
 		{
+			// exit the application when "escape" is pressed
 			Flow::KeyPressedEvent& keyPressedEvent = (Flow::KeyPressedEvent&) event;
 			if (keyPressedEvent.GetKeyCode() == (int) Flow::Keycode::Escape)
 			{

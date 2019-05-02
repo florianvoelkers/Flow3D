@@ -31,6 +31,8 @@ namespace Flow {
 
 	void Application::Run()
 	{
+		// application loop: at the moment it runs as fast as it can
+		// TODO: setting the frame rate / constant frame rate
 		double lastTime = glfwGetTime();
 		while (m_Running)
 		{
@@ -39,12 +41,12 @@ namespace Flow {
 			lastTime = current;
 
 			m_Input->OnUpdate(elapsed);
+			m_CurrentScene->OnUpdate(elapsed);
 
 			// scene should be part of the layer stack but it also should be uniquely accessible
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(elapsed);
 
-			m_CurrentScene->OnUpdate(elapsed);
 			m_RenderingEngine->Render(m_CurrentScene->GetRoot(), m_CurrentScene->GetMainCamera());
 			m_Window->OnUpdate();
 		}
@@ -63,6 +65,9 @@ namespace Flow {
 		m_Input->OnEvent(e);
 
 		// scene should be part of the layer stack but it also should be uniquely accessible
+		// will be executed in reverse order so that overlays will receive events first
+		// for example an UI button should mark a mouse click event as handled and no further reactions
+		// to that event should be triggered
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
 		{
 			(*--it)->OnEvent(e);

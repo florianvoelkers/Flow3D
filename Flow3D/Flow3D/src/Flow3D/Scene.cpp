@@ -9,7 +9,10 @@ namespace Flow {
 	Scene::Scene(std::string name, const Window& window)
 		: m_Name(name), m_Window(&window), Layer("Scene")
 	{
+		// The root object will contain all objects present in one scene as it's children and their children and so on.
 		m_Root = new GameObject();
+
+		// The main camera is used for rendering purposes.
 		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f));
 		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera, *m_Window);
 		AddToScene(m_MainCamera);

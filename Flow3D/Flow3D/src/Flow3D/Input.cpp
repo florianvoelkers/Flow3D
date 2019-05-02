@@ -12,8 +12,6 @@ namespace Flow {
 		// assert for making sure there is only one instance
 		s_Instance = this;
 
-		FLOW_CORE_INFO("input added");
-
 		memset(m_Inputs, 0, NUMBER_OF_KEYS * sizeof(bool));
 		memset(m_DownKeys, 0, NUMBER_OF_KEYS * sizeof(bool));
 		memset(m_UpKeys, 0, NUMBER_OF_KEYS * sizeof(bool));

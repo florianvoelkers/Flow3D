@@ -16,6 +16,8 @@ namespace Flow {
 			: Title(title), Width(width), Height(height) {}
 	};
 
+	// Sets the base functionality and data for every window of the Flow3D engine. 
+	// The specific platform- and rendering-method-based implementation will be in subclasses.
 	class Window
 	{
 	public:

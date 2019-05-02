@@ -4,6 +4,7 @@
 
 namespace Flow {
 
+	// struct for colors which can be create with rgb or rgba value
 	struct Color {
 
 		Color(float red, float green, float blue)

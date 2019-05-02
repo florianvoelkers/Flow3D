@@ -8,6 +8,9 @@
 
 namespace Flow {
 
+	// Provides a wrapper around the glm library.
+	// Contains several important Math functions and
+	// definitions for Vectors (2-4) and Matrices (2-4)
 	class Math {
 
 	public:

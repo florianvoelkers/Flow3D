@@ -5,6 +5,9 @@
 
 namespace Flow {
 
+	// Layers make up everything the user sees from the actual application, UI elements
+	// or overlays like ImGui.
+	// TODO: rethink layer architecture; maybe add render method
 	class Layer
 	{
 	public:

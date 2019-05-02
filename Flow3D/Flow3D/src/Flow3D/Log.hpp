@@ -6,6 +6,8 @@
 
 namespace Flow {
 
+	// Class for debug logging in the console using the library spdlog
+	// provides macros for severall logging functions
 	class Log
 	{
 	public:

@@ -6,8 +6,8 @@
 
 namespace Flow {
 
-	// the scene represents a game world, you can have several scenes which can be switched in the application
-	// it is made up of GameObjects (1 GameObject root and its children) with components
+	// The scene represents a game world, you can have several scenes which can be switched in the application.
+	// It is made up of GameObjects (1 GameObject root and its children) with components.
 	class Scene : public Layer
 	{
 	public:

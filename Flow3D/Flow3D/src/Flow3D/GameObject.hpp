@@ -11,6 +11,9 @@ namespace Flow {
 
 	class Component; // because GameObject.hpp needs to be included in Component
 
+	// A game object represents one entity in the application. This can be anything, e.g. the player, a lamp, a collider,
+	// depending on what components make up the GameObject. The GameObject can also have a number of game objects as children.
+	// The position, rotation and scale of the game object is saved in the Transform and depends on it's parents objects.
 	class GameObject 
 	{
 	public:

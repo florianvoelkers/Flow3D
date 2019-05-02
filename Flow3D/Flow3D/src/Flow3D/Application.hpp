@@ -12,6 +12,10 @@
 
 namespace Flow {
 
+	// This class manages the application. All systems will be started in the constructor,
+	// it controls the application in the Run-Loop, forwards events, handles exiting the application and
+	// holds references to the most important systems. There can only be one instance of an application
+	// which will be created outside of the engine.
 	class Application
 	{
 	public:

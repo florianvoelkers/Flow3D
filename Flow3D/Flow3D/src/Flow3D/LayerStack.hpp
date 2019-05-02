@@ -7,6 +7,9 @@
 
 namespace Flow {
 
+	// The LayerStack manages all the layers. It provides functionality for adding and removing layers.
+	// Overlays are special layers that are always in front of "normal layers". They will therefore receive events first
+	// but will update last.
 	class LayerStack
 	{
 	public:
