@@ -92,7 +92,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include;$(SolutionDir)Flow3D\external_libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\GLFW\lib-vc2015;</AdditionalLibraryDirectories>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include;$(SolutionDir)Flow3D\external_libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\GLFW\lib-x64;</AdditionalLibraryDirectories>
@@ -122,7 +122,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include;$(SolutionDir)Flow3D\external_libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -142,7 +142,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include;$(SolutionDir)Flow3D\external_libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -154,6 +154,47 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="external_libraries\assimp\include\assimp\ai_assert.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\anim.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\camera.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\cexport.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\cfileio.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\cimport.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\color4.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\Compiler\poppack1.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\Compiler\pstdint.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\Compiler\pushpack1.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\config.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\DefaultIOStream.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\DefaultIOSystem.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\DefaultLogger.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\Defines.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\defs.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\Exporter.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\Importer.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\importerdesc.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\IOStream.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\IOSystem.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\light.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\Logger.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\LogStream.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\material.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\matrix3x3.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\matrix4x4.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\mesh.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\metadata.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\NullLogger.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\port\AndroidJNI\AndroidJNIIOSystem.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\postprocess.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\ProgressHandler.hpp" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\quaternion.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\scene.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\SceneCombiner.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\texture.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\types.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\vector2.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\vector3.h" />
+    <ClInclude Include="external_libraries\assimp\include\assimp\version.h" />
     <ClInclude Include="external_libraries\glad\include\glad\glad.h" />
     <ClInclude Include="external_libraries\glad\include\KHR\khrplatform.h" />
     <ClInclude Include="external_libraries\GLFW\include\GLFW\glfw3.h" />
@@ -491,6 +532,7 @@
     <ClInclude Include="src\Flow3D\Math.hpp" />
     <ClInclude Include="src\Flow3D\OpenGLWindow.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Mesh.hpp" />
+    <ClInclude Include="src\Flow3D\Rendering\Model.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\RenderingEngine.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Shader.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Shapes\Cube.hpp" />
@@ -519,6 +561,7 @@
     <ClCompile Include="src\Flow3D\Log.cpp" />
     <ClCompile Include="src\Flow3D\OpenGLWindow.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Mesh.cpp" />
+    <ClCompile Include="src\Flow3D\Rendering\Model.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\RenderingEngine.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Shader.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Shapes\Cube.cpp" />
@@ -528,6 +571,13 @@
     <ClCompile Include="src\Flow3D\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="external_libraries\assimp\include\assimp\color4.inl" />
+    <None Include="external_libraries\assimp\include\assimp\material.inl" />
+    <None Include="external_libraries\assimp\include\assimp\matrix3x3.inl" />
+    <None Include="external_libraries\assimp\include\assimp\matrix4x4.inl" />
+    <None Include="external_libraries\assimp\include\assimp\quaternion.inl" />
+    <None Include="external_libraries\assimp\include\assimp\vector2.inl" />
+    <None Include="external_libraries\assimp\include\assimp\vector3.inl" />
     <None Include="external_libraries\glm\detail\func_common.inl" />
     <None Include="external_libraries\glm\detail\func_common_simd.inl" />
     <None Include="external_libraries\glm\detail\func_exponential.inl" />
