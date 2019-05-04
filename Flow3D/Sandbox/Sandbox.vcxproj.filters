@@ -24,6 +24,8 @@
     <None Include="resources\shader\Basic3D.vert" />
     <None Include="resources\shader\Basic3DTextured.vert" />
     <None Include="resources\shader\Colored.frag" />
+    <None Include="resources\shader\Model.frag" />
+    <None Include="resources\shader\Model.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\awesomeface.png">

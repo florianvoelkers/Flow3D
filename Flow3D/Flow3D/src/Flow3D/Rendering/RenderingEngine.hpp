@@ -10,6 +10,12 @@
 
 #include "Flow3D/GameObject.hpp"
 
+// TEMPORARY
+#include "Mesh.hpp"
+#include "Texture.hpp"
+#include "Model.hpp"
+#include "Shader.hpp"
+
 namespace Flow {
 
 	// Handles rendering graphics with OpenGL in a GLFW Window
@@ -26,5 +32,9 @@ namespace Flow {
 
 	private:
 		const Window* m_Window;
+
+		// TEMPORARY
+		Shader* modelShader;
+		Model* testModel;
 	};
 }

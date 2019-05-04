@@ -4,15 +4,17 @@
 
 namespace Flow {
 
-	Model::Model(std::string const & path, bool gamma)
+	Model::Model(std::string const & path)
 	{
 		LoadModel(path);
 	}
 
 	void Model::Draw(Shader shader)
 	{
+		
 		for (unsigned int i = 0; i < meshes.size(); i++)
 			meshes[i].Draw(shader);
+			
 	}
 
 	void Model::LoadModel(std::string const & path)
@@ -20,14 +22,12 @@ namespace Flow {
 		// read file via ASSIMP
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-
 		// check for errors
-		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is NOT zero
+		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) // if is Not Zero
 		{
-			FLOW_CORE_ERROR("ERROR::ASSIMP::{0}", importer.GetErrorString());
+			std::cout << "ERROR::ASSIMP:: " << importer.GetErrorString() << std::endl;
 			return;
 		}
-
 		// retrieve the directory path of the filepath
 		directory = path.substr(0, path.find_last_of('/'));
 
@@ -37,17 +37,19 @@ namespace Flow {
 
 	void Model::ProcessNode(aiNode * node, const aiScene * scene)
 	{
+		FLOW_CORE_TRACE("process node with {0} meshes", node->mNumMeshes);
 		// process each mesh located at the current node
 		for (unsigned int i = 0; i < node->mNumMeshes; i++)
 		{
-			// the node object only contains indices to index the actual objects in the scene
-			// the scene contains all the data, node is just to keep stuff organized (like relations between nodes)
+			// the node object only contains indices to index the actual objects in the scene. 
+			// the scene contains all the data, node is just to keep stuff organized (like relations between nodes).
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			meshes.push_back(ProcessMesh(mesh, scene));
 		}
 
+		FLOW_CORE_TRACE("process node with {0} children", node->mNumChildren);
 		// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
-		for (unsigned int i = 0; i < node->mNumMeshes; i++)
+		for (unsigned int i = 0; i < node->mNumChildren; i++)
 		{
 			ProcessNode(node->mChildren[i], scene);
 		}
@@ -55,6 +57,7 @@ namespace Flow {
 
 	Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	{
+		FLOW_CORE_TRACE("process mesh");
 		// data to fill
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
@@ -110,7 +113,7 @@ namespace Flow {
 			aiFace face = mesh->mFaces[i];
 			// retrieve all indices of the face and store them in the indices vector
 			for (unsigned int j = 0; j < face.mNumIndices; j++)
-				indices.push_back(face.mIndices[i]);
+				indices.push_back(face.mIndices[j]);
 		}
 
 		// process materials
@@ -159,7 +162,9 @@ namespace Flow {
 			}
 			if (!skip)
 			{	// if texture hasn't been loaded yet, load it
-				Texture texture(str.C_Str(), typeName);
+				std::string filename = std::string(str.C_Str());
+				filename = directory + '/' + filename;
+				Texture texture(filename, typeName);
 				textures.push_back(texture);
 				textures_loaded.push_back(texture);
 			}

@@ -23,7 +23,7 @@ namespace Flow {
 
 		/* Functions */
 		// constrcutor, expects a filepath to a 3D model
-		Model(std::string const& path, bool gamma);
+		Model(std::string const& path);
 
 		void Draw(Shader shader);
 
