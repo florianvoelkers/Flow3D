@@ -7,6 +7,8 @@
 
 namespace Flow {
 
+	// Gives functionality and data for drawing any model with the given shader.
+	// Enables blending in the rendering engine if necessary
 	class Renderable : public Component
 	{
 
@@ -40,6 +42,7 @@ namespace Flow {
 
 			renderingEngine.SetBlending(m_Blending);
 
+			m_Shader->Use();
 			m_Shader->SetMat4("projection", projection);
 			m_Shader->SetMat4("view", view);
 			m_Shader->SetMat4("model", model);

@@ -13,7 +13,7 @@ namespace Flow {
 		: m_Window(&window)
 	{
 		glEnable(GL_DEPTH_TEST);
-		glEnable(GL_BLEND);
+		// every Model will determine if GL_BLEND needs to be enabled: glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		modelShader = new Shader("resources/shader/Model.vert", "resources/shader/Model.frag");
@@ -36,24 +36,6 @@ namespace Flow {
 
 		// render the scene starting with the scenes root object which contains all scene objects
 		root.Render(view, projection, *this);
-
-		modelShader->Use();
-
-		Mat4 model = Mat4();
-		model.Translate(Vec3(0.0f, 3.0f, 0.0f));
-		model.Scale(0.2f);
-		modelShader->SetMat4("projection", projection);
-		modelShader->SetMat4("view", view);
-		modelShader->SetMat4("model", model);
-		glEnable(GL_BLEND);
-		testModel->Draw(*modelShader);
-		
-		Mat4 nanosuitModel = Mat4();
-		nanosuitModel.Translate(Vec3(0.0f, 0.0f, 2.0f));
-		nanosuitModel.Scale(0.1f);
-		modelShader->SetMat4("model", nanosuitModel);
-		glDisable(GL_BLEND);
-		nanosuit->Draw(*modelShader);
 	}
 
 	void RenderingEngine::SetBlending(bool blending)

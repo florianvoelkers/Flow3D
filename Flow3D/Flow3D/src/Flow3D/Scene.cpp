@@ -3,6 +3,7 @@
 #include "Components/FreeCamera.hpp"
 #include "Components/RenderableCube.hpp"
 #include "Components/RenderablePlane.hpp"
+#include "Components/Renderable.hpp"
 
 namespace Flow {
 
@@ -52,6 +53,20 @@ namespace Flow {
 		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f));
 		firstCube->AddComponent<RenderableCube>(thirdCube, new Cube(containerTexture));
 		AddToScene(thirdCube);
+
+		Shader* modelShader = new Shader("resources/shader/Model.vert", "resources/shader/Model.frag");
+
+		Model* treeModel = new Model("resources/models/Tree/Tree.obj");
+		GameObject* tree = new GameObject(Vec3(0.0f, 3.0f, 0.0f));
+		tree->GetTransform()->SetScale(Vec3(0.2f));
+		tree->AddComponent<Renderable>(tree, treeModel, modelShader, true);
+		AddToScene(tree);
+
+		Model* nanosuitModel = new Model("resources/models/nanosuit/nanosuit.obj");
+		GameObject* nanosuit = new GameObject(Vec3(0.0f, 0.0f, 2.0f));
+		nanosuit->GetTransform()->SetScale(Vec3(0.2f));
+		tree->AddComponent<Renderable>(nanosuit, nanosuitModel, modelShader, false);
+		AddToScene(nanosuit);
 	}
 
 	void Scene::OnDetach()
