@@ -47,7 +47,7 @@ namespace Flow {
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate(elapsed);
 
-			m_RenderingEngine->Render(m_CurrentScene->GetRoot(), m_CurrentScene->GetMainCamera());
+			m_RenderingEngine->Render(m_CurrentScene->GetRoot(), m_CurrentScene->GetMainCamera(), m_CurrentScene->GetSkybox());
 			m_Window->OnUpdate();
 		}
 	}

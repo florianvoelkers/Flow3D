@@ -37,7 +37,6 @@ namespace Flow {
 
 	void Model::ProcessNode(aiNode * node, const aiScene * scene)
 	{
-		FLOW_CORE_TRACE("process node with {0} meshes", node->mNumMeshes);
 		// process each mesh located at the current node
 		for (unsigned int i = 0; i < node->mNumMeshes; i++)
 		{
@@ -47,7 +46,6 @@ namespace Flow {
 			meshes.push_back(ProcessMesh(mesh, scene));
 		}
 
-		FLOW_CORE_TRACE("process node with {0} children", node->mNumChildren);
 		// after we've processed all of the meshes (if any) we then recursively process each of the children nodes
 		for (unsigned int i = 0; i < node->mNumChildren; i++)
 		{
@@ -57,7 +55,6 @@ namespace Flow {
 
 	Mesh Model::ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	{
-		FLOW_CORE_TRACE("process mesh");
 		// data to fill
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;

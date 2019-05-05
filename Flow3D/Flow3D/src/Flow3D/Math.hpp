@@ -219,6 +219,7 @@ namespace Flow {
 	public:
 		Mat3() : mat(1.0f) {}
 		Mat3(glm::mat3 matrix) : mat(matrix) {}
+		Mat3(glm::mat4 matrix) : mat(matrix) {}
 
 		std::string ToString()
 		{
@@ -234,6 +235,7 @@ namespace Flow {
 		// create identity matrix
 		Mat4() : mat(1.0f) {}
 		Mat4(glm::mat4 matrix) : mat(matrix) {}
+		Mat4(glm::mat3 matrix) : mat(matrix) {}
 
 		void Translate(const Vec3 &translationVector)
 		{

@@ -15,6 +15,9 @@ namespace Flow {
 		Texture(std::string path, std::string typeName);
 		~Texture();
 
+		static unsigned char* LoadData(std::string path, int& width, int& height, int& nrChannels, int req_comp);
+		static void FreeImageData(unsigned char *data);
+
 	private:
 		unsigned int LoadTextureFromFile(const char* path);
 	};

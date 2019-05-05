@@ -3,6 +3,7 @@
 #include "Layer.hpp"
 #include "Window.hpp"
 #include "GameObject.hpp"
+#include "Rendering/Skybox.hpp"
 
 namespace Flow {
 
@@ -24,12 +25,14 @@ namespace Flow {
 		inline std::string GetName() { return m_Name; };
 		inline GameObject& GetRoot() { return *m_Root; } // is this correct?
 		inline GameObject* GetMainCamera() { return m_MainCamera; }
+		inline Skybox& GetSkybox() { return *m_Skybox; } // is this correct?
 
 	private:
 		const Window* m_Window;
 		GameObject* m_Root;
 		std::string m_Name;
 		GameObject* m_MainCamera;
+		Skybox* m_Skybox;
 
 		// TODO: Members directional light, other properties
 	};

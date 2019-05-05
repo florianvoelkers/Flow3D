@@ -25,6 +25,17 @@ namespace Flow {
 
 	}
 
+	unsigned char * Texture::LoadData(std::string path, int& width, int& height, int& nrChannels, int req_comp)
+	{
+		unsigned char *data = stbi_load(path.c_str(), &width, &height, &nrChannels, req_comp);
+		return data;
+	}
+
+	void Texture::FreeImageData(unsigned char * data)
+	{
+		stbi_image_free(data);
+	}
+
 	// loads a texture from a texture file at a certain path
 	unsigned int Texture::LoadTextureFromFile(const char *path)
 	{

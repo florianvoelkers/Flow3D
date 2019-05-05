@@ -26,6 +26,8 @@
     <None Include="resources\shader\Colored.frag" />
     <None Include="resources\shader\Model.frag" />
     <None Include="resources\shader\Model.vert" />
+    <None Include="resources\shader\Skybox.frag" />
+    <None Include="resources\shader\Skybox.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="resources\textures\awesomeface.png">

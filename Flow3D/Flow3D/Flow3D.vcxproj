@@ -538,6 +538,7 @@
     <ClInclude Include="src\Flow3D\Rendering\Shader.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Shapes\Cube.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Shapes\Plane.hpp" />
+    <ClInclude Include="src\Flow3D\Rendering\Skybox.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Texture.hpp" />
     <ClInclude Include="src\Flow3D\Scene.hpp" />
     <ClInclude Include="src\Flow3D\Transform.hpp" />
@@ -567,6 +568,7 @@
     <ClCompile Include="src\Flow3D\Rendering\Shader.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Shapes\Cube.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Shapes\Plane.cpp" />
+    <ClCompile Include="src\Flow3D\Rendering\Skybox.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Texture.cpp" />
     <ClCompile Include="src\Flow3D\Scene.cpp" />
     <ClCompile Include="src\Flow3D\Transform.cpp" />

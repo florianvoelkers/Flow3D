@@ -32,6 +32,8 @@ namespace Flow {
 
 	void Scene::OnAttach()
 	{
+		m_Skybox = new Skybox("resources/skyboxes", "jpg");
+
 		// TODO: load scene data from file; until then manually create scene objects here
 		Texture containerTexture("resources/textures/container.jpg", "diffuse");
 		Texture brickTexture("resources/textures/brickwall.jpg", "diffuse");
@@ -82,4 +84,6 @@ namespace Flow {
 	{
 		m_Root->OnEvent(event);
 	}
+
+
 }

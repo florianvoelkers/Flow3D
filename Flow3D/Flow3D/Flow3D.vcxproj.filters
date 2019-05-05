@@ -1179,6 +1179,9 @@
     <ClInclude Include="src\Flow3D\Components\Renderable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Flow3D\Rendering\Skybox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp">
@@ -1257,6 +1260,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Flow3D\Rendering\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flow3D\Rendering\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

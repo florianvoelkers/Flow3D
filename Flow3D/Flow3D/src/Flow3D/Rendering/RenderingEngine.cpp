@@ -16,12 +16,9 @@ namespace Flow {
 		// every Model will determine if GL_BLEND needs to be enabled: glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-		modelShader = new Shader("resources/shader/Model.vert", "resources/shader/Model.frag");
-		testModel = new Model("resources/models/Tree/Tree.obj");
-		nanosuit = new Model("resources/models/nanosuit/nanosuit.obj");
 	}
 
-	void RenderingEngine::Render(const GameObject& root, GameObject* mainCamera)
+	void RenderingEngine::Render(const GameObject& root, GameObject* mainCamera, const Skybox& skybox)
 	{
 		// when beginning to render clear everything
 		glClearColor(0.18f, 0.3f, 0.3f, 1.0f);
@@ -36,6 +33,7 @@ namespace Flow {
 
 		// render the scene starting with the scenes root object which contains all scene objects
 		root.Render(view, projection, *this);
+		skybox.Draw(view, projection);
 	}
 
 	void RenderingEngine::SetBlending(bool blending)
