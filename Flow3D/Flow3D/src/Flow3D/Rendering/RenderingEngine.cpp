@@ -13,13 +13,12 @@ namespace Flow {
 		: m_Window(&window)
 	{
 		glEnable(GL_DEPTH_TEST);
-		/*
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		*/
 
 		modelShader = new Shader("resources/shader/Model.vert", "resources/shader/Model.frag");
-		testModel = new Model("resources/models/nanosuit/nanosuit.obj");
+		testModel = new Model("resources/models/Tree/Tree.obj");
+		nanosuit = new Model("resources/models/nanosuit/nanosuit.obj");
 	}
 
 	void RenderingEngine::Render(const GameObject& root, GameObject* mainCamera)
@@ -46,6 +45,14 @@ namespace Flow {
 		modelShader->SetMat4("projection", projection);
 		modelShader->SetMat4("view", view);
 		modelShader->SetMat4("model", model);
+		glEnable(GL_BLEND);
 		testModel->Draw(*modelShader);
+		
+		Mat4 nanosuitModel = Mat4();
+		nanosuitModel.Translate(Vec3(0.0f, 0.0f, 2.0f));
+		nanosuitModel.Scale(0.1f);
+		modelShader->SetMat4("model", nanosuitModel);
+		glDisable(GL_BLEND);
+		nanosuit->Draw(*modelShader);
 	}
 }

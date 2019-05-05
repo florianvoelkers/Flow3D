@@ -36,5 +36,6 @@ namespace Flow {
 		// TEMPORARY
 		Shader* modelShader;
 		Model* testModel;
+		Model* nanosuit;
 	};
 }
