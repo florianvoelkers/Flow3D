@@ -9,6 +9,8 @@
 #include "Flow3D/Transform.hpp"
 #include "Flow3D/GameObject.hpp"
 #include "Flow3D/Core.hpp"
+#include "Flow3D/Rendering/RenderingEngine.hpp"
+
 
 /*
 Code for implementing template functions for components is taken from:
@@ -58,7 +60,7 @@ namespace Flow {
 
 		virtual void OnUpdate (double deltaTime) {}
 		virtual void OnEvent (Event& event) {}
-		virtual void Render (Mat4 view, Mat4 projection) {}
+		virtual void Render (Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) {}
 
 		inline Transform* GetTransform() { return m_GameObject->GetTransform(); }
 		inline const Transform& GetTransform() const { return *m_GameObject->GetTransform(); }

@@ -52,16 +52,16 @@ namespace Flow {
 		}
 	}
 
-	void GameObject::Render(Mat4 view, Mat4 projection) const
+	void GameObject::Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) const
 	{
 		for (unsigned int j = 0; j < m_Components.size(); j++)
 		{
-			m_Components[j]->Render(view, projection);
+			m_Components[j]->Render(view, projection, renderingEngine);
 		}
 
 		for (unsigned int i = 0; i < m_Children.size(); i++)
 		{
-			m_Children[i]->Render(view, projection);
+			m_Children[i]->Render(view, projection, renderingEngine);
 		}
 	}
 }

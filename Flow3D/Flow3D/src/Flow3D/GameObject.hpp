@@ -10,6 +10,7 @@
 namespace Flow {
 
 	class Component; // because GameObject.hpp needs to be included in Component
+	class RenderingEngine;
 
 	// A game object represents one entity in the application. This can be anything, e.g. the player, a lamp, a collider,
 	// depending on what components make up the GameObject. The GameObject can also have a number of game objects as children.
@@ -34,7 +35,7 @@ namespace Flow {
 
 		void OnUpdate(double deltaTime);
 		void OnEvent(Event& e);
-		void Render(Mat4 view, Mat4 projection) const;
+		void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) const;
 
 		void SetActive(bool isActive) { m_IsActive = isActive; }
 		inline Transform* GetTransform() { return &m_Transform; }

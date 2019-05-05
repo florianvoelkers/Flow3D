@@ -35,7 +35,7 @@ namespace Flow {
 		projection = Mat4::GetPerspectiveProjection(Math::Radians(mainCamera->GetComponent<FreeCamera>().GetZoom()), (float)m_Window->GetWidth() / (float)m_Window->GetHeight(), 0.1f, 100.0f);
 
 		// render the scene starting with the scenes root object which contains all scene objects
-		root.Render(view, projection);
+		root.Render(view, projection, *this);
 
 		modelShader->Use();
 
@@ -54,5 +54,13 @@ namespace Flow {
 		modelShader->SetMat4("model", nanosuitModel);
 		glDisable(GL_BLEND);
 		nanosuit->Draw(*modelShader);
+	}
+
+	void RenderingEngine::SetBlending(bool blending)
+	{
+		if (blending)
+			glEnable(GL_BLEND);
+		else
+			glDisable(GL_BLEND);
 	}
 }

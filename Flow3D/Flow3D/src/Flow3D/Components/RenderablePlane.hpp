@@ -24,7 +24,7 @@ namespace Flow {
 			delete m_Plane;
 		}
 
-		virtual void Render(Mat4 view, Mat4 projection) override
+		virtual void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) override
 		{
 			// calculate position of model
 			// TODO: consider the parents Transform

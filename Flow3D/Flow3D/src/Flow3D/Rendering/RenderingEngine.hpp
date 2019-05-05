@@ -29,6 +29,7 @@ namespace Flow {
 		// TODO:
 		// Light functions
 		// SetCamera
+		void SetBlending(bool blending);
 
 	private:
 		const Window* m_Window;
