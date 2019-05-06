@@ -73,7 +73,7 @@ namespace Flow {
 			vertex.position = vector;
 
 			// normals
-			if (mesh->mNormals) 
+			if (mesh->mNormals)
 			{
 				vector.x = mesh->mNormals[i].x;
 				vector.y = mesh->mNormals[i].y;
@@ -173,7 +173,7 @@ namespace Flow {
 			{	// if texture hasn't been loaded yet, load it
 				std::string filename = std::string(str.C_Str());
 				filename = directory + '/' + filename;
-				Texture texture(filename, typeName);
+				Texture texture(filename, typeName, false);
 				textures.push_back(texture);
 				textures_loaded.push_back(texture);
 			}

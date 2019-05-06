@@ -14,8 +14,8 @@ namespace Flow {
 
 	}
 
-	Texture::Texture(std::string path, std::string typeName)
-		: path(path), type(typeName)
+	Texture::Texture(std::string path, std::string typeName, bool flip)
+		: path(path), type(typeName), m_Flip(flip)
 	{
 		id = LoadTextureFromFile(path.c_str());
 	}
@@ -43,7 +43,11 @@ namespace Flow {
 		glGenTextures(1, &textureID);
 
 		int width, height, numberComponents;
-		stbi_set_flip_vertically_on_load(true);
+		if (m_Flip)
+			stbi_set_flip_vertically_on_load(true);
+		else
+			stbi_set_flip_vertically_on_load(false);
+			
 		unsigned char *data = stbi_load(path, &width, &height, &numberComponents, 0);
 		if (data)
 		{

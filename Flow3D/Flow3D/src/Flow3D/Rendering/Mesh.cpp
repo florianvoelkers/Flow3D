@@ -33,9 +33,9 @@ namespace Flow {
 				number = std::to_string(diffuseNumber++);
 			else if (name == "texture_specular")
 				number = std::to_string(specularNumber++); // transfer unsigned int to stream
-			if (name == "texture_normal")
+			else if (name == "texture_normal")
 				number = std::to_string(normalNumber++); // transfer unsigned int to stream 
-			if (name == "texture_height")
+			else if (name == "texture_height")
 				number = std::to_string(heightNumber++); // transfer unsigned int to stream
 
 			// set the sample to the correct texture unit

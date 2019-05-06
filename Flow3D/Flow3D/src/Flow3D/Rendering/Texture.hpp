@@ -12,7 +12,7 @@ namespace Flow {
 		std::string path;
 
 		Texture();
-		Texture(std::string path, std::string typeName);
+		Texture(std::string path, std::string typeName, bool flip);
 		~Texture();
 
 		static unsigned char* LoadData(std::string path, int& width, int& height, int& nrChannels, int req_comp);
@@ -20,5 +20,6 @@ namespace Flow {
 
 	private:
 		unsigned int LoadTextureFromFile(const char* path);
+		bool m_Flip;
 	};
 }
