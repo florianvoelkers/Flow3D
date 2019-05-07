@@ -78,11 +78,28 @@ namespace Flow {
 		tree->AddComponent<Renderable>(tree, treeModel, modelShader, true);
 		AddToScene(tree);
 
-		Model* nanosuitModel = new Model("resources/models/nanosuit/nanosuit.obj");
-		GameObject* nanosuit = new GameObject(Vec3(0.0f, 0.0f, 2.0f));
-		nanosuit->GetTransform()->SetScale(Vec3(0.2f));
-		tree->AddComponent<Renderable>(nanosuit, nanosuitModel, modelShader, false);
-		AddToScene(nanosuit);
+		Model* oldManModel = new Model("resources/models/man/muro.obj");
+		GameObject* oldMan = new GameObject(Vec3(0.0f, 0.0f, 2.0f));
+		oldMan->GetTransform()->SetScale(Vec3(0.01f));
+		oldMan->AddComponent<Renderable>(oldMan, oldManModel, modelShader, false);
+		AddToScene(oldMan);
+
+		Model* trexModel = new Model("resources/models/trex/trex.fbx");
+		GameObject* trex = new GameObject(Vec3(2.5f, 0.0f, 2.0f), Vec3(0.0f, -90.0f, 0.0f));
+		trex->GetTransform()->SetScale(Vec3(0.2f));
+		trex->AddComponent<Renderable>(trex, trexModel, modelShader, false);
+		AddToScene(trex);
+
+		GameObject* trex2 = new GameObject(Vec3(-2.5f, 0.0f, 2.0f), Vec3(0.0f, 90.0f, 0.0f));
+		trex2->GetTransform()->SetScale(Vec3(0.2f));
+		trex2->AddComponent<Renderable>(trex2, trexModel, modelShader, false);
+		AddToScene(trex2);
+
+		Model* houseModel = new Model("resources/models/old_house/house.obj");
+		GameObject* house = new GameObject(Vec3(-5.0f, 0.0f, 5.0f), Vec3(0.0f, 180.0f, 0.0f));
+		house->GetTransform()->SetScale(Vec3(0.02f));
+		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
+		AddToScene(house);
 	}
 
 	void Scene::OnDetach()
