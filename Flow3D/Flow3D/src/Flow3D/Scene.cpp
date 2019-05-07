@@ -38,15 +38,29 @@ namespace Flow {
 		Texture containerTexture("resources/textures/container.jpg", "diffuse", true);
 		Texture brickTexture("resources/textures/brickwall.jpg", "diffuse", true);
 		Texture wallTexture("resources/textures/wall.jpg", "diffuse", true);
+		Texture metalFloorTexture("resources/textures/metal.png", "diffuse", true);
+		Texture grassTexture("resources/textures/grass.png", "diffuse", true);
 
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
 		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(90.0f, 0.0f, 0.0f), Vec3(17.0f));
-		plane->AddComponent<RenderablePlane>(plane, new Plane(wallTexture));
+		plane->AddComponent<RenderablePlane>(plane, new Plane(metalFloorTexture));
 		AddToScene(plane);
 
 		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
 		firstCube->AddComponent<RenderableCube>(firstCube, new Cube(brickTexture));
 		AddToScene(firstCube);
+
+		GameObject* grass1 = new GameObject(Vec3(-1.0f, 0.5f, 0.51f));
+		grass1->AddComponent<RenderablePlane>(grass1, new Plane(grassTexture));
+		AddToScene(grass1);
+
+		GameObject* grass2 = new GameObject(Vec3(0.0f, 0.5f, 0.51f));
+		grass1->AddComponent<RenderablePlane>(grass2, new Plane(grassTexture));
+		AddToScene(grass2);
+
+		GameObject* grass3 = new GameObject(Vec3(1.0f, 0.5f, 0.51f));
+		grass1->AddComponent<RenderablePlane>(grass3, new Plane(grassTexture));
+		AddToScene(grass3);
 
 		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f));
 		firstCube->AddComponent<RenderableCube>(secondCube, new Cube(containerTexture));

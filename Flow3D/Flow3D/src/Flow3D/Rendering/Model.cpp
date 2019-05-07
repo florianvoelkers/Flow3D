@@ -81,6 +81,8 @@ namespace Flow {
 				vertex.normal = vector;
 			}
 			// else -> CalculateNormals() ???
+			else
+				vertex.normal = Vec3(0.0f, 0.0f, 0.0f); // better calculate that
 			
 
 			// texture coordinates
@@ -104,6 +106,8 @@ namespace Flow {
 				vector.z = mesh->mTangents[i].z;
 				vertex.tangent = vector;
 			}			
+			else
+				vertex.tangent = Vec3(0.0f, 0.0f, 0.0f); // better calculate that
 
 			// bitangent
 			if (mesh->mBitangents)
@@ -113,6 +117,8 @@ namespace Flow {
 				vector.z = mesh->mBitangents[i].z;
 				vertex.bitangent = vector;
 			}
+			else
+				vertex.bitangent = Vec3(0.0f, 0.0f, 0.0f); // better calculate that
 			
 			vertices.push_back(vertex);
 		}
