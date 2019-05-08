@@ -21,6 +21,7 @@ namespace Flow {
 
 	void RenderingEngine::Render(const GameObject& root, GameObject* mainCamera, const Skybox& skybox)
 	{
+		viewPosition = mainCamera->GetTransform()->m_Position;
 		// when beginning to render clear everything
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -34,7 +35,7 @@ namespace Flow {
 
 		// render the scene starting with the scenes root object which contains all scene objects
 		root.Render(view, projection, *this);
-		//skybox.Draw(view, projection);
+		skybox.Draw(view, projection);
 	}
 
 	void RenderingEngine::SetBlending(bool blending)

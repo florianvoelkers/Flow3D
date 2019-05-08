@@ -100,11 +100,6 @@ namespace Flow {
 		house->GetTransform()->SetScale(Vec3(0.02f));
 		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
 		AddToScene(house);
-
-		Model* gunModel = new Model("resources/models/handgun/handgun.obj");
-		GameObject* gun = new GameObject(Vec3(0.0f, 2.0f, 3.0f));
-		gun->AddComponent<Renderable>(gun, gunModel, modelShader, false);
-		AddToScene(gun);
 	}
 
 	void Scene::OnDetach()

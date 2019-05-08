@@ -12,7 +12,7 @@ namespace Flow {
 	class BaseLight : public Component
 	{
 
-		CLASS_DECLARATION(Lighting)
+		CLASS_DECLARATION(BaseLight)
 
 	public: 
 		BaseLight(GameObject* gameObject, const Color& color, float intensity)
@@ -35,11 +35,17 @@ namespace Flow {
 		CLASS_DECLARATION(DirectionalLight)
 
 	public:
-		DirectionalLight(GameObject* gameObject, const Color& color = Color(0.0f, 0.0f, 0.0f), float intensity = 0)
-			: BaseLight(gameObject, color, intensity)
+		DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Color& color = Color(0.0f, 0.0f, 0.0f), float intensity = 0)
+			: BaseLight(gameObject, color, intensity), m_Direction(direction), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular)
 		{
 
 		}
+
+	private:
+		Vec3 m_Direction;
+		Vec3 m_Ambient;
+		Vec3 m_Diffuse;
+		Vec3 m_Specular;
 	};
 
 	class Attenuation

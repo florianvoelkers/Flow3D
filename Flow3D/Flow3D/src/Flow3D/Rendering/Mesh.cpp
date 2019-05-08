@@ -4,8 +4,8 @@
 
 namespace Flow {
 
-	Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
-		: m_Vertices(vertices), m_Indices(indices), m_Textures(textures)
+	Mesh::Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures, Material material)
+		: m_Vertices(vertices), m_Indices(indices), m_Textures(textures), m_Material(material)
 	{
 		SetupMesh();
 	}
@@ -25,6 +25,7 @@ namespace Flow {
 
 		for (unsigned int i = 0; i < m_Textures.size(); i++)
 		{
+			/* for without lights
 			glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 			// retrieve texture number (the N in diffuse_textureN
 			std::string number;
@@ -39,10 +40,29 @@ namespace Flow {
 				number = std::to_string(heightNumber++); // transfer unsigned int to stream
 
 			// set the sample to the correct texture unit
-			glUniform1i(glGetUniformLocation(shader.m_ID, (name + number).c_str()), i);
+			// glUniform1i(glGetUniformLocation(shader.m_ID, (name + number).c_str()), i); <--- same as below
+			shader.SetInt((name + number).c_str(), i);
+			*/
+
+			// for shader MultipleLights
+			glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
+			// retrieve texture number (the N in diffuse_textureN
+			std::string number;
+			std::string name = m_Textures[i].type;
+			if (name == "texture_diffuse")
+				shader.SetInt(("material.texture_diffuse" + number).c_str(), i);
+			else if (name == "texture_specular")
+				shader.SetInt(("material.texture_specular" + number).c_str(), i);
+			else if (name == "texture_normal")
+				number = std::to_string(normalNumber++); // transfer unsigned int to stream 
+			else if (name == "texture_height")
+				number = std::to_string(heightNumber++); // transfer unsigned int to stream
+
 			// bind the texture
 			glBindTexture(GL_TEXTURE_2D, m_Textures[i].id);
+			
 		}
+		shader.SetFloat("material.shininess", m_Material.shininess);
 
 		// draw mesh
 		glBindVertexArray(m_VAO);
@@ -85,12 +105,12 @@ namespace Flow {
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, texCoords));
 
 		// vertex tangent
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+		//glEnableVertexAttribArray(3);
+		//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
 
 		// vertex bitangent
-		glEnableVertexAttribArray(4);
-		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
+		//glEnableVertexAttribArray(4);
+		//glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
 
 		glBindVertexArray(0);
 	}

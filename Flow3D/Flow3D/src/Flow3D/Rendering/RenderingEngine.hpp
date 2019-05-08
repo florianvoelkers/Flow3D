@@ -23,7 +23,11 @@ namespace Flow {
 		// SetCamera
 		void SetBlending(bool blending);
 
+		inline const Vec3 GetViewPosition() const { return viewPosition; }
+
 	private:
 		const Window* m_Window;
+		Vec3 viewPosition;
+
 	};
 }

@@ -68,14 +68,6 @@ namespace Flow {
 				indices.push_back(face.mIndices[j]);
 		}
 
-		FLOW_CORE_INFO("mesh is {0}", mesh->mName.C_Str());
-		FLOW_CORE_INFO("indices {0}", indices.size());
-		FLOW_CORE_INFO("vertices {0}", mesh->mNumVertices);
-		FLOW_CORE_INFO("hast texture coords {0}", (bool)mesh->mTextureCoords[0]);
-		FLOW_CORE_INFO("has normals {0}", (bool)mesh->mNormals);
-		FLOW_CORE_INFO("has tangents {0}", (bool)mesh->mTangents);
-		FLOW_CORE_INFO("has bitangents {0}", (bool)mesh->mBitangents);
-
 		bool hasTangents = (bool)mesh->mTangents;
 
 		// walk through each of the mesh's vertices
@@ -190,12 +182,16 @@ namespace Flow {
 		// specular: texture_specularN
 		// normal: texture_normalN
 
+		// add materials
+		Material meshMaterial = LoadMaterial(material);
+
 		// 1. diffuse maps
 		std::vector<Texture> diffuseMaps = LoadMaterialTextures(material, aiTextureType_DIFFUSE, "texture_diffuse");
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 		// 2. specular maps
 		std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		FLOW_CORE_INFO("specular maps count is {0}", specularMaps.size());
 		// 3. normal maps
 		std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
 		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
@@ -204,7 +200,7 @@ namespace Flow {
 		textures.insert(textures.end(), heightMaps.begin(), heightMaps.end());
 
 		// return a mesh object created from the extracted mesh data
-		return Mesh(vertices, indices, textures);
+		return Mesh(vertices, indices, textures, meshMaterial);
 	}
 
 	std::vector<Texture> Model::LoadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName)
@@ -237,8 +233,24 @@ namespace Flow {
 		return textures;
 	}
 
-	Vec3 Model::CalculateNormals(Vec3 position)
+	Material Model::LoadMaterial(aiMaterial * mat)
 	{
-		return Vec3();
+		Material material;
+		aiColor3D color(0.0f, 0.0f, 0.0f);
+		float shininess;
+
+		mat->Get(AI_MATKEY_COLOR_DIFFUSE, color);
+		material.diffuse = Vec3(color.r, color.g, color.b);
+
+		mat->Get(AI_MATKEY_COLOR_AMBIENT, color);
+		material.ambient = Vec3(color.r, color.g, color.b);
+
+		mat->Get(AI_MATKEY_COLOR_SPECULAR, color);
+		material.specular = Vec3(color.r, color.g, color.b);
+
+		mat->Get(AI_MATKEY_SHININESS, shininess);
+		material.shininess = shininess;
+
+		return material;
 	}
 }

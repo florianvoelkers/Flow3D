@@ -46,6 +46,16 @@ namespace Flow {
 			m_Shader->SetMat4("projection", projection);
 			m_Shader->SetMat4("view", view);
 			m_Shader->SetMat4("model", model);
+			
+			// set view pos, set directional light, set point lights, set spot light, material set in model
+			m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
+			// directional light
+			/*
+			m_Shader->SetVec3("dirLight.direction", renderingEngine.GetDirectionalLight().direction);
+			m_Shader->SetVec3("dirLight.ambient", renderingEngine.GetDirectionalLight().ambient);
+			m_Shader->SetVec3("dirLight.diffuse", renderingEngine.GetDirectionalLight().diffuse);
+			m_Shader->SetVec3("dirLight.specular", renderingEngine.GetDirectionalLight().specular);
+			*/
 
 			m_Model->Draw(*m_Shader);
 

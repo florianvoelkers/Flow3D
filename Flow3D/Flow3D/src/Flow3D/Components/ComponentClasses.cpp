@@ -1,11 +1,11 @@
 #include "Component.hpp"
 
 // Add all the different component classes here
+#include "Lighting.hpp"
 #include "FreeCamera.hpp"
 #include "RenderableCube.hpp"
 #include "RenderablePlane.hpp"
 #include "Renderable.hpp"
-#include "Lighting.hpp"
 
 using namespace Flow;
 
