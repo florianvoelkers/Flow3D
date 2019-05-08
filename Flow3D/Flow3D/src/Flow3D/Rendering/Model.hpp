@@ -42,6 +42,8 @@ namespace Flow {
 		// the required info is returned as a Texture struct
 		std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
 
+		Vec3 CalculateNormals(Vec3 position);
+
 
 	};
 }

@@ -60,6 +60,24 @@ namespace Flow {
 		std::vector<unsigned int> indices;
 		std::vector<Texture> textures;
 
+		for (unsigned int i = 0; i < mesh->mNumFaces; i++)
+		{
+			aiFace face = mesh->mFaces[i];
+			// retrieve all indices of the face and store them in the indices vector
+			for (unsigned int j = 0; j < face.mNumIndices; j++)
+				indices.push_back(face.mIndices[j]);
+		}
+
+		FLOW_CORE_INFO("mesh is {0}", mesh->mName.C_Str());
+		FLOW_CORE_INFO("indices {0}", indices.size());
+		FLOW_CORE_INFO("vertices {0}", mesh->mNumVertices);
+		FLOW_CORE_INFO("hast texture coords {0}", (bool)mesh->mTextureCoords[0]);
+		FLOW_CORE_INFO("has normals {0}", (bool)mesh->mNormals);
+		FLOW_CORE_INFO("has tangents {0}", (bool)mesh->mTangents);
+		FLOW_CORE_INFO("has bitangents {0}", (bool)mesh->mBitangents);
+
+		bool hasTangents = (bool)mesh->mTangents;
+
 		// walk through each of the mesh's vertices
 		for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 		{
@@ -83,7 +101,6 @@ namespace Flow {
 			// else -> CalculateNormals() ???
 			else
 				vertex.normal = Vec3(0.0f, 0.0f, 0.0f); // better calculate that
-			
 
 			// texture coordinates
 			if (mesh->mTextureCoords[0])
@@ -123,12 +140,45 @@ namespace Flow {
 			vertices.push_back(vertex);
 		}
 
-		for (unsigned int i = 0; i < mesh->mNumFaces; i++)
+		// no idea if useful or working
+		if (!hasTangents)
 		{
-			aiFace face = mesh->mFaces[i];
-			// retrieve all indices of the face and store them in the indices vector
-			for (unsigned int j = 0; j < face.mNumIndices; j++)
-				indices.push_back(face.mIndices[j]);
+			std::vector<Vec3> calculatedTangents;
+			calculatedTangents.reserve(mesh->mNumVertices);
+			for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+				calculatedTangents.push_back(Vec3(0.0f));
+
+			for (unsigned int i = 0; i < indices.size(); i+= 3)
+			{
+				int i0 = indices[i];
+				int i1 = indices[i + 1];
+				int i2 = indices[i + 2];
+				
+				Vec3 edge1 = vertices[i1].position - vertices[i0].position;
+				Vec3 edge2 = vertices[i2].position - vertices[i0].position;
+
+				float deltaU1 = vertices[i1].texCoords.x - vertices[i0].texCoords.x;
+				float deltaU2 = vertices[i2].texCoords.x - vertices[i0].texCoords.x;
+				float deltaV1 = vertices[i1].texCoords.y - vertices[i0].texCoords.y;
+				float deltaV2 = vertices[i2].texCoords.y - vertices[i0].texCoords.y;
+
+				float dividend = (deltaU1 * deltaV2 - deltaU2 * deltaV1);
+				float f = dividend == 0.0f ? 0.0f : 1.0f / dividend;
+
+				Vec3 tangent = Vec3(0.0f);
+				tangent.x = f * (deltaV2 * edge1.x - deltaV1 * edge2.x);
+				tangent.y = f * (deltaV2 * edge1.y - deltaV1 * edge2.y);
+				tangent.z = f * (deltaV2 * edge1.z - deltaV1 * edge2.z);
+
+				calculatedTangents[i0] = tangent;
+				calculatedTangents[i1] = tangent;
+				calculatedTangents[i2] = tangent;
+			}
+
+			for (unsigned int i = 0; i < calculatedTangents.size(); i++)
+			{
+				calculatedTangents[i] = calculatedTangents[i].Normalize();
+			}
 		}
 
 		// process materials
@@ -185,5 +235,10 @@ namespace Flow {
 			}
 		}
 		return textures;
+	}
+
+	Vec3 Model::CalculateNormals(Vec3 position)
+	{
+		return Vec3();
 	}
 }
