@@ -5,6 +5,7 @@
 #include "RenderableCube.hpp"
 #include "RenderablePlane.hpp"
 #include "Renderable.hpp"
+#include "Lighting.hpp"
 
 using namespace Flow;
 
@@ -16,3 +17,7 @@ CLASS_DEFINITION(Component, FreeCamera)
 CLASS_DEFINITION(Component, RenderableCube)
 CLASS_DEFINITION(Component, RenderablePlane)
 CLASS_DEFINITION(Component, Renderable)
+CLASS_DEFINITION(Component, BaseLight)
+CLASS_DEFINITION(BaseLight, DirectionalLight)
+CLASS_DEFINITION(BaseLight, PointLight)
+CLASS_DEFINITION(BaseLight, SpotLight)
