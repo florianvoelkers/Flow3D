@@ -36,7 +36,7 @@ namespace Flow {
 			model.Rotate(GetTransform()->m_Rotation.x, Vec3(1, 0, 0));
 			model.Rotate(GetTransform()->m_Rotation.y, Vec3(0, 1, 0));
 			model.Rotate(GetTransform()->m_Rotation.z, Vec3(0, 0, 1));
-			m_Plane->Draw(model, view, projection);
+			m_Plane->Draw(model, view, projection, renderingEngine);
 		}
 
 	private:

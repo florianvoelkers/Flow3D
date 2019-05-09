@@ -6,6 +6,8 @@
 #include "Flow3D/Rendering/Texture.hpp"
 #include "Flow3D/Color.hpp"
 
+#include "Flow3D/Rendering/RenderingEngine.hpp"
+
 namespace Flow {
 
 	// This class will draw a plane depending on model, view and projection
@@ -19,17 +21,19 @@ namespace Flow {
 		Plane(float r, float g, float b, float a);
 		Plane(Color color);
 		Plane(Texture texture);
+		Plane(Texture diffuseTexture, Texture specularTexture);
 
 		~Plane();
 
-		void Draw(Mat4 model, Mat4 view, Mat4 projection);
+		void Draw(Mat4 model, Mat4 view, Mat4 projection, RenderingEngine& renderingEngine);
 		void SetColor(Color color);
 
 	private:
 		Shader* m_Shader;
 		unsigned int VAO;
 		Color m_Color;
-		Texture m_Texture;
+		Texture m_DiffuseTexture;
+		Texture m_SpecularTexture;
 		bool m_IsTextured;
 
 		void SetupPlane();

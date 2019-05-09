@@ -1,8 +1,5 @@
 #include "Cube.hpp"
 
-#include "Flow3D/Log.hpp"
-#include "Flow3D/Color.hpp"
-
 #include "Flow3D/Application.hpp"
 #include "Flow3D/Components/Lighting.hpp"
 

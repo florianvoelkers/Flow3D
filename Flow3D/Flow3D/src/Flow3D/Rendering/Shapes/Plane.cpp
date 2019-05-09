@@ -1,5 +1,8 @@
 #include "Plane.hpp"
 
+#include "Flow3D/Application.hpp"
+#include "Flow3D/Components/Lighting.hpp"
+
 namespace Flow {
 
 	Plane::Plane()
@@ -27,7 +30,13 @@ namespace Flow {
 	}
 
 	Plane::Plane(Texture texture)
-		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_Texture(texture)
+		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(texture), m_SpecularTexture(texture)
+	{
+		SetupPlane();
+	}
+
+	Plane::Plane(Texture diffuseTexture, Texture specularTexture)
+		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(diffuseTexture), m_SpecularTexture(specularTexture)
 	{
 		SetupPlane();
 	}
@@ -37,21 +46,35 @@ namespace Flow {
 		delete m_Shader;
 	}
 
-	void Plane::Draw(Mat4 model, Mat4 view, Mat4 projection)
+	void Plane::Draw(Mat4 model, Mat4 view, Mat4 projection, RenderingEngine& renderingEngine)
 	{
 		// set data for the shader
 		m_Shader->Use();
 		if (m_IsTextured)
 		{
-			glActiveTexture(GL_TEXTURE0 + m_Texture.id);
-			m_Shader->SetInt("texture1", m_Texture.id);
-			glBindTexture(GL_TEXTURE_2D, m_Texture.id);
+			m_Shader->SetBool("material.hasSpecularTexture", true);
+			glActiveTexture(GL_TEXTURE0 + m_DiffuseTexture.id);
+			m_Shader->SetInt("material.diffuse", m_DiffuseTexture.id);
+			glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture.id);
+			glActiveTexture(GL_TEXTURE1);
+			m_Shader->SetInt("material.specular", m_DiffuseTexture.id);
+			glBindTexture(GL_TEXTURE_2D, m_SpecularTexture.id);
+			// TODO: value should be set externally
+			m_Shader->SetFloat("material.shininess", 17);
 		}
 
 		m_Shader->SetMat4("model", model);
 		m_Shader->SetMat4("view", view);
 		m_Shader->SetMat4("projection", projection);
 
+		m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
+		// directional light
+		std::vector<DirectionalLight*> directionalLights = Application::Get().GetCurrentScene().GetDirectionalLights();
+		// TEMPORARY: just taking the first directional light at the moment
+		m_Shader->SetVec3("dirLight.direction", directionalLights.at(0)->GetDirection());
+		m_Shader->SetVec3("dirLight.ambient", directionalLights.at(0)->GetAmbientIntensity());
+		m_Shader->SetVec3("dirLight.diffuse", directionalLights.at(0)->GetDiffuseIntensity());
+		m_Shader->SetVec3("dirLight.specular", directionalLights.at(0)->GetSpecularIntensity());
 
 		// render plane
 		glBindVertexArray(VAO);
@@ -67,10 +90,10 @@ namespace Flow {
 	{
 		// setup vertices and indices for drawing a plane
 		float vertices[] = {
-			 0.5f,  0.5f, 0.0f,		1.0f, 1.0f, // top right
-			 0.5f, -0.5f, 0.0f,		1.0f, 0.0f, // bottom right
-			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f,  // bottom left
-			-0.5f,  0.5f, 0.0f,		0.0f, 1.0f // top left
+			 0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	1.0f, 1.0f, // top right
+			 0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	1.0f, 0.0f, // bottom right
+			-0.5f, -0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	0.0f, 0.0f,  // bottom left
+			-0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	0.0f, 1.0f // top left
 		};
 
 		unsigned int indices[] = {
@@ -79,7 +102,7 @@ namespace Flow {
 		};
 
 		if (m_IsTextured) {
-			m_Shader = new Shader("resources/shader/Basic3DTextured.vert", "resources/shader/Textured.frag");
+			m_Shader = new Shader("resources/shader/Basic3DTexturedWithLight.vert", "resources/shader/TexturedWithLight.frag");
 		}
 		else
 		{
@@ -101,14 +124,18 @@ namespace Flow {
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 
 		// position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
+
+		// vertex normals
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
 
 		if (m_IsTextured)
 		{
 			// texture coordinates attribute
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+			glEnableVertexAttribArray(2);
 		}
 		else
 		{
