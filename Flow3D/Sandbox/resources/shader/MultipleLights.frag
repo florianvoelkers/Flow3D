@@ -4,6 +4,8 @@ out vec4 FragColor;
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
+    bool hasSpecularTexture;
+    vec3 specularVector;
     float shininess;
 }; 
 
@@ -55,7 +57,7 @@ uniform SpotLight spotLight;
 uniform Material material;
 
 // function prototypes
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir);
 
@@ -72,18 +74,19 @@ void main()
     // this fragment's final color.
     // == =====================================================
     // phase 1: directional lighting
-    vec3 result = CalcDirLight(dirLight, norm, viewDir);
+    vec4 result = CalcDirLight(dirLight, norm, viewDir);
     // phase 2: point lights
-    for(int i = 0; i < NR_POINT_LIGHTS; i++)
-        result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
+    //for(int i = 0; i < NR_POINT_LIGHTS; i++)
+      //  result += CalcPointLight(pointLights[i], norm, FragPos, viewDir);    
     // phase 3: spot light
-    result += CalcSpotLight(spotLight, norm, FragPos, viewDir);    
-    
-    FragColor = vec4(result, 1.0);
+    //result += CalcSpotLight(spotLight, norm, FragPos, viewDir);    
+    if (result.a == 0)
+        discard;
+    FragColor = vec4(result);
 }
 
 // calculates the color when using a directional light.
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
 {
     vec3 lightDir = normalize(-light.direction);
     // diffuse shading
@@ -92,9 +95,14 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir)
     vec3 reflectDir = reflect(-lightDir, normal);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
     // combine results
-    vec3 ambient = light.ambient * vec3(texture(material.diffuse, TexCoords));
-    vec3 diffuse = light.diffuse * diff * vec3(texture(material.diffuse, TexCoords));
-    vec3 specular = light.specular * spec * vec3(texture(material.specular, TexCoords));
+    vec4 ambient = vec4(light.ambient, 1.0) * vec4(texture(material.diffuse, TexCoords));
+    vec4 diffuse = vec4(light.diffuse, 1.0) * diff * vec4(texture(material.diffuse, TexCoords));
+    vec4 specular;
+    if (material.hasSpecularTexture)
+        specular = vec4(light.specular, 1.0) * spec * vec4(texture(material.specular, TexCoords));
+    else
+        specular = vec4(light.specular, 1.0) * (spec * vec4(material.specularVector, 0.0f));
+
     return (ambient + diffuse + specular);
 }
 

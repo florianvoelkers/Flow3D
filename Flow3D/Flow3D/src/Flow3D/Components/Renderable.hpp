@@ -2,8 +2,14 @@
 
 #include "Component.hpp"
 
+#include "Flow3D/Application.hpp"
+#include "Lighting.hpp"
+
 #include "Flow3D/Rendering/Model.hpp"
 #include "Flow3D/Rendering/Shader.hpp"
+
+#include "Flow3D/Log.hpp"
+
 
 namespace Flow {
 
@@ -46,16 +52,16 @@ namespace Flow {
 			m_Shader->SetMat4("projection", projection);
 			m_Shader->SetMat4("view", view);
 			m_Shader->SetMat4("model", model);
-			
+
 			// set view pos, set directional light, set point lights, set spot light, material set in model
 			m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
 			// directional light
-			/*
-			m_Shader->SetVec3("dirLight.direction", renderingEngine.GetDirectionalLight().direction);
-			m_Shader->SetVec3("dirLight.ambient", renderingEngine.GetDirectionalLight().ambient);
-			m_Shader->SetVec3("dirLight.diffuse", renderingEngine.GetDirectionalLight().diffuse);
-			m_Shader->SetVec3("dirLight.specular", renderingEngine.GetDirectionalLight().specular);
-			*/
+			std::vector<DirectionalLight*> directionalLights = Application::Get().GetCurrentScene().GetDirectionalLights();
+			// TEMPORARY: just taking the first directional light at the moment
+			m_Shader->SetVec3("dirLight.direction", directionalLights.at(0)->GetDirection());
+			m_Shader->SetVec3("dirLight.ambient", directionalLights.at(0)->GetAmbientIntensity());
+			m_Shader->SetVec3("dirLight.diffuse", directionalLights.at(0)->GetDiffuseIntensity());
+			m_Shader->SetVec3("dirLight.specular", directionalLights.at(0)->GetSpecularIntensity());
 
 			m_Model->Draw(*m_Shader);
 

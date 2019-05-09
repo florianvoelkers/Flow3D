@@ -21,6 +21,7 @@ namespace Flow {
 		Vec3 diffuse;
 		Vec3 specular;
 		Vec3 ambient;
+		bool hasSpecularTexture;
 		float shininess;
 	};
 

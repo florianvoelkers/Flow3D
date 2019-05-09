@@ -35,7 +35,7 @@ namespace Flow {
 
 		// render the scene starting with the scenes root object which contains all scene objects
 		root.Render(view, projection, *this);
-		skybox.Draw(view, projection);
+		//skybox.Draw(view, projection);
 	}
 
 	void RenderingEngine::SetBlending(bool blending)

@@ -71,7 +71,7 @@ namespace Flow {
 		firstCube->AddComponent<RenderableCube>(thirdCube, new Cube(containerTexture));
 		AddToScene(thirdCube);
 
-		Shader* modelShader = new Shader("resources/shader/Model.vert", "resources/shader/Model.frag");
+		Shader* modelShader = new Shader("resources/shader/MultipleLights.vert", "resources/shader/MultipleLights.frag");
 
 		Model* treeModel = new Model("resources/models/Tree/Tree.obj");
 		GameObject* tree = new GameObject(Vec3(0.0f, 3.0f, 0.0f));
@@ -104,7 +104,7 @@ namespace Flow {
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(0.0f, -1.0f, 0.0f), Vec3(0.42f), Vec3(0.5f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.31f), Vec3(0.5f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f));
 		AddDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 	}

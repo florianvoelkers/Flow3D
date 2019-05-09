@@ -191,7 +191,11 @@ namespace Flow {
 		// 2. specular maps
 		std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-		FLOW_CORE_INFO("specular maps count is {0}", specularMaps.size());
+		FLOW_CORE_INFO("specular maps count is {0} of mesh {1}", specularMaps.size(), mesh->mName.C_Str());
+		if (specularMaps.size())
+		{
+			meshMaterial.hasSpecularTexture = false;
+		}
 		// 3. normal maps
 		std::vector<Texture> normalMaps = LoadMaterialTextures(material, aiTextureType_HEIGHT, "texture_normal");
 		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
@@ -250,6 +254,10 @@ namespace Flow {
 
 		mat->Get(AI_MATKEY_SHININESS, shininess);
 		material.shininess = shininess;
+
+		// a shininess of 0 lead to black pixels all over models, so it needed changing
+		if (material.shininess <= 0)
+			material.shininess = 17.1f;
 
 		FLOW_CORE_INFO("diffuse: {0}, ambient: {1}, specular: {2}, shininess: {3}", material.diffuse.ToString(), material.ambient.ToString(), material.specular.ToString(), material.shininess);
 

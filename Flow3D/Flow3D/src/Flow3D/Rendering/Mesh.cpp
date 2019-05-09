@@ -63,6 +63,8 @@ namespace Flow {
 			
 		}
 		shader.SetFloat("material.shininess", m_Material.shininess);
+		shader.SetBool("material.hasSpecularTexture", m_Material.hasSpecularTexture);
+		shader.SetVec3("material.specularVector", m_Material.specular);
 
 		// draw mesh
 		glBindVertexArray(m_VAO);

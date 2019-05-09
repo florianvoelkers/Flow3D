@@ -41,6 +41,8 @@ namespace Flow {
 		DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Color& color = Color(0.0f, 0.0f, 0.0f))
 			: BaseLight(gameObject, color, ambient, diffuse, specular), m_Direction(direction) {}
 
+		inline const Vec3& GetDirection() const { return m_Direction; }
+
 	private:
 		Vec3 m_Direction;
 	};
