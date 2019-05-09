@@ -15,18 +15,21 @@ namespace Flow {
 		CLASS_DECLARATION(BaseLight)
 
 	public: 
-		BaseLight(GameObject* gameObject, const Color& color, float intensity)
-			: Component(gameObject), m_Color(color), m_Intensity(intensity)
-		{
-
-		}
+		BaseLight(GameObject* gameObject, const Color& color, const Vec3& ambient, const Vec3& diffuse, const Vec3& specular)
+			: Component(gameObject), m_Color(color), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular) {}
 
 		inline const Color& GetColor() const { return m_Color; }
-		inline const float GetIntensity() const { return m_Intensity; }
+		inline const Vec3& GetAmbientIntensity() const{ return m_Ambient; }
+		inline const Vec3& GetDiffuseIntensity() const { return m_Diffuse; }
+		inline const Vec3& GetSpecularIntensity() const { return m_Specular; }
 
 	protected:
 		Color m_Color;
-		float m_Intensity;
+		
+		// intensities
+		Vec3 m_Ambient;
+		Vec3 m_Diffuse;
+		Vec3 m_Specular;
 	};
 
 	class DirectionalLight : public BaseLight
@@ -35,17 +38,11 @@ namespace Flow {
 		CLASS_DECLARATION(DirectionalLight)
 
 	public:
-		DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Color& color = Color(0.0f, 0.0f, 0.0f), float intensity = 0)
-			: BaseLight(gameObject, color, intensity), m_Direction(direction), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular)
-		{
-
-		}
+		DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Color& color = Color(0.0f, 0.0f, 0.0f))
+			: BaseLight(gameObject, color, ambient, diffuse, specular), m_Direction(direction) {}
 
 	private:
 		Vec3 m_Direction;
-		Vec3 m_Ambient;
-		Vec3 m_Diffuse;
-		Vec3 m_Specular;
 	};
 
 	class Attenuation
@@ -53,8 +50,7 @@ namespace Flow {
 		
 	public:
 		Attenuation(float constant = 0, float linear = 0, float exponent = 1)
-			: m_Constant(constant), m_Linear(linear), m_Exponent(exponent)
-		{}
+			: m_Constant(constant), m_Linear(linear), m_Exponent(exponent) {}
 
 		inline float GetConstant() const { return m_Constant; }
 		inline float GetLinear() const { return m_Linear; }
@@ -72,19 +68,11 @@ namespace Flow {
 		CLASS_DECLARATION(PointLight)
 
 	public:
-		PointLight(GameObject* gameObject, const Color& color = Color(0.0f, 0.0f, 0.0f), float intensity = 0, const Attenuation& attenuation = Attenuation())
-			: BaseLight(gameObject, color, intensity), m_Attenuation(attenuation)
-		{
-			float a = m_Attenuation.GetExponent();
-			float b = m_Attenuation.GetLinear();
-			float c = m_Attenuation.GetConstant() - 256 * m_Intensity; // 256 is the COLOR_DEPTH
-
-			m_Range = (-b + sqrtf(b*b - 4 * a*c)) / (2 * a);
-		}
+		PointLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Color& color = Color(0.0f, 0.0f, 0.0f), const Attenuation& attenuation = Attenuation())
+			: BaseLight(gameObject, color, ambient, diffuse, specular), m_Attenuation(attenuation) {}
 
 	private:
 		Attenuation m_Attenuation;
-		float m_Range;
 	};
 
 	class SpotLight : public BaseLight
@@ -93,19 +81,14 @@ namespace Flow {
 		CLASS_DECLARATION(SpotLight)
 
 	public:
-		SpotLight(GameObject* gameObject, const Color& color = Color(0.0f, 0.0f, 0.0f), float intensity = 0, const Attenuation& attenuation = Attenuation(), float viewAngle = Math::Radians(170.f))
-			: BaseLight(gameObject, color, intensity), m_Attenuation(attenuation), m_Cutoff(Math::Cos(viewAngle/2))
-		{
-			float a = m_Attenuation.GetExponent();
-			float b = m_Attenuation.GetLinear();
-			float c = m_Attenuation.GetConstant() - 256 * m_Intensity; // 256 is the COLOR_DEPTH
-
-			m_Range = (-b + sqrtf(b*b - 4 * a*c)) / (2 * a);
-		}
+		SpotLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, float outerCutoff,
+					const Color& color = Color(0.0f, 0.0f, 0.0f), const Attenuation& attenuation = Attenuation(), float viewAngle = Math::Radians(170.f))
+			: BaseLight(gameObject, color, ambient, diffuse, specular), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation), m_Cutoff(Math::Cos(viewAngle/2)) {}
 
 	private:
 		Attenuation m_Attenuation;
-		float m_Range;
+		Vec3 m_Direction;
 		float m_Cutoff;
+		float m_OuterCutoff;
 	};
 }

@@ -4,6 +4,7 @@
 #include "Components/RenderableCube.hpp"
 #include "Components/RenderablePlane.hpp"
 #include "Components/Renderable.hpp"
+#include "Components/Lighting.hpp"
 
 namespace Flow {
 
@@ -100,6 +101,12 @@ namespace Flow {
 		house->GetTransform()->SetScale(Vec3(0.02f));
 		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
 		AddToScene(house);
+
+		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
+		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(0.0f, -1.0f, 0.0f), Vec3(0.42f), Vec3(0.5f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f));
+		AddDirectionalLight(&sun->GetComponent<DirectionalLight>());
+		AddToScene(sun);
 	}
 
 	void Scene::OnDetach()
@@ -114,6 +121,16 @@ namespace Flow {
 	void Scene::OnEvent(Event& event)
 	{
 		m_Root->OnEvent(event);
+	}
+
+	void Scene::AddDirectionalLight(DirectionalLight* directionalLight)
+	{
+		directionalLights.push_back(directionalLight);
+	}
+
+	void Scene::RemoveDirectionalLight(DirectionalLight* directionalLight)
+	{
+		directionalLights.erase(std::remove(directionalLights.begin(), directionalLights.end(), directionalLight));
 	}
 
 

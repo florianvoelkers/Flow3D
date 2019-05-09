@@ -251,6 +251,8 @@ namespace Flow {
 		mat->Get(AI_MATKEY_SHININESS, shininess);
 		material.shininess = shininess;
 
+		FLOW_CORE_INFO("diffuse: {0}, ambient: {1}, specular: {2}, shininess: {3}", material.diffuse.ToString(), material.ambient.ToString(), material.specular.ToString(), material.shininess);
+
 		return material;
 	}
 }
