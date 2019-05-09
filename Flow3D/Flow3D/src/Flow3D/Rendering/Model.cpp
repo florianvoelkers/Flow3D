@@ -1,7 +1,5 @@
 #include "Model.hpp"
 
-#include "Flow3D/Log.hpp"
-
 namespace Flow {
 
 	Model::Model(std::string const & path)
@@ -191,7 +189,6 @@ namespace Flow {
 		// 2. specular maps
 		std::vector<Texture> specularMaps = LoadMaterialTextures(material, aiTextureType_SPECULAR, "texture_specular");
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-		FLOW_CORE_INFO("specular maps count is {0} of mesh {1}", specularMaps.size(), mesh->mName.C_Str());
 		if (specularMaps.size())
 		{
 			meshMaterial.hasSpecularTexture = false;
@@ -258,8 +255,6 @@ namespace Flow {
 		// a shininess of 0 lead to black pixels all over models, so it needed changing
 		if (material.shininess <= 0)
 			material.shininess = 17.1f;
-
-		FLOW_CORE_INFO("diffuse: {0}, ambient: {1}, specular: {2}, shininess: {3}", material.diffuse.ToString(), material.ambient.ToString(), material.specular.ToString(), material.shininess);
 
 		return material;
 	}

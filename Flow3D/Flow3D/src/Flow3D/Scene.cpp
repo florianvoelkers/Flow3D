@@ -41,6 +41,8 @@ namespace Flow {
 		Texture wallTexture("resources/textures/wall.jpg", "diffuse", true);
 		Texture metalFloorTexture("resources/textures/metal.png", "diffuse", true);
 		Texture grassTexture("resources/textures/grass.png", "diffuse", true);
+		Texture container2Diffuse("resources/textures/container2.png", "diffuse", true);
+		Texture container2Specular("resources/textures/container2_specular.png", "specular", true);
 
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
 		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(90.0f, 0.0f, 0.0f), Vec3(17.0f));
@@ -68,7 +70,7 @@ namespace Flow {
 		AddToScene(secondCube);
 
 		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f));
-		firstCube->AddComponent<RenderableCube>(thirdCube, new Cube(containerTexture));
+		firstCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
 		AddToScene(thirdCube);
 
 		Shader* modelShader = new Shader("resources/shader/MultipleLights.vert", "resources/shader/MultipleLights.frag");
@@ -104,11 +106,11 @@ namespace Flow {
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.31f), Vec3(0.5f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.42f), Vec3(0.5f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f));
 		AddDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 	}
-
+	 
 	void Scene::OnDetach()
 	{
 	}
