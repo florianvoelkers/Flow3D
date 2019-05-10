@@ -87,6 +87,13 @@ namespace Flow {
 		oldMan->AddComponent<Renderable>(oldMan, oldManModel, modelShader, false);
 		AddToScene(oldMan);
 
+		GameObject* spotLight = new GameObject(Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
+		spotLight->AddComponent<RenderableCube>(spotLight, new Cube(1.0f, 1.0f, 1.0f));
+		spotLight->AddComponent<SpotLight>(spotLight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), Vec3(0.0f, -1.0f, 0.0f),
+			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09f, 0.032f));
+		AddSpotLight(&spotLight->GetComponent<SpotLight>());
+		AddToScene(spotLight);
+
 		Model* trexModel = new Model("resources/models/trex/trex.fbx");
 		GameObject* trex = new GameObject(Vec3(2.5f, 0.0f, 2.0f), Vec3(0.0f, -90.0f, 0.0f));
 		trex->GetTransform()->SetScale(Vec3(0.2f));
@@ -104,11 +111,12 @@ namespace Flow {
 		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
 		AddToScene(house);
 
+		/*
 		GameObject* streetLamp = new GameObject(Vec3(-3.25f, 2.5f, 5.15f), Vec3(0.0f), Vec3(0.05f));
 		streetLamp->AddComponent<RenderableCube>(streetLamp, new Cube(1.0f, 1.0f, 1.0f));
 		streetLamp->AddComponent<PointLight>(streetLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09f, 0.032f));
 		AddPointLight(&streetLamp->GetComponent<PointLight>());
-		AddToScene(streetLamp);
+		AddToScene(streetLamp);*/
 
 		GameObject* cubeLamp = new GameObject(Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
 		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
@@ -118,7 +126,7 @@ namespace Flow {
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.0f), Vec3(0.0f), Vec3(0.0f), Color(1.0f, 1.0f, 1.0f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f), Color(1.0f, 1.0f, 1.0f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 	}
@@ -150,6 +158,16 @@ namespace Flow {
 	void Scene::RemovePointLight(PointLight* pointLight)
 	{
 		m_PointLights.erase(std::remove(m_PointLights.begin(), m_PointLights.end(), pointLight));
+	}
+
+	void Scene::AddSpotLight(SpotLight* spotLight)
+	{
+		m_SpotLights.push_back(spotLight);
+	}
+
+	void Scene::RemoveSpotLight(SpotLight* spotLight)
+	{
+		m_SpotLights.erase(std::remove(m_SpotLights.begin(), m_SpotLights.end(), spotLight));
 	}
 
 }

@@ -35,6 +35,10 @@ namespace Flow {
 		void RemovePointLight(PointLight* pointLight);
 		inline std::vector<PointLight*> GetPointLights() { return m_PointLights; }
 
+		void AddSpotLight(SpotLight* spotLight);
+		void RemoveSpotLight(SpotLight* spotLight);
+		inline std::vector<SpotLight*> GetSpotLights() { return m_SpotLights; }
+
 	private:
 		const Window* m_Window;
 		GameObject* m_Root;
@@ -44,6 +48,7 @@ namespace Flow {
 
 		DirectionalLight* m_DirectionalLight;
 		std::vector<PointLight*> m_PointLights;
+		std::vector<SpotLight*> m_SpotLights;
 
 		// TODO: Members directional light, other properties
 	};

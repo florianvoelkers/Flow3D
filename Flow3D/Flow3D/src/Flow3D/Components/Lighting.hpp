@@ -85,9 +85,14 @@ namespace Flow {
 		CLASS_DECLARATION(SpotLight)
 
 	public:
-		SpotLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, float outerCutoff,
-					const Color& color = Color(0.0f, 0.0f, 0.0f), const Attenuation& attenuation = Attenuation(), float viewAngle = Math::Radians(170.f))
-			: BaseLight(gameObject, color, ambient, diffuse, specular), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation), m_Cutoff(Math::Cos(viewAngle/2)) {}
+		SpotLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, Vec3 direction, float cutoff, float outerCutoff,
+					const Color& color = Color(0.0f, 0.0f, 0.0f), const Attenuation& attenuation = Attenuation())
+			: BaseLight(gameObject, color, ambient, diffuse, specular), m_Direction(direction), m_Cutoff(cutoff), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation) {}
+
+		inline const Attenuation& GetAttenuation() const { return m_Attenuation; }
+		inline const Vec3& GetDirection() const { return m_Direction; }
+		inline const float GetCutoff() const { return m_Cutoff; }
+		inline const float GetOuterCutoff() const { return m_OuterCutoff; }
 
 	private:
 		Attenuation m_Attenuation;

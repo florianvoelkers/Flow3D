@@ -100,6 +100,34 @@ namespace Flow {
 			uniform = "";
 		}
 
+		std::vector<SpotLight*> spotLights = Application::Get().GetCurrentScene().GetSpotLights();
+		m_Shader->SetInt("numberOfSpotLights", spotLights.size());
+		for (unsigned int i = 0; i < spotLights.size(); i++)
+		{
+			uniform += std::string("spotLights[") + std::to_string(i) + std::string("].");
+			std::string shaderString = uniform + std::string("position");
+			m_Shader->SetVec3(shaderString, spotLights[i]->GetTransform()->m_Position);
+			shaderString = uniform + std::string("direction");
+			m_Shader->SetVec3(shaderString, spotLights[i]->GetDirection());
+			shaderString = uniform + std::string("cutOff");
+			m_Shader->SetFloat(shaderString, spotLights[i]->GetCutoff());
+			shaderString = uniform + std::string("outerCutOff");
+			m_Shader->SetFloat(shaderString, spotLights[i]->GetOuterCutoff());
+			shaderString = uniform + std::string("ambient");
+			m_Shader->SetVec3(shaderString, spotLights[i]->GetAmbientIntensity());
+			shaderString = uniform + std::string("diffuse");
+			m_Shader->SetVec3(shaderString, spotLights[i]->GetDiffuseIntensity());
+			shaderString = uniform + std::string("specular");
+			m_Shader->SetVec3(shaderString, spotLights[i]->GetSpecularIntensity());
+			shaderString = uniform + std::string("constant");
+			m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetConstant());
+			shaderString = uniform + std::string("linear");
+			m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetLinear());
+			shaderString = uniform + std::string("quadratic");
+			m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetExponent());
+			uniform = "";
+		}
+
 		// render cube
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
