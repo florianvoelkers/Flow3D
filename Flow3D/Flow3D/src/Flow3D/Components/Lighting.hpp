@@ -73,6 +73,8 @@ namespace Flow {
 		PointLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Color& color = Color(0.0f, 0.0f, 0.0f), const Attenuation& attenuation = Attenuation())
 			: BaseLight(gameObject, color, ambient, diffuse, specular), m_Attenuation(attenuation) {}
 
+		inline const Attenuation& GetAttenuation() const{ return m_Attenuation; }
+
 	private:
 		Attenuation m_Attenuation;
 	};

@@ -104,10 +104,16 @@ namespace Flow {
 		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
 		AddToScene(house);
 
+		GameObject* streetLamp = new GameObject(Vec3(-3.25f, 2.5f, 5.15f), Vec3(0.0f), Vec3(0.1f));
+		streetLamp->AddComponent<RenderableCube>(streetLamp, new Cube(1.0f, 1.0f, 1.0f));
+		streetLamp->AddComponent<PointLight>(streetLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09, 0.032));
+		AddPointLight(&streetLamp->GetComponent<PointLight>());
+		AddToScene(streetLamp);
+
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
 		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.42f), Vec3(0.5f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f));
-		AddDirectionalLight(&sun->GetComponent<DirectionalLight>());
+		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 	}
 	 
@@ -125,15 +131,19 @@ namespace Flow {
 		m_Root->OnEvent(event);
 	}
 
-	void Scene::AddDirectionalLight(DirectionalLight* directionalLight)
+	void Scene::SetDirectionalLight(DirectionalLight* directionalLight)
 	{
-		directionalLights.push_back(directionalLight);
+		m_DirectionalLight = directionalLight;
 	}
 
-	void Scene::RemoveDirectionalLight(DirectionalLight* directionalLight)
+	void Scene::AddPointLight(PointLight* pointLight)
 	{
-		directionalLights.erase(std::remove(directionalLights.begin(), directionalLights.end(), directionalLight));
+		m_PointLights.push_back(pointLight);
 	}
 
+	void Scene::RemovePointLight(PointLight* pointLight)
+	{
+		m_PointLights.erase(std::remove(m_PointLights.begin(), m_PointLights.end(), pointLight));
+	}
 
 }

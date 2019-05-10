@@ -28,9 +28,12 @@ namespace Flow {
 		inline GameObject* GetMainCamera() { return m_MainCamera; }
 		inline Skybox& GetSkybox() { return *m_Skybox; } // is this correct?
 
-		void AddDirectionalLight(DirectionalLight* directionalLight);
-		void RemoveDirectionalLight(DirectionalLight* directionalLight);
-		inline std::vector<DirectionalLight*> GetDirectionalLights() { return directionalLights; }
+		void SetDirectionalLight(DirectionalLight* directionalLight);
+		inline DirectionalLight* GetDirectionalLight() { return m_DirectionalLight; }
+
+		void AddPointLight(PointLight* pointLight);
+		void RemovePointLight(PointLight* pointLight);
+		inline std::vector<PointLight*> GetPointLights() { return m_PointLights; }
 
 	private:
 		const Window* m_Window;
@@ -39,7 +42,8 @@ namespace Flow {
 		GameObject* m_MainCamera;
 		Skybox* m_Skybox;
 
-		std::vector<DirectionalLight*> directionalLights;
+		DirectionalLight* m_DirectionalLight;
+		std::vector<PointLight*> m_PointLights;
 
 		// TODO: Members directional light, other properties
 	};

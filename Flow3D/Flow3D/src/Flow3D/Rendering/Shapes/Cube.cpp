@@ -71,12 +71,11 @@ namespace Flow {
 
 		m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
 		// directional light
-		std::vector<DirectionalLight*> directionalLights = Application::Get().GetCurrentScene().GetDirectionalLights();
-		// TEMPORARY: just taking the first directional light at the moment
-		m_Shader->SetVec3("dirLight.direction", directionalLights.at(0)->GetDirection());
-		m_Shader->SetVec3("dirLight.ambient", directionalLights.at(0)->GetAmbientIntensity());
-		m_Shader->SetVec3("dirLight.diffuse", directionalLights.at(0)->GetDiffuseIntensity());
-		m_Shader->SetVec3("dirLight.specular", directionalLights.at(0)->GetSpecularIntensity());
+		DirectionalLight* directionalLight = Application::Get().GetCurrentScene().GetDirectionalLight();
+		m_Shader->SetVec3("dirLight.direction", directionalLight->GetDirection());
+		m_Shader->SetVec3("dirLight.ambient", directionalLight->GetAmbientIntensity());
+		m_Shader->SetVec3("dirLight.diffuse", directionalLight->GetDiffuseIntensity());
+		m_Shader->SetVec3("dirLight.specular", directionalLight->GetSpecularIntensity());
 
 		// render cube
 		glBindVertexArray(VAO);

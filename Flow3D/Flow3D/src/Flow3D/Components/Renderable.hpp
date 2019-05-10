@@ -56,12 +56,26 @@ namespace Flow {
 			// set view pos, set directional light, set point lights, set spot light, material set in model
 			m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
 			// directional light
-			std::vector<DirectionalLight*> directionalLights = Application::Get().GetCurrentScene().GetDirectionalLights();
-			// TEMPORARY: just taking the first directional light at the moment
-			m_Shader->SetVec3("dirLight.direction", directionalLights.at(0)->GetDirection());
-			m_Shader->SetVec3("dirLight.ambient", directionalLights.at(0)->GetAmbientIntensity());
-			m_Shader->SetVec3("dirLight.diffuse", directionalLights.at(0)->GetDiffuseIntensity());
-			m_Shader->SetVec3("dirLight.specular", directionalLights.at(0)->GetSpecularIntensity());
+			DirectionalLight* directionalLight = Application::Get().GetCurrentScene().GetDirectionalLight();
+			m_Shader->SetVec3("dirLight.direction", directionalLight->GetDirection());
+			m_Shader->SetVec3("dirLight.ambient", directionalLight->GetAmbientIntensity());
+			m_Shader->SetVec3("dirLight.diffuse", directionalLight->GetDiffuseIntensity());
+			m_Shader->SetVec3("dirLight.specular", directionalLight->GetSpecularIntensity());
+
+			std::vector<PointLight*> pointLights = Application::Get().GetCurrentScene().GetPointLights();
+			std::stringstream uniformStream;
+			m_Shader->SetInt("numberOfPointLights", pointLights.size());
+			for (unsigned int i = 0; i < pointLights.size(); i++)
+			{
+				uniformStream << "pointLights[" << i << "].";
+				m_Shader->SetVec3(uniformStream.str().append("position"), pointLights[i]->GetTransform()->m_Position);
+				m_Shader->SetVec3(uniformStream.str().append("ambient"), pointLights[i]->GetAmbientIntensity());
+				m_Shader->SetVec3(uniformStream.str().append("diffuse"), pointLights[i]->GetDiffuseIntensity());
+				m_Shader->SetVec3(uniformStream.str().append("specular"), pointLights[i]->GetSpecularIntensity());
+				m_Shader->SetFloat(uniformStream.str().append("constant"), pointLights[i]->GetAttenuation().GetConstant());
+				m_Shader->SetFloat(uniformStream.str().append("linear"), pointLights[i]->GetAttenuation().GetConstant());
+				m_Shader->SetFloat(uniformStream.str().append("quadratic"), pointLights[i]->GetAttenuation().GetConstant());
+			}
 
 			m_Model->Draw(*m_Shader);
 
