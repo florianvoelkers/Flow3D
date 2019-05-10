@@ -106,13 +106,19 @@ namespace Flow {
 
 		GameObject* streetLamp = new GameObject(Vec3(-3.25f, 2.5f, 5.15f), Vec3(0.0f), Vec3(0.1f));
 		streetLamp->AddComponent<RenderableCube>(streetLamp, new Cube(1.0f, 1.0f, 1.0f));
-		streetLamp->AddComponent<PointLight>(streetLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09, 0.032));
+		streetLamp->AddComponent<PointLight>(streetLamp, Vec3(0.025f), Vec3(0.1f), Vec3(0.25f), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09f, 0.032f));
 		AddPointLight(&streetLamp->GetComponent<PointLight>());
 		AddToScene(streetLamp);
 
+		GameObject* cubeLamp = new GameObject(Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.1f));
+		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
+		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.025f), Vec3(0.1f), Vec3(0.25f), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09f, 0.032f));
+		AddPointLight(&cubeLamp->GetComponent<PointLight>());
+		AddToScene(cubeLamp);
+
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.42f), Vec3(0.5f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.17f), Vec3(0.5f), Vec3(0.5f), Color(1.0f, 1.0f, 1.0f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 	}

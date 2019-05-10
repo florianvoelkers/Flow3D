@@ -75,6 +75,29 @@ namespace Flow {
 		m_Shader->SetVec3("dirLight.diffuse", directionalLight->GetDiffuseIntensity());
 		m_Shader->SetVec3("dirLight.specular", directionalLight->GetSpecularIntensity());
 
+		std::vector<PointLight*> pointLights = Application::Get().GetCurrentScene().GetPointLights();
+		std::string uniform;
+		m_Shader->SetInt("numberOfPointLights", pointLights.size());
+		for (unsigned int i = 0; i < pointLights.size(); i++)
+		{
+			uniform += std::string("pointLights[") + std::to_string(i) + std::string("].");
+			std::string shaderString = uniform + std::string("position");
+			m_Shader->SetVec3(shaderString, pointLights[i]->GetTransform()->m_Position);
+			shaderString = uniform + std::string("ambient");
+			m_Shader->SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
+			shaderString = uniform + std::string("diffuse");
+			m_Shader->SetVec3(shaderString, pointLights[i]->GetDiffuseIntensity());
+			shaderString = uniform + std::string("specular");
+			m_Shader->SetVec3(shaderString, pointLights[i]->GetSpecularIntensity());
+			shaderString = uniform + std::string("const");
+			m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetConstant());
+			shaderString = uniform + std::string("linear");
+			m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetLinear());
+			shaderString = uniform + std::string("quadratic");
+			m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetExponent());
+			uniform = "";
+		}
+
 		// render plane
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
