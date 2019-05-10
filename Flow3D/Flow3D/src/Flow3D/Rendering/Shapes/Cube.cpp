@@ -91,7 +91,7 @@ namespace Flow {
 			m_Shader->SetVec3(shaderString, pointLights[i]->GetDiffuseIntensity());
 			shaderString = uniform + std::string("specular");
 			m_Shader->SetVec3(shaderString, pointLights[i]->GetSpecularIntensity());
-			shaderString = uniform + std::string("const");
+			shaderString = uniform + std::string("constant");
 			m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetConstant());
 			shaderString = uniform + std::string("linear");
 			m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetLinear());
