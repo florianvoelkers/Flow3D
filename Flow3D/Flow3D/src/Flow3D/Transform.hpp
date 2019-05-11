@@ -4,6 +4,10 @@
 
 namespace Flow {
 
+	// TODO: should be able to set these somewhere
+	const float YAW = -90.0f;
+	const float PITCH = 0.0f;
+
 	class Transform
 	{
 	public:
@@ -23,15 +27,33 @@ namespace Flow {
 		void Translate(const Vec3& translation); // moves transofrm in the direction and distance of translation
 		*/
 
+		void SetYawAndPitch(float yaw, float pitch);
+
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
 		inline void SetRotation(const Vec3& rotation) { m_Rotation = rotation; }
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
 		inline void SetParent(Transform* parent) { m_Parent = parent; }
 
+		inline const Vec3 GetFrontVector() const { return m_Front; }
+		inline const Vec3 GetUpVector() const { return m_Up; }
+		inline const Vec3 GetRightVector() const { return m_Right; }
+		inline const float GetYaw() const { return m_Yaw; }
+		inline const float GetPitch() const { return m_Pitch; }
+
 		Transform* m_Parent;
 		Vec3 m_Position;
 		Vec3 m_Rotation; // TODO: make rotation a quaternion maybe
 		Vec3 m_Scale;
-		
+
+	private:
+		Vec3 m_Front;
+		Vec3 m_Up;
+		Vec3 m_Right;
+		Vec3 m_WorldUp;
+
+		float m_Yaw;
+		float m_Pitch;	
+
+		void UpdateVectors();
 	};
 }
