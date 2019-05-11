@@ -4,6 +4,10 @@
 
 namespace Flow {
 
+	enum DIRECTIONS {
+		up, down, right, left, front, back
+	};
+
 	// TODO: should be able to set these somewhere
 	const float YAW = -90.0f;
 	const float PITCH = 0.0f;
