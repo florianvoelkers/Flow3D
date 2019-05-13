@@ -46,7 +46,7 @@ namespace Flow {
 		Texture container2Specular("resources/textures/container2_specular.png", "specular", true);
 
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
-		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(17.0f));
+		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
 		plane->AddComponent<RenderablePlane>(plane, new Plane(metalFloorTexture));
 		AddToScene(plane);
 
@@ -107,10 +107,16 @@ namespace Flow {
 		AddToScene(trex2);
 
 		Model* houseModel = new Model("resources/models/old_house/house.obj");
-		GameObject* house = new GameObject(Vec3(-5.0f, 0.0f, 5.0f), Vec3(0.0f, 180.0f, 0.0f));
+		GameObject* house = new GameObject(Vec3(-7.0f, 0.0f, 7.0f), Vec3(0.0f, -90.0f, 0.0f));
 		house->GetTransform()->SetScale(Vec3(0.02f));
 		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
 		AddToScene(house);
+
+		Model* houseModel2 = new Model("resources/models/house/house.obj");
+		GameObject* house2 = new GameObject(Vec3(10.0f, 0.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f));
+		house2->GetTransform()->SetScale(Vec3(0.008f));
+		house2->AddComponent<Renderable>(house2, houseModel2, modelShader, false);
+		AddToScene(house2);
 
 		GameObject* cubeLamp = new GameObject(Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
 		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
@@ -120,7 +126,7 @@ namespace Flow {
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.5f), Vec3(0.8f), Vec3(0.8f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 
