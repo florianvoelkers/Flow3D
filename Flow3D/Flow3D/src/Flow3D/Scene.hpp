@@ -25,11 +25,11 @@ namespace Flow {
 
 		inline std::string GetName() { return m_Name; };
 		inline GameObject& GetRoot() { return *m_Root; } // is this correct?
-		inline GameObject* GetMainCamera() { return m_MainCamera; }
+		inline GameObject& GetMainCamera() { return *m_MainCamera; }
 		inline Skybox& GetSkybox() { return *m_Skybox; } // is this correct?
 
 		void SetDirectionalLight(DirectionalLight* directionalLight);
-		inline DirectionalLight* GetDirectionalLight() { return m_DirectionalLight; }
+		inline DirectionalLight& GetDirectionalLight() { return *m_DirectionalLight; }
 
 		void AddPointLight(PointLight* pointLight);
 		void RemovePointLight(PointLight* pointLight);

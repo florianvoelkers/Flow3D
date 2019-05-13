@@ -8,6 +8,7 @@
 
 namespace Flow {
 
+	// Constructor: RenderablePlane(GameObject* gameObject, Plane* plane)
 	// Gives functionality to render a 2 dimensional plane at the position of the GameObject with the anchor of the Plane in the middle; 
 	class RenderablePlane : public Component
 	{

@@ -8,6 +8,7 @@
 
 namespace Flow {
 
+	// Constructor: RenderableCube(GameObject* gameObject, Cube* cube)
 	// Gives functionality and data for drawing a cube at the position of the GameObject with anchor in the middle
 	class RenderableCube : public Component 
 	{

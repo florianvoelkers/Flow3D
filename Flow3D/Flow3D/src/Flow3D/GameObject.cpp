@@ -22,8 +22,6 @@ namespace Flow {
 		child->GetTransform()->SetParent(&m_Transform);
 	}
 
-
-
 	void GameObject::OnUpdate(double deltaTime)
 	{
 		// update itself

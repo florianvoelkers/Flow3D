@@ -4,6 +4,7 @@
 
 namespace Flow {
 
+	// Constructor: Texture(std::string path, std::string typeName, bool flip)
 	// holds data and functionality for textures
 	class Texture {
 	public:

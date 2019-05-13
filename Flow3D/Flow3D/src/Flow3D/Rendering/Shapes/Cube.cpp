@@ -44,7 +44,6 @@ namespace Flow {
 
 	Cube::~Cube()
 	{
-		delete m_Shader;
 	}
 
 
@@ -71,15 +70,15 @@ namespace Flow {
 
 		m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
 		// directional light
-		DirectionalLight* directionalLight = Application::Get().GetCurrentScene().GetDirectionalLight();
-		m_Shader->SetVec3("dirLight.direction", directionalLight->GetDirection());
-		m_Shader->SetVec3("dirLight.ambient", directionalLight->GetAmbientIntensity());
-		m_Shader->SetVec3("dirLight.diffuse", directionalLight->GetDiffuseIntensity());
-		m_Shader->SetVec3("dirLight.specular", directionalLight->GetSpecularIntensity());
+		DirectionalLight& directionalLight = Application::Get().GetCurrentScene().GetDirectionalLight();
+		m_Shader->SetVec3("dirLight.direction", directionalLight.GetDirection());
+		m_Shader->SetVec3("dirLight.ambient", directionalLight.GetAmbientIntensity());
+		m_Shader->SetVec3("dirLight.diffuse", directionalLight.GetDiffuseIntensity());
+		m_Shader->SetVec3("dirLight.specular", directionalLight.GetSpecularIntensity());
 
 		std::vector<PointLight*> pointLights = Application::Get().GetCurrentScene().GetPointLights();
 		std::string uniform;
-		m_Shader->SetInt("numberOfPointLights", pointLights.size());
+		m_Shader->SetInt("numberOfPointLights", (int)pointLights.size());
 		for (unsigned int i = 0; i < pointLights.size(); i++)
 		{
 			uniform += std::string("pointLights[") + std::to_string(i) + std::string("].");
@@ -101,7 +100,7 @@ namespace Flow {
 		}
 
 		std::vector<SpotLight*> spotLights = Application::Get().GetCurrentScene().GetSpotLights();
-		m_Shader->SetInt("numberOfSpotLights", spotLights.size());
+		m_Shader->SetInt("numberOfSpotLights", (int)spotLights.size());
 		for (unsigned int i = 0; i < spotLights.size(); i++)
 		{
 			uniform += std::string("spotLights[") + std::to_string(i) + std::string("].");
@@ -207,11 +206,11 @@ namespace Flow {
 
 		// use the standard shader for textures or color
 		if (m_IsTextured) {
-			m_Shader = new Shader("resources/shader/Basic3DTexturedWithLight.vert", "resources/shader/TexturedWithLight.frag");
+			m_Shader = Application::Get().GetStandardShader();
 		}
 		else
 		{
-			m_Shader = new Shader("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
+			m_Shader = std::make_shared<Shader>("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
 		}
 
 		// set up buffers and configure vertex attributes

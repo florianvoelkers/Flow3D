@@ -119,7 +119,7 @@ namespace Flow {
 		Menu = 348
 	};
 
-	// This class handles eerything related to input. At the moment keyboard and mouse.
+	// This class handles everything related to input. At the moment keyboard and mouse.
 	// It receives OnEvent calls from the window and depending on the event it changes
 	// the state of key-state and mouse-state arrays. It provides several methods to access
 	// the current state of key or the mouse. There can be only one instance of Input.

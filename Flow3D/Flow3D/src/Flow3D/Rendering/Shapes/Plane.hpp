@@ -10,6 +10,8 @@
 
 namespace Flow {
 
+	// Constructor: Plane(float r, float g, float b, (optional) float a) or Plane(Color color)
+	// or Plane(Texture diffuseTexture, (optional)Texture specularTexture)
 	// This class will draw a plane depending on model, view and projection
 	// it provides several possibilites for declaration, e.g. with a texture, color or nothing
 	class Plane {
@@ -29,7 +31,7 @@ namespace Flow {
 		void SetColor(Color color);
 
 	private:
-		Shader* m_Shader;
+		std::shared_ptr<Shader> m_Shader;
 		unsigned int VAO;
 		Color m_Color;
 		Texture m_DiffuseTexture;

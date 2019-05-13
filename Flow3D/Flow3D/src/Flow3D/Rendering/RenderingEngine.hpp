@@ -17,10 +17,7 @@ namespace Flow {
 		RenderingEngine(const Window& window);
 		virtual ~RenderingEngine() {}
 
-		void Render(const GameObject& root, GameObject* mainCamera, const Skybox& skybox); // TODO: is it bad to pass a pointer here?
-		// TODO:
-		// Light functions
-		// SetCamera
+		void Render(const GameObject& root, GameObject& mainCamera, const Skybox& skybox);
 		void SetBlending(bool blending);
 
 		inline const Vec3 GetViewPosition() const { return viewPosition; }
@@ -28,6 +25,5 @@ namespace Flow {
 	private:
 		const Window* m_Window;
 		Vec3 viewPosition;
-
 	};
 }

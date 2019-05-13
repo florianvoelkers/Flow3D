@@ -36,6 +36,7 @@ namespace Flow {
 		inline Window& GetWindow() { return *m_Window; }
 		inline GameObject& GetMainCamera() { m_CurrentScene->GetMainCamera(); }
 		inline Scene& GetCurrentScene() { return *m_CurrentScene.get(); }
+		inline const std::shared_ptr<Shader> GetStandardShader() { return m_StandardShader; }
 
 	private:
 		static Application* s_Instance;
@@ -45,11 +46,10 @@ namespace Flow {
 		LayerStack m_LayerStack;
 		std::unique_ptr <Input> m_Input;
 		std::unique_ptr <RenderingEngine> m_RenderingEngine;
-
-		bool OnWindowClose(WindowCloseEvent& e);
-
-		// TODO: temporary for test
 		std::unique_ptr<Scene> m_CurrentScene;
+		std::shared_ptr<Shader> m_StandardShader;
+
+		bool OnWindowClose(WindowCloseEvent& e);		
 	};
 
 	// to be defined in client

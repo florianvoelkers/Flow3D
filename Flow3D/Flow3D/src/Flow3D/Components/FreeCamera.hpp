@@ -12,6 +12,7 @@ namespace Flow {
 	const float SENSITIVITY = 0.1f;
 	const float ZOOM = 45.0f;
 
+	// Constructor: FreeCamera(GameObject* gameObject, const Window& window)
 	// Gives functionality and data for a free moving camera which can be moved with 
 	// PAGE UP, PAGE DOWN for vertical movement,
 	// WASD or UP, DOWN, LEFT, RIGHT 
@@ -22,7 +23,7 @@ namespace Flow {
 
 	public:
 		FreeCamera(GameObject* gameObject, const Window& window)
-			: m_Window(&window), Component(gameObject), m_Input(Input::Get())
+			: m_Window(window), Component(gameObject), m_Input(Input::Get())
 		{
 			m_MovementSpeed = SPEED;
 			m_MouseSensitivity = SENSITIVITY;
@@ -31,7 +32,7 @@ namespace Flow {
 			// make sure that the camera can't be moved
 			firstMouse = true;
 			// center the mouse position
-			lastMouse = Vec2((float)m_Window->GetWidth() / 2, (float)m_Window->GetHeight() / 2);
+			lastMouse = Vec2((float)m_Window.GetWidth() / 2, (float)m_Window.GetHeight() / 2);
 		}
 
 		~FreeCamera()
@@ -90,7 +91,7 @@ namespace Flow {
 		float GetZoom() { return m_Zoom; }
 
 	private:
-		const Window* m_Window;
+		const Window& m_Window;
 		bool firstMouse = true;
 		Vec2 lastMouse;
 

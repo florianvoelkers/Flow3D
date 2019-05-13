@@ -20,6 +20,8 @@ namespace Flow {
 		m_Input = std::make_unique<Input>();
 		m_RenderingEngine = std::make_unique<RenderingEngine>(*m_Window);
 
+		m_StandardShader = std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag");
+
 		m_CurrentScene = std::make_unique<Scene>("TestScene", *m_Window);
 		m_CurrentScene->OnAttach();
 	}

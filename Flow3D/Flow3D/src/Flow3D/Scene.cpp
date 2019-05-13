@@ -22,8 +22,9 @@ namespace Flow {
 
 	Scene::~Scene()
 	{
-		delete m_Root;
+		delete m_Skybox;
 		delete m_MainCamera;
+		delete m_Root;		
 	}
 
 	void Scene::AddToScene(GameObject* gameObject)
@@ -73,7 +74,7 @@ namespace Flow {
 		firstCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
 		AddToScene(thirdCube);
 
-		Shader* modelShader = new Shader("resources/shader/MultipleLights.vert", "resources/shader/MultipleLights.frag");
+		Shader* modelShader = new Shader("resources/shader/Standard.vert", "resources/shader/Standard.frag");
 
 		Model* treeModel = new Model("resources/models/Tree/Tree.obj");
 		GameObject* tree = new GameObject(Vec3(0.0f, 3.0f, 0.0f));
@@ -87,13 +88,12 @@ namespace Flow {
 		oldMan->AddComponent<Renderable>(oldMan, oldManModel, modelShader, false);
 		AddToScene(oldMan);
 
-		/*
 		GameObject* spotLight = new GameObject(Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
 		spotLight->AddComponent<RenderableCube>(spotLight, new Cube(1.0f, 1.0f, 1.0f));
 		spotLight->AddComponent<SpotLight>(spotLight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::down,
-			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09f, 0.032f));
+			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&spotLight->GetComponent<SpotLight>());
-		AddToScene(spotLight);*/
+		AddToScene(spotLight);
 
 		Model* trexModel = new Model("resources/models/trex/trex.fbx");
 		GameObject* trex = new GameObject(Vec3(2.5f, 0.0f, 2.0f), Vec3(0.0f, -90.0f, 0.0f));
@@ -112,28 +112,21 @@ namespace Flow {
 		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
 		AddToScene(house);
 
-		/*
-		GameObject* streetLamp = new GameObject(Vec3(-3.25f, 2.5f, 5.15f), Vec3(0.0f), Vec3(0.05f));
-		streetLamp->AddComponent<RenderableCube>(streetLamp, new Cube(1.0f, 1.0f, 1.0f));
-		streetLamp->AddComponent<PointLight>(streetLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09f, 0.032f));
-		AddPointLight(&streetLamp->GetComponent<PointLight>());
-		AddToScene(streetLamp);
-
 		GameObject* cubeLamp = new GameObject(Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
 		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
-		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09f, 0.032f));
+		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
 		AddPointLight(&cubeLamp->GetComponent<PointLight>());
-		AddToScene(cubeLamp);*/
+		AddToScene(cubeLamp);
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.2f), Vec3(0.5f), Vec3(0.8f), Color(1.0f, 1.0f, 1.0f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 
 		// flash light for the camera
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
-			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Color(1.0f, 1.0f, 1.0f), Attenuation(1.0f, 0.09f, 0.032f));
+			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
 	}
 	 
