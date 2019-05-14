@@ -28,8 +28,9 @@ namespace Flow {
 		void Rotate(const Vec3& axis, float angle);
 		void Rotate(const Quaternion& rotation);
 		void LookAt(const Vec3& point, const Vec3 up);
-		void Translate(const Vec3& translation); // moves transofrm in the direction and distance of translation
 		*/
+
+		void Translate(const Vec3& translation); 		
 
 		void SetYawAndPitch(float yaw, float pitch);
 
@@ -44,12 +45,17 @@ namespace Flow {
 		inline const float GetYaw() const { return m_Yaw; }
 		inline const float GetPitch() const { return m_Pitch; }
 
+		const Vec3 GetPosition() const;
+		const Vec3 GetRotation() const;
+		const Vec3 GetScale() const;
+		
+
+	private:
 		Transform* m_Parent;
 		Vec3 m_Position;
 		Vec3 m_Rotation; // TODO: make rotation a quaternion maybe
 		Vec3 m_Scale;
 
-	private:
 		Vec3 m_Front;
 		Vec3 m_Up;
 		Vec3 m_Right;

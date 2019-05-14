@@ -81,7 +81,7 @@ namespace Flow {
 		{
 			uniform += std::string("pointLights[") + std::to_string(i) + std::string("].");
 			std::string shaderString = uniform + std::string("position");
-			m_Shader->SetVec3(shaderString, pointLights[i]->GetTransform()->m_Position);
+			m_Shader->SetVec3(shaderString, pointLights[i]->GetTransform()->GetPosition());
 			shaderString = uniform + std::string("ambient");
 			m_Shader->SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
 			shaderString = uniform + std::string("diffuse");
@@ -103,7 +103,7 @@ namespace Flow {
 		{
 			uniform += std::string("spotLights[") + std::to_string(i) + std::string("].");
 			std::string shaderString = uniform + std::string("position");
-			m_Shader->SetVec3(shaderString, spotLights[i]->GetTransform()->m_Position);
+			m_Shader->SetVec3(shaderString, spotLights[i]->GetTransform()->GetPosition());
 			shaderString = uniform + std::string("direction");
 			m_Shader->SetVec3(shaderString, spotLights[i]->GetDirection());
 			shaderString = uniform + std::string("cutOff");

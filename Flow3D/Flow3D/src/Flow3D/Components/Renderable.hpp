@@ -39,13 +39,14 @@ namespace Flow {
 			// calculate position of model
 			// TODO: consider the parents Transform
 			Mat4 model = Mat4();
-			model.Translate(GetTransform()->m_Position);
-			model.Scale(GetTransform()->m_Scale);
+			model.Translate(GetTransform()->GetPosition());
+			model.Scale(GetTransform()->GetScale());
 
 			// rotate around all axis; could produce gimbal lock?
-			model.Rotate(GetTransform()->m_Rotation.x, Vec3(1, 0, 0));
-			model.Rotate(GetTransform()->m_Rotation.y, Vec3(0, 1, 0));
-			model.Rotate(GetTransform()->m_Rotation.z, Vec3(0, 0, 1));
+			Vec3 rotation = GetTransform()->GetRotation();
+			model.Rotate(rotation.x, Vec3(1, 0, 0));
+			model.Rotate(rotation.y, Vec3(0, 1, 0));
+			model.Rotate(rotation.z, Vec3(0, 0, 1));
 
 			renderingEngine.SetBlending(m_Blending);
 
@@ -70,7 +71,7 @@ namespace Flow {
 			{
 				uniform += std::string("pointLights[") + std::to_string(i) + std::string("].");
 				std::string shaderString = uniform + std::string("position");
-				m_Shader->SetVec3(shaderString, pointLights[i]->GetTransform()->m_Position);
+				m_Shader->SetVec3(shaderString, pointLights[i]->GetTransform()->GetPosition());
 				shaderString = uniform + std::string("ambient");
 				m_Shader->SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
 				shaderString = uniform + std::string("diffuse");
@@ -92,7 +93,7 @@ namespace Flow {
 			{
 				uniform += std::string("spotLights[") + std::to_string(i) + std::string("].");
 				std::string shaderString = uniform + std::string("position");
-				m_Shader->SetVec3(shaderString, spotLights[i]->GetTransform()->m_Position);
+				m_Shader->SetVec3(shaderString, spotLights[i]->GetTransform()->GetPosition());
 				shaderString = uniform + std::string("direction");
 				m_Shader->SetVec3(shaderString, spotLights[i]->GetDirection());
 				shaderString = uniform + std::string("cutOff");

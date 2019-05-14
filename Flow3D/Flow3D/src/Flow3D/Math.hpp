@@ -83,6 +83,11 @@ namespace Flow {
 			return glm::to_string(glm::vec2(x, y));
 		}
 
+		const std::string ToString() const
+		{
+			return glm::to_string(glm::vec2(x, y));
+		}
+
 		float x, y;
 	};
 
@@ -93,6 +98,11 @@ namespace Flow {
 		Vec3(const float& x, const float& y, const float& z) : x(x), y(y), z(z) {}
 		Vec3(const glm::vec3 vec) : x(vec.x), y(vec.y), z(vec.z) {}
 		Vec3() {}
+
+		Vec3 Cross(Vec3 b)
+		{
+			return Vec3(glm::cross(glm::vec3(x, y, z), glm::vec3(b.x, b.y, b.z)));
+		}
 
 		Vec3 Normalize()
 		{
@@ -138,6 +148,11 @@ namespace Flow {
 		}
 
 		std::string ToString()
+		{
+			return glm::to_string(glm::vec3(x, y, z));
+		}
+
+		const std::string ToString() const
 		{
 			return glm::to_string(glm::vec3(x, y, z));
 		}

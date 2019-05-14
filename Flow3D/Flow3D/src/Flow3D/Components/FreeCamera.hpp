@@ -48,32 +48,32 @@ namespace Flow {
 			if (m_Input.GetKey(Keycode::W))
 			{
 				Vec3 front = GetTransform()->GetFrontVector();
-				GetTransform()->m_Position += front * velocity;
+				GetTransform()->Translate(front * velocity);
 			}
 			if (m_Input.GetKey(Keycode::S))
 			{
 				Vec3 front = GetTransform()->GetFrontVector();
-				GetTransform()->m_Position -= front * velocity;
+				GetTransform()->Translate(front * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::D))
 			{
 				Vec3 right = GetTransform()->GetRightVector();
-				GetTransform()->m_Position += right * velocity;
+				GetTransform()->Translate(right * velocity);
 			}
 			if (m_Input.GetKey(Keycode::A))
 			{
 				Vec3 right = GetTransform()->GetRightVector();
-				GetTransform()->m_Position -= right * velocity;
+				GetTransform()->Translate(right * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::PageUp))
 			{
 				Vec3 up = GetTransform()->GetUpVector();
-				GetTransform()->m_Position += up * velocity;
+				GetTransform()->Translate(up * velocity);
 			}
 			if (m_Input.GetKey(Keycode::PageDown))
 			{
 				Vec3 up = GetTransform()->GetUpVector();
-				GetTransform()->m_Position -= up * velocity;
+				GetTransform()->Translate(up * velocity * -1.0f);
 			}
 		}
 
@@ -86,7 +86,9 @@ namespace Flow {
 
 		Mat4 GetViewMatrix() 
 		{ 
-			return Mat4::LookAt(GetTransform()->m_Position, GetTransform()->m_Position + GetTransform()->GetFrontVector(), GetTransform()->GetUpVector()); 
+			Vec3 center = GetTransform()->GetPosition();
+			center += GetTransform()->GetFrontVector();
+			return Mat4::LookAt(GetTransform()->GetPosition(), center, GetTransform()->GetUpVector());
 		}
 		float GetZoom() { return m_Zoom; }
 
