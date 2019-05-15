@@ -52,7 +52,7 @@ namespace Flow {
 		plane->AddComponent<RenderablePlane>(plane, new Plane(metalFloorTexture));
 		AddToScene(plane);
 
-		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
+		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 45.0f, 0.0f), Vec3(3.0f));
 		firstCube->AddComponent<RenderableCube>(firstCube, new Cube(brickTexture));
 		AddToScene(firstCube);
 
@@ -68,11 +68,11 @@ namespace Flow {
 		grass1->AddComponent<RenderablePlane>(grass3, new Plane(grassTexture));
 		AddToScene(grass3);
 
-		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
+		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 45.0f));
 		firstCube->AddComponent<RenderableCube>(secondCube, new Cube(containerTexture));
 		AddToScene(secondCube);
 
-		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f));
+		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f), Vec3(45.0f, 0.0f, 0.0f));
 		firstCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
 		AddToScene(thirdCube);
 

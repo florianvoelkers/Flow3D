@@ -38,15 +38,7 @@ namespace Flow {
 		{
 			// calculate position of model
 			// TODO: consider the parents Transform
-			Mat4 model = Mat4();
-			model.Translate(GetTransform()->GetPosition());
-			model.Scale(GetTransform()->GetScale());
-
-			// rotate around all axis; could produce gimbal lock?
-			Vec3 rotation = GetTransform()->GetRotation();
-			model.Rotate(rotation.x, Vec3(1, 0, 0));
-			model.Rotate(rotation.y, Vec3(0, 1, 0));
-			model.Rotate(rotation.z, Vec3(0, 0, 1));
+			Mat4 model = GetTransform()->GetTransformation();
 
 			renderingEngine.SetBlending(m_Blending);
 

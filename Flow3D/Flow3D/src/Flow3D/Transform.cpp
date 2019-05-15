@@ -8,8 +8,7 @@ namespace Flow {
 		: m_Position(position), m_Rotation(rotation), m_Scale(scale)
 	{
 		m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
-		m_Yaw = YAW;
-		m_Pitch = PITCH;
+		m_RotationQuaternion = ToQuaternion(m_Rotation.z, m_Rotation.y, m_Rotation.x);
 
 		UpdateVectors();
 	}
@@ -23,11 +22,38 @@ namespace Flow {
 		m_Position += translation;
 	}
 
+	void Transform::Rotate(const Vec3 & axis, float angle)
+	{
+		Rotate(Quaternion(axis, angle));
+	}
+
+	void Transform::Rotate(const Quaternion & rotation)
+	{
+		m_RotationQuaternion = Quaternion(m_RotationQuaternion * rotation).Normalize();
+	}
+
 	void Transform::SetYawAndPitch(float yaw, float pitch)
 	{
-		m_Yaw = yaw;
-		m_Pitch = pitch;
+		m_Rotation.z = yaw;
+		m_Rotation.y = pitch;
 		UpdateVectors();
+	}
+
+	Mat4 Transform::GetTransformation() const
+	{
+		Mat4 translationMatrix = Mat4();
+		translationMatrix.Translate(m_Position);
+
+		Mat4 scaleMatrix = Mat4();
+		scaleMatrix.Scale(m_Scale);
+
+		Mat4 rotationMatrix = m_RotationQuaternion.ToRotationMatrix();
+
+		Mat4 result = translationMatrix * rotationMatrix * scaleMatrix;
+		if (m_Parent != nullptr)
+			result = m_Parent->GetTransformation() * result;
+
+		return result;
 	}
 
 	const Vec3 Transform::GetPosition() const
@@ -73,11 +99,22 @@ namespace Flow {
 	void Transform::UpdateVectors()
 	{
 		Vec3 front;
-		front.x = Math::Cos(m_Yaw) * Math::Cos(m_Pitch);
-		front.y = Math::Sin(m_Pitch);
-		front.z = Math::Sin(m_Yaw) * Math::Cos(m_Pitch);
+		front.x = Math::Cos(m_Rotation.z) * Math::Cos(m_Rotation.y);
+		front.y = Math::Sin(m_Rotation.y);
+		front.z = Math::Sin(m_Rotation.z) * Math::Cos(m_Rotation.y);
 		m_Front = front.Normalize();
 		m_Right = Vec3::Cross(m_Front, m_WorldUp).Normalize();
 		m_Up = Vec3::Cross(m_Right, m_Front).Normalize();
+	}
+
+	// From: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
+	// will be converted to radians in this function
+	Quaternion Transform::ToQuaternion(float yaw, float pitch, float roll)
+	{
+		glm::quat quat = glm::quat(glm::vec3(glm::radians(roll), glm::radians(pitch), glm::radians(yaw)));
+
+		FLOW_CORE_INFO("quaternion rotation is {0}", glm::to_string(quat));
+
+		return Quaternion(quat);
 	}
 }
