@@ -15,8 +15,9 @@ namespace Flow {
 		m_Root = new GameObject();
 
 		// The main camera is used for rendering purposes.
-		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f));
+		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, -90.0f));
 		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera, *m_Window);
+		m_MainCamera->GetTransform()->Rotate(Vec3(0.0f, 0.0f, 1.0f), 0.0f);
 		AddToScene(m_MainCamera);
 	}
 
@@ -46,7 +47,7 @@ namespace Flow {
 		Texture container2Specular("resources/textures/container2_specular.png", "specular", true);
 
 		Shader* modelShader = new Shader("resources/shader/Standard.vert", "resources/shader/Standard.frag");
-
+		
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
 		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
 		plane->AddComponent<RenderablePlane>(plane, new Plane(metalFloorTexture));
@@ -55,6 +56,7 @@ namespace Flow {
 		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 45.0f, 0.0f), Vec3(3.0f));
 		firstCube->AddComponent<RenderableCube>(firstCube, new Cube(brickTexture));
 		AddToScene(firstCube);
+		firstCube->GetTransform()->Rotate(Vec3(0.0f, 1.0f, 0.0f), -45.0f);
 
 		GameObject* grass1 = new GameObject(Vec3(-1.0f, 0.5f, 0.51f));
 		grass1->AddComponent<RenderablePlane>(grass1, new Plane(grassTexture));
@@ -68,13 +70,15 @@ namespace Flow {
 		grass1->AddComponent<RenderablePlane>(grass3, new Plane(grassTexture));
 		AddToScene(grass3);
 
-		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 45.0f));
-		firstCube->AddComponent<RenderableCube>(secondCube, new Cube(containerTexture));
+		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 25.0f));
+		secondCube->AddComponent<RenderableCube>(secondCube, new Cube(containerTexture));
 		AddToScene(secondCube);
+		secondCube->GetTransform()->Rotate(Vec3(0.0f, 0.0f, 1.0f), 20.0f);
 
 		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f), Vec3(45.0f, 0.0f, 0.0f));
-		firstCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
+		thirdCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
 		AddToScene(thirdCube);
+		thirdCube->GetTransform()->Rotate(Vec3(1.0f, 0.0f, 0.0f), -45.0f);
 
 		Model* treeModel = new Model("resources/models/Tree/Tree.obj");
 		GameObject* tree = new GameObject(Vec3(0.0f, 3.0f, 0.0f));
@@ -125,13 +129,12 @@ namespace Flow {
 		AddToScene(cubeLamp);
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
-		sun->AddComponent<RenderableCube>(sun, new Cube(0.9765f, 0.8431f, 0.1098f));
 		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
-
+		
 		Model* swordModel = new Model("resources/models/sword/Sword.obj");
-		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, -42.0f));
+		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(-90.0f, 0.0f, 0.0f));
 		sword->GetTransform()->SetScale(Vec3(0.05f));
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
 		m_MainCamera->AddChild(sword);

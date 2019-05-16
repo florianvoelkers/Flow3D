@@ -29,10 +29,8 @@ namespace Flow {
 		void Rotate(const Vec3& axis, float angle);
 		void Rotate(const Quaternion& rotation);
 
-		void SetYawAndPitch(float yaw, float pitch);
-
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
-		inline void SetRotation(const Vec3& rotation) { m_Rotation = rotation; }
+		inline void SetRotation(const Vec3& rotation);
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
 		inline void SetParent(Transform* parent) { m_Parent = parent; }
 
@@ -61,6 +59,5 @@ namespace Flow {
 		Vec3 m_WorldUp;
 
 		void UpdateVectors();
-		Quaternion ToQuaternion(float yaw, float pitch, float roll);
 	};
 }

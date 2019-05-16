@@ -316,13 +316,28 @@ namespace Flow {
 		Quaternion(const glm::quat& r) : x(r.x), y(r.y), z(r.z), w(r.w) {}
 		Quaternion(const Vec3& axis, float angle) 
 		{
-			float sinHalfAngle = sinf(angle / 2);
-			float cosHalfAngle = cosf(angle / 2);
+			glm::quat quat = glm::angleAxis(glm::radians(angle), glm::vec3(axis.x, axis.y, axis.z));
+			x = quat.x;
+			y = quat.y;
+			z = quat.z;
+			w = quat.w;
+		}
 
-			x = axis.x * sinHalfAngle;
-			y = axis.y * sinHalfAngle;
-			z = axis.z * sinHalfAngle;
-			w = cosHalfAngle;
+		Quaternion(const Vec3& eulerAngles)
+		{
+			glm::quat quat = glm::quat(glm::vec3(glm::radians(eulerAngles.x), glm::radians(eulerAngles.y), glm::radians(eulerAngles.z)));
+			x = quat.x;
+			y = quat.y;
+			z = quat.z;
+			w = quat.w;
+		}
+
+		Vec3 ToEulerAngles() const
+		{
+			glm::quat quat = glm::quat(w, x, y, z);
+			glm::vec3 eulerAnglesRadians = glm::eulerAngles(quat);
+			glm::vec3 eulerAngles = glm::vec3(glm::degrees(eulerAnglesRadians.x), glm::degrees(eulerAnglesRadians.y), glm::degrees(eulerAnglesRadians.z));
+			return Vec3(eulerAngles);
 		}
 
 		Mat4 ToRotationMatrix() const
@@ -338,7 +353,7 @@ namespace Flow {
 
 		Quaternion Normalize()
 		{
-			glm::quat normalized = glm::normalize(glm::quat(x, y, z, w));
+			glm::quat normalized = glm::normalize(glm::quat(w, x, y, z));
 			return Quaternion(normalized);
 		}
 
@@ -426,7 +441,12 @@ namespace Flow {
 
 		std::string ToString()
 		{
-			return glm::to_string(glm::quat(x, y, z, w));
+			return glm::to_string(glm::quat(w, x, y, z));
+		}
+
+		std::string ToString() const
+		{
+			return glm::to_string(glm::quat(w, x, y, z));
 		}
 
 		float x, y, z, w;

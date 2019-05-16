@@ -8,7 +8,7 @@ namespace Flow {
 		: m_Position(position), m_Rotation(rotation), m_Scale(scale)
 	{
 		m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
-		m_RotationQuaternion = ToQuaternion(m_Rotation.z, m_Rotation.y, m_Rotation.x);
+		m_RotationQuaternion = Quaternion(m_Rotation);
 
 		UpdateVectors();
 	}
@@ -27,15 +27,18 @@ namespace Flow {
 		Rotate(Quaternion(axis, angle));
 	}
 
-	void Transform::Rotate(const Quaternion & rotation)
+	void Transform::Rotate(const Quaternion& rotation)
 	{
 		m_RotationQuaternion = Quaternion(m_RotationQuaternion * rotation).Normalize();
+		m_Rotation = m_RotationQuaternion.ToEulerAngles();
+		UpdateVectors();
 	}
 
-	void Transform::SetYawAndPitch(float yaw, float pitch)
+	void Transform::SetRotation(const Vec3& newRotation)
 	{
-		m_Rotation.z = yaw;
-		m_Rotation.y = pitch;
+		m_Rotation.z = newRotation.z;
+		m_Rotation.y = newRotation.y;
+		m_RotationQuaternion = Quaternion(newRotation);
 		UpdateVectors();
 	}
 
@@ -105,16 +108,5 @@ namespace Flow {
 		m_Front = front.Normalize();
 		m_Right = Vec3::Cross(m_Front, m_WorldUp).Normalize();
 		m_Up = Vec3::Cross(m_Right, m_Front).Normalize();
-	}
-
-	// From: https://en.wikipedia.org/wiki/Conversion_between_quaternions_and_Euler_angles
-	// will be converted to radians in this function
-	Quaternion Transform::ToQuaternion(float yaw, float pitch, float roll)
-	{
-		glm::quat quat = glm::quat(glm::vec3(glm::radians(roll), glm::radians(pitch), glm::radians(yaw)));
-
-		FLOW_CORE_INFO("quaternion rotation is {0}", glm::to_string(quat));
-
-		return Quaternion(quat);
 	}
 }
