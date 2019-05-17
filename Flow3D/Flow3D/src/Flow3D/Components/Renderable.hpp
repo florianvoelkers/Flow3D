@@ -38,7 +38,7 @@ namespace Flow {
 		{
 			// calculate position of model
 			// TODO: consider the parents Transform
-			Mat4 model = GetTransform()->GetTransformation();
+			Mat4 model = Mat4(GetTransform()->GetTransformation());
 
 			renderingEngine.SetBlending(m_Blending);
 

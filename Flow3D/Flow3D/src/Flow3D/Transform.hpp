@@ -30,7 +30,6 @@ namespace Flow {
 		void Rotate(const Quaternion& rotation);
 
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
-		inline void SetRotation(const Vec3& rotation);
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
 		inline void SetParent(Transform* parent) { m_Parent = parent; }
 
@@ -41,7 +40,7 @@ namespace Flow {
 		inline const float GetYaw() const { return m_Rotation.z; }
 		inline const float GetPitch() const { return m_Rotation.y; }
 
-		Mat4 GetTransformation() const;
+		glm::mat4 GetTransformation() const;
 		const Vec3 GetPosition() const;
 		const Vec3 GetRotation() const;
 		const Vec3 GetScale() const;		

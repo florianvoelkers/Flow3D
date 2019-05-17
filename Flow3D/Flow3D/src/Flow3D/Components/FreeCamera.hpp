@@ -124,7 +124,6 @@ namespace Flow {
 			xOffset *= m_MouseSensitivity;
 			yOffset *= m_MouseSensitivity;
 
-			// GetTransform()->Rotate(Vec3(0.0f, 0.0f, 1.0f), 0.0f);
 			GetTransform()->Rotate(Vec3(0.0, 0.0f, 1.0f), xOffset);
 			GetTransform()->Rotate(Vec3(0.0, 1.0f, 0.0f), yOffset);
 

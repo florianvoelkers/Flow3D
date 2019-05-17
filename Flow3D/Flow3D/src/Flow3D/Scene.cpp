@@ -1,10 +1,6 @@
 #include "Scene.hpp"
 
-#include "Components/FreeCamera.hpp"
-#include "Components/RenderableCube.hpp"
-#include "Components/RenderablePlane.hpp"
-#include "Components/Renderable.hpp"
-#include "Components/Lighting.hpp"
+#include "Components/ComponentClasses.cpp"
 
 namespace Flow {
 
@@ -53,10 +49,14 @@ namespace Flow {
 		plane->AddComponent<RenderablePlane>(plane, new Plane(metalFloorTexture));
 		AddToScene(plane);
 
-		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 45.0f, 0.0f), Vec3(3.0f));
+		GameObject* firstCube = new GameObject(Vec3(0.0f, 3.5f, -1.0f), Vec3(0.0f, 45.0f, 0.0f), Vec3(3.0f));
 		firstCube->AddComponent<RenderableCube>(firstCube, new Cube(brickTexture));
+		firstCube->AddComponent<Rotatable>(firstCube);
 		AddToScene(firstCube);
-		firstCube->GetTransform()->Rotate(Vec3(0.0f, 1.0f, 0.0f), -45.0f);
+
+		GameObject* nose = new GameObject(Vec3(0.0f, 0.0f, 1.0f), Vec3(0.0f), Vec3(0.1f, 0.1f, 1.0f));
+		nose->AddComponent<RenderableCube>(nose, new Cube(brickTexture));
+		firstCube->AddChild(nose);
 
 		GameObject* grass1 = new GameObject(Vec3(-1.0f, 0.5f, 0.51f));
 		grass1->AddComponent<RenderablePlane>(grass1, new Plane(grassTexture));
@@ -79,7 +79,7 @@ namespace Flow {
 		thirdCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
 		AddToScene(thirdCube);
 		thirdCube->GetTransform()->Rotate(Vec3(1.0f, 0.0f, 0.0f), -45.0f);
-
+		/*
 		Model* treeModel = new Model("resources/models/Tree/Tree.obj");
 		GameObject* tree = new GameObject(Vec3(0.0f, 3.0f, 0.0f));
 		tree->GetTransform()->SetScale(Vec3(0.2f));
@@ -126,18 +126,19 @@ namespace Flow {
 		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
 		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
 		AddPointLight(&cubeLamp->GetComponent<PointLight>());
-		AddToScene(cubeLamp);
+		AddToScene(cubeLamp);*/
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 		
+		/*
 		Model* swordModel = new Model("resources/models/sword/Sword.obj");
-		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(-90.0f, 0.0f, 0.0f));
+		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 0.0f, 0.0f));
 		sword->GetTransform()->SetScale(Vec3(0.05f));
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
-		m_MainCamera->AddChild(sword);
+		m_MainCamera->AddChild(sword);*/
 
 		// flash light for the camera		
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,

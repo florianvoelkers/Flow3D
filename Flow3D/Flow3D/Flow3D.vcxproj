@@ -519,6 +519,7 @@
     <ClInclude Include="src\Flow3D\Components\Renderable.hpp" />
     <ClInclude Include="src\Flow3D\Components\RenderableCube.hpp" />
     <ClInclude Include="src\Flow3D\Components\RenderablePlane.hpp" />
+    <ClInclude Include="src\Flow3D\Components\Rotatable.hpp" />
     <ClInclude Include="src\Flow3D\Core.hpp" />
     <ClInclude Include="src\Flow3D\EntryPoint.hpp" />
     <ClInclude Include="src\Flow3D\Events\ApplicationEvent.hpp" />

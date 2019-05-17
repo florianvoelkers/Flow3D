@@ -421,12 +421,17 @@ namespace Flow {
 
 		Quaternion operator*(const Quaternion& r)
 		{
+			/*
 			const float _w = w * r.w - x * r.x - y * r.y - z * r.z;
 			const float _x = x * r.w + w * r.x + y * r.z - z * r.y;
 			const float _y = y * r.w + w * r.y + z * r.x - x * r.z;
 			const float _z = z * r.w + w * r.z + x * r.y - y * r.x;
 
-			return Quaternion(_x, _y, _z, _w);
+			return Quaternion(_x, _y, _z, _w);*/
+			glm::quat other = glm::quat(r.w, r.x, r.y, r.z);
+			glm::quat thisOne = glm::quat(w, x, y, z);
+			glm::quat result = thisOne * other;
+			return Quaternion(result);
 		}
 
 		Quaternion operator*(const Vec3& v)

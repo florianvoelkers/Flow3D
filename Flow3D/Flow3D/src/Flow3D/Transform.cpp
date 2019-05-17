@@ -2,6 +2,12 @@
 
 #include "Log.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+
 namespace Flow {
 
 	Transform::Transform(const Vec3& position, const Vec3& rotation, const Vec3& scale)
@@ -31,19 +37,13 @@ namespace Flow {
 	{
 		m_RotationQuaternion = Quaternion(m_RotationQuaternion * rotation).Normalize();
 		m_Rotation = m_RotationQuaternion.ToEulerAngles();
+		FLOW_CORE_INFO("rotation in euler is {0}", m_Rotation.ToString());
 		UpdateVectors();
 	}
 
-	void Transform::SetRotation(const Vec3& newRotation)
+	glm::mat4 Transform::GetTransformation() const
 	{
-		m_Rotation.z = newRotation.z;
-		m_Rotation.y = newRotation.y;
-		m_RotationQuaternion = Quaternion(newRotation);
-		UpdateVectors();
-	}
-
-	Mat4 Transform::GetTransformation() const
-	{
+		/*
 		Mat4 translationMatrix = Mat4();
 		translationMatrix.Translate(m_Position);
 
@@ -53,6 +53,15 @@ namespace Flow {
 		Mat4 rotationMatrix = m_RotationQuaternion.ToRotationMatrix();
 
 		Mat4 result = translationMatrix * rotationMatrix * scaleMatrix;
+		if (m_Parent != nullptr)
+			result = m_Parent->GetTransformation() * result;*/
+
+		glm::mat4 translationMatrix = glm::mat4();
+		translationMatrix = glm::translate(translationMatrix, glm::vec3(m_Position.x, m_Position.y, m_Position.z));
+		glm::mat4 rotationMatrix = glm::toMat4(glm::quat(m_RotationQuaternion.w, m_RotationQuaternion.x, m_RotationQuaternion.y, m_RotationQuaternion.z));
+		glm::mat4 scaleMatrix = glm::scale(glm::mat4(), glm::vec3(m_Scale.x, m_Scale.y, m_Scale.z));
+
+		glm::mat4 result = translationMatrix * rotationMatrix * scaleMatrix;
 		if (m_Parent != nullptr)
 			result = m_Parent->GetTransformation() * result;
 
