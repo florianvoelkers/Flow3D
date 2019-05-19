@@ -5,11 +5,15 @@
 #include "Flow3D/Window.hpp"
 #include "Flow3D/Input.hpp"
 
+#include "Flow3D/Log.hpp"
+
 namespace Flow {
 
+	static const float PI = 3.1415926f;
+
 	// TODO: should be able to set these somewhere
-	const float SPEED = 2.5f;
-	const float SENSITIVITY = 0.1f;
+	const float SPEED = 5.0f;
+	const float SENSITIVITY = 0.01f;
 	const float ZOOM = 45.0f;
 
 	// Constructor: FreeCamera(GameObject* gameObject, const Window& window)
@@ -29,6 +33,9 @@ namespace Flow {
 			m_MouseSensitivity = SENSITIVITY;
 			m_Zoom = ZOOM;
 
+			m_Right = Vec3(1.0f, 0.0f, 0.0f);
+			m_Front = Vec3(0.0f, 0.0f, -1.0f);
+
 			// make sure that the camera can't be moved
 			firstMouse = true;
 			// center the mouse position
@@ -47,23 +54,19 @@ namespace Flow {
 
 			if (m_Input.GetKey(Keycode::W))
 			{
-				Vec3 front = GetTransform()->GetFrontVector();
-				GetTransform()->Translate(front * velocity);
+				GetTransform()->Translate(m_Front * velocity);
 			}
 			if (m_Input.GetKey(Keycode::S))
 			{
-				Vec3 front = GetTransform()->GetFrontVector();
-				GetTransform()->Translate(front * velocity * -1.0f);
+				GetTransform()->Translate(m_Front * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::D))
 			{
-				Vec3 right = GetTransform()->GetRightVector();
-				GetTransform()->Translate(right * velocity);
+				GetTransform()->Translate(m_Right * velocity);
 			}
 			if (m_Input.GetKey(Keycode::A))
 			{
-				Vec3 right = GetTransform()->GetRightVector();
-				GetTransform()->Translate(right * velocity * -1.0f);
+				GetTransform()->Translate(m_Right * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::PageUp))
 			{
@@ -74,6 +77,23 @@ namespace Flow {
 			{
 				Vec3 up = GetTransform()->GetUpVector();
 				GetTransform()->Translate(up * velocity * -1.0f);
+			}
+
+			if (m_Input.GetKey(Keycode::J))
+			{
+				Look(0.0f, 0.01f);
+			}
+			if (m_Input.GetKey(Keycode::K))
+			{
+				Look(0.01f, 0.0f);
+			}
+			if (m_Input.GetKey(Keycode::U))
+			{
+				Look(0.0f, -0.01f);
+			}
+			if (m_Input.GetKey(Keycode::I))
+			{
+				Look(-0.01f, 0.0f);
 			}
 		}
 
@@ -86,9 +106,15 @@ namespace Flow {
 
 		Mat4 GetViewMatrix() 
 		{ 
+			Vec3 position = GetTransform()->GetPosition();
+			Quaternion orientationQuat = GetTransform()->GetOrientation();
+			glm::quat orientation = glm::quat(orientationQuat.w, orientationQuat.x, orientationQuat.y, orientationQuat.z);
+			glm::mat4 view = glm::rotate(glm::mat4{}, m_Pitch, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::mat4_cast(orientation) * glm::translate(glm::mat4(), glm::vec3(-1 * position.x, -1 * position.y, -1 * position.z));
+			return Mat4(view);
+			/*
 			Vec3 center = GetTransform()->GetPosition();
 			center += GetTransform()->GetFrontVector();
-			return Mat4::LookAt(GetTransform()->GetPosition(), center, GetTransform()->GetUpVector());
+			return Mat4::LookAt(GetTransform()->GetPosition(), center, GetTransform()->GetUpVector());*/
 		}
 		float GetZoom() { return m_Zoom; }
 
@@ -96,6 +122,12 @@ namespace Flow {
 		const Window& m_Window;
 		bool firstMouse = true;
 		Vec2 lastMouse;
+
+		Vec3 m_Front;
+		Vec3 m_Right;
+		Vec3 m_Up;
+
+		float m_Pitch;
 
 		float m_MovementSpeed;
 		float m_MouseSensitivity;
@@ -124,10 +156,29 @@ namespace Flow {
 			xOffset *= m_MouseSensitivity;
 			yOffset *= m_MouseSensitivity;
 
-			GetTransform()->Rotate(Vec3(0.0, 0.0f, 1.0f), xOffset);
-			GetTransform()->Rotate(Vec3(0.0, 1.0f, 0.0f), yOffset);
+			Look(xOffset, yOffset);
 
 			return false;
+		}
+
+		// adapted from: https://community.khronos.org/t/how-to-limit-x-axis-rotation/75515/11
+		void Look(float xOffset, float yOffset) {
+			glm::quat yaw = glm::quat(glm::vec3(0.0f, xOffset, 0.0f));
+
+			Quaternion orientationQuat = GetTransform()->GetOrientation();
+			glm::quat orientation = glm::quat(orientationQuat.w, orientationQuat.x, orientationQuat.y, orientationQuat.z);
+			m_Front = Vec3(glm::vec3(0.0f, 0.0f, -1.0f) * orientation);
+			m_Right = Vec3(glm::vec3(1.0f, 0.0f, 0.0f) * orientation);
+
+			orientation = orientation * yaw;
+			GetTransform()->SetOrientation(orientation);
+
+			m_Pitch -= yOffset;
+
+			if (m_Pitch > PI / 2)
+				m_Pitch = PI / 2;
+			else if (m_Pitch < -PI / 2)
+				m_Pitch = -PI / 2;
 		}
 	};
 }

@@ -11,9 +11,8 @@ namespace Flow {
 		m_Root = new GameObject();
 
 		// The main camera is used for rendering purposes.
-		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, -90.0f));
+		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
 		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera, *m_Window);
-		m_MainCamera->GetTransform()->Rotate(Vec3(0.0f, 0.0f, 1.0f), 0.0f);
 		AddToScene(m_MainCamera);
 	}
 
@@ -44,14 +43,15 @@ namespace Flow {
 
 		Shader* modelShader = new Shader("resources/shader/Standard.vert", "resources/shader/Standard.frag");
 		
+		
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
 		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
 		plane->AddComponent<RenderablePlane>(plane, new Plane(metalFloorTexture));
 		AddToScene(plane);
 
-		GameObject* firstCube = new GameObject(Vec3(0.0f, 3.5f, -1.0f), Vec3(0.0f, 45.0f, 0.0f), Vec3(3.0f));
+		GameObject* firstCube = new GameObject(Vec3(0.0f, 3.5f, -1.0f), Vec3(0.0f, -90.0f, 0.0f), Vec3(3.0f));
 		firstCube->AddComponent<RenderableCube>(firstCube, new Cube(brickTexture));
-		firstCube->AddComponent<Rotatable>(firstCube);
+		//firstCube->AddComponent<Rotatable>(firstCube);
 		AddToScene(firstCube);
 
 		GameObject* nose = new GameObject(Vec3(0.0f, 0.0f, 1.0f), Vec3(0.0f), Vec3(0.1f, 0.1f, 1.0f));
@@ -79,7 +79,7 @@ namespace Flow {
 		thirdCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
 		AddToScene(thirdCube);
 		thirdCube->GetTransform()->Rotate(Vec3(1.0f, 0.0f, 0.0f), -45.0f);
-		/*
+
 		Model* treeModel = new Model("resources/models/Tree/Tree.obj");
 		GameObject* tree = new GameObject(Vec3(0.0f, 3.0f, 0.0f));
 		tree->GetTransform()->SetScale(Vec3(0.2f));
@@ -126,19 +126,19 @@ namespace Flow {
 		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
 		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
 		AddPointLight(&cubeLamp->GetComponent<PointLight>());
-		AddToScene(cubeLamp);*/
+		AddToScene(cubeLamp);
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 		
-		/*
 		Model* swordModel = new Model("resources/models/sword/Sword.obj");
 		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 0.0f, 0.0f));
 		sword->GetTransform()->SetScale(Vec3(0.05f));
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
-		m_MainCamera->AddChild(sword);*/
+		m_MainCamera->AddChild(sword);
+		sword->GetTransform()->SetParentIsCamera(true);
 
 		// flash light for the camera		
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,

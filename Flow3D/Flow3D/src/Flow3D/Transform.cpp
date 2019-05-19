@@ -14,7 +14,8 @@ namespace Flow {
 		: m_Position(position), m_Rotation(rotation), m_Scale(scale)
 	{
 		m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
-		m_RotationQuaternion = Quaternion(m_Rotation);
+		m_Orientation = Quaternion(m_Rotation);
+		m_ParentIsCamera = false;
 
 		UpdateVectors();
 	}
@@ -35,9 +36,15 @@ namespace Flow {
 
 	void Transform::Rotate(const Quaternion& rotation)
 	{
-		m_RotationQuaternion = Quaternion(m_RotationQuaternion * rotation).Normalize();
-		m_Rotation = m_RotationQuaternion.ToEulerAngles();
-		FLOW_CORE_INFO("rotation in euler is {0}", m_Rotation.ToString());
+		m_Orientation = Quaternion(m_Orientation * rotation).Normalize();
+		m_Rotation = m_Orientation.ToEulerAngles();
+		UpdateVectors();
+	}
+
+	void Transform::SetOrientation(const Quaternion & orientation)
+	{
+		m_Orientation = orientation;
+		m_Rotation = m_Orientation.ToEulerAngles();
 		UpdateVectors();
 	}
 
@@ -58,12 +65,12 @@ namespace Flow {
 
 		glm::mat4 translationMatrix = glm::mat4();
 		translationMatrix = glm::translate(translationMatrix, glm::vec3(m_Position.x, m_Position.y, m_Position.z));
-		glm::mat4 rotationMatrix = glm::toMat4(glm::quat(m_RotationQuaternion.w, m_RotationQuaternion.x, m_RotationQuaternion.y, m_RotationQuaternion.z));
+		glm::mat4 rotationMatrix = glm::toMat4(glm::quat(m_Orientation.w, m_Orientation.x, m_Orientation.y, m_Orientation.z));
 		glm::mat4 scaleMatrix = glm::scale(glm::mat4(), glm::vec3(m_Scale.x, m_Scale.y, m_Scale.z));
 
 		glm::mat4 result = translationMatrix * rotationMatrix * scaleMatrix;
-		if (m_Parent != nullptr)
-			result = m_Parent->GetTransformation() * result;
+		if (m_Parent != nullptr) 
+			result = m_Parent->GetTransformation() * result;		
 
 		return result;
 	}
@@ -90,6 +97,11 @@ namespace Flow {
 		return rotation;
 	}
 
+	const Quaternion Transform::GetOrientation() const
+	{
+		return m_Orientation;
+	}
+
 	const Vec3 Transform::GetScale() const
 	{
 		Vec3 scale = Vec3(1.0f);
@@ -111,9 +123,9 @@ namespace Flow {
 	void Transform::UpdateVectors()
 	{
 		Vec3 front;
-		front.x = Math::Cos(m_Rotation.z) * Math::Cos(m_Rotation.y);
-		front.y = Math::Sin(m_Rotation.y);
-		front.z = Math::Sin(m_Rotation.z) * Math::Cos(m_Rotation.y);
+		front.x = Math::Cos(m_Rotation.y) * Math::Cos(m_Rotation.z);
+		front.y = Math::Sin(m_Rotation.z);
+		front.z = Math::Sin(m_Rotation.y) * Math::Cos(m_Rotation.z);
 		m_Front = front.Normalize();
 		m_Right = Vec3::Cross(m_Front, m_WorldUp).Normalize();
 		m_Up = Vec3::Cross(m_Right, m_Front).Normalize();

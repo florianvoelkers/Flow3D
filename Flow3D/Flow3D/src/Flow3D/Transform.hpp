@@ -20,7 +20,7 @@ namespace Flow {
 
 		bool HasChanged(); // return true if something has changed to inform children
 		
-
+		6
 		
 		void LookAt(const Vec3& point, const Vec3 up);
 		*/
@@ -28,28 +28,30 @@ namespace Flow {
 		void Translate(const Vec3& translation); 
 		void Rotate(const Vec3& axis, float angle);
 		void Rotate(const Quaternion& rotation);
+		void SetOrientation(const Quaternion& orientation);
 
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
 		inline void SetParent(Transform* parent) { m_Parent = parent; }
+		inline void SetParentIsCamera(bool parentIsCamera) { m_ParentIsCamera = parentIsCamera; }
 
 		inline const Vec3 GetFrontVector() const { return m_Front; }
 		inline const Vec3 GetUpVector() const { return m_Up; }
 		inline const Vec3 GetRightVector() const { return m_Right; }
-
-		inline const float GetYaw() const { return m_Rotation.z; }
-		inline const float GetPitch() const { return m_Rotation.y; }
-
+		inline const bool GetParentIsCamera() const { return m_ParentIsCamera; }
+		
 		glm::mat4 GetTransformation() const;
 		const Vec3 GetPosition() const;
 		const Vec3 GetRotation() const;
+		const Quaternion GetOrientation() const;
 		const Vec3 GetScale() const;		
 
 	private:
 		Transform* m_Parent;
+		bool m_ParentIsCamera;
 		Vec3 m_Position;
 		Vec3 m_Rotation; // TODO: make rotation a quaternion maybe
-		Quaternion m_RotationQuaternion;
+		Quaternion m_Orientation;
 		Vec3 m_Scale;
 
 		Vec3 m_Front;
