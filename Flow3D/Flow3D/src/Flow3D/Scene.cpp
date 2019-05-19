@@ -12,6 +12,7 @@ namespace Flow {
 
 		// The main camera is used for rendering purposes.
 		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
+		m_MainCamera->GetTransform()->SetIsCamera(true);
 		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera, *m_Window);
 		AddToScene(m_MainCamera);
 	}
@@ -138,7 +139,6 @@ namespace Flow {
 		sword->GetTransform()->SetScale(Vec3(0.05f));
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
 		m_MainCamera->AddChild(sword);
-		sword->GetTransform()->SetParentIsCamera(true);
 
 		// flash light for the camera		
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,

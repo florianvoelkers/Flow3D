@@ -33,12 +33,12 @@ namespace Flow {
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
 		inline void SetParent(Transform* parent) { m_Parent = parent; }
-		inline void SetParentIsCamera(bool parentIsCamera) { m_ParentIsCamera = parentIsCamera; }
+		inline void SetIsCamera(bool isCamera) { m_IsCamera = isCamera; }
 
 		inline const Vec3 GetFrontVector() const { return m_Front; }
 		inline const Vec3 GetUpVector() const { return m_Up; }
 		inline const Vec3 GetRightVector() const { return m_Right; }
-		inline const bool GetParentIsCamera() const { return m_ParentIsCamera; }
+		inline const bool GetIsCamera() const { return m_IsCamera; }
 		
 		glm::mat4 GetTransformation() const;
 		const Vec3 GetPosition() const;
@@ -48,7 +48,7 @@ namespace Flow {
 
 	private:
 		Transform* m_Parent;
-		bool m_ParentIsCamera;
+		bool m_IsCamera;
 		Vec3 m_Position;
 		Vec3 m_Rotation; // TODO: make rotation a quaternion maybe
 		Quaternion m_Orientation;

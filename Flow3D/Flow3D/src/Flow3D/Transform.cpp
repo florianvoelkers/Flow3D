@@ -15,7 +15,7 @@ namespace Flow {
 	{
 		m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
 		m_Orientation = Quaternion(m_Rotation);
-		m_ParentIsCamera = false;
+		m_IsCamera = false;
 
 		UpdateVectors();
 	}
@@ -65,7 +65,13 @@ namespace Flow {
 
 		glm::mat4 translationMatrix = glm::mat4();
 		translationMatrix = glm::translate(translationMatrix, glm::vec3(m_Position.x, m_Position.y, m_Position.z));
-		glm::mat4 rotationMatrix = glm::toMat4(glm::quat(m_Orientation.w, m_Orientation.x, m_Orientation.y, m_Orientation.z));
+		glm::mat4 rotationMatrix;
+		if (m_IsCamera)
+		{
+			rotationMatrix = glm::toMat4(glm::quat(m_Orientation.w, -1 * m_Orientation.x, -1 * m_Orientation.y, -1 * m_Orientation.z));
+		}
+		else
+		rotationMatrix = glm::toMat4(glm::quat(m_Orientation.w, m_Orientation.x, m_Orientation.y, m_Orientation.z));
 		glm::mat4 scaleMatrix = glm::scale(glm::mat4(), glm::vec3(m_Scale.x, m_Scale.y, m_Scale.z));
 
 		glm::mat4 result = translationMatrix * rotationMatrix * scaleMatrix;
