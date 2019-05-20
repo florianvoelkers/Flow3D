@@ -79,6 +79,7 @@ namespace Flow {
 				GetTransform()->Translate(up * velocity * -1.0f);
 			}
 
+			/*
 			if (m_Input.GetKey(Keycode::J))
 			{
 				Look(0.0f, 0.01f);
@@ -95,6 +96,7 @@ namespace Flow {
 			{
 				Look(-0.01f, 0.0f);
 			}
+			*/
 		}
 
 		virtual void OnEvent(Event& event) override
@@ -106,15 +108,8 @@ namespace Flow {
 
 		Mat4 GetViewMatrix() 
 		{ 
-			Vec3 position = GetTransform()->GetPosition();
-			Quaternion orientationQuat = GetTransform()->GetOrientation();
-			glm::quat orientation = glm::quat(orientationQuat.w, orientationQuat.x, orientationQuat.y, orientationQuat.z);
-			glm::mat4 view = glm::rotate(glm::mat4{}, m_Pitch, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::mat4_cast(orientation) * glm::translate(glm::mat4(), glm::vec3(-1 * position.x, -1 * position.y, -1 * position.z));
-			return Mat4(view);
-			/*
-			Vec3 center = GetTransform()->GetPosition();
-			center += GetTransform()->GetFrontVector();
-			return Mat4::LookAt(GetTransform()->GetPosition(), center, GetTransform()->GetUpVector());*/
+			Mat4 view = Quaternion::CalculateView(m_Pitch, GetTransform()->GetOrientation(), GetTransform()->GetWorldPosition());
+			return view;
 		}
 		float GetZoom() { return m_Zoom; }
 

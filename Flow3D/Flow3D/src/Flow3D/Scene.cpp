@@ -50,12 +50,11 @@ namespace Flow {
 		plane->AddComponent<RenderablePlane>(plane, new Plane(metalFloorTexture));
 		AddToScene(plane);
 
-		GameObject* firstCube = new GameObject(Vec3(0.0f, 3.5f, -1.0f), Vec3(0.0f, -90.0f, 0.0f), Vec3(3.0f));
+		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
 		firstCube->AddComponent<RenderableCube>(firstCube, new Cube(brickTexture));
-		//firstCube->AddComponent<Rotatable>(firstCube);
 		AddToScene(firstCube);
 
-		GameObject* nose = new GameObject(Vec3(0.0f, 0.0f, 1.0f), Vec3(0.0f), Vec3(0.1f, 0.1f, 1.0f));
+		GameObject* nose = new GameObject(Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
 		nose->AddComponent<RenderableCube>(nose, new Cube(brickTexture));
 		firstCube->AddChild(nose);
 
@@ -71,15 +70,14 @@ namespace Flow {
 		grass1->AddComponent<RenderablePlane>(grass3, new Plane(grassTexture));
 		AddToScene(grass3);
 
-		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 25.0f));
+		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
 		secondCube->AddComponent<RenderableCube>(secondCube, new Cube(containerTexture));
 		AddToScene(secondCube);
 		secondCube->GetTransform()->Rotate(Vec3(0.0f, 0.0f, 1.0f), 20.0f);
 
-		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f), Vec3(45.0f, 0.0f, 0.0f));
+		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
 		thirdCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
 		AddToScene(thirdCube);
-		thirdCube->GetTransform()->Rotate(Vec3(1.0f, 0.0f, 0.0f), -45.0f);
 
 		Model* treeModel = new Model("resources/models/Tree/Tree.obj");
 		GameObject* tree = new GameObject(Vec3(0.0f, 3.0f, 0.0f));
@@ -91,6 +89,7 @@ namespace Flow {
 		GameObject* oldMan = new GameObject(Vec3(0.0f, 0.0f, 2.0f));
 		oldMan->GetTransform()->SetScale(Vec3(0.01f));
 		oldMan->AddComponent<Renderable>(oldMan, oldManModel, modelShader, false);
+		oldMan->AddComponent<Rotatable>(oldMan);
 		AddToScene(oldMan);
 
 		GameObject* spotLight = new GameObject(Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
@@ -135,7 +134,7 @@ namespace Flow {
 		AddToScene(sun);
 		
 		Model* swordModel = new Model("resources/models/sword/Sword.obj");
-		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 0.0f, 0.0f));
+		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
 		sword->GetTransform()->SetScale(Vec3(0.05f));
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
 		m_MainCamera->AddChild(sword);

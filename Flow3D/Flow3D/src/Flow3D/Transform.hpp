@@ -14,16 +14,6 @@ namespace Flow {
 		// Creates a Transform with default values for positon, rotation and scale
 		Transform(const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f));
 		~Transform();
-
-		// TODO: Useful functions
-		/*
-
-		bool HasChanged(); // return true if something has changed to inform children
-		
-		6
-		
-		void LookAt(const Vec3& point, const Vec3 up);
-		*/
 		
 		void Translate(const Vec3& translation); 
 		void Rotate(const Vec3& axis, float angle);
@@ -39,18 +29,22 @@ namespace Flow {
 		inline const Vec3 GetUpVector() const { return m_Up; }
 		inline const Vec3 GetRightVector() const { return m_Right; }
 		inline const bool GetIsCamera() const { return m_IsCamera; }
+
+		inline const Vec3 GetPosition() const { return m_Position; }
+		inline const Vec3 GetRotation() const { return m_Rotation; }
+		inline const Vec3 GetScale() const { return m_Scale; }
 		
-		glm::mat4 GetTransformation() const;
-		const Vec3 GetPosition() const;
-		const Vec3 GetRotation() const;
+		Mat4 GetTransformation() const;
+		const Vec3 GetWorldPosition() const;
+		const Vec3 GetWorldRotation() const;
 		const Quaternion GetOrientation() const;
-		const Vec3 GetScale() const;		
+		const Vec3 GetWorldScale() const;		
 
 	private:
 		Transform* m_Parent;
 		bool m_IsCamera;
 		Vec3 m_Position;
-		Vec3 m_Rotation; // TODO: make rotation a quaternion maybe
+		Vec3 m_Rotation; 
 		Quaternion m_Orientation;
 		Vec3 m_Scale;
 

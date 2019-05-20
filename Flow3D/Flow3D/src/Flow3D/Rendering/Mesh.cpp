@@ -68,7 +68,7 @@ namespace Flow {
 
 		// draw mesh
 		glBindVertexArray(m_VAO);
-		glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, (GLsizei)m_Indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		// good practice to set everytghing back to defaults once configured

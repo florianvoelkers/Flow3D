@@ -1,9 +1,11 @@
 #pragma once
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
-#include "glm/gtx/string_cast.hpp"
-#include "glm/gtc/quaternion.hpp"
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtx/string_cast.hpp>
+#include <glm/gtx/transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 #include <iostream>
 
@@ -245,6 +247,8 @@ namespace Flow {
 		glm::mat3 mat;
 	};
 
+	class Quaternion;
+
 	class Mat4 {
 
 	public:
@@ -340,15 +344,10 @@ namespace Flow {
 			return Vec3(eulerAngles);
 		}
 
-		Mat4 ToRotationMatrix() const
+		Mat4 ToMat4() const
 		{
-			Vec3 forward = Vec3(2.0f * (x * z - w * y), 2.0f * (y * z + w * x), 1.0f - 2.0f * (x * x + y * y));
-			Vec3 up = Vec3(2.0f * (x * y + w * z), 1.0f - 2.0f * (x * x + z * z), 2.0f * (y * z - w * x));
-			Vec3 right = Vec3(1.0f - 2.0f * (y * y + z * z), 2.0f * (x * y - w * z), 2.0f * (x * z + w * y));
-
-			Mat4 matrix = Mat4();
-			matrix.InitRotationFromVectors(forward, up, right);
-			return matrix;
+			Mat4 asMatrix = Mat4(glm::toMat4(glm::quat(w, x, y, z)));
+			return asMatrix;
 		}
 
 		Quaternion Normalize()
@@ -421,27 +420,22 @@ namespace Flow {
 
 		Quaternion operator*(const Quaternion& r)
 		{
-			/*
-			const float _w = w * r.w - x * r.x - y * r.y - z * r.z;
-			const float _x = x * r.w + w * r.x + y * r.z - z * r.y;
-			const float _y = y * r.w + w * r.y + z * r.x - x * r.z;
-			const float _z = z * r.w + w * r.z + x * r.y - y * r.x;
-
-			return Quaternion(_x, _y, _z, _w);*/
 			glm::quat other = glm::quat(r.w, r.x, r.y, r.z);
 			glm::quat thisOne = glm::quat(w, x, y, z);
 			glm::quat result = thisOne * other;
 			return Quaternion(result);
 		}
 
-		Quaternion operator*(const Vec3& v)
+		Quaternion operator*(const Vec3& r)
 		{
-			const float _w = -1 * (x * v.x - y * v.y - z * v.z);
-			const float _x =	   w * v.x + y * v.z - z * v.y;
-			const float _y =	   w * v.y + z * v.x - x * v.z;
-			const float _z =	   w * v.z + x * v.y - y * v.x;
+			glm::quat result = glm::quat(w, x, y, z) * glm::vec3(r.x, r.y, r.z);
+			return Quaternion(result);
+		}
 
-			return Quaternion(_x, _y, _z, _w);
+		Vec3 Multiply(const Vec3& r)
+		{
+			glm::vec3 result = glm::vec3(r.x, r.y, r.z) * glm::quat(w, x, y, z);
+			return Vec3(result);
 		}
 
 		std::string ToString()
@@ -452,6 +446,14 @@ namespace Flow {
 		std::string ToString() const
 		{
 			return glm::to_string(glm::quat(w, x, y, z));
+		}
+
+		// adapted from: https://community.khronos.org/t/how-to-limit-x-axis-rotation/75515/11
+		static Mat4 CalculateView(float pitch, Quaternion orientation, Vec3 position)
+		{
+			glm::mat4 view = glm::rotate(glm::mat4{}, pitch, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::mat4_cast(glm::quat(orientation.w, orientation.x, orientation.y, orientation.z)) *
+				glm::translate(glm::mat4(), glm::vec3(-1 * position.x, -1 * position.y, -1 * position.z));
+			return Mat4(view);
 		}
 
 		float x, y, z, w;
