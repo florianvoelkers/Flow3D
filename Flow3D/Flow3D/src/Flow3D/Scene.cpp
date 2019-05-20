@@ -12,7 +12,6 @@ namespace Flow {
 
 		// The main camera is used for rendering purposes.
 		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
-		m_MainCamera->GetTransform()->SetIsCamera(true);
 		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera, *m_Window);
 		AddToScene(m_MainCamera);
 	}
@@ -73,7 +72,6 @@ namespace Flow {
 		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
 		secondCube->AddComponent<RenderableCube>(secondCube, new Cube(containerTexture));
 		AddToScene(secondCube);
-		secondCube->GetTransform()->Rotate(Vec3(0.0f, 0.0f, 1.0f), 20.0f);
 
 		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
 		thirdCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
@@ -122,6 +120,14 @@ namespace Flow {
 		house2->AddComponent<Renderable>(house2, houseModel2, modelShader, false);
 		AddToScene(house2);
 
+		GameObject* rotatingSpotlight = new GameObject(Vec3(5.0f, 2.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f), Vec3(0.05f, 0.05f, 0.5f));
+		rotatingSpotlight->AddComponent<RenderableCube>(rotatingSpotlight, new Cube(0.0f, 1.0f, 0.0f));
+		rotatingSpotlight->AddComponent<Rotatable>(rotatingSpotlight);
+		rotatingSpotlight->AddComponent<SpotLight>(rotatingSpotlight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
+			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
+		AddSpotLight(&rotatingSpotlight->GetComponent<SpotLight>());
+		AddToScene(rotatingSpotlight);
+
 		GameObject* cubeLamp = new GameObject(Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
 		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
 		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
@@ -139,7 +145,8 @@ namespace Flow {
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
 		m_MainCamera->AddChild(sword);
 
-		// flash light for the camera		
+		// flash light for the camera	
+		FLOW_CORE_INFO("spot light for the camera");
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());

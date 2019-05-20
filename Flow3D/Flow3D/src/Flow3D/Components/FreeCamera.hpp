@@ -33,8 +33,7 @@ namespace Flow {
 			m_MouseSensitivity = SENSITIVITY;
 			m_Zoom = ZOOM;
 
-			m_Right = Vec3(1.0f, 0.0f, 0.0f);
-			m_Front = Vec3(0.0f, 0.0f, -1.0f);
+			GetTransform()->SetIsCamera(true);
 
 			// make sure that the camera can't be moved
 			firstMouse = true;
@@ -54,19 +53,23 @@ namespace Flow {
 
 			if (m_Input.GetKey(Keycode::W))
 			{
-				GetTransform()->Translate(m_Front * velocity);
+				Vec3 front = GetTransform()->GetFrontVector();
+				GetTransform()->Translate(front * velocity);
 			}
 			if (m_Input.GetKey(Keycode::S))
 			{
-				GetTransform()->Translate(m_Front * velocity * -1.0f);
+				Vec3 front = GetTransform()->GetFrontVector();
+				GetTransform()->Translate(front * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::D))
 			{
-				GetTransform()->Translate(m_Right * velocity);
+				Vec3 right = GetTransform()->GetRightVector();
+				GetTransform()->Translate(right * velocity);
 			}
 			if (m_Input.GetKey(Keycode::A))
 			{
-				GetTransform()->Translate(m_Right * velocity * -1.0f);
+				Vec3 right = GetTransform()->GetRightVector();
+				GetTransform()->Translate(right * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::PageUp))
 			{
@@ -118,10 +121,6 @@ namespace Flow {
 		bool firstMouse = true;
 		Vec2 lastMouse;
 
-		Vec3 m_Front;
-		Vec3 m_Right;
-		Vec3 m_Up;
-
 		float m_Pitch;
 
 		float m_MovementSpeed;
@@ -162,9 +161,6 @@ namespace Flow {
 
 			Quaternion orientationQuat = GetTransform()->GetOrientation();
 			glm::quat orientation = glm::quat(orientationQuat.w, orientationQuat.x, orientationQuat.y, orientationQuat.z);
-			m_Front = Vec3(glm::vec3(0.0f, 0.0f, -1.0f) * orientation);
-			m_Right = Vec3(glm::vec3(1.0f, 0.0f, 0.0f) * orientation);
-
 			orientation = orientation * yaw;
 			GetTransform()->SetOrientation(orientation);
 

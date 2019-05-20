@@ -130,6 +130,7 @@ namespace Flow {
 			{
 				direction -= GetTransform().GetFrontVector();
 			}
+
 			return direction; 
 		}
 		inline const float GetCutoff() const { return m_Cutoff; }

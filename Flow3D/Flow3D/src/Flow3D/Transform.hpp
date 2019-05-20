@@ -19,11 +19,14 @@ namespace Flow {
 		void Rotate(const Vec3& axis, float angle);
 		void Rotate(const Quaternion& rotation);
 		void SetOrientation(const Quaternion& orientation);
+		void SetIsCamera(bool isCamera); 
 
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
 		inline void SetParent(Transform* parent) { m_Parent = parent; }
-		inline void SetIsCamera(bool isCamera) { m_IsCamera = isCamera; }
+		inline void SetFrontVector(Vec3& front) { m_Front = front; }
+		inline void SetRightVector(Vec3& right) { m_Right = right; }
+		inline void SetUpVector(Vec3& up) { m_Up = up; }
 
 		inline const Vec3 GetFrontVector() const { return m_Front; }
 		inline const Vec3 GetUpVector() const { return m_Up; }
