@@ -17,7 +17,7 @@ namespace Flow {
 		
 		void Translate(const Vec3& translation); 
 		void Rotate(const Vec3& axis, float angle);
-		void Rotate(const Quaternion& rotation);
+		void Rotate(Quaternion& rotation);
 		void SetOrientation(const Quaternion& orientation);
 		void SetIsCamera(bool isCamera); 
 

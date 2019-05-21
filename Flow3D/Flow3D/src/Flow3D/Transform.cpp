@@ -25,12 +25,13 @@ namespace Flow {
 
 	void Transform::Rotate(const Vec3 & axis, float angle)
 	{
-		Rotate(Quaternion(axis, angle));
+		Quaternion quat = Quaternion(axis, angle);
+		Rotate(quat);
 	}
 
-	void Transform::Rotate(const Quaternion& rotation)
+	void Transform::Rotate(Quaternion& rotation)
 	{
-		m_Orientation = Quaternion(m_Orientation * rotation).Normalize();
+		m_Orientation = Quaternion(rotation * m_Orientation).Normalize();
 		m_Rotation = m_Orientation.ToEulerAngles();
 		UpdateVectors();
 	}
@@ -117,9 +118,8 @@ namespace Flow {
 
 	void Transform::UpdateVectors()
 	{
-		FLOW_CORE_INFO("rotation vector is {0}", m_Rotation.ToString());
-		glm::vec3 worldFront = glm::vec3(0.0f, 0.0f, 1.0f);
-		glm::vec3 worldRight = glm::vec3(-1.0f, 0.0f, 0.0f);
+		glm::vec3 worldFront = glm::vec3(0.0f, 0.0f, -1.0f);
+		glm::vec3 worldRight = glm::vec3(1.0f, 0.0f, 0.0f);
 		if (m_IsCamera)
 		{
 			worldFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -130,8 +130,6 @@ namespace Flow {
 		m_Front = Vec3(worldFront * quat).Normalize();
 		m_Right = Vec3(worldRight * quat).Normalize();
 		m_Up = Vec3::Cross(m_Right, m_Front).Normalize();
-
-		FLOW_CORE_INFO("direction vectors are front {0}, right {1}, up {2}", m_Front.ToString(), m_Right.ToString(), m_Up.ToString());
 		
 	}
 }

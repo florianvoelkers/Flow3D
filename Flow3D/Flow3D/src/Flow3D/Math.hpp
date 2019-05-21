@@ -336,6 +336,7 @@ namespace Flow {
 			w = quat.w;
 		}
 
+		// Order is XYZ, e.g. flips to 180, -90, 180 from 0, -89, 0
 		Vec3 ToEulerAngles() const
 		{
 			glm::quat quat = glm::quat(w, x, y, z);

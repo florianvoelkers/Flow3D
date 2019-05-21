@@ -87,7 +87,6 @@ namespace Flow {
 		GameObject* oldMan = new GameObject(Vec3(0.0f, 0.0f, 2.0f));
 		oldMan->GetTransform()->SetScale(Vec3(0.01f));
 		oldMan->AddComponent<Renderable>(oldMan, oldManModel, modelShader, false);
-		oldMan->AddComponent<Rotatable>(oldMan);
 		AddToScene(oldMan);
 
 		GameObject* spotLight = new GameObject(Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
@@ -120,7 +119,7 @@ namespace Flow {
 		house2->AddComponent<Renderable>(house2, houseModel2, modelShader, false);
 		AddToScene(house2);
 
-		GameObject* rotatingSpotlight = new GameObject(Vec3(5.0f, 2.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f), Vec3(0.05f, 0.05f, 0.5f));
+		GameObject* rotatingSpotlight = new GameObject(Vec3(5.0f, 2.0f, 10.0f), Vec3(0.0f, 90.0f, 0.0f), Vec3(0.05f, 0.05f, 0.5f));
 		rotatingSpotlight->AddComponent<RenderableCube>(rotatingSpotlight, new Cube(0.0f, 1.0f, 0.0f));
 		rotatingSpotlight->AddComponent<Rotatable>(rotatingSpotlight);
 		rotatingSpotlight->AddComponent<SpotLight>(rotatingSpotlight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
@@ -145,11 +144,11 @@ namespace Flow {
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
 		m_MainCamera->AddChild(sword);
 
-		// flash light for the camera	
-		FLOW_CORE_INFO("spot light for the camera");
+		// flash light for the camera			
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
+		
 	}
 	 
 	void Scene::OnDetach()

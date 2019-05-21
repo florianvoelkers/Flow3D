@@ -13,7 +13,7 @@ namespace Flow {
 
 	// TODO: should be able to set these somewhere
 	const float SPEED = 5.0f;
-	const float SENSITIVITY = 0.01f;
+	const float SENSITIVITY = 0.1f;
 	const float ZOOM = 45.0f;
 
 	// Constructor: FreeCamera(GameObject* gameObject, const Window& window)
@@ -33,12 +33,19 @@ namespace Flow {
 			m_MouseSensitivity = SENSITIVITY;
 			m_Zoom = ZOOM;
 
+			m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
+
+			m_Yaw = -90.0f;
+			m_Pitch = 0.0f;
+
 			GetTransform()->SetIsCamera(true);
 
 			// make sure that the camera can't be moved
 			firstMouse = true;
 			// center the mouse position
 			lastMouse = Vec2((float)m_Window.GetWidth() / 2, (float)m_Window.GetHeight() / 2);
+
+			UpdateVectors();
 		}
 
 		~FreeCamera()
@@ -111,9 +118,10 @@ namespace Flow {
 
 		Mat4 GetViewMatrix() 
 		{ 
-			Mat4 view = Quaternion::CalculateView(m_Pitch, GetTransform()->GetOrientation(), GetTransform()->GetWorldPosition());
-			return view;
+			Vec3 position = GetTransform()->GetPosition();
+			return Mat4::LookAt(position, position + m_Front, m_Up);
 		}
+
 		float GetZoom() { return m_Zoom; }
 
 	private:
@@ -122,6 +130,13 @@ namespace Flow {
 		Vec2 lastMouse;
 
 		float m_Pitch;
+		float m_Yaw;
+		float adjustedYaw;
+
+		Vec3 m_WorldUp;
+		Vec3 m_Front;
+		Vec3 m_Right;
+		Vec3 m_Up;
 
 		float m_MovementSpeed;
 		float m_MouseSensitivity;
@@ -157,19 +172,39 @@ namespace Flow {
 
 		// adapted from: https://community.khronos.org/t/how-to-limit-x-axis-rotation/75515/11
 		void Look(float xOffset, float yOffset) {
-			glm::quat yaw = glm::quat(glm::vec3(0.0f, xOffset, 0.0f));
+			m_Yaw += xOffset;
+			m_Pitch += yOffset;
 
-			Quaternion orientationQuat = GetTransform()->GetOrientation();
-			glm::quat orientation = glm::quat(orientationQuat.w, orientationQuat.x, orientationQuat.y, orientationQuat.z);
-			orientation = orientation * yaw;
-			GetTransform()->SetOrientation(orientation);
+			if (m_Pitch > 89.0f)
+				m_Pitch = 89.0f;
+			if (m_Pitch < -89.0f)
+				m_Pitch = -89.0f;
 
-			m_Pitch -= yOffset;
+			if (m_Yaw < -450.0f)
+				m_Yaw = -90.0f;
+			if (m_Yaw >= 270.0f)
+				m_Yaw = -90.0f;
 
-			if (m_Pitch > PI / 2)
-				m_Pitch = PI / 2;
-			else if (m_Pitch < -PI / 2)
-				m_Pitch = -PI / 2;
+			UpdateVectors();
+		}
+
+		void UpdateVectors()
+		{
+			// Calculate the new Front vector
+			glm::vec3 front;
+			front.x = cos(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+			front.y = sin(glm::radians(m_Pitch));
+			front.z = sin(glm::radians(m_Yaw)) * cos(glm::radians(m_Pitch));
+			m_Front = Vec3(glm::normalize(front));
+			// Also re-calculate the Right and Up vector
+			m_Right = Vec3(glm::normalize(glm::cross(glm::vec3(m_Front.x, m_Front.y, m_Front.z), glm::vec3(m_WorldUp.x, m_WorldUp.y, m_WorldUp.z))));
+			// Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+			m_Up = glm::normalize(glm::cross(glm::vec3(m_Right.x, m_Right.y, m_Right.z), glm::vec3(m_Front.x, m_Front.y, m_Front.z)));
+
+			Vec3 rotationVector = Vec3(-1 * m_Pitch, m_Yaw + 90.0f, 0.0f);
+			
+			Quaternion rotation = Quaternion(rotationVector);
+			GetTransform()->SetOrientation(rotation);
 		}
 	};
 }

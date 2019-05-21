@@ -16,7 +16,6 @@ namespace Flow {
 		glEnable(GL_MULTISAMPLE);
 		// every Model will determine if GL_BLEND needs to be enabled: glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
 	}
 
 	void RenderingEngine::Render(const GameObject& root, GameObject& mainCamera, const Skybox& skybox)
