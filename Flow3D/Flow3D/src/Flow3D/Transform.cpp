@@ -41,7 +41,6 @@ namespace Flow {
 	{
 		m_Orientation = orientation;
 		m_Rotation = m_Orientation.ToEulerAngles();
-		UpdateVectors();
 	}
 
 	void Transform::SetIsCamera(bool isCamera)
@@ -56,8 +55,12 @@ namespace Flow {
 		translationMatrix.Translate(m_Position);
 
 		Mat4 rotationMatrix;
+		
 		if (m_IsCamera)
-			rotationMatrix = Quaternion(-1 * m_Orientation.x, -1 * m_Orientation.y, -1 * m_Orientation.z, m_Orientation.w).ToMat4();			
+		{
+			Vec3 adjustedEuler = Vec3(-1 * m_Rotation.x, -1 * m_Rotation.y, - 1 * m_Rotation.z);
+			rotationMatrix = Quaternion(adjustedEuler).ToMat4();
+		}
 		else
 			rotationMatrix = m_Orientation.ToMat4();
 
@@ -130,6 +133,5 @@ namespace Flow {
 		m_Front = Vec3(worldFront * quat).Normalize();
 		m_Right = Vec3(worldRight * quat).Normalize();
 		m_Up = Vec3::Cross(m_Right, m_Front).Normalize();
-		
 	}
 }

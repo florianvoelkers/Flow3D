@@ -88,25 +88,6 @@ namespace Flow {
 				Vec3 up = GetTransform()->GetUpVector();
 				GetTransform()->Translate(up * velocity * -1.0f);
 			}
-
-			/*
-			if (m_Input.GetKey(Keycode::J))
-			{
-				Look(0.0f, 0.01f);
-			}
-			if (m_Input.GetKey(Keycode::K))
-			{
-				Look(0.01f, 0.0f);
-			}
-			if (m_Input.GetKey(Keycode::U))
-			{
-				Look(0.0f, -0.01f);
-			}
-			if (m_Input.GetKey(Keycode::I))
-			{
-				Look(-0.01f, 0.0f);
-			}
-			*/
 		}
 
 		virtual void OnEvent(Event& event) override
@@ -201,10 +182,13 @@ namespace Flow {
 			// Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 			m_Up = glm::normalize(glm::cross(glm::vec3(m_Right.x, m_Right.y, m_Right.z), glm::vec3(m_Front.x, m_Front.y, m_Front.z)));
 
-			Vec3 rotationVector = Vec3(-1 * m_Pitch, m_Yaw + 90.0f, 0.0f);
+			Vec3 rotationVector = Vec3(- 1 * m_Pitch, m_Yaw + 90.0f, 0.0f);
 			
 			Quaternion rotation = Quaternion(rotationVector);
 			GetTransform()->SetOrientation(rotation);
+			GetTransform()->SetFrontVector(m_Front);
+			GetTransform()->SetRightVector(m_Right);
+			GetTransform()->SetUpVector(m_Up);
 		}
 	};
 }
