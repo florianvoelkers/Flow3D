@@ -99,7 +99,8 @@
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy /Y "$(SolutionDir)dlls\win32\assimp-vc140-mt.dll" "$(SolutionDir)bin\Debug-Win32\Sandbox"</Command>
+      <Command>xcopy /Y "$(SolutionDir)dlls\win32\assimp-vc140-mt.dll" "$(SolutionDir)bin\Debug-Win32\Sandbox"
+xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Debug-Win32\Sandbox\resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -116,7 +117,8 @@
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy /Y "$(SolutionDir)dlls\win64\assimp-vc140-mt.dll" "$(SolutionDir)bin\Debug-x64\Sandbox"</Command>
+      <Command>xcopy /Y "$(SolutionDir)dlls\win64\assimp-vc140-mt.dll" "$(SolutionDir)bin\Debug-x64\Sandbox"
+xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Debug-x64\Sandbox\resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -139,7 +141,8 @@
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy /Y "$(SolutionDir)dlls\win32\assimp-vc140-mt.dll" "$(SolutionDir)bin\Release-Win32\Sandbox"</Command>
+      <Command>xcopy /Y "$(SolutionDir)dlls\win32\assimp-vc140-mt.dll" "$(SolutionDir)bin\Release-Win32\Sandbox"
+xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-Win32\Sandbox\resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -162,7 +165,10 @@
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;</AdditionalDependencies>
     </Lib>
     <PostBuildEvent>
-      <Command>xcopy /Y "$(SolutionDir)dlls\win64\assimp-vc140-mt.dll" "$(SolutionDir)bin\Release-x64\Sandbox"</Command>
+      <Command>xcopy /Y "$(SolutionDir)dlls\win64\assimp-vc140-mt.dll" "$(SolutionDir)bin\Release-x64\Sandbox"
+if not exist "$(SolutionDir)bin\Release-x64\Sandbox\resources" mkdir "$(SolutionDir)bin\Release-x64\Sandbox\resources"
+xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\Sandbox\resources"
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
