@@ -34,7 +34,7 @@ namespace Flow {
 		inline const bool GetIsCamera() const { return m_IsCamera; }
 
 		inline const Vec3 GetPosition() const { return m_Position; }
-		inline const Vec3 GetRotation() const { return m_Rotation; }
+		inline const Vec3 GetRotation() const { return m_RotationEuler; }
 		inline const Vec3 GetScale() const { return m_Scale; }
 		
 		Mat4 GetTransformation() const;
@@ -47,8 +47,8 @@ namespace Flow {
 		Transform* m_Parent;
 		bool m_IsCamera;
 		Vec3 m_Position;
-		Vec3 m_Rotation; 
-		Quaternion m_Orientation;
+		Vec3 m_RotationEuler; 
+		Quaternion m_Rotation;
 		Vec3 m_Scale;
 
 		Vec3 m_Front;

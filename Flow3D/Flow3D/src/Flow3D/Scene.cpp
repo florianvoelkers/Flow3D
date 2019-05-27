@@ -97,13 +97,14 @@ namespace Flow {
 		AddToScene(spotLight);
 
 		Model* trexModel = new Model("resources/models/trex/trex.fbx");
-		GameObject* trex = new GameObject(Vec3(2.5f, 0.0f, 2.0f), Vec3(0.0f, -90.0f, 0.0f));
+		GameObject* trex = new GameObject(Vec3(2.5f, 0.0f, 2.0f));
 		trex->GetTransform()->SetScale(Vec3(0.2f));
 		trex->AddComponent<Renderable>(trex, trexModel, modelShader, false);
 		AddToScene(trex);
 
-		GameObject* trex2 = new GameObject(Vec3(-2.5f, 0.0f, 2.0f), Vec3(0.0f, 90.0f, 0.0f));
+		GameObject* trex2 = new GameObject(Vec3(-2.5f, 0.0f, 2.0f));
 		trex2->GetTransform()->SetScale(Vec3(0.2f));
+		trex2->AddComponent<Rotatable>(trex2);
 		trex2->AddComponent<Renderable>(trex2, trexModel, modelShader, false);
 		AddToScene(trex2);
 
@@ -118,14 +119,6 @@ namespace Flow {
 		house2->GetTransform()->SetScale(Vec3(0.008f));
 		house2->AddComponent<Renderable>(house2, houseModel2, modelShader, false);
 		AddToScene(house2);
-
-		GameObject* rotatingSpotlight = new GameObject(Vec3(5.0f, 2.0f, 10.0f), Vec3(0.0f, 90.0f, 0.0f), Vec3(0.05f, 0.05f, 0.5f));
-		rotatingSpotlight->AddComponent<RenderableCube>(rotatingSpotlight, new Cube(0.0f, 1.0f, 0.0f));
-		rotatingSpotlight->AddComponent<Rotatable>(rotatingSpotlight);
-		rotatingSpotlight->AddComponent<SpotLight>(rotatingSpotlight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
-			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
-		AddSpotLight(&rotatingSpotlight->GetComponent<SpotLight>());
-		AddToScene(rotatingSpotlight);
 
 		GameObject* cubeLamp = new GameObject(Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
 		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
