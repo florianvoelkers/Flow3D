@@ -98,6 +98,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\assimp\x86;$(SolutionDir)Flow3D\external_libraries\GLFW\lib-vc2015</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;</AdditionalDependencies>
     </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(SolutionDir)dlls\win32\assimp-vc140-mt.dll" "$(SolutionDir)bin\Debug-Win32\Sandbox"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -112,6 +115,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\assimp\x64;$(SolutionDir)Flow3D\external_libraries\GLFW\lib-x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;</AdditionalDependencies>
     </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(SolutionDir)dlls\win64\assimp-vc140-mt.dll" "$(SolutionDir)bin\Debug-x64\Sandbox"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -132,6 +138,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\assimp\x86;$(SolutionDir)Flow3D\external_libraries\GLFW\lib-vc2015</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;</AdditionalDependencies>
     </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(SolutionDir)dlls\win32\assimp-vc140-mt.dll" "$(SolutionDir)bin\Release-Win32\Sandbox"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -152,6 +161,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)Flow3D\external_libraries\assimp\x64;$(SolutionDir)Flow3D\external_libraries\GLFW\lib-x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;</AdditionalDependencies>
     </Lib>
+    <PostBuildEvent>
+      <Command>xcopy /Y "$(SolutionDir)dlls\win64\assimp-vc140-mt.dll" "$(SolutionDir)bin\Release-x64\Sandbox"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="external_libraries\assimp\include\assimp\ai_assert.h" />
