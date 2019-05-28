@@ -3,8 +3,6 @@
 // Add all the different component classes here
 #include "Lighting.hpp"
 #include "FreeCamera.hpp"
-#include "RenderableCube.hpp"
-#include "RenderablePlane.hpp"
 #include "Renderable.hpp"
 #include "Rotatable.hpp"
 
@@ -16,8 +14,6 @@ const std::size_t Component::Type = std::hash<std::string>()(TO_STRING(Component
 // CLASS_DEFINITION(parent class, sub class)
 CLASS_DEFINITION(Component, Rotatable)
 CLASS_DEFINITION(Component, FreeCamera)
-CLASS_DEFINITION(Component, RenderableCube)
-CLASS_DEFINITION(Component, RenderablePlane)
 CLASS_DEFINITION(Component, Renderable)
 CLASS_DEFINITION(Component, BaseLight)
 CLASS_DEFINITION(BaseLight, DirectionalLight)

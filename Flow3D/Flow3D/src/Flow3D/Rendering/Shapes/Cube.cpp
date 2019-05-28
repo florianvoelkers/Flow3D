@@ -47,84 +47,25 @@ namespace Flow {
 	}
 
 
-	void Cube::Draw(Mat4 model, Mat4 view, Mat4 projection, RenderingEngine& renderingEngine)
+	void Cube::Draw(Shader& shader)
 	{
 		// set data for the shader
-		m_Shader->Use();
+		shader.Use();
 		if (m_IsTextured)
 		{
-			m_Shader->SetBool("material.hasSpecularTexture", true);
+			shader.SetBool("material.hasSpecularTexture", true);
 			glActiveTexture(GL_TEXTURE0 + m_DiffuseTexture.id);
-			m_Shader->SetInt("material.diffuse", m_DiffuseTexture.id);
+			shader.SetInt("material.diffuse", m_DiffuseTexture.id);
 			glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture.id);
 			glActiveTexture(GL_TEXTURE1);
-			m_Shader->SetInt("material.specular", m_DiffuseTexture.id);
+			shader.SetInt("material.specular", m_DiffuseTexture.id);
 			glBindTexture(GL_TEXTURE_2D, m_SpecularTexture.id);
 			// TODO: value should be set externally
-			m_Shader->SetFloat("material.shininess", 17); 			
+			shader.SetFloat("material.shininess", 17);
 		}
-
-		m_Shader->SetMat4("model", model);
-		m_Shader->SetMat4("view", view);
-		m_Shader->SetMat4("projection", projection);
-
-		m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
-		// directional light
-		DirectionalLight& directionalLight = Application::Get().GetCurrentScene().GetDirectionalLight();
-		m_Shader->SetVec3("dirLight.direction", directionalLight.GetDirection());
-		m_Shader->SetVec3("dirLight.ambient", directionalLight.GetAmbientIntensity());
-		m_Shader->SetVec3("dirLight.diffuse", directionalLight.GetDiffuseIntensity());
-		m_Shader->SetVec3("dirLight.specular", directionalLight.GetSpecularIntensity());
-
-		std::vector<PointLight*> pointLights = Application::Get().GetCurrentScene().GetPointLights();
-		std::string uniform;
-		m_Shader->SetInt("numberOfPointLights", (int)pointLights.size());
-		for (unsigned int i = 0; i < pointLights.size(); i++)
+		else
 		{
-			uniform += std::string("pointLights[") + std::to_string(i) + std::string("].");
-			std::string shaderString = uniform + std::string("position");
-			m_Shader->SetVec3(shaderString, pointLights[i]->GetTransform()->GetWorldPosition());
-			shaderString = uniform + std::string("ambient");
-			m_Shader->SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
-			shaderString = uniform + std::string("diffuse");
-			m_Shader->SetVec3(shaderString, pointLights[i]->GetDiffuseIntensity());
-			shaderString = uniform + std::string("specular");
-			m_Shader->SetVec3(shaderString, pointLights[i]->GetSpecularIntensity());
-			shaderString = uniform + std::string("constant");
-			m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetConstant());
-			shaderString = uniform + std::string("linear");
-			m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetLinear());
-			shaderString = uniform + std::string("quadratic");
-			m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetExponent());
-			uniform = "";
-		}
-
-		std::vector<SpotLight*> spotLights = Application::Get().GetCurrentScene().GetSpotLights();
-		m_Shader->SetInt("numberOfSpotLights", (int)spotLights.size());
-		for (unsigned int i = 0; i < spotLights.size(); i++)
-		{
-			uniform += std::string("spotLights[") + std::to_string(i) + std::string("].");
-			std::string shaderString = uniform + std::string("position");
-			m_Shader->SetVec3(shaderString, spotLights[i]->GetTransform()->GetWorldPosition());
-			shaderString = uniform + std::string("direction");
-			m_Shader->SetVec3(shaderString, spotLights[i]->GetDirection());
-			shaderString = uniform + std::string("cutOff");
-			m_Shader->SetFloat(shaderString, spotLights[i]->GetCutoff());
-			shaderString = uniform + std::string("outerCutOff");
-			m_Shader->SetFloat(shaderString, spotLights[i]->GetOuterCutoff());
-			shaderString = uniform + std::string("ambient");
-			m_Shader->SetVec3(shaderString, spotLights[i]->GetAmbientIntensity());
-			shaderString = uniform + std::string("diffuse");
-			m_Shader->SetVec3(shaderString, spotLights[i]->GetDiffuseIntensity());
-			shaderString = uniform + std::string("specular");
-			m_Shader->SetVec3(shaderString, spotLights[i]->GetSpecularIntensity());
-			shaderString = uniform + std::string("constant");
-			m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetConstant());
-			shaderString = uniform + std::string("linear");
-			m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetLinear());
-			shaderString = uniform + std::string("quadratic");
-			m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetExponent());
-			uniform = "";
+			shader.SetVec4("color", m_Color.ToVector4f());
 		}
 
 		// render cube
@@ -204,15 +145,6 @@ namespace Flow {
 			20, 22, 23
 		};
 
-		// use the standard shader for textures or color
-		if (m_IsTextured) {
-			m_Shader = Application::Get().GetStandardShader();
-		}
-		else
-		{
-			m_Shader = std::make_shared<Shader>("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
-		}
-
 		// set up buffers and configure vertex attributes
 		unsigned int VBO, EBO;
 		glGenVertexArrays(1, &VAO);
@@ -241,12 +173,5 @@ namespace Flow {
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 			glEnableVertexAttribArray(2);
 		}
-		else
-		{
-			m_Shader->Use();
-			m_Shader->SetVec4("color", m_Color.ToVector4f());
-		}
-
-
 	}
 }

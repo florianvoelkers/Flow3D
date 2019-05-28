@@ -7,6 +7,8 @@
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Flow3D/Math.hpp"
+#include "Shapes/Cube.hpp"
+#include "Shapes/Plane.hpp"
 
 // from https://learnopengl.com/Model-Loading/Model
 
@@ -24,10 +26,15 @@ namespace Flow {
 		/* Functions */
 		// constrcutor, expects a filepath to a 3D model
 		Model(std::string const& path);
+		Model(std::shared_ptr<Cube> cube);
+		Model(std::shared_ptr<Plane> plane);
 
 		void Draw(Shader shader);
 
 	private:
+		std::shared_ptr<Cube> m_Cube;
+		std::shared_ptr<Plane> m_Plane;
+
 		/* Functions */
 		// loads a model with supported assimp extensions from file and stores the resulting meshes in the meshes vector
 		void LoadModel(std::string const& path);

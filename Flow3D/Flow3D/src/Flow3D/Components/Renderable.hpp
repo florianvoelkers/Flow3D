@@ -23,10 +23,11 @@ namespace Flow {
 
 	public:
 		Renderable(GameObject* gameObject, Model* model, Shader* shader, bool blending)
-			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject)
-		{
+			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject) {}
 
-		}
+		Renderable(GameObject* gameObject, Model* model, Shader* shader) 
+			: Component(gameObject), m_Model(model), m_Shader(shader) {}
+
 
 		~Renderable()
 		{

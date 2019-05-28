@@ -7,11 +7,21 @@ namespace Flow {
 		LoadModel(path);
 	}
 
+	Model::Model(std::shared_ptr<Cube> cube) : m_Cube(cube) {}
+	Model::Model(std::shared_ptr<Plane> plane) : m_Plane(plane) {}
+
 	void Model::Draw(Shader shader)
 	{
+		if (m_Cube != nullptr)
+			m_Cube->Draw(shader);
+		else if (m_Plane != nullptr)
+			m_Plane->Draw(shader);
+		else
+		{
+			for (unsigned int i = 0; i < meshes.size(); i++)
+				meshes[i].Draw(shader);
+		}
 		
-		for (unsigned int i = 0; i < meshes.size(); i++)
-			meshes[i].Draw(shader);
 			
 	}
 

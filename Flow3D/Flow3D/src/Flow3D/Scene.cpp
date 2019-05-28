@@ -42,39 +42,40 @@ namespace Flow {
 		Texture container2Specular("resources/textures/container2_specular.png", "specular", true);
 
 		Shader* modelShader = new Shader("resources/shader/Standard.vert", "resources/shader/Standard.frag");
-		
+		Shader* texturedShapesShader = new Shader("resources/shader/Standard.vert", "resources/shader/Standard.frag");
+		Shader* coloredShapesShader = new Shader("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
 		
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
 		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
-		plane->AddComponent<RenderablePlane>(plane, new Plane(metalFloorTexture));
+		plane->AddComponent<Renderable>(plane, new Model(std::make_shared<Plane>(metalFloorTexture)), texturedShapesShader);
 		AddToScene(plane);
 
 		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
-		firstCube->AddComponent<RenderableCube>(firstCube, new Cube(brickTexture));
+		firstCube->AddComponent<Renderable>(firstCube, new Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		AddToScene(firstCube);
 
 		GameObject* nose = new GameObject(Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
-		nose->AddComponent<RenderableCube>(nose, new Cube(brickTexture));
+		nose->AddComponent<Renderable>(nose, new Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		firstCube->AddChild(nose);
 
 		GameObject* grass1 = new GameObject(Vec3(-1.0f, 0.5f, 0.51f));
-		grass1->AddComponent<RenderablePlane>(grass1, new Plane(grassTexture));
+		grass1->AddComponent<Renderable>(grass1, new Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass1);
 
 		GameObject* grass2 = new GameObject(Vec3(0.0f, 0.5f, 0.51f));
-		grass1->AddComponent<RenderablePlane>(grass2, new Plane(grassTexture));
+		grass1->AddComponent<Renderable>(grass2, new Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass2);
 
 		GameObject* grass3 = new GameObject(Vec3(1.0f, 0.5f, 0.51f));
-		grass1->AddComponent<RenderablePlane>(grass3, new Plane(grassTexture));
+		grass1->AddComponent<Renderable>(grass3, new Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass3);
 
 		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
-		secondCube->AddComponent<RenderableCube>(secondCube, new Cube(containerTexture));
+		secondCube->AddComponent<Renderable>(secondCube, new Model(std::make_shared<Cube>(containerTexture)), texturedShapesShader);
 		AddToScene(secondCube);
 
 		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
-		thirdCube->AddComponent<RenderableCube>(thirdCube, new Cube(container2Diffuse, container2Specular));
+		thirdCube->AddComponent<Renderable>(thirdCube, new Model(std::make_shared<Cube>(container2Diffuse, container2Specular)), texturedShapesShader);
 		AddToScene(thirdCube);
 
 		Model* treeModel = new Model("resources/models/Tree/Tree.obj");
@@ -90,7 +91,7 @@ namespace Flow {
 		AddToScene(oldMan);
 
 		GameObject* spotLight = new GameObject(Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
-		spotLight->AddComponent<RenderableCube>(spotLight, new Cube(1.0f, 1.0f, 1.0f));
+		spotLight->AddComponent<Renderable>(spotLight, new Model(std::make_shared<Cube>(1.0f, 1.0f, 1.0f)), coloredShapesShader);
 		spotLight->AddComponent<SpotLight>(spotLight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::down,
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&spotLight->GetComponent<SpotLight>());
@@ -121,7 +122,7 @@ namespace Flow {
 		AddToScene(house2);
 
 		GameObject* cubeLamp = new GameObject(Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
-		cubeLamp->AddComponent<RenderableCube>(cubeLamp, new Cube(1.0f, 1.0f, 1.0f));
+		cubeLamp->AddComponent<Renderable>(cubeLamp, new Model(std::make_shared<Cube>(1.0f, 1.0f, 1.0f)), coloredShapesShader);
 		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
 		AddPointLight(&cubeLamp->GetComponent<PointLight>());
 		AddToScene(cubeLamp);

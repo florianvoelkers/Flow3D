@@ -27,7 +27,7 @@ namespace Flow {
 
 		~Cube();
 
-		void Draw(Mat4 model, Mat4 view, Mat4 projection, RenderingEngine& renderingEngine);
+		void Draw(Shader& shader);
 		void SetColor(Color color);
 
 	private:

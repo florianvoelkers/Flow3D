@@ -100,6 +100,7 @@
     </Lib>
     <PostBuildEvent>
       <Command>xcopy /Y "$(SolutionDir)dlls\win32\assimp-vc140-mt.dll" "$(SolutionDir)bin\Debug-Win32\Sandbox"
+if not exist "$(SolutionDir)bin\Debug-Win32\Sandbox\resources" mkdir "$(SolutionDir)bin\Debug-Win32\Sandbox\resources"
 xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Debug-Win32\Sandbox\resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -118,6 +119,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Debug-Win32\San
     </Lib>
     <PostBuildEvent>
       <Command>xcopy /Y "$(SolutionDir)dlls\win64\assimp-vc140-mt.dll" "$(SolutionDir)bin\Debug-x64\Sandbox"
+if not exist "$(SolutionDir)bin\Debug-x64\Sandbox\resources" mkdir "$(SolutionDir)bin\Debug-x64\Sandbox\resources"
 xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Debug-x64\Sandbox\resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -142,6 +144,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Debug-x64\Sandb
     </Lib>
     <PostBuildEvent>
       <Command>xcopy /Y "$(SolutionDir)dlls\win32\assimp-vc140-mt.dll" "$(SolutionDir)bin\Release-Win32\Sandbox"
+if not exist "$(SolutionDir)bin\Release-Win32\Sandbox\resources" mkdir "$(SolutionDir)bin\Release-Win32\Sandbox\resources"
 xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-Win32\Sandbox\resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -535,8 +538,6 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\Components\Component.hpp" />
     <ClInclude Include="src\Flow3D\Components\Lighting.hpp" />
     <ClInclude Include="src\Flow3D\Components\Renderable.hpp" />
-    <ClInclude Include="src\Flow3D\Components\RenderableCube.hpp" />
-    <ClInclude Include="src\Flow3D\Components\RenderablePlane.hpp" />
     <ClInclude Include="src\Flow3D\Components\Rotatable.hpp" />
     <ClInclude Include="src\Flow3D\Core.hpp" />
     <ClInclude Include="src\Flow3D\EntryPoint.hpp" />

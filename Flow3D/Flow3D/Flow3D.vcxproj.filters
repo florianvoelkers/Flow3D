@@ -1041,12 +1041,6 @@
     <ClInclude Include="src\Flow3D\Transform.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Flow3D\Components\RenderableCube.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Flow3D\Components\RenderablePlane.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Flow3D\Components\FreeCamera.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
