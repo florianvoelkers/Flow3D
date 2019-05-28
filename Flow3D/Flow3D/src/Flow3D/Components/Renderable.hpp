@@ -22,18 +22,11 @@ namespace Flow {
 		CLASS_DECLARATION(Renderable)
 
 	public:
-		Renderable(GameObject* gameObject, Model* model, Shader* shader, bool blending)
+		Renderable(GameObject* gameObject, Model model, Shader shader, bool blending)
 			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject) {}
 
-		Renderable(GameObject* gameObject, Model* model, Shader* shader) 
+		Renderable(GameObject* gameObject, Model model, Shader shader) 
 			: Component(gameObject), m_Model(model), m_Shader(shader) {}
-
-
-		~Renderable()
-		{
-			delete m_Model;
-			delete m_Shader;
-		}
 
 		virtual void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) override
 		{
@@ -43,72 +36,72 @@ namespace Flow {
 
 			renderingEngine.SetBlending(m_Blending);
 
-			m_Shader->Use();
-			m_Shader->SetMat4("projection", projection);
-			m_Shader->SetMat4("view", view);
-			m_Shader->SetMat4("model", model);
+			m_Shader.Use();
+			m_Shader.SetMat4("projection", projection);
+			m_Shader.SetMat4("view", view);
+			m_Shader.SetMat4("model", model);
 
 			// set view pos, set directional light, set point lights, set spot light, material set in model
-			m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
+			m_Shader.SetVec3("viewPos", renderingEngine.GetViewPosition());
 			// directional light
 			DirectionalLight& directionalLight = Application::Get().GetCurrentScene().GetDirectionalLight();
-			m_Shader->SetVec3("dirLight.direction", directionalLight.GetDirection());
-			m_Shader->SetVec3("dirLight.ambient", directionalLight.GetAmbientIntensity());
-			m_Shader->SetVec3("dirLight.diffuse", directionalLight.GetDiffuseIntensity());
-			m_Shader->SetVec3("dirLight.specular", directionalLight.GetSpecularIntensity());
+			m_Shader.SetVec3("dirLight.direction", directionalLight.GetDirection());
+			m_Shader.SetVec3("dirLight.ambient", directionalLight.GetAmbientIntensity());
+			m_Shader.SetVec3("dirLight.diffuse", directionalLight.GetDiffuseIntensity());
+			m_Shader.SetVec3("dirLight.specular", directionalLight.GetSpecularIntensity());
 
 			std::vector<PointLight*> pointLights = Application::Get().GetCurrentScene().GetPointLights();
 			std::string uniform;
-			m_Shader->SetInt("numberOfPointLights", (int)pointLights.size());
+			m_Shader.SetInt("numberOfPointLights", (int)pointLights.size());
 			for (unsigned int i = 0; i < pointLights.size(); i++)
 			{
 				uniform += std::string("pointLights[") + std::to_string(i) + std::string("].");
 				std::string shaderString = uniform + std::string("position");
-				m_Shader->SetVec3(shaderString, pointLights[i]->GetTransform()->GetWorldPosition());
+				m_Shader.SetVec3(shaderString, pointLights[i]->GetTransform()->GetWorldPosition());
 				shaderString = uniform + std::string("ambient");
-				m_Shader->SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
+				m_Shader.SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
 				shaderString = uniform + std::string("diffuse");
-				m_Shader->SetVec3(shaderString, pointLights[i]->GetDiffuseIntensity());
+				m_Shader.SetVec3(shaderString, pointLights[i]->GetDiffuseIntensity());
 				shaderString = uniform + std::string("specular");
-				m_Shader->SetVec3(shaderString, pointLights[i]->GetSpecularIntensity());
+				m_Shader.SetVec3(shaderString, pointLights[i]->GetSpecularIntensity());
 				shaderString = uniform + std::string("constant");
-				m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetConstant());
+				m_Shader.SetFloat(shaderString, pointLights[i]->GetAttenuation().GetConstant());
 				shaderString = uniform + std::string("linear");
-				m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetLinear());
+				m_Shader.SetFloat(shaderString, pointLights[i]->GetAttenuation().GetLinear());
 				shaderString = uniform + std::string("quadratic");
-				m_Shader->SetFloat(shaderString, pointLights[i]->GetAttenuation().GetExponent());
+				m_Shader.SetFloat(shaderString, pointLights[i]->GetAttenuation().GetExponent());
 				uniform = "";
 			}
 
 			std::vector<SpotLight*> spotLights = Application::Get().GetCurrentScene().GetSpotLights();
-			m_Shader->SetInt("numberOfSpotLights", (int)spotLights.size());
+			m_Shader.SetInt("numberOfSpotLights", (int)spotLights.size());
 			for (unsigned int i = 0; i < spotLights.size(); i++)
 			{
 				uniform += std::string("spotLights[") + std::to_string(i) + std::string("].");
 				std::string shaderString = uniform + std::string("position");
-				m_Shader->SetVec3(shaderString, spotLights[i]->GetTransform()->GetWorldPosition());
+				m_Shader.SetVec3(shaderString, spotLights[i]->GetTransform()->GetWorldPosition());
 				shaderString = uniform + std::string("direction");
-				m_Shader->SetVec3(shaderString, spotLights[i]->GetDirection());
+				m_Shader.SetVec3(shaderString, spotLights[i]->GetDirection());
 				shaderString = uniform + std::string("cutOff");
-				m_Shader->SetFloat(shaderString, spotLights[i]->GetCutoff());
+				m_Shader.SetFloat(shaderString, spotLights[i]->GetCutoff());
 				shaderString = uniform + std::string("outerCutOff");
-				m_Shader->SetFloat(shaderString, spotLights[i]->GetOuterCutoff());
+				m_Shader.SetFloat(shaderString, spotLights[i]->GetOuterCutoff());
 				shaderString = uniform + std::string("ambient");
-				m_Shader->SetVec3(shaderString, spotLights[i]->GetAmbientIntensity());
+				m_Shader.SetVec3(shaderString, spotLights[i]->GetAmbientIntensity());
 				shaderString = uniform + std::string("diffuse");
-				m_Shader->SetVec3(shaderString, spotLights[i]->GetDiffuseIntensity());
+				m_Shader.SetVec3(shaderString, spotLights[i]->GetDiffuseIntensity());
 				shaderString = uniform + std::string("specular");
-				m_Shader->SetVec3(shaderString, spotLights[i]->GetSpecularIntensity());
+				m_Shader.SetVec3(shaderString, spotLights[i]->GetSpecularIntensity());
 				shaderString = uniform + std::string("constant");
-				m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetConstant());
+				m_Shader.SetFloat(shaderString, spotLights[i]->GetAttenuation().GetConstant());
 				shaderString = uniform + std::string("linear");
-				m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetLinear());
+				m_Shader.SetFloat(shaderString, spotLights[i]->GetAttenuation().GetLinear());
 				shaderString = uniform + std::string("quadratic");
-				m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetExponent());
+				m_Shader.SetFloat(shaderString, spotLights[i]->GetAttenuation().GetExponent());
 				uniform = "";
 			}
 
-			m_Model->Draw(*m_Shader);
+			m_Model.Draw(m_Shader);
 
 			// reset blending to default
 			renderingEngine.SetBlending(false);
@@ -116,8 +109,8 @@ namespace Flow {
 
 
 	private:
-		Model* m_Model;
-		Shader* m_Shader;
+		Model m_Model;
+		Shader m_Shader;
 		bool m_Blending;
 	};
 }
