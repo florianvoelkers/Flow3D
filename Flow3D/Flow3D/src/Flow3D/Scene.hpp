@@ -23,6 +23,8 @@ namespace Flow {
 		void OnUpdate(double deltaTime) override;
 		void OnEvent(Event& event) override;
 
+		inline GameObject* FindGameObject(std::string name);
+
 		inline std::string GetName() { return m_Name; };
 		inline GameObject& GetRoot() { return *m_Root; } // is this correct?
 		inline GameObject& GetMainCamera() { return *m_MainCamera; }

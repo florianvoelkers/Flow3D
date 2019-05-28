@@ -18,7 +18,8 @@ namespace Flow {
 	class GameObject 
 	{
 	public:
-		GameObject(const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f), bool isActive = true);
+		GameObject();
+		GameObject(const std::string& name, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f), bool isActive = true);
 		virtual ~GameObject();
 
 		void AddChild(GameObject* child);
@@ -33,18 +34,22 @@ namespace Flow {
 		template<class ComponentType>
 		bool RemoveComponent();
 
+		GameObject* Find(std::string name);
+
 		void OnUpdate(double deltaTime);
 		void OnEvent(Event& e);
 		void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) const;
 
 		void SetActive(bool isActive) { m_IsActive = isActive; }
 		inline Transform* GetTransform() { return &m_Transform; }
+		inline const std::string GetName() const { return m_Name; }
 		
 	private: 
 		bool m_IsActive;
 		std::vector<GameObject*> m_Children;
 		Transform m_Transform;
 		std::vector<std::unique_ptr<Component>> m_Components;
+		std::string m_Name;
 	};
 
 	//***************

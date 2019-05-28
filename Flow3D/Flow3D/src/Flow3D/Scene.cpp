@@ -8,10 +8,10 @@ namespace Flow {
 		: m_Name(name), m_Window(&window), Layer("Scene")
 	{
 		// The root object will contain all objects present in one scene as it's children and their children and so on.
-		m_Root = new GameObject();
+		m_Root = new GameObject("root");
 
 		// The main camera is used for rendering purposes.
-		m_MainCamera = new GameObject(Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
+		m_MainCamera = new GameObject("MainCamera", Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
 		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera, *m_Window);
 		AddToScene(m_MainCamera);
 	}
@@ -46,51 +46,51 @@ namespace Flow {
 		Shader coloredShapesShader("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
 		
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
-		GameObject* plane = new GameObject(Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
+		GameObject* plane = new GameObject("plane", Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
 		plane->AddComponent<Renderable>(plane, Model(std::make_shared<Plane>(metalFloorTexture)), texturedShapesShader);
 		AddToScene(plane);
 
-		GameObject* firstCube = new GameObject(Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
+		GameObject* firstCube = new GameObject("firstCube", Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
 		firstCube->AddComponent<Renderable>(firstCube, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		AddToScene(firstCube);
 
-		GameObject* nose = new GameObject(Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
+		GameObject* nose = new GameObject("nose", Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
 		nose->AddComponent<Renderable>(nose, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		firstCube->AddChild(nose);
 
-		GameObject* grass1 = new GameObject(Vec3(-1.0f, 0.5f, 0.51f));
+		GameObject* grass1 = new GameObject("grass1", Vec3(-1.0f, 0.5f, 0.51f));
 		grass1->AddComponent<Renderable>(grass1, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass1);
 
-		GameObject* grass2 = new GameObject(Vec3(0.0f, 0.5f, 0.51f));
+		GameObject* grass2 = new GameObject("grass2",Vec3(0.0f, 0.5f, 0.51f));
 		grass1->AddComponent<Renderable>(grass2, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass2);
 
-		GameObject* grass3 = new GameObject(Vec3(1.0f, 0.5f, 0.51f));
+		GameObject* grass3 = new GameObject("grass3", Vec3(1.0f, 0.5f, 0.51f));
 		grass1->AddComponent<Renderable>(grass3, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass3);
 
-		GameObject* secondCube = new GameObject(Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
+		GameObject* secondCube = new GameObject("secondCube", Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
 		secondCube->AddComponent<Renderable>(secondCube, Model(std::make_shared<Cube>(containerTexture)), texturedShapesShader);
 		AddToScene(secondCube);
 
-		GameObject* thirdCube = new GameObject(Vec3(-2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
+		GameObject* thirdCube = new GameObject("thirdCube", Vec3(-2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
 		thirdCube->AddComponent<Renderable>(thirdCube, Model(std::make_shared<Cube>(container2Diffuse, container2Specular)), texturedShapesShader);
 		AddToScene(thirdCube);
 
 		Model treeModel("resources/models/Tree/Tree.obj");
-		GameObject* tree = new GameObject(Vec3(0.0f, 3.0f, 0.0f));
+		GameObject* tree = new GameObject("tree", Vec3(0.0f, 3.0f, 0.0f));
 		tree->GetTransform()->SetScale(Vec3(0.2f));
 		tree->AddComponent<Renderable>(tree, treeModel, modelShader, true);
 		AddToScene(tree);
 
 		Model oldManModel("resources/models/man/muro.obj");
-		GameObject* oldMan = new GameObject(Vec3(0.0f, 0.0f, 2.0f));
+		GameObject* oldMan = new GameObject("oldMan", Vec3(0.0f, 0.0f, 2.0f));
 		oldMan->GetTransform()->SetScale(Vec3(0.01f));
 		oldMan->AddComponent<Renderable>(oldMan, oldManModel, modelShader, false);
 		AddToScene(oldMan);
 
-		GameObject* spotLight = new GameObject(Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
+		GameObject* spotLight = new GameObject("spotLight", Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
 		spotLight->AddComponent<Renderable>(spotLight, Model(std::make_shared<Cube>(1.0f, 1.0f, 1.0f)), coloredShapesShader);
 		spotLight->AddComponent<SpotLight>(spotLight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::down,
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
@@ -98,43 +98,43 @@ namespace Flow {
 		AddToScene(spotLight);
 
 		Model trexModel("resources/models/trex/trex.fbx");
-		GameObject* trex = new GameObject(Vec3(2.5f, 0.0f, 2.0f));
+		GameObject* trex = new GameObject("trex", Vec3(2.5f, 0.0f, 2.0f));
 		trex->GetTransform()->SetScale(Vec3(0.2f));
 		trex->AddComponent<Renderable>(trex, trexModel, modelShader, false);
 		AddToScene(trex);
 
-		GameObject* trex2 = new GameObject(Vec3(-2.5f, 0.0f, 2.0f));
+		GameObject* trex2 = new GameObject("trex2", Vec3(-2.5f, 0.0f, 2.0f));
 		trex2->GetTransform()->SetScale(Vec3(0.2f));
 		trex2->AddComponent<Rotatable>(trex2);
 		trex2->AddComponent<Renderable>(trex2, trexModel, modelShader, false);
 		AddToScene(trex2);
 
 		Model houseModel("resources/models/old_house/house.obj");
-		GameObject* house = new GameObject(Vec3(-7.0f, 0.0f, 7.0f), Vec3(0.0f, -90.0f, 0.0f));
+		GameObject* house = new GameObject("house", Vec3(-7.0f, 0.0f, 7.0f), Vec3(0.0f, -90.0f, 0.0f));
 		house->GetTransform()->SetScale(Vec3(0.02f));
 		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
 		AddToScene(house);
 
 		Model houseModel2("resources/models/house/house.obj");
-		GameObject* house2 = new GameObject(Vec3(10.0f, 0.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f));
+		GameObject* house2 = new GameObject("house2", Vec3(10.0f, 0.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f));
 		house2->GetTransform()->SetScale(Vec3(0.008f));
 		house2->AddComponent<Renderable>(house2, houseModel2, modelShader, false);
 		AddToScene(house2);
 
-		GameObject* cubeLamp = new GameObject(Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
+		GameObject* cubeLamp = new GameObject("cubeLamp", Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
 		cubeLamp->AddComponent<Renderable>(cubeLamp, Model(std::make_shared<Cube>(1.0f, 1.0f, 1.0f)), coloredShapesShader);
 		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
 		AddPointLight(&cubeLamp->GetComponent<PointLight>());
 		// cubeLamp->AddComponent<ComponentToggler>(cubeLamp, cubeLamp->GetComponent<PointLight>()); // need a better way to disabling lights
 		AddToScene(cubeLamp);
 
-		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
+		GameObject* sun = new GameObject("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 		
 		Model swordModel("resources/models/sword/Sword.obj");
-		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
+		GameObject* sword = new GameObject("sword", Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
 		sword->GetTransform()->SetScale(Vec3(0.05f));
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
 		sword->AddComponent<ComponentToggler>(sword, sword->GetComponent<Renderable>());
@@ -146,6 +146,17 @@ namespace Flow {
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
 		// add component to toggle flash light; need a better way to disabling lights
 		// m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera, m_MainCamera->GetComponent<SpotLight>());
+
+		GameObject* searchedObject = FindGameObject("nose");
+		if (searchedObject != nullptr)
+		{
+			FLOW_CORE_INFO("the searched object is at wolrd position {0}, local position {1} and its name is {2}", 
+				searchedObject->GetTransform()->GetWorldPosition().ToString(), 
+				searchedObject->GetTransform()->GetPosition().ToString(), 
+				searchedObject->GetName());
+		}			
+		else
+			FLOW_CORE_INFO("object not found");
 	}
 	 
 	void Scene::OnDetach()
@@ -160,6 +171,11 @@ namespace Flow {
 	void Scene::OnEvent(Event& event)
 	{
 		m_Root->OnEvent(event);
+	}
+
+	inline GameObject* Scene::FindGameObject(std::string name)
+	{
+		return m_Root->Find(name);
 	}
 
 	void Scene::SetDirectionalLight(DirectionalLight* directionalLight)
