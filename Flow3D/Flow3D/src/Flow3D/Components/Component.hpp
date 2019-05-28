@@ -55,7 +55,7 @@ namespace Flow {
 			return classType == Type; 
 		}
 
-		Component(GameObject* gameObject) : m_GameObject(gameObject) {}
+		Component(GameObject* gameObject, bool enabled = true) : m_GameObject(gameObject), m_Enabled(enabled) {}
 		virtual ~Component() {} // TODO: Destructor with ~Component() = default?
 
 		virtual void OnUpdate (double deltaTime) {}
@@ -65,7 +65,11 @@ namespace Flow {
 		inline Transform* GetTransform() { return m_GameObject->GetTransform(); }
 		inline const Transform& GetTransform() const { return *m_GameObject->GetTransform(); }
 
+		inline const bool GetEnabled() const { return m_Enabled; }
+		void SetEnabled(bool enabled) { m_Enabled = enabled; }
+
 	protected:
 		GameObject* m_GameObject; // TODO: smart pointer? 
+		bool m_Enabled;
 	};
 }

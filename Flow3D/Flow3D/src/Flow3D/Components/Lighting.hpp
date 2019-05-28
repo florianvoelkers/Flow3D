@@ -18,8 +18,8 @@ namespace Flow {
 		CLASS_DECLARATION(BaseLight)
 
 	public: 
-		BaseLight(GameObject* gameObject, const Vec3& ambient, const Vec3& diffuse, const Vec3& specular)
-			: Component(gameObject), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular) {}
+		BaseLight(GameObject* gameObject, const Vec3& ambient, const Vec3& diffuse, const Vec3& specular, bool enabled = true)
+			: Component(gameObject, enabled), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular) {}
 
 		inline const Vec3& GetAmbientIntensity() const{ return m_Ambient; }
 		inline const Vec3& GetDiffuseIntensity() const { return m_Diffuse; }
@@ -40,8 +40,8 @@ namespace Flow {
 		CLASS_DECLARATION(DirectionalLight)
 
 	public:
-		DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular)
-			: BaseLight(gameObject, ambient, diffuse, specular), m_Direction(direction) {}
+		DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, bool enabled = true)
+			: BaseLight(gameObject, ambient, diffuse, specular, enabled), m_Direction(direction) {}
 
 		inline const Vec3& GetDirection() const { return m_Direction; }
 
@@ -78,8 +78,8 @@ namespace Flow {
 		CLASS_DECLARATION(PointLight)
 
 	public:
-		PointLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation())
-			: BaseLight(gameObject, ambient, diffuse, specular), m_Attenuation(attenuation) {}
+		PointLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation(), bool enabled = true)
+			: BaseLight(gameObject, ambient, diffuse, specular, enabled), m_Attenuation(attenuation) {}
 
 		inline const Attenuation& GetAttenuation() const{ return m_Attenuation; }
 
@@ -99,8 +99,8 @@ namespace Flow {
 
 	public:
 		SpotLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, DIRECTIONS direction, 
-			float cutoff, float outerCutoff, const Attenuation& attenuation = Attenuation())
-			: BaseLight(gameObject, ambient, diffuse, specular), m_Direction(direction), m_Cutoff(cutoff), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation) {}
+			float cutoff, float outerCutoff, const Attenuation& attenuation = Attenuation(), bool enabled = true)
+			: BaseLight(gameObject, ambient, diffuse, specular, enabled), m_Direction(direction), m_Cutoff(cutoff), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation) {}
 
 		inline const Attenuation& GetAttenuation() const { return m_Attenuation; }
 		const Vec3& GetDirection() const 

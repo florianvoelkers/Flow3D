@@ -5,6 +5,7 @@
 #include "FreeCamera.hpp"
 #include "Renderable.hpp"
 #include "Rotatable.hpp"
+#include "ComponentToggler.hpp"
 
 using namespace Flow;
 
@@ -19,3 +20,4 @@ CLASS_DEFINITION(Component, BaseLight)
 CLASS_DEFINITION(BaseLight, DirectionalLight)
 CLASS_DEFINITION(BaseLight, PointLight)
 CLASS_DEFINITION(BaseLight, SpotLight)
+CLASS_DEFINITION(Component, ComponentToggler)

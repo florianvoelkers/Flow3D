@@ -13,7 +13,7 @@
 
 namespace Flow {
 
-	// Constructor: Renderable(GameObject* gameObject, Model* model, Shader* shader, bool blending)
+	// Constructor: Renderable(GameObject* gameObject, Model model, Shader shader, bool blending)
 	// Gives functionality and data for drawing any model with the given shader.
 	// Enables blending in the rendering engine if necessary
 	class Renderable : public Component
@@ -22,11 +22,8 @@ namespace Flow {
 		CLASS_DECLARATION(Renderable)
 
 	public:
-		Renderable(GameObject* gameObject, Model model, Shader shader, bool blending)
-			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject) {}
-
-		Renderable(GameObject* gameObject, Model model, Shader shader) 
-			: Component(gameObject), m_Model(model), m_Shader(shader) {}
+		Renderable(GameObject* gameObject, Model model, Shader shader, bool blending = false, bool enabled = true)
+			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject, enabled) {}
 
 		virtual void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) override
 		{
@@ -58,11 +55,23 @@ namespace Flow {
 				uniform += std::string("pointLights[") + std::to_string(i) + std::string("].");
 				std::string shaderString = uniform + std::string("position");
 				m_Shader.SetVec3(shaderString, pointLights[i]->GetTransform()->GetWorldPosition());
-				shaderString = uniform + std::string("ambient");
-				m_Shader.SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
-				shaderString = uniform + std::string("diffuse");
-				m_Shader.SetVec3(shaderString, pointLights[i]->GetDiffuseIntensity());
-				shaderString = uniform + std::string("specular");
+				if (pointLights[i]->GetEnabled())
+				{
+					shaderString = uniform + std::string("ambient");
+					m_Shader.SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
+					shaderString = uniform + std::string("diffuse");
+					m_Shader.SetVec3(shaderString, pointLights[i]->GetDiffuseIntensity());
+					shaderString = uniform + std::string("specular");
+				}
+				else
+				{
+					shaderString = uniform + std::string("ambient");
+					m_Shader.SetVec3(shaderString, Vec3(0.0f, 0.0f, 0.0f));
+					shaderString = uniform + std::string("diffuse");
+					m_Shader.SetVec3(shaderString, Vec3(0.0f, 0.0f, 0.0f));
+					shaderString = uniform + std::string("specular");
+					m_Shader.SetVec3(shaderString, Vec3(0.0f, 0.0f, 0.0f));
+				}
 				m_Shader.SetVec3(shaderString, pointLights[i]->GetSpecularIntensity());
 				shaderString = uniform + std::string("constant");
 				m_Shader.SetFloat(shaderString, pointLights[i]->GetAttenuation().GetConstant());
@@ -77,6 +86,8 @@ namespace Flow {
 			m_Shader.SetInt("numberOfSpotLights", (int)spotLights.size());
 			for (unsigned int i = 0; i < spotLights.size(); i++)
 			{
+				// temporary solution for disabling spotlights
+				
 				uniform += std::string("spotLights[") + std::to_string(i) + std::string("].");
 				std::string shaderString = uniform + std::string("position");
 				m_Shader.SetVec3(shaderString, spotLights[i]->GetTransform()->GetWorldPosition());
@@ -86,12 +97,24 @@ namespace Flow {
 				m_Shader.SetFloat(shaderString, spotLights[i]->GetCutoff());
 				shaderString = uniform + std::string("outerCutOff");
 				m_Shader.SetFloat(shaderString, spotLights[i]->GetOuterCutoff());
-				shaderString = uniform + std::string("ambient");
-				m_Shader.SetVec3(shaderString, spotLights[i]->GetAmbientIntensity());
-				shaderString = uniform + std::string("diffuse");
-				m_Shader.SetVec3(shaderString, spotLights[i]->GetDiffuseIntensity());
-				shaderString = uniform + std::string("specular");
-				m_Shader.SetVec3(shaderString, spotLights[i]->GetSpecularIntensity());
+				if (spotLights[i]->GetEnabled())
+				{
+					shaderString = uniform + std::string("ambient");
+					m_Shader.SetVec3(shaderString, spotLights[i]->GetAmbientIntensity());
+					shaderString = uniform + std::string("diffuse");
+					m_Shader.SetVec3(shaderString, spotLights[i]->GetDiffuseIntensity());
+					shaderString = uniform + std::string("specular");
+					m_Shader.SetVec3(shaderString, spotLights[i]->GetSpecularIntensity());
+				}
+				else
+				{
+					shaderString = uniform + std::string("ambient");
+					m_Shader.SetVec3(shaderString, Vec3(0.0f, 0.0f, 0.0f));
+					shaderString = uniform + std::string("diffuse");
+					m_Shader.SetVec3(shaderString, Vec3(0.0f, 0.0f, 0.0f));
+					shaderString = uniform + std::string("specular");
+					m_Shader.SetVec3(shaderString, Vec3(0.0f, 0.0f, 0.0f));
+				}
 				shaderString = uniform + std::string("constant");
 				m_Shader.SetFloat(shaderString, spotLights[i]->GetAttenuation().GetConstant());
 				shaderString = uniform + std::string("linear");
@@ -99,6 +122,8 @@ namespace Flow {
 				shaderString = uniform + std::string("quadratic");
 				m_Shader.SetFloat(shaderString, spotLights[i]->GetAttenuation().GetExponent());
 				uniform = "";
+
+				
 			}
 
 			m_Model.Draw(m_Shader);

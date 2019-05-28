@@ -534,6 +534,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D.hpp" />
     <ClInclude Include="src\Flow3D\Application.hpp" />
     <ClInclude Include="src\Flow3D\Color.hpp" />
+    <ClInclude Include="src\Flow3D\Components\ComponentToggler.hpp" />
     <ClInclude Include="src\Flow3D\Components\FreeCamera.hpp" />
     <ClInclude Include="src\Flow3D\Components\Component.hpp" />
     <ClInclude Include="src\Flow3D\Components\Lighting.hpp" />

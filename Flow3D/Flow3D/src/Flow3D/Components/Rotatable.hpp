@@ -11,7 +11,7 @@ namespace Flow {
 		CLASS_DECLARATION(Rotatable)
 
 	public: 
-		Rotatable(GameObject* gameObject) : Component(gameObject), m_Input(Input::Get()) {}
+		Rotatable(GameObject* gameObject, bool enabled = true) : Component(gameObject, enabled), m_Input(Input::Get()) {}
 
 		virtual void OnUpdate(double deltaTime) override
 		{

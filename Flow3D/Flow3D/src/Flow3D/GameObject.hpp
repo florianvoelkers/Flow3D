@@ -18,7 +18,7 @@ namespace Flow {
 	class GameObject 
 	{
 	public:
-		GameObject(const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f));
+		GameObject(const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f), bool isActive = true);
 		virtual ~GameObject();
 
 		void AddChild(GameObject* child);

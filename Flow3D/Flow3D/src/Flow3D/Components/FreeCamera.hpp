@@ -26,8 +26,8 @@ namespace Flow {
 		CLASS_DECLARATION(FreeCamera)
 
 	public:
-		FreeCamera(GameObject* gameObject, const Window& window)
-			: m_Window(window), Component(gameObject), m_Input(Input::Get())
+		FreeCamera(GameObject* gameObject, const Window& window, bool enabled = true)
+			: m_Window(window), Component(gameObject, enabled), m_Input(Input::Get())
 		{
 			m_MovementSpeed = SPEED;
 			m_MouseSensitivity = SENSITIVITY;

@@ -125,6 +125,7 @@ namespace Flow {
 		cubeLamp->AddComponent<Renderable>(cubeLamp, Model(std::make_shared<Cube>(1.0f, 1.0f, 1.0f)), coloredShapesShader);
 		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
 		AddPointLight(&cubeLamp->GetComponent<PointLight>());
+		// cubeLamp->AddComponent<ComponentToggler>(cubeLamp, cubeLamp->GetComponent<PointLight>()); // need a better way to disabling lights
 		AddToScene(cubeLamp);
 
 		GameObject* sun = new GameObject(Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
@@ -136,13 +137,15 @@ namespace Flow {
 		GameObject* sword = new GameObject(Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
 		sword->GetTransform()->SetScale(Vec3(0.05f));
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
+		sword->AddComponent<ComponentToggler>(sword, sword->GetComponent<Renderable>());
 		m_MainCamera->AddChild(sword);
 
 		// flash light for the camera			
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
-		
+		// add component to toggle flash light; need a better way to disabling lights
+		// m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera, m_MainCamera->GetComponent<SpotLight>());
 	}
 	 
 	void Scene::OnDetach()
