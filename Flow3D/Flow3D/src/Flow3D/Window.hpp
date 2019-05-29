@@ -30,6 +30,8 @@ namespace Flow {
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;
 
+		virtual void ShowMouse(bool show) = 0;
+
 		virtual void SetEventCallback(const EventCallbackFunction& callback) = 0;
 
 		static Window* Create(const WindowProperties& properties = WindowProperties());

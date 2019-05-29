@@ -12,14 +12,7 @@
 
 namespace Flow {
 
-	ImGuiLayer::ImGuiLayer()
-		: Layer("ImGuiLayer")
-	{
-	}
-
-	ImGuiLayer::~ImGuiLayer()
-	{
-	}
+	ImGuiLayer::ImGuiLayer() {}
 
 	void ImGuiLayer::OnAttach()
 	{
@@ -73,10 +66,12 @@ namespace Flow {
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui::NewFrame();
-
-		// don't show demo window anymore until i have a use for it
-		//static bool show = true;
-		//ImGui::ShowDemoWindow(&show);
+		
+		if (m_ShowDemo)
+		{
+			static bool show = true;
+			ImGui::ShowDemoWindow(&show);
+		}		
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -84,15 +79,19 @@ namespace Flow {
 
 	void ImGuiLayer::OnEvent(Event& event)
 	{
-		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<MouseButtonPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseButtonPressedEvent));
-		dispatcher.Dispatch<MouseButtonReleasedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseButtonReleasedEvent));
-		dispatcher.Dispatch<MouseMovedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseMovedEvent));
-		dispatcher.Dispatch<MouseScrolledEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseScrolledEvent));
-		dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnKeyPressedEvent));
-		dispatcher.Dispatch<KeyReleasedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnKeyReleasedEvent));
-		dispatcher.Dispatch<KeyTypedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnKeyTypedEvent));
-		dispatcher.Dispatch<WindowResizeEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnWindowResizeEvent));
+		// only dispatch events to imgui when it is active; at the moment this means that the demo window is shown
+		if (m_ShowDemo)
+		{
+			EventDispatcher dispatcher(event);
+			dispatcher.Dispatch<MouseButtonPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseButtonPressedEvent));
+			dispatcher.Dispatch<MouseButtonReleasedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseButtonReleasedEvent));
+			dispatcher.Dispatch<MouseMovedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseMovedEvent));
+			dispatcher.Dispatch<MouseScrolledEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnMouseScrolledEvent));
+			dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnKeyPressedEvent));
+			dispatcher.Dispatch<KeyReleasedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnKeyReleasedEvent));
+			dispatcher.Dispatch<KeyTypedEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnKeyTypedEvent));
+			dispatcher.Dispatch<WindowResizeEvent>(FLOW_BIND_EVENT_FUNCTION(ImGuiLayer::OnWindowResizeEvent));		}
+		
 	}
 
 	bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent & event)
@@ -100,7 +99,7 @@ namespace Flow {
 		ImGuiIO& io = ImGui::GetIO();
 		io.MouseDown[event.GetMouseButton()] = true;
 
-		return false;
+		return true;
 	}
 
 	bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent & event)
@@ -108,7 +107,7 @@ namespace Flow {
 		ImGuiIO& io = ImGui::GetIO();
 		io.MouseDown[event.GetMouseButton()] = false;
 
-		return false;
+		return true;
 	}
 
 	bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent & event)
@@ -116,7 +115,7 @@ namespace Flow {
 		ImGuiIO& io = ImGui::GetIO();
 		io.MousePos = ImVec2(event.GetX(), event.GetY());
 
-		return false;
+		return true;
 	}
 
 	bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent & event)
@@ -125,7 +124,7 @@ namespace Flow {
 		io.MouseWheel += event.GetYOffset();
 		io.MouseWheelH += event.GetXOffset();
 
-		return false;
+		return true;
 	}
 
 	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent & event)
@@ -136,7 +135,7 @@ namespace Flow {
 		io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
 		io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
 		io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
-		return false;
+		return true;
 	}
 
 	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent & event)
@@ -144,7 +143,7 @@ namespace Flow {
 		ImGuiIO& io = ImGui::GetIO();
 		io.KeysDown[event.GetKeyCode()] = false;
 
-		return false;
+		return true;
 	}
 
 	bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent & event)
@@ -154,7 +153,7 @@ namespace Flow {
 		if (keycode > 0 && keycode < 0x10000)
 			io.AddInputCharacter((unsigned short)keycode);
 
-		return false;
+		return true;
 	}
 
 	bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent & event)
@@ -164,6 +163,6 @@ namespace Flow {
 		io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
 		glViewport(0, 0, event.GetWidth(), event.GetHeight());
 
-		return false;
+		return true;
 	}
 }

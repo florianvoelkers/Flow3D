@@ -954,12 +954,6 @@
     <ClInclude Include="src\Flow3D\Events\MouseEvent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Flow3D\LayerStack.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Flow3D\Layer.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Flow3D\Window.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1200,12 +1194,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="external_libraries\glm\detail\glm.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Flow3D\Layer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Flow3D\LayerStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="external_libraries\glad\src\glad.c">

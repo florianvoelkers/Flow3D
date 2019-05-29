@@ -550,8 +550,6 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\GameObject.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiLayer.hpp" />
     <ClInclude Include="src\Flow3D\Input.hpp" />
-    <ClInclude Include="src\Flow3D\Layer.hpp" />
-    <ClInclude Include="src\Flow3D\LayerStack.hpp" />
     <ClInclude Include="src\Flow3D\Log.hpp" />
     <ClInclude Include="src\Flow3D\Math.hpp" />
     <ClInclude Include="src\Flow3D\OpenGLWindow.hpp" />
@@ -581,8 +579,6 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClCompile Include="src\Flow3D\GameObject.cpp" />
     <ClCompile Include="src\Flow3D\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Flow3D\Input.cpp" />
-    <ClCompile Include="src\Flow3D\Layer.cpp" />
-    <ClCompile Include="src\Flow3D\LayerStack.cpp" />
     <ClCompile Include="src\Flow3D\Log.cpp" />
     <ClCompile Include="src\Flow3D\OpenGLWindow.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Mesh.cpp" />

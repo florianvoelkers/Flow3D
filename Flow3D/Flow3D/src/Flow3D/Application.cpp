@@ -24,6 +24,9 @@ namespace Flow {
 
 		m_CurrentScene = std::make_unique<Scene>("TestScene", *m_Window);
 		m_CurrentScene->OnAttach();
+
+		m_ImGui = std::make_unique<ImGuiLayer>();
+		m_ImGui->OnAttach();
 	}
 
 	Application::~Application()
@@ -44,12 +47,8 @@ namespace Flow {
 
 			m_Input->OnUpdate(elapsed);
 			m_CurrentScene->OnUpdate(elapsed);
-
-			// scene should be part of the layer stack but it also should be uniquely accessible
-			for (Layer* layer : m_LayerStack)
-				layer->OnUpdate(elapsed);
-
 			m_RenderingEngine->Render(m_CurrentScene->GetRoot(), m_CurrentScene->GetMainCamera(), m_CurrentScene->GetSkybox());
+			m_ImGui->OnUpdate(elapsed);
 			m_Window->OnUpdate();
 		}
 	}
@@ -63,20 +62,10 @@ namespace Flow {
 	{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(FLOW_BIND_EVENT_FUNCTION(Application::OnWindowClose));
+		dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(Application::OnKeyPressed));
 
 		m_Input->OnEvent(e);
-
-		// scene should be part of the layer stack but it also should be uniquely accessible
-		// will be executed in reverse order so that overlays will receive events first
-		// for example an UI button should mark a mouse click event as handled and no further reactions
-		// to that event should be triggered
-		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin(); )
-		{
-			(*--it)->OnEvent(e);
-			if (e.m_Handled)
-				break;
-		}
-
+		m_ImGui->OnEvent(e);
 		m_CurrentScene->OnEvent(e);
 	}
 
@@ -86,27 +75,18 @@ namespace Flow {
 		return true;
 	}
 
-	void Application::PushLayer(Layer * layer)
+	bool Application::OnKeyPressed(KeyPressedEvent& e)
 	{
-		m_LayerStack.PushLayer(layer);
-		layer->OnAttach();
-	}
+		if (e.GetKeyCode() == (int)Keycode::Escape)
+			m_Running = false;
 
-	void Application::PushOverlay(Layer * overlay)
-	{
-		m_LayerStack.PushOverlay(overlay);
-		overlay->OnAttach();
-	}
+		if (e.GetKeyCode() == (int)Keycode::F10)
+		{
+			bool demoShown = m_ImGui->GetShowDemo();
+			m_Window->ShowMouse(!demoShown);
+			m_ImGui->ToggleDemoWindow(!m_ImGui->GetShowDemo());
+		}			
 
-	void Application::PopLayer(Layer * layer)
-	{
-		m_LayerStack.PopLayer(layer);
-		layer->OnDetach();
-	}
-
-	void Application::PopOverlay(Layer * overlay)
-	{
-		m_LayerStack.PopOverlay(overlay);
-		overlay->OnDetach();
-	}
+		return false; // returns false because other functions should be able to receive those events as well
+ 	}
 }

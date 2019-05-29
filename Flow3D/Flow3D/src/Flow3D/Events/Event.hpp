@@ -1,6 +1,6 @@
 #pragma once
 
-#pragma once
+#include "Flow3D/Log.hpp"
 
 #include "Flow3D/Core.hpp"
 
@@ -73,7 +73,7 @@ namespace Flow {
 		template<typename T>
 		bool Dispatch(EventFunction<T> func)
 		{
-			if (m_Event.GetEventType() == T::GetStaticType())
+			if (m_Event.GetEventType() == T::GetStaticType() && !m_Event.m_Handled)
 			{
 				m_Event.m_Handled = func(*(T*)&m_Event);
 				return true;

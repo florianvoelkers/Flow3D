@@ -5,7 +5,7 @@
 namespace Flow {
 
 	Scene::Scene(std::string name, const Window& window)
-		: m_Name(name), m_Window(&window), Layer("Scene")
+		: m_Name(name), m_Window(&window)
 	{
 		// The root object will contain all objects present in one scene as it's children and their children and so on.
 		m_Root = new GameObject("root");

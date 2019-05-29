@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Layer.hpp"
 #include "Window.hpp"
 #include "GameObject.hpp"
 #include "Rendering/Skybox.hpp"
@@ -10,7 +9,7 @@ namespace Flow {
 
 	// The scene represents a game world, you can have several scenes which can be switched in the application.
 	// It is made up of GameObjects (1 GameObject root and its children) with components.
-	class Scene : public Layer
+	class Scene
 	{
 	public:
 		Scene(std::string name, const Window& window);
@@ -18,10 +17,10 @@ namespace Flow {
 
 		void AddToScene(GameObject* gameObject);
 
-		void OnAttach() override;
-		void OnDetach() override;
-		void OnUpdate(double deltaTime) override;
-		void OnEvent(Event& event) override;
+		void OnAttach();
+		void OnDetach();
+		void OnUpdate(double deltaTime);
+		void OnEvent(Event& event);
 
 		inline GameObject* FindGameObject(std::string name);
 

@@ -51,8 +51,7 @@ namespace Flow {
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
-		// tell GLFW to capture our mouse
-		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		ShowMouse(false);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{
@@ -153,5 +152,22 @@ namespace Flow {
 	{
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
+	}
+
+	void OpenGLWindow::ShowMouse(bool show)
+	{
+		// tell GLFW to capture our mouse
+		if (show) 
+		{
+			double xpos, ypos;
+			glfwGetCursorPos(m_Window, &xpos, &ypos);
+			m_OldMouse = Vec2((float)xpos, (float)ypos);
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}	
+		else
+		{
+			glfwSetCursorPos(m_Window, (double)m_OldMouse.x, (double)m_OldMouse.y);
+			glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}			
 	}
 }

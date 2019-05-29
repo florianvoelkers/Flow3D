@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Window.hpp"
+#include "Flow3D/Math.hpp"
 
 #include "GLFW\glfw3.h"
 
@@ -20,10 +21,13 @@ namespace Flow {
 
 		inline unsigned int GetWidth() const override { return m_WindowData.Width; }
 		inline unsigned int GetHeight() const override { return m_WindowData.Height; }
+		
+		virtual void ShowMouse(bool show) override;
 
 		inline void SetEventCallback(const EventCallbackFunction& callback) override { m_WindowData.EventCallback = callback; }
 	private:
 		GLFWwindow* m_Window;
+		Vec2 m_OldMouse;
 
 		struct WindowData {
 			std::string Title;
