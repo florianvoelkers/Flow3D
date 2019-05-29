@@ -64,8 +64,8 @@ namespace Flow {
 		dispatcher.Dispatch<WindowCloseEvent>(FLOW_BIND_EVENT_FUNCTION(Application::OnWindowClose));
 		dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(Application::OnKeyPressed));
 
-		m_Input->OnEvent(e);
 		m_ImGui->OnEvent(e);
+		m_Input->OnEvent(e);		
 		m_CurrentScene->OnEvent(e);
 	}
 
