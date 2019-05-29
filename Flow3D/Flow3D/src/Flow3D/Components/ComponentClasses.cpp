@@ -6,6 +6,7 @@
 #include "Renderable.hpp"
 #include "Rotatable.hpp"
 #include "ComponentToggler.hpp"
+#include "GameObjectToggler.hpp"
 
 using namespace Flow;
 
@@ -21,3 +22,4 @@ CLASS_DEFINITION(BaseLight, DirectionalLight)
 CLASS_DEFINITION(BaseLight, PointLight)
 CLASS_DEFINITION(BaseLight, SpotLight)
 CLASS_DEFINITION(Component, ComponentToggler)
+CLASS_DEFINITION(Component, GameObjectToggler)

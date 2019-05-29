@@ -18,7 +18,6 @@ namespace Flow {
 	class GameObject 
 	{
 	public:
-		GameObject();
 		GameObject(const std::string& name, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f), bool isActive = true);
 		virtual ~GameObject();
 
@@ -43,6 +42,7 @@ namespace Flow {
 		void SetActive(bool isActive) { m_IsActive = isActive; }
 		inline Transform* GetTransform() { return &m_Transform; }
 		inline const std::string GetName() const { return m_Name; }
+		inline const bool GetIsActive() const { return m_IsActive; }
 		
 	private: 
 		bool m_IsActive;

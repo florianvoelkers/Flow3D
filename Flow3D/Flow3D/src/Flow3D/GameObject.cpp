@@ -6,11 +6,6 @@
 
 namespace Flow {
 
-	GameObject::GameObject()
-		: m_Name("NULL")
-	{
-	}
-
 	GameObject::GameObject(const std::string& name, const Vec3& position, const Vec3& rotation, const Vec3& scale, bool isActive)
 		: m_Name(name), m_Transform(position, rotation, scale), m_IsActive(isActive)
 	{
@@ -29,7 +24,6 @@ namespace Flow {
 
 	GameObject* GameObject::Find(std::string name)
 	{
-		FLOW_CORE_INFO("this game objects name is {0}", GetName());
 		// checks if this is the GameObject we're looking for
 		if (name == GetName())
 			return this;
@@ -39,14 +33,10 @@ namespace Flow {
 		{
 			GameObject* placeholder = m_Children[i]->Find(name);
 			if (placeholder != nullptr)
-			{
-				FLOW_CORE_INFO("the name is {0} equal to {1}", placeholder->GetName(), name);
 				return placeholder;
-			}
 		}
 
 		// if you can't find it, return a nullptr
-		FLOW_CORE_INFO("return null object");
 		return nullptr;
 	}
 

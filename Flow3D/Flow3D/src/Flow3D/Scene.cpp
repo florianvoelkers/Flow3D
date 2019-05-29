@@ -146,17 +146,7 @@ namespace Flow {
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
 		// add component to toggle flash light; need a better way to disabling lights
 		// m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera, m_MainCamera->GetComponent<SpotLight>());
-
-		GameObject* searchedObject = FindGameObject("nose");
-		if (searchedObject != nullptr)
-		{
-			FLOW_CORE_INFO("the searched object is at wolrd position {0}, local position {1} and its name is {2}", 
-				searchedObject->GetTransform()->GetWorldPosition().ToString(), 
-				searchedObject->GetTransform()->GetPosition().ToString(), 
-				searchedObject->GetName());
-		}			
-		else
-			FLOW_CORE_INFO("object not found");
+		m_MainCamera->AddComponent<GameObjectToggler>(m_MainCamera, "trex2");
 	}
 	 
 	void Scene::OnDetach()
