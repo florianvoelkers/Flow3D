@@ -21,9 +21,12 @@ namespace Flow {
 		void SetBlending(bool blending);
 
 		inline const Vec3 GetViewPosition() const { return viewPosition; }
+		inline const unsigned int GetRenderTexture() const { return m_RenderTexture; }
 
 	private:
 		const Window* m_Window;
 		Vec3 viewPosition;
+		unsigned int m_RenderTexture;
+		unsigned int m_Framebuffer;
 	};
 }

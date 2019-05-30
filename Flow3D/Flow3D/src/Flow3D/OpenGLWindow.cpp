@@ -51,7 +51,7 @@ namespace Flow {
 		glfwMakeContextCurrent(m_Window);
 		glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
-		ShowMouse(false);
+		ShowMouse(true);
 
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		{

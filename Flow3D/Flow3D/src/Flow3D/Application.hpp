@@ -32,6 +32,7 @@ namespace Flow {
 		inline GameObject& GetMainCamera() { m_CurrentScene->GetMainCamera(); }
 		inline Scene& GetCurrentScene() { return *m_CurrentScene.get(); }
 		inline const std::shared_ptr<Shader> GetStandardShader() { return m_StandardShader; }
+		inline const unsigned int GetRenderTexture() const { return m_RenderingEngine->GetRenderTexture(); }
 
 	private:
 		static Application* s_Instance;

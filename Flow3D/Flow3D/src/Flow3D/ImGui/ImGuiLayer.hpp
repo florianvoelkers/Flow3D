@@ -17,12 +17,12 @@ namespace Flow {
 		void OnUpdate(double deltaTime);
 		void OnEvent(Event& event);
 
-		void ToggleDemoWindow(bool showDemo) { m_ShowDemo = showDemo; }
-		inline const bool GetShowDemo() const { return m_ShowDemo; }
+		void ToggleReceiveEvents() { m_ReceiveEvents = !m_ReceiveEvents; }
+		inline const bool GetReceiveEvents() const { return m_ReceiveEvents; }
 
 	private:
 		float m_Time = 0.0f;
-		bool m_ShowDemo = false;
+		bool m_ReceiveEvents = true;
 
 		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& event);
 		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& event);

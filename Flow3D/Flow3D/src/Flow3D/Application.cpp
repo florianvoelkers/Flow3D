@@ -82,9 +82,9 @@ namespace Flow {
 
 		if (e.GetKeyCode() == (int)Keycode::F10)
 		{
-			bool demoShown = m_ImGui->GetShowDemo();
-			m_Window->ShowMouse(!demoShown);
-			m_ImGui->ToggleDemoWindow(!m_ImGui->GetShowDemo());
+			bool receiveEvents = m_ImGui->GetReceiveEvents();
+			m_Window->ShowMouse(!receiveEvents);
+			m_ImGui->ToggleReceiveEvents();
 		}			
 
 		return false; // returns false because other functions should be able to receive those events as well
