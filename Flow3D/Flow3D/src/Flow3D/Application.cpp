@@ -39,11 +39,23 @@ namespace Flow {
 		// application loop: at the moment it runs as fast as it can
 		// TODO: setting the frame rate / constant frame rate
 		double lastTime = glfwGetTime();
+
+		// for counting frames, but GLFW limits the fps to 60 because of VSYNC to avoid screen tearing
+		unsigned int numberOfFrames = 0;
+		double lastSecond = lastTime;
 		while (m_Running)
 		{
 			double current = glfwGetTime();
 			double elapsed = current - lastTime;
 			lastTime = current;
+
+			numberOfFrames++;
+			if (current - lastSecond >= 1.0)
+			{
+				//FLOW_CORE_INFO("ms/frame {0}", 1000.0/double(numberOfFrames));
+				numberOfFrames = 0;
+				lastSecond += 1.0f;
+			}
 
 			m_Input->OnUpdate(elapsed);
 			m_CurrentScene->OnUpdate(elapsed);

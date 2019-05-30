@@ -69,27 +69,55 @@ namespace Flow {
 		
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
+
+		if (ImGui::BeginMainMenuBar())
+		{
+			if (ImGui::BeginMenu("Flow3D"))
+			{
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Edit"))
+			{
+				if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
+				if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+				ImGui::Separator();
+				if (ImGui::MenuItem("Cut", "CTRL+X")) {}
+				if (ImGui::MenuItem("Copy", "CTRL+C")) {}
+				if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Settings"))
+			{
+
+				ImGui::EndMenu();
+			}
+			ImGui::EndMainMenuBar();
+		}
 			
 		ImGui::SetNextWindowContentSize(ImVec2(1280.0f, 720.0f));
 		// create our ImGui window
-		ImGui::Begin("Viewport", &show, ImGuiWindowFlags_NoResize);
-		//get the mouse position
-		ImVec2 pos = ImGui::GetCursorScreenPos();
+		if (ImGui::Begin("Viewport", &show, ImGuiWindowFlags_NoResize))
+		{
+			//get the mouse position
+			ImVec2 pos = ImGui::GetCursorScreenPos();
 
-		//pass the texture of the FBO
-		//app.GetRenderTexture() is the texture of the FBO
-		//the next parameter is the upper left corner for the uvs to be applied at
-		//the third parameter is the lower right corner
-		//the last two parameters are the UVs
-		//they have to be flipped (normally they would be (0,0);(1,1) 
-		ImGui::GetWindowDrawList()->AddImage(
-			(void *)app.GetRenderTexture(),
-			ImVec2(ImGui::GetCursorScreenPos()),
-			ImVec2(ImGui::GetCursorScreenPos().x + 1280,
-				ImGui::GetCursorScreenPos().y + 720), ImVec2(0, 1), ImVec2(1, 0));
+			//pass the texture of the FBO
+			//app.GetRenderTexture() is the texture of the FBO
+			//the next parameter is the upper left corner for the uvs to be applied at
+			//the third parameter is the lower right corner
+			//the last two parameters are the UVs
+			//they have to be flipped (normally they would be (0,0);(1,1) 
+			ImGui::GetWindowDrawList()->AddImage(
+				(void *)app.GetRenderTexture(),
+				ImVec2(ImGui::GetCursorScreenPos()),
+				ImVec2(ImGui::GetCursorScreenPos().x + 1280,
+					ImGui::GetCursorScreenPos().y + 720), ImVec2(0, 1), ImVec2(1, 0));
 
-		//we are done working with this window
-		ImGui::End();
+			//we are done working with this window
+			ImGui::End();
+		}		
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
