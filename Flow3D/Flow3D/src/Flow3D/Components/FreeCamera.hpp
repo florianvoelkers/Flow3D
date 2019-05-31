@@ -138,9 +138,6 @@ namespace Flow {
 				firstMouse = false;
 			}
 
-			FLOW_CORE_INFO("last mouse is {0}", lastMouse.ToString());
-			FLOW_CORE_INFO("this mouse is {0}", mousePosition.ToString());
-
 			float xOffset = mousePosition.x - lastMouse.x;
 			float yOffset = lastMouse.y - mousePosition.y;
 

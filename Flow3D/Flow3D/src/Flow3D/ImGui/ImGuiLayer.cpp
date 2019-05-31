@@ -1,6 +1,7 @@
 #include "ImGuiLayer.hpp"
 
 #include "imgui/imgui_impl_opengl3.h"
+#include "ImGuiLog.hpp"
 
 //Temporary
 #include <glad/glad.h>
@@ -48,6 +49,8 @@ namespace Flow {
 		io.KeyMap[ImGuiKey_Z] = GLFW_KEY_Z;
 
 		ImGui_ImplOpenGL3_Init("#version 410");
+
+		m_Logger = std::make_unique<Flow3DLog>();
 	}
 
 	void ImGuiLayer::OnDetach()
@@ -68,7 +71,8 @@ namespace Flow {
 		ImGui::NewFrame();
 		
 		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		
+		//ImGui::ShowDemoWindow(&show);
 
 		if (ImGui::BeginMainMenuBar())
 		{
@@ -95,10 +99,16 @@ namespace Flow {
 			}
 			ImGui::EndMainMenuBar();
 		}
+
+		ImGui::SetNextWindowContentSize(ImVec2(240.0f, 960.0f));
+		if (ImGui::Begin("Hierarchy", &show, ImGuiWindowFlags_NoCollapse))
+		{
+			ImGui::End();
+		}
 			
 		ImGui::SetNextWindowContentSize(ImVec2(1280.0f, 720.0f));
 		// create our ImGui window
-		if (ImGui::Begin("Viewport", &show, ImGuiWindowFlags_NoResize))
+		if (ImGui::Begin("Viewport", &show, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
 		{
 			//get the mouse position
 			ImVec2 pos = ImGui::GetCursorScreenPos();
@@ -117,7 +127,15 @@ namespace Flow {
 
 			//we are done working with this window
 			ImGui::End();
-		}		
+		}	
+
+		ImGui::SetNextWindowContentSize(ImVec2(360.0f, 960.0f));
+		if (ImGui::Begin("Inspector", &show, ImGuiWindowFlags_NoCollapse))
+		{
+			ImGui::End();
+		}
+
+		m_Logger->Draw("Flow3D Log");
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -52,7 +52,7 @@ namespace Flow {
 			numberOfFrames++;
 			if (current - lastSecond >= 1.0)
 			{
-				//FLOW_CORE_INFO("ms/frame {0}", 1000.0/double(numberOfFrames));
+				m_ImGui->GetLogger().AddLog("fps: %d\n", numberOfFrames);
 				numberOfFrames = 0;
 				lastSecond += 1.0f;
 			}

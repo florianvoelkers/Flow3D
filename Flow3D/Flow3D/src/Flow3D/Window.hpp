@@ -12,7 +12,7 @@ namespace Flow {
 		unsigned int Width;
 		unsigned int Height;
 
-		WindowProperties(const std::string& title = "Flow3D", unsigned int width = 1600, unsigned int height = 900)
+		WindowProperties(const std::string& title = "Flow3D", unsigned int width = 1840, unsigned int height = 1035)
 			: Title(title), Width(width), Height(height) {}
 	};
 

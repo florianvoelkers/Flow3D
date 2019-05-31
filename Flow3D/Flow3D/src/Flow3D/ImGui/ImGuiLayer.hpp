@@ -3,6 +3,9 @@
 #include "Flow3D/Events/ApplicationEvent.hpp"
 #include "Flow3D/Events/KeyEvent.hpp"
 #include "Flow3D/Events/MouseEvent.hpp"
+#include "Flow3D/Log.hpp"
+
+#include "ImGuiLog.hpp"
 
 namespace Flow {
 
@@ -17,12 +20,16 @@ namespace Flow {
 		void OnUpdate(double deltaTime);
 		void OnEvent(Event& event);
 
+		Flow3DLog& GetLogger() { return *m_Logger; }
+
 		void ToggleReceiveEvents() { m_ReceiveEvents = !m_ReceiveEvents; }
 		inline const bool GetReceiveEvents() const { return m_ReceiveEvents; }
 
 	private:
 		float m_Time = 0.0f;
 		bool m_ReceiveEvents = true;
+
+		std::unique_ptr<Flow3DLog> m_Logger;
 
 		bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& event);
 		bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& event);
