@@ -1185,6 +1185,9 @@
     <ClInclude Include="src\Flow3D\ImGui\ImGuiLog.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Flow3D\ImGui\ImGuiInspector.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp">

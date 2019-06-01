@@ -34,6 +34,7 @@ namespace Flow {
 		bool RemoveComponent();
 
 		GameObject* Find(std::string name);
+		const std::vector<GameObject*>& GetChildren() const{ return m_Children; }
 
 		void OnUpdate(double deltaTime);
 		void OnEvent(Event& e);

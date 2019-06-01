@@ -548,6 +548,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\Events\KeyEvent.hpp" />
     <ClInclude Include="src\Flow3D\Events\MouseEvent.hpp" />
     <ClInclude Include="src\Flow3D\GameObject.hpp" />
+    <ClInclude Include="src\Flow3D\ImGui\ImGuiInspector.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiLayer.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiLog.hpp" />
     <ClInclude Include="src\Flow3D\Input.hpp" />

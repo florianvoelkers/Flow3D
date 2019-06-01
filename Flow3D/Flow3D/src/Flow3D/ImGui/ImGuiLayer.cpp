@@ -1,7 +1,6 @@
 #include "ImGuiLayer.hpp"
 
 #include "imgui/imgui_impl_opengl3.h"
-#include "ImGuiLog.hpp"
 
 //Temporary
 #include <glad/glad.h>
@@ -12,6 +11,20 @@
 #include "Flow3D/Log.hpp"
 
 namespace Flow {
+
+	// Helper to display a little (?) mark which shows a tooltip when hovered.
+	static void ShowHelpMarker(const char* desc)
+	{
+		ImGui::TextDisabled("(?)");
+		if (ImGui::IsItemHovered())
+		{
+			ImGui::BeginTooltip();
+			ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+			ImGui::TextUnformatted(desc);
+			ImGui::PopTextWrapPos();
+			ImGui::EndTooltip();
+		}
+	}
 
 	ImGuiLayer::ImGuiLayer() {}
 
@@ -51,6 +64,7 @@ namespace Flow {
 		ImGui_ImplOpenGL3_Init("#version 410");
 
 		m_Logger = std::make_unique<Flow3DLog>();
+		m_Inspector = std::make_unique<Flow3DInspector>();
 	}
 
 	void ImGuiLayer::OnDetach()
@@ -72,7 +86,7 @@ namespace Flow {
 		
 		static bool show = true;
 		
-		//ImGui::ShowDemoWindow(&show);
+		ImGui::ShowDemoWindow(&show);
 
 		if (ImGui::BeginMainMenuBar())
 		{
@@ -103,6 +117,16 @@ namespace Flow {
 		ImGui::SetNextWindowContentSize(ImVec2(240.0f, 960.0f));
 		if (ImGui::Begin("Hierarchy", &show, ImGuiWindowFlags_NoCollapse))
 		{
+			ImGui::Separator();
+			ImGui::Columns(1);
+
+			// Iterate dummy objects with dummy members (all the same data)
+			std::vector<GameObject*> allGameObjects = Application::Get().GetAllGameObjects();
+			for (int i = 0; i < allGameObjects.size(); i++)
+				ShowGameObject(allGameObjects[i]->GetName().c_str(), i, *allGameObjects[i]);
+
+			ImGui::Separator();
+
 			ImGui::End();
 		}
 			
@@ -129,16 +153,43 @@ namespace Flow {
 			ImGui::End();
 		}	
 
-		ImGui::SetNextWindowContentSize(ImVec2(360.0f, 960.0f));
-		if (ImGui::Begin("Inspector", &show, ImGuiWindowFlags_NoCollapse))
-		{
-			ImGui::End();
-		}
+		m_Inspector->Draw();
 
 		m_Logger->Draw("Flow3D Log");
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	}
+
+	void ImGuiLayer::ShowGameObject(const char* prefix, int uid, GameObject& child)
+	{
+		ImGui::PushID(uid);                      // Use object uid as identifier. Most commonly you could also use the object pointer as a base ID.
+		ImGui::AlignTextToFramePadding();  // Text and Tree nodes are less high than regular widgets, here we add vertical spacing to make the tree lines equal high.
+		const std::vector<GameObject*>& children = child.GetChildren();
+		if (children.size() > 0)
+		{
+			bool node_open = ImGui::TreeNodeEx(prefix, ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow);
+			if (ImGui::IsItemClicked())
+				m_Inspector->SetGameObject(prefix);			
+
+			ImGui::NextColumn();
+			if (node_open)
+			{
+				for (int i = 0; i < children.size(); i++)
+					ShowGameObject(children[i]->GetName().c_str(), i, *children[i]);
+				ImGui::TreePop();
+			}
+		}
+		else
+		{
+			ImGui::TreeNodeEx(prefix, ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet);
+			if (ImGui::IsItemClicked())
+				m_Inspector->SetGameObject(prefix);
+				
+			ImGui::NextColumn();
+		}
+
+		ImGui::PopID();
 	}
 
 	void ImGuiLayer::OnEvent(Event& event)
