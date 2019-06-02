@@ -60,7 +60,7 @@ namespace Flow {
 
 		// render the scene starting with the scenes root object which contains all scene objects
 		root.Render(view, projection, *this);
-		//skybox.Draw(view, projection);
+		skybox.Draw(view, projection);
 
 		// now bind back to default framebuffer and draw a quad plane with the attached framebuffer color texture
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);

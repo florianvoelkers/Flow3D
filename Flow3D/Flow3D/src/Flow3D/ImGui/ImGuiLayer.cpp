@@ -108,6 +108,9 @@ namespace Flow {
 
 			if (ImGui::BeginMenu("Settings"))
 			{
+				Skybox& skybox = app.GetCurrentScene().GetSkybox();
+				if (ImGui::MenuItem("Skybox", NULL, skybox.IsShown()))
+					skybox.ToggleShow();
 
 				ImGui::EndMenu();
 			}
@@ -117,6 +120,17 @@ namespace Flow {
 		ImGui::SetNextWindowContentSize(ImVec2(240.0f, 960.0f));
 		if (ImGui::Begin("Hierarchy", &show, ImGuiWindowFlags_NoCollapse))
 		{
+			static char nameBuffer[32] = "GameObject";
+			if (ImGui::InputText("##hidelabel", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
+			{
+				FLOW_CORE_INFO("name is: {0}", nameBuffer);
+			}
+			ImGui::SameLine(0, 20.0f);
+			if (ImGui::Button("ADD GO"))
+			{
+				FLOW_CORE_INFO("new go name would be {0}", nameBuffer);
+			}
+
 			ImGui::Separator();
 			ImGui::Columns(1);
 

@@ -6,7 +6,8 @@
 
 namespace Flow {
 
-	Skybox::Skybox(std::string skyboxDirectory, std::string filetype)
+	Skybox::Skybox(std::string skyboxDirectory, std::string filetype, bool show)
+		: m_Show(show)
 	{
 		SetupCube(skyboxDirectory, filetype);
 	}
@@ -18,21 +19,24 @@ namespace Flow {
 
 	void Skybox::Draw(Mat4 view, Mat4 projection) const
 	{
-		m_Shader->Use();
-		m_Shader->SetInt("skybox", 0);
+		if (m_Show)
+		{
+			m_Shader->Use();
+			m_Shader->SetInt("skybox", 0);
 
-		glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
-		Mat3 viewWithoutTranslation = glm::mat3(view.mat);
-		view = Mat4(viewWithoutTranslation.mat); // remove translation from the view matrix
-		m_Shader->SetMat4("view", view);
-		m_Shader->SetMat4("projection", projection);
-		// skybox cube
-		glBindVertexArray(VAO);
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, m_CubemapTexture);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
-		glDepthFunc(GL_LESS); // set depth function back to default
+			glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
+			Mat3 viewWithoutTranslation = glm::mat3(view.mat);
+			view = Mat4(viewWithoutTranslation.mat); // remove translation from the view matrix
+			m_Shader->SetMat4("view", view);
+			m_Shader->SetMat4("projection", projection);
+			// skybox cube
+			glBindVertexArray(VAO);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, m_CubemapTexture);
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+			glBindVertexArray(0);
+			glDepthFunc(GL_LESS); // set depth function back to default
+		}
 	}
 
 	void Skybox::SetupCube(std::string skyboxDirectory, std::string filetype)
