@@ -184,7 +184,7 @@ namespace Flow {
 		{
 			bool node_open = ImGui::TreeNodeEx(prefix, ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow);
 			if (ImGui::IsItemClicked())
-				m_Inspector->SetGameObject(prefix);			
+				m_Inspector->SetGameObject(&child);			
 
 			ImGui::NextColumn();
 			if (node_open)
@@ -198,7 +198,7 @@ namespace Flow {
 		{
 			ImGui::TreeNodeEx(prefix, ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet);
 			if (ImGui::IsItemClicked())
-				m_Inspector->SetGameObject(prefix);
+				m_Inspector->SetGameObject(&child);
 				
 			ImGui::NextColumn();
 		}

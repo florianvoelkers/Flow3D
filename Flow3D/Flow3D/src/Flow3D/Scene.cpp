@@ -63,11 +63,11 @@ namespace Flow {
 		AddToScene(grass1);
 
 		GameObject* grass2 = new GameObject("grass2",Vec3(0.0f, 0.5f, 0.51f));
-		grass1->AddComponent<Renderable>(grass2, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
+		grass2->AddComponent<Renderable>(grass2, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass2);
 
 		GameObject* grass3 = new GameObject("grass3", Vec3(1.0f, 0.5f, 0.51f));
-		grass1->AddComponent<Renderable>(grass3, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
+		grass3->AddComponent<Renderable>(grass3, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass3);
 
 		GameObject* secondCube = new GameObject("secondCube", Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));

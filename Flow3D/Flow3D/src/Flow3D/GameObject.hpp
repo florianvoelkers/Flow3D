@@ -35,6 +35,7 @@ namespace Flow {
 
 		GameObject* Find(std::string name);
 		const std::vector<GameObject*>& GetChildren() const{ return m_Children; }
+		const std::vector<std::unique_ptr<Component>>& GetComponents() const { return m_Components; }
 
 		void OnUpdate(double deltaTime);
 		void OnEvent(Event& e);

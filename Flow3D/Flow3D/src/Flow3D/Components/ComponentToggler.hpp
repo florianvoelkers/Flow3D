@@ -11,7 +11,7 @@ namespace Flow {
 
 	public:
 		ComponentToggler(GameObject* gameObject, Component& componentToToggle, bool enabled = true) 
-			: Component(gameObject, enabled), m_Input(Input::Get()), m_ComponentToToggle(componentToToggle) {}
+			: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()), m_ComponentToToggle(componentToToggle) {}
 
 		virtual void OnEvent(Event& e) override
 		{
