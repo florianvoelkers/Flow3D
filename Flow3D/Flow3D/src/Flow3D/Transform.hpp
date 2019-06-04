@@ -8,7 +8,7 @@ namespace Flow {
 		up, down, right, left, front, back
 	};
 
-	class Transform
+	struct Transform
 	{
 	public:
 		// Creates a Transform with default values for positon, rotation and scale
@@ -59,3 +59,5 @@ namespace Flow {
 		void UpdateVectors();
 	};
 }
+
+

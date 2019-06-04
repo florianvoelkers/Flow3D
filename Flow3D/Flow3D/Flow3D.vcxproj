@@ -592,6 +592,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClCompile Include="src\Flow3D\Rendering\Skybox.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Texture.cpp" />
     <ClCompile Include="src\Flow3D\Scene.cpp" />
+    <ClCompile Include="src\Flow3D\StructVisit.hpp" />
     <ClCompile Include="src\Flow3D\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>

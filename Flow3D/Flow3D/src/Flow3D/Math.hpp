@@ -9,6 +9,8 @@
 
 #include <iostream>
 
+#include "StructVisit.hpp"
+
 namespace Flow {
 
 	// Provides a wrapper around the glm library.
@@ -460,3 +462,6 @@ namespace Flow {
 		float x, y, z, w;
 	};
 }
+
+
+VISITABLE_STRUCT(Flow::Vec3, x, y, z);

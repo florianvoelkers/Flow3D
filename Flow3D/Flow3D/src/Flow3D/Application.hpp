@@ -10,6 +10,17 @@
 
 #include "Window.hpp"
 
+#include "Math.hpp"
+#include "StructVisit.hpp"
+
+struct test_struct_one {
+	int a;
+	float b;
+	std::string c;
+};
+
+VISITABLE_STRUCT(test_struct_one, a, b, c);
+
 namespace Flow {
 
 	// This class manages the application. All systems will be started in the constructor,
