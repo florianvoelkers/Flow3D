@@ -3,6 +3,9 @@
 #include "Component.hpp"
 #include "Flow3D/Math.hpp"
 #include "Flow3D/Color.hpp"
+#include "Flow3D/StructVisit.hpp"
+
+#include <iostream>
 
 // from https://github.com/BennyQBD/3DEngineCpp/blob/master/src/rendering/lighting.h
 // and  https://github.com/BennyQBD/3DEngineCpp/blob/master/src/rendering/lighting.cpp
@@ -25,11 +28,16 @@ namespace Flow {
 		inline const Vec3& GetDiffuseIntensity() const { return m_Diffuse; }
 		inline const Vec3& GetSpecularIntensity() const { return m_Specular; }
 
-	protected:		
 		// intensities
 		Vec3 m_Ambient;
 		Vec3 m_Diffuse;
 		Vec3 m_Specular;
+
+		friend std::ostream& operator<<(std::ostream& os, const BaseLight& bl)
+		{
+			os << "BaseLight:: m_Ambient = " << bl.m_Ambient << ", m_Diffuse = " << bl.m_Diffuse << ", m_Specular = " << bl.m_Specular;
+			return os;
+		}
 	};
 
 	// Constructor: DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular)
@@ -45,8 +53,13 @@ namespace Flow {
 
 		inline const Vec3& GetDirection() const { return m_Direction; }
 
-	private:
 		Vec3 m_Direction;
+
+		friend std::ostream& operator<<(std::ostream& os, const DirectionalLight& dl)
+		{
+			os << "DirectionalLight: " << static_cast<const BaseLight&>(dl) << ", m_Direction = " << dl.m_Direction;
+			return os;
+		}
 	};
 
 	// To reduce the intensity of light, over the distance a light ray travels, is generally called attenuation.
@@ -62,10 +75,15 @@ namespace Flow {
 		inline float GetLinear() const { return m_Linear; }
 		inline float GetExponent() const { return m_Exponent; }
 
-	private:
 		float m_Constant;
 		float m_Linear;
 		float m_Exponent;
+
+		friend std::ostream& operator<<(std::ostream& os, const Attenuation& att)
+		{
+			os << "Attenuation: m_Constant = " << att.m_Constant << ", m_Linear = " << att.m_Linear << ", m_Exponent = " << att.m_Exponent;
+			return os;
+		}
 	};
 
 	// Constructor: PointLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation())
@@ -83,7 +101,6 @@ namespace Flow {
 
 		inline const Attenuation& GetAttenuation() const{ return m_Attenuation; }
 
-	private:
 		Attenuation m_Attenuation;
 	};
 
@@ -136,10 +153,26 @@ namespace Flow {
 		inline const float GetCutoff() const { return m_Cutoff; }
 		inline const float GetOuterCutoff() const { return m_OuterCutoff; }
 
-	private:
 		Attenuation m_Attenuation;
 		DIRECTIONS m_Direction;
 		float m_Cutoff;
 		float m_OuterCutoff;
+
+		friend std::ostream& operator<<(std::ostream& os, const SpotLight& sl)
+		{
+			os << "SpotLight: " << static_cast<const BaseLight&>(sl) << sl.m_Attenuation << ", direction = " << sl.GetDirection() 
+				<< ", m_Cutoff = " << sl.m_Cutoff << ", m_OuterCutoff = " << sl.m_OuterCutoff ;
+			return os;
+		}
 	};
 }
+
+VISITABLE_STRUCT(Flow::BaseLight, m_Ambient, m_Diffuse, m_Specular);
+VISITABLE_STRUCT(Flow::DirectionalLight, m_Ambient, m_Diffuse, m_Specular, m_Direction);
+VISITABLE_STRUCT(Flow::Attenuation, m_Constant, m_Linear, m_Exponent);
+VISITABLE_STRUCT(Flow::PointLight, m_Ambient, m_Diffuse, m_Specular, m_Attenuation);
+VISITABLE_STRUCT(Flow::SpotLight, m_Ambient, m_Diffuse, m_Specular, m_Attenuation, m_Cutoff, m_OuterCutoff);
+
+
+
+

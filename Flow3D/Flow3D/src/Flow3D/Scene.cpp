@@ -132,6 +132,8 @@ namespace Flow {
 		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
+
+		std::cout << GetDirectionalLight() << std::endl;
 		
 		Model swordModel("resources/models/sword/Sword.obj");
 		GameObject* sword = new GameObject("sword", Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
@@ -147,6 +149,9 @@ namespace Flow {
 		// add component to toggle flash light; need a better way to disabling lights
 		// m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera, m_MainCamera->GetComponent<SpotLight>());
 		m_MainCamera->AddComponent<GameObjectToggler>(m_MainCamera, "trex2");
+
+		FLOW_CORE_INFO("Spotlight of the MainCamera:");
+		debug_print(m_MainCamera->GetComponent<SpotLight>());
 	}
 	 
 	void Scene::OnDetach()

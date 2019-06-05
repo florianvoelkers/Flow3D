@@ -19,6 +19,7 @@ struct debug_printer {
 
 template <typename T>
 void debug_print(const T & t) {
+	std::cout << "Number of members: " << visit_struct::field_count(t);
 	std::cout << "{\n";
 	visit_struct::apply_visitor(debug_printer{}, t);
 	std::cout << "}" << std::endl;

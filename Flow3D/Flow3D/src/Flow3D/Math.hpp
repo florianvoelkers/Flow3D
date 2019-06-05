@@ -106,7 +106,7 @@ namespace Flow {
 
 		friend std::ostream& operator<<(std::ostream& os, const Vec3& vec)
 		{
-			os << "Vec3: x = " << vec.x << ", y = " << vec.y << ", z = " << vec.z;
+			os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ")";
 			return os;
 		}
 
