@@ -104,6 +104,12 @@ namespace Flow {
 		Vec3(const glm::vec3 vec) : x(vec.x), y(vec.y), z(vec.z) {}
 		Vec3() {}
 
+		friend std::ostream& operator<<(std::ostream& os, const Vec3& vec)
+		{
+			os << "Vec3: x = " << vec.x << ", y = " << vec.y << ", z = " << vec.z;
+			return os;
+		}
+
 		Vec3 Cross(Vec3 b)
 		{
 			return Vec3(glm::cross(glm::vec3(x, y, z), glm::vec3(b.x, b.y, b.z)));

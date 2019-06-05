@@ -17,9 +17,10 @@ struct test_struct_one {
 	int a;
 	float b;
 	std::string c;
+	Flow::Vec3 d;
 };
 
-VISITABLE_STRUCT(test_struct_one, a, b, c);
+VISITABLE_STRUCT(test_struct_one, a, b, c, d);
 
 namespace Flow {
 
