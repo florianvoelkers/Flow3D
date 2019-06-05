@@ -133,14 +133,18 @@ namespace Flow {
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 
-		std::cout << GetDirectionalLight() << std::endl;
+		GameObject* stick = new GameObject("stick", Vec3(0.0f, 0.0f, -1.0f), Vec3(-45.0f, 30.0f, -30.0f), Vec3(0.1f, 0.5f, 0.1f));
+		stick->AddComponent<Renderable>(stick, Model(std::make_shared<Cube>(metalFloorTexture)), texturedShapesShader);
+		m_MainCamera->AddChild(stick);
 		
+		/*
 		Model swordModel("resources/models/sword/Sword.obj");
 		GameObject* sword = new GameObject("sword", Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
 		sword->GetTransform()->SetScale(Vec3(0.05f));
 		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
 		sword->AddComponent<ComponentToggler>(sword, sword->GetComponent<Renderable>());
 		m_MainCamera->AddChild(sword);
+		*/
 
 		// flash light for the camera			
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
