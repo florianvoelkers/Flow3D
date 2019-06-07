@@ -152,10 +152,7 @@ namespace Flow {
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
 		// add component to toggle flash light; need a better way to disabling lights
 		// m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera, m_MainCamera->GetComponent<SpotLight>());
-		m_MainCamera->AddComponent<GameObjectToggler>(m_MainCamera, "trex2");
-
-		FLOW_CORE_INFO("Spotlight of the MainCamera:");
-		debug_print(m_MainCamera->GetComponent<SpotLight>());
+		m_MainCamera->AddComponent<GameObjectToggler>(m_MainCamera, "trex2");		
 	}
 	 
 	void Scene::OnDetach()

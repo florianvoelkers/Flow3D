@@ -2,7 +2,6 @@
 
 #include "Input.hpp"
 #include "Rendering/RenderingEngine.hpp"
-
 #include "Log.hpp"
 
 namespace Flow {
@@ -27,11 +26,6 @@ namespace Flow {
 
 		m_ImGui = std::make_unique<ImGuiLayer>();
 		m_ImGui->OnAttach();
-
-		test_struct_one s{ 5, 7.5f, "asdf", Vec3(1.0f, 2.0f, 3.0f)};
-		debug_print(s);
-		Vec3 test(0.0f, 1.0f, 2.0f);
-		debug_print(test);
 	}
 
 	Application::~Application()
