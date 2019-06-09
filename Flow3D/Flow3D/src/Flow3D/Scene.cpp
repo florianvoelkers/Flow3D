@@ -18,6 +18,8 @@ namespace Flow {
 
 	Scene::~Scene()
 	{	
+		m_PointLights.clear();
+		m_SpotLights.clear();
 	}
 
 	void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
@@ -148,6 +150,7 @@ namespace Flow {
 	 
 	void Scene::OnDetach()
 	{
+
 	}
 
 	void Scene::OnUpdate(double deltaTime)

@@ -11,24 +11,9 @@ namespace Flow {
 	{
 	}
 
-	GameObject::GameObject(const GameObject& other)
-		: m_Name(other.GetName()),
-		m_Transform(other.GetTransform().GetPosition(), other.GetTransform().GetRotation(), other.GetTransform().GetScale()),
-		m_IsActive(other.GetIsActive())
-	{
-
-		FLOW_CORE_INFO("copy constructor called");
-		/*
-		for (auto *child : other.GetChildren())
-		{
-			AddChild(child);
-		}*/
-	}
-
 	GameObject::~GameObject()
 	{
-		m_Children.clear();
-		FLOW_CORE_INFO("destructor called");
+		FLOW_CORE_INFO("destructor of {0} called", m_Name);
 	}
 
 	void GameObject::AddChild(std::shared_ptr<GameObject> child)

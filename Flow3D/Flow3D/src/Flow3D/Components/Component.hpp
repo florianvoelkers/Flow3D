@@ -56,10 +56,7 @@ namespace Flow {
 		}
 
 		Component(GameObject& gameObject, bool enabled = true, std::string name = "Component") : m_GameObject(gameObject), m_Enabled(enabled), m_Name(name) {}
-		virtual ~Component() 
-		{
-			FLOW_CORE_INFO("component destructed");
-		} // TODO: Destructor with ~Component() = default?
+		virtual ~Component() {} 
 
 		virtual void OnUpdate (double deltaTime) {}
 		virtual void OnEvent (Event& event) {}
