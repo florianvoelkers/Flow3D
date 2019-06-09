@@ -60,105 +60,89 @@ namespace Flow {
 		nose->AddComponent<Renderable>(nose.get(), Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		firstCube->AddChild(nose);
 
-		/*
-		GameObject* nose = new GameObject("nose", Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
-		nose->AddComponent<Renderable>(nose, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
-		firstCube->AddChild(nose);
-
-		GameObject* grass1 = new GameObject("grass1", Vec3(-1.0f, 0.5f, 0.51f));
-		grass1->AddComponent<Renderable>(grass1, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
+		std::shared_ptr<GameObject> grass1 = std::make_shared<GameObject>("grass1", Vec3(-1.0f, 0.5f, 0.51f));
+		grass1->AddComponent<Renderable>(grass1.get(), Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass1);
 
-		GameObject* grass2 = new GameObject("grass2",Vec3(0.0f, 0.5f, 0.51f));
-		grass2->AddComponent<Renderable>(grass2, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
+		std::shared_ptr<GameObject> grass2 = std::make_shared<GameObject>("grass2",Vec3(0.0f, 0.5f, 0.51f));
+		grass2->AddComponent<Renderable>(grass2.get(), Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass2);
 
-		GameObject* grass3 = new GameObject("grass3", Vec3(1.0f, 0.5f, 0.51f));
-		grass3->AddComponent<Renderable>(grass3, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
+		std::shared_ptr<GameObject> grass3 = std::make_shared<GameObject>("grass3", Vec3(1.0f, 0.5f, 0.51f));
+		grass3->AddComponent<Renderable>(grass3.get(), Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
 		AddToScene(grass3);
 
-		GameObject* secondCube = new GameObject("secondCube", Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
-		secondCube->AddComponent<Renderable>(secondCube, Model(std::make_shared<Cube>(containerTexture)), texturedShapesShader);
+		std::shared_ptr<GameObject> secondCube = std::make_shared<GameObject>("secondCube", Vec3(2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
+		secondCube->AddComponent<Renderable>(secondCube.get(), Model(std::make_shared<Cube>(containerTexture)), texturedShapesShader);
 		AddToScene(secondCube);
 
-		GameObject* thirdCube = new GameObject("thirdCube", Vec3(-2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
-		thirdCube->AddComponent<Renderable>(thirdCube, Model(std::make_shared<Cube>(container2Diffuse, container2Specular)), texturedShapesShader);
+		std::shared_ptr<GameObject> thirdCube = std::make_shared<GameObject>("thirdCube", Vec3(-2.5f, 0.5f, 0.0f), Vec3(0.0f, 0.0f, 0.0f));
+		thirdCube->AddComponent<Renderable>(thirdCube.get(), Model(std::make_shared<Cube>(container2Diffuse, container2Specular)), texturedShapesShader);
 		AddToScene(thirdCube);
 
 		Model treeModel("resources/models/Tree/Tree.obj");
-		GameObject* tree = new GameObject("tree", Vec3(0.0f, 3.0f, 0.0f));
+		std::shared_ptr<GameObject> tree = std::make_shared<GameObject>("tree", Vec3(0.0f, 3.0f, 0.0f));
 		tree->GetTransform().SetScale(Vec3(0.2f));
-		tree->AddComponent<Renderable>(tree, treeModel, modelShader, true);
+		tree->AddComponent<Renderable>(tree.get(), treeModel, modelShader, true);
 		AddToScene(tree);
 
 		Model oldManModel("resources/models/man/muro.obj");
-		GameObject* oldMan = new GameObject("oldMan", Vec3(0.0f, 0.0f, 2.0f));
+		std::shared_ptr<GameObject> oldMan = std::make_shared<GameObject>("oldMan", Vec3(0.0f, 0.0f, 2.0f));
 		oldMan->GetTransform().SetScale(Vec3(0.01f));
-		oldMan->AddComponent<Renderable>(oldMan, oldManModel, modelShader, false);
+		oldMan->AddComponent<Renderable>(oldMan.get(), oldManModel, modelShader, false);
 		AddToScene(oldMan);
 
-		GameObject* spotLight = new GameObject("spotLight", Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
-		spotLight->AddComponent<Renderable>(spotLight, Model(std::make_shared<Cube>(1.0f, 1.0f, 1.0f)), coloredShapesShader);
-		spotLight->AddComponent<SpotLight>(spotLight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::down,
+		std::shared_ptr<GameObject> spotLight = std::make_shared<GameObject>("spotLight", Vec3(-2.5f, 3.0f, 0.0f), Vec3(0.0f), Vec3(0.05f));
+		spotLight->AddComponent<Renderable>(spotLight.get(), Model(std::make_shared<Cube>(1.0f, 0.0f, 1.0f)), coloredShapesShader);
+		spotLight->AddComponent<SpotLight>(spotLight.get(), Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::down,
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&spotLight->GetComponent<SpotLight>());
 		AddToScene(spotLight);
 
 		Model trexModel("resources/models/trex/trex.fbx");
-		GameObject* trex = new GameObject("trex", Vec3(2.5f, 0.0f, 2.0f));
+		std::shared_ptr<GameObject> trex = std::make_shared<GameObject>("trex", Vec3(2.5f, 0.0f, 2.0f));
 		trex->GetTransform().SetScale(Vec3(0.2f));
-		trex->AddComponent<Renderable>(trex, trexModel, modelShader, false);
+		trex->AddComponent<Renderable>(trex.get(), trexModel, modelShader, false);
 		AddToScene(trex);
 
-		GameObject* trex2 = new GameObject("trex2", Vec3(-2.5f, 0.0f, 2.0f));
+		std::shared_ptr<GameObject> trex2 = std::make_shared<GameObject>("trex2", Vec3(-2.5f, 0.0f, 2.0f));
 		trex2->GetTransform().SetScale(Vec3(0.2f));
-		trex2->AddComponent<Rotatable>(trex2);
-		trex2->AddComponent<Renderable>(trex2, trexModel, modelShader, false);
+		trex2->AddComponent<Rotatable>(trex2.get());
+		trex2->AddComponent<Renderable>(trex2.get(), trexModel, modelShader, false);
 		AddToScene(trex2);
 
 		Model houseModel("resources/models/old_house/house.obj");
-		GameObject* house = new GameObject("house", Vec3(-7.0f, 0.0f, 7.0f), Vec3(0.0f, -90.0f, 0.0f));
+		std::shared_ptr<GameObject> house = std::make_shared<GameObject>("house", Vec3(-7.0f, 0.0f, 7.0f), Vec3(0.0f, -90.0f, 0.0f));
 		house->GetTransform().SetScale(Vec3(0.02f));
-		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
+		house->AddComponent<Renderable>(house.get(), houseModel, modelShader, false);
 		AddToScene(house);
 
 		Model houseModel2("resources/models/house/house.obj");
-		GameObject* house2 = new GameObject("house2", Vec3(10.0f, 0.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f));
+		std::shared_ptr<GameObject> house2 = std::make_shared<GameObject>("house2", Vec3(10.0f, 0.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f));
 		house2->GetTransform().SetScale(Vec3(0.008f));
-		house2->AddComponent<Renderable>(house2, houseModel2, modelShader, false);
+		house2->AddComponent<Renderable>(house2.get(), houseModel2, modelShader, false);
 		AddToScene(house2);
 
-		GameObject* cubeLamp = new GameObject("cubeLamp", Vec3(0.0f, 2.75f, 0.625f), Vec3(0.0f), Vec3(0.05f));
-		cubeLamp->AddComponent<Renderable>(cubeLamp, Model(std::make_shared<Cube>(1.0f, 1.0f, 1.0f)), coloredShapesShader);
-		cubeLamp->AddComponent<PointLight>(cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
-		AddPointLight(&cubeLamp->GetComponent<PointLight>());
-		// cubeLamp->AddComponent<ComponentToggler>(cubeLamp, cubeLamp->GetComponent<PointLight>()); // need a better way to disabling lights
-		AddToScene(cubeLamp);
-
-		GameObject* stick = new GameObject("stick", Vec3(0.0f, 0.0f, -1.0f), Vec3(-45.0f, 30.0f, -30.0f), Vec3(0.1f, 0.5f, 0.1f));
-		stick->AddComponent<Renderable>(stick, Model(std::make_shared<Cube>(metalFloorTexture)), texturedShapesShader);
+		std::shared_ptr<GameObject> stick = std::make_shared<GameObject>("stick", Vec3(0.0f, 0.0f, -1.0f), Vec3(-45.0f, 30.0f, -30.0f), Vec3(0.1f, 0.5f, 0.1f), false);
+		stick->AddComponent<Renderable>(stick.get(), Model(std::make_shared<Cube>(metalFloorTexture)), texturedShapesShader);
 		m_MainCamera->AddChild(stick);
-
-		
 		
 		/*
 		Model swordModel("resources/models/sword/Sword.obj");
-		GameObject* sword = new GameObject("sword", Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
+		std::shared_ptr<GameObject> sword = std::make_shared<GameObject>("sword", Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
 		sword->GetTransform()->SetScale(Vec3(0.05f));
-		sword->AddComponent<Renderable>(sword, swordModel, modelShader, false);
-		sword->AddComponent<ComponentToggler>(sword, sword->GetComponent<Renderable>());
+		sword->AddComponent<Renderable>(sword.get(), swordModel, modelShader, false);
+		sword->AddComponent<ComponentToggler>(sword.get(), sword->GetComponent<Renderable>());
 		m_MainCamera->AddChild(sword);
 		*/
 
 		// flash light for the camera		
-		/*
-		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
+		m_MainCamera->AddComponent<SpotLight>(m_MainCamera.get(), Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
 		// add component to toggle flash light; need a better way to disabling lights
-		// m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera, m_MainCamera->GetComponent<SpotLight>());
-		m_MainCamera->AddComponent<GameObjectToggler>(m_MainCamera, "trex2");	
-		*/
+		m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera.get(), m_MainCamera->GetComponent<SpotLight>());
+		m_MainCamera->AddComponent<GameObjectToggler>(m_MainCamera.get(), "trex2");	
 	}
 	 
 	void Scene::OnDetach()
