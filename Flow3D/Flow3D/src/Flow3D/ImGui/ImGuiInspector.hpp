@@ -34,7 +34,7 @@ namespace Flow {
 				if (gameObjectSet)
 				{
 					
-					static bool gameObjectActive = currentGameObject->GetIsActive();
+					bool gameObjectActive = currentGameObject->GetIsActive();
 					if (ImGui::Checkbox("", &gameObjectActive))
 						currentGameObject->SetActive(gameObjectActive);
 
