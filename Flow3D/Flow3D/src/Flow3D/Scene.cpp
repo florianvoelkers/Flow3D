@@ -8,7 +8,7 @@ namespace Flow {
 		: m_Name(name), m_Window(window)
 	{
 		// The root object will contain all objects present in one scene as it's children and their children and so on.
-		m_Root = new GameObject("root");
+		m_Root = std::make_unique<GameObject>("root");
 
 		// The main camera is used for rendering purposes.
 		m_MainCamera = new GameObject("MainCamera", Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
@@ -18,8 +18,7 @@ namespace Flow {
 
 	Scene::~Scene()
 	{
-		delete m_MainCamera;
-		delete m_Root;		
+		delete m_MainCamera;		
 	}
 
 	void Scene::AddToScene(GameObject* gameObject)
@@ -45,7 +44,7 @@ namespace Flow {
 		Shader coloredShapesShader("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
 
 		GameObject* sun = new GameObject("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.3f), Vec3(0.7f), Vec3(0.7f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 		
