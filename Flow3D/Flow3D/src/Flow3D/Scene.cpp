@@ -18,7 +18,6 @@ namespace Flow {
 
 	Scene::~Scene()
 	{
-		delete m_Skybox;
 		delete m_MainCamera;
 		delete m_Root;		
 	}
@@ -30,7 +29,7 @@ namespace Flow {
 
 	void Scene::OnAttach()
 	{
-		m_Skybox = new Skybox("resources/skyboxes", "jpg", true);
+		m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", true);
 
 		// TODO: load scene data from file; until then manually create scene objects here
 		Texture containerTexture("resources/textures/container.jpg", "diffuse", true);
@@ -44,6 +43,11 @@ namespace Flow {
 		Shader modelShader("resources/shader/Standard.vert", "resources/shader/Standard.frag");
 		Shader texturedShapesShader("resources/shader/Standard.vert", "resources/shader/Standard.frag");
 		Shader coloredShapesShader("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
+
+		GameObject* sun = new GameObject("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
+		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
+		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
+		AddToScene(sun);
 		
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
 		GameObject* plane = new GameObject("plane", Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
@@ -54,6 +58,24 @@ namespace Flow {
 		firstCube->AddComponent<Renderable>(firstCube, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		AddToScene(firstCube);
 
+		GameObject* nose = new GameObject("nose", Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
+		nose->AddComponent<Renderable>(nose, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
+		firstCube->AddChild(nose);
+
+		
+		std::shared_ptr<GameObject> test1 = std::make_shared<GameObject>("test1");
+		FLOW_CORE_INFO("test1 has the name {0}", test1->GetName());
+		std::shared_ptr<GameObject> testChild = std::make_shared<GameObject>("testChild");
+		test1->AddChild(testChild.get());
+
+		std::shared_ptr<GameObject> test2 = test1;
+		FLOW_CORE_INFO("test2 has the name {0}", test2->GetName());
+		for (auto *child : test2->GetChildren())
+		{
+			FLOW_CORE_INFO("name of the child is {0}", child->GetName());
+		}
+		
+		/*
 		GameObject* nose = new GameObject("nose", Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
 		nose->AddComponent<Renderable>(nose, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		firstCube->AddChild(nose);
@@ -128,19 +150,11 @@ namespace Flow {
 		// cubeLamp->AddComponent<ComponentToggler>(cubeLamp, cubeLamp->GetComponent<PointLight>()); // need a better way to disabling lights
 		AddToScene(cubeLamp);
 
-		GameObject* sun = new GameObject("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.1f), Vec3(0.3f), Vec3(0.3f));
-		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
-		AddToScene(sun);
-
 		GameObject* stick = new GameObject("stick", Vec3(0.0f, 0.0f, -1.0f), Vec3(-45.0f, 30.0f, -30.0f), Vec3(0.1f, 0.5f, 0.1f));
 		stick->AddComponent<Renderable>(stick, Model(std::make_shared<Cube>(metalFloorTexture)), texturedShapesShader);
 		m_MainCamera->AddChild(stick);
 
-		GameObject test1 ("test1");
-		FLOW_CORE_INFO("test1 has the name {0}", test1.GetName());
-		GameObject test2 (test1);
-		FLOW_CORE_INFO("test2 has the name {0}", test2.GetName());
+		
 		
 		/*
 		Model swordModel("resources/models/sword/Sword.obj");
@@ -151,13 +165,15 @@ namespace Flow {
 		m_MainCamera->AddChild(sword);
 		*/
 
-		// flash light for the camera			
+		// flash light for the camera		
+		/*
 		m_MainCamera->AddComponent<SpotLight>(m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f), DIRECTIONS::front,
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
 		// add component to toggle flash light; need a better way to disabling lights
 		// m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera, m_MainCamera->GetComponent<SpotLight>());
-		m_MainCamera->AddComponent<GameObjectToggler>(m_MainCamera, "trex2");		
+		m_MainCamera->AddComponent<GameObjectToggler>(m_MainCamera, "trex2");	
+		*/
 	}
 	 
 	void Scene::OnDetach()

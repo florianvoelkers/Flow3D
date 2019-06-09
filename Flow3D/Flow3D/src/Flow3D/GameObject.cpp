@@ -12,11 +12,17 @@ namespace Flow {
 	}
 
 	GameObject::GameObject(const GameObject& other)
-		: m_Name(other.GetName()), 
-		m_Transform(other.GetTransform().GetPosition(), other.GetTransform().GetRotation(), other.GetTransform().GetScale()), 
+		: m_Name(other.GetName()),
+		m_Transform(other.GetTransform().GetPosition(), other.GetTransform().GetRotation(), other.GetTransform().GetScale()),
 		m_IsActive(other.GetIsActive())
 	{
 
+		FLOW_CORE_INFO("copy constructor called");
+		/*
+		for (auto *child : other.GetChildren())
+		{
+			AddChild(child);
+		}*/
 	}
 
 	GameObject::~GameObject()
