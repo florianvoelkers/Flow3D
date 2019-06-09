@@ -40,7 +40,7 @@ namespace Flow {
 		void OnEvent(Event& e);
 
 		inline static Application& Get() { return *s_Instance; }
-		inline Window& GetWindow() { return *m_Window; }
+		inline const Window& GetWindow() const { return *m_Window; }
 		inline GameObject& GetMainCamera() { m_CurrentScene->GetMainCamera(); }
 		inline Scene& GetCurrentScene() { return *m_CurrentScene.get(); }
 		const std::vector<GameObject*>& GetAllGameObjects() const { return m_CurrentScene->GetRoot().GetChildren(); }
@@ -50,10 +50,10 @@ namespace Flow {
 	private:
 		static Application* s_Instance;
 
-		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
-		std::unique_ptr <Input> m_Input;
-		std::unique_ptr <RenderingEngine> m_RenderingEngine;
+		std::unique_ptr<Window> m_Window;		
+		std::unique_ptr<Input> m_Input;
+		std::unique_ptr<RenderingEngine> m_RenderingEngine;
 		std::unique_ptr<Scene> m_CurrentScene;
 		std::shared_ptr<Shader> m_StandardShader;
 		std::unique_ptr<ImGuiLayer> m_ImGui;

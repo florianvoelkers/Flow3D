@@ -41,7 +41,7 @@ namespace Flow {
 		inline std::vector<SpotLight*> GetSpotLights() { return m_SpotLights; }
 
 	private:
-		const Window* m_Window;
+		const Window& m_Window;
 		GameObject* m_Root;
 		std::string m_Name;
 		GameObject* m_MainCamera;

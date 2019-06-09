@@ -75,7 +75,9 @@ namespace Flow {
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
-		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
+		int width = app.GetWindow().GetWidth();
+		int height = app.GetWindow().GetHeight();
+		io.DisplaySize = ImVec2((float)width, (float)height);
 
 		float time = (float)glfwGetTime();
 		io.DeltaTime = m_Time > 0.0f ? (time - m_Time) : (1.0f / 60.0f);
