@@ -40,7 +40,7 @@ namespace Flow {
 		}
 	};
 
-	// Constructor: DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular)
+	// Constructor: DirectionalLight(GameObject& gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, bool enabled = true)
 	// DirectionalLight (for example a sun) is made up of ambient, diffuse and specular intensity and a direction of the light.
 	class DirectionalLight : public BaseLight
 	{
@@ -62,6 +62,7 @@ namespace Flow {
 		}
 	};
 
+	// Constructor: Attenuation(float constant = 0, float linear = 0, float exponent = 1)
 	// To reduce the intensity of light, over the distance a light ray travels, is generally called attenuation.
 	// In the shader float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 	class Attenuation
@@ -86,7 +87,7 @@ namespace Flow {
 		}
 	};
 
-	// Constructor: PointLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation())
+	// Constructor: PointLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation(), bool enabled = true)
 	// A point light is a light source with a given position somewhere in a world 
 	// that illuminates in all directions where the light rays fade out over distance. 
 	// Think of light bulbs and torches as light casters that act as a point light.
@@ -104,7 +105,8 @@ namespace Flow {
 		Attenuation m_Attenuation;
 	};
 
-	// Constructor: SpotLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, DIRECTIONS direction, float cutoff, float outerCutoff, const Attenuation& attenuation = Attenuation())
+	// Constructor: SpotLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, DIRECTIONS direction, 
+	// float cutoff, float outerCutoff, const Attenuation& attenuation = Attenuation(), bool enabled = true)
 	// A spotlight is a light source that is located somewhere in the environment that, 
 	// instead of shooting light rays in all directions, only shoots them in a specific direction. 
 	// The result is that only the objects within a certain radius of the spotlight's direction are lit and everything else stays dark. 

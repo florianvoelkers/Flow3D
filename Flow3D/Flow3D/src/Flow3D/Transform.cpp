@@ -14,10 +14,6 @@ namespace Flow {
 		UpdateVectors();
 	}
 
-	Transform::~Transform()
-	{
-	}
-
 	void Transform::Translate(const Vec3& translation)
 	{
 		m_Position += translation;

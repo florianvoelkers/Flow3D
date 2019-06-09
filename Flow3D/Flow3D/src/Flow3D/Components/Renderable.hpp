@@ -13,7 +13,7 @@
 
 namespace Flow {
 
-	// Constructor: Renderable(GameObject* gameObject, Model model, Shader shader, bool blending)
+	// Constructor: Renderable(GameObject& gameObject, Model model, Shader shader, bool blending = false, bool enabled = true)
 	// Gives functionality and data for drawing any model with the given shader.
 	// Enables blending in the rendering engine if necessary
 	class Renderable : public Component

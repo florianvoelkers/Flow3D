@@ -16,7 +16,7 @@ namespace Flow {
 	const float SENSITIVITY = 0.1f;
 	const float ZOOM = 45.0f;
 
-	// Constructor: FreeCamera(GameObject* gameObject, const Window& window)
+	// Constructor: FreeCamera(GameObject& gameObject, const Window& window, bool enabled = true)
 	// Gives functionality and data for a free moving camera which can be moved with 
 	// PAGE UP, PAGE DOWN for vertical movement,
 	// WASD or UP, DOWN, LEFT, RIGHT 

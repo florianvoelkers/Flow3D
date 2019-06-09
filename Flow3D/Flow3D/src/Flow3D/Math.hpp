@@ -48,6 +48,12 @@ namespace Flow {
 		Vec2(const glm::vec2 vec) : x(vec.x), y(vec.y) {}
 		Vec2() {}
 
+		friend std::ostream& operator<<(std::ostream& os, const Vec2& vec)
+		{
+			os << "(" << vec.x << ", " << vec.y << ")";
+			return os;
+		}
+
 		Vec2 Normalize()
 		{
 			glm::vec2 normalized = glm::normalize(glm::vec2(x, y));
@@ -179,6 +185,12 @@ namespace Flow {
 		Vec4(const glm::vec4 vec) : x(vec.x), y(vec.y), z(vec.z), w(vec.w) {}
 		Vec4() {}
 
+		friend std::ostream& operator<<(std::ostream& os, const Vec4& vec)
+		{
+			os << "(" << vec.x << ", " << vec.y << ", " << vec.z << ", " << vec.w << ")";
+			return os;
+		}
+
 		Vec4 Normalize()
 		{
 			glm::vec4 normalized = glm::normalize(glm::vec4(x, y, z, w));
@@ -232,6 +244,12 @@ namespace Flow {
 		Mat2() : mat(1.0f) {}
 		Mat2(glm::mat2 matrix) : mat(matrix) {}
 
+		friend std::ostream& operator<<(std::ostream& os, const Mat2& matrix)
+		{
+			os << glm::to_string(matrix.mat).c_str();
+			return os;
+		}
+
 		std::string ToString()
 		{
 			return glm::to_string(mat);
@@ -246,6 +264,12 @@ namespace Flow {
 		Mat3() : mat(1.0f) {}
 		Mat3(glm::mat3 matrix) : mat(matrix) {}
 		Mat3(glm::mat4 matrix) : mat(matrix) {}
+
+		friend std::ostream& operator<<(std::ostream& os, const Mat3& matrix)
+		{
+			os << glm::to_string(matrix.mat).c_str();
+			return os;
+		}
 
 		std::string ToString()
 		{
@@ -264,6 +288,12 @@ namespace Flow {
 		Mat4() : mat(1.0f) {}
 		Mat4(glm::mat4 matrix) : mat(matrix) {}
 		Mat4(glm::mat3 matrix) : mat(matrix) {}
+
+		friend std::ostream& operator<<(std::ostream& os, const Mat4& matrix)
+		{
+			os << glm::to_string(matrix.mat).c_str();
+			return os;
+		}
 
 		void Translate(const Vec3 &translationVector)
 		{
@@ -342,6 +372,12 @@ namespace Flow {
 			y = quat.y;
 			z = quat.z;
 			w = quat.w;
+		}
+
+		friend std::ostream& operator<<(std::ostream& os, const Quaternion& quat)
+		{
+			os << "(" << quat.x << ", " << quat.y << ", " << quat.z << ", " << quat.w << ")";
+			return os;
 		}
 
 		// Order is XYZ, e.g. flips to 180, -90, 180 from 0, -89, 0
@@ -469,5 +505,8 @@ namespace Flow {
 	};
 }
 
-
+VISITABLE_STRUCT(Flow::Vec2, x, y);
 VISITABLE_STRUCT(Flow::Vec3, x, y, z);
+VISITABLE_STRUCT(Flow::Vec4, x, y, z, w);
+// TODO: Make matrices visitable
+VISITABLE_STRUCT(Flow::Quaternion, x, y, z, w);

@@ -5,6 +5,8 @@
 
 namespace Flow {
 
+	// Constructor: ComponentToggler(GameObject& gameObject, Component& componentToToggle, bool enabled = true)
+	// gives the object the functionality and data to enable/disable the referenced component
 	class ComponentToggler : public Component
 	{
 		CLASS_DECLARATION(ComponentToggler)

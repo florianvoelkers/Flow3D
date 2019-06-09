@@ -19,7 +19,6 @@ namespace Flow {
 	{
 	public:
 		GameObject(const std::string& name, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f), bool isActive = true);
-		GameObject(const GameObject& other);
 		virtual ~GameObject();
 
 		void AddChild(std::shared_ptr<GameObject> child);

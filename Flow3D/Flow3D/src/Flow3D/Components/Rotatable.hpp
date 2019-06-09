@@ -6,6 +6,8 @@
 
 namespace Flow {
 
+	// Constructor: Rotatable(GameObject& gameObject, bool enabled = true)
+	// Gives functionality and data for rotating this GameObject
 	class Rotatable : public Component
 	{
 		CLASS_DECLARATION(Rotatable)

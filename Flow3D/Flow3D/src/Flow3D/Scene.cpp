@@ -9,9 +9,12 @@ namespace Flow {
 	{
 		// The root object will contain all objects present in one scene as it's children and their children and so on.
 		m_Root = std::make_unique<GameObject>("root");
+		// set a default directional light
+		m_Root->AddComponent<DirectionalLight>(*m_Root, Vec3(0.0f), Vec3(0.0f), Vec3(0.0f), Vec3(0.0f));
+		SetDirectionalLight(&m_Root->GetComponent<DirectionalLight>());
 
 		// The main camera is used for rendering purposes.
-		m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
+		m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 2.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
 		m_MainCamera->AddComponent<FreeCamera>(*m_MainCamera, m_Window);
 		AddToScene(m_MainCamera);
 	}
@@ -48,7 +51,7 @@ namespace Flow {
 		sun->AddComponent<DirectionalLight>(*sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.3f), Vec3(0.7f), Vec3(0.7f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
-		
+
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
 		std::shared_ptr<GameObject> plane = std::make_shared<GameObject>("plane", Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
 		plane->AddComponent<Renderable>(*plane, Model(std::make_shared<Plane>(metalFloorTexture)), texturedShapesShader);

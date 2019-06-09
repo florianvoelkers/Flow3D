@@ -7,6 +7,7 @@
 
 namespace Flow {
 
+	// Struct for creating a Flow3DInspector Window
 	struct Flow3DInspector 
 	{
 		std::string gameObjectName;

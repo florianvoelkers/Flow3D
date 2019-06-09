@@ -49,17 +49,6 @@ template <typename T>
 void debug_print(const T & t) {
 	std::cout << "Number of members: " << visit_struct::field_count(t) << std::endl;
 	std::cout << "{\n";
-
-	test_visitor_two vis2;
-	visit_struct::apply_visitor(vis2, t);
-	for (unsigned int i = 0; i < vis2.result.size(); i++)
-	{
-		std::cout << "name: " << vis2.result[i].first << ", value: " << vis2.result[i].second << std::endl;
-		if ((int*)vis2.result[i].second)
-		{
-			std::cout << "member is integer " << std::endl;
-		}
-	}
-
+	visit_struct::apply_visitor(debug_printer{}, t);
 	std::cout << "}" << std::endl;
 }

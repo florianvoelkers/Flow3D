@@ -6,6 +6,8 @@
 
 namespace Flow {
 
+	// Constructor: GameObjectToggler(GameObject& gameObject, std::string gameObjectName, bool enabled = true)
+	// gives an object the functionality and data to toggle the active state of a given GameObject
 	class GameObjectToggler : public Component
 	{
 		CLASS_DECLARATION(GameObjectToggler)

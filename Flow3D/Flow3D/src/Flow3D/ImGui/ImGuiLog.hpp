@@ -5,7 +5,7 @@
 namespace Flow {
 
 	// Usage:
-//  static ExampleAppLog my_log;
+//  static Flow3DLog my_log;
 //  my_log.AddLog("Hello %d world\n", 123);
 //  my_log.Draw("title");
 	struct Flow3DLog
