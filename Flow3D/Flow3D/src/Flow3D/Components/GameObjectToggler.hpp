@@ -11,7 +11,7 @@ namespace Flow {
 		CLASS_DECLARATION(GameObjectToggler)
 
 	public:
-		GameObjectToggler(GameObject* gameObject, std::string gameObjectName, bool enabled = true)
+		GameObjectToggler(GameObject& gameObject, std::string gameObjectName, bool enabled = true)
 			: Component(gameObject, enabled, "GameObjectToggler"), m_Input(Input::Get()) 
 		{
 			m_GameObjectToToggle = Application::Get().GetCurrentScene().FindGameObject(gameObjectName);

@@ -10,7 +10,7 @@ namespace Flow {
 		CLASS_DECLARATION(ComponentToggler)
 
 	public:
-		ComponentToggler(GameObject* gameObject, Component& componentToToggle, bool enabled = true) 
+		ComponentToggler(GameObject& gameObject, Component& componentToToggle, bool enabled = true) 
 			: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()), m_ComponentToToggle(componentToToggle) {}
 
 		virtual void OnEvent(Event& e) override

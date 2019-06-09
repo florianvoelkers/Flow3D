@@ -22,7 +22,7 @@ namespace Flow {
 		CLASS_DECLARATION(Renderable)
 
 	public:
-		Renderable(GameObject* gameObject, Model model, Shader shader, bool blending = false, bool enabled = true)
+		Renderable(GameObject& gameObject, Model model, Shader shader, bool blending = false, bool enabled = true)
 			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject, enabled, "Renderable") {}
 
 		virtual void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) override

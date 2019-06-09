@@ -55,15 +55,18 @@ namespace Flow {
 			return classType == Type; 
 		}
 
-		Component(GameObject* gameObject, bool enabled = true, std::string name = "Component") : m_GameObject(gameObject), m_Enabled(enabled), m_Name(name) {}
-		virtual ~Component() {} // TODO: Destructor with ~Component() = default?
+		Component(GameObject& gameObject, bool enabled = true, std::string name = "Component") : m_GameObject(gameObject), m_Enabled(enabled), m_Name(name) {}
+		virtual ~Component() 
+		{
+			FLOW_CORE_INFO("component destructed");
+		} // TODO: Destructor with ~Component() = default?
 
 		virtual void OnUpdate (double deltaTime) {}
 		virtual void OnEvent (Event& event) {}
 		virtual void Render (Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) {}
 
-		inline Transform& GetTransform() { return m_GameObject->GetTransform(); }
-		inline const Transform& GetTransform() const { return m_GameObject->GetTransform(); }
+		inline Transform& GetTransform() { return m_GameObject.GetTransform(); }
+		inline const Transform& GetTransform() const { return m_GameObject.GetTransform(); }
 
 		inline const bool GetEnabled() const { return m_Enabled; }
 		void SetEnabled(bool enabled) { m_Enabled = enabled; }
@@ -71,7 +74,7 @@ namespace Flow {
 		inline const std::string GetName() const { return m_Name; }
 
 	protected:
-		GameObject* m_GameObject; // TODO: smart pointer? 
+		GameObject& m_GameObject; 
 		bool m_Enabled;
 		std::string m_Name;
 	};
