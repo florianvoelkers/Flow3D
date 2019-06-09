@@ -62,8 +62,8 @@ namespace Flow {
 		virtual void OnEvent (Event& event) {}
 		virtual void Render (Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) {}
 
-		inline Transform* GetTransform() { return m_GameObject->GetTransform(); }
-		inline const Transform& GetTransform() const { return *m_GameObject->GetTransform(); }
+		inline Transform& GetTransform() { return m_GameObject->GetTransform(); }
+		inline const Transform& GetTransform() const { return m_GameObject->GetTransform(); }
 
 		inline const bool GetEnabled() const { return m_Enabled; }
 		void SetEnabled(bool enabled) { m_Enabled = enabled; }

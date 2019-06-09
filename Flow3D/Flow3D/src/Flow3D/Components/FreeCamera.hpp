@@ -38,7 +38,7 @@ namespace Flow {
 			m_Yaw = -90.0f;
 			m_Pitch = 0.0f;
 
-			GetTransform()->SetIsCamera(true);
+			GetTransform().SetIsCamera(true);
 
 			// make sure that the camera can't be moved
 			firstMouse = true;
@@ -60,33 +60,33 @@ namespace Flow {
 
 			if (m_Input.GetKey(Keycode::W))
 			{
-				Vec3 front = GetTransform()->GetFrontVector();
-				GetTransform()->Translate(front * velocity);
+				Vec3 front = GetTransform().GetFrontVector();
+				GetTransform().Translate(front * velocity);
 			}
 			if (m_Input.GetKey(Keycode::S))
 			{
-				Vec3 front = GetTransform()->GetFrontVector();
-				GetTransform()->Translate(front * velocity * -1.0f);
+				Vec3 front = GetTransform().GetFrontVector();
+				GetTransform().Translate(front * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::D))
 			{
-				Vec3 right = GetTransform()->GetRightVector();
-				GetTransform()->Translate(right * velocity);
+				Vec3 right = GetTransform().GetRightVector();
+				GetTransform().Translate(right * velocity);
 			}
 			if (m_Input.GetKey(Keycode::A))
 			{
-				Vec3 right = GetTransform()->GetRightVector();
-				GetTransform()->Translate(right * velocity * -1.0f);
+				Vec3 right = GetTransform().GetRightVector();
+				GetTransform().Translate(right * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::PageUp))
 			{
-				Vec3 up = GetTransform()->GetUpVector();
-				GetTransform()->Translate(up * velocity);
+				Vec3 up = GetTransform().GetUpVector();
+				GetTransform().Translate(up * velocity);
 			}
 			if (m_Input.GetKey(Keycode::PageDown))
 			{
-				Vec3 up = GetTransform()->GetUpVector();
-				GetTransform()->Translate(up * velocity * -1.0f);
+				Vec3 up = GetTransform().GetUpVector();
+				GetTransform().Translate(up * velocity * -1.0f);
 			}
 		}
 
@@ -99,7 +99,7 @@ namespace Flow {
 
 		Mat4 GetViewMatrix() 
 		{ 
-			Vec3 position = GetTransform()->GetPosition();
+			Vec3 position = GetTransform().GetPosition();
 			return Mat4::LookAt(position, position + m_Front, m_Up);
 		}
 
@@ -185,10 +185,10 @@ namespace Flow {
 			Vec3 rotationVector = Vec3(- 1 * m_Pitch, m_Yaw + 90.0f, 0.0f);
 			
 			Quaternion rotation = Quaternion(rotationVector);
-			GetTransform()->SetOrientation(rotation);
-			GetTransform()->SetFrontVector(m_Front);
-			GetTransform()->SetRightVector(m_Right);
-			GetTransform()->SetUpVector(m_Up);
+			GetTransform().SetOrientation(rotation);
+			GetTransform().SetFrontVector(m_Front);
+			GetTransform().SetRightVector(m_Right);
+			GetTransform().SetUpVector(m_Up);
 		}
 	};
 }

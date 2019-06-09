@@ -19,6 +19,7 @@ namespace Flow {
 	{
 	public:
 		GameObject(const std::string& name, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f), bool isActive = true);
+		GameObject(const GameObject& other);
 		virtual ~GameObject();
 
 		void AddChild(GameObject* child);
@@ -42,16 +43,18 @@ namespace Flow {
 		void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) const;
 
 		void SetActive(bool isActive) { m_IsActive = isActive; }
-		inline Transform* GetTransform() { return &m_Transform; }
+		inline Transform& GetTransform() { return m_Transform; }
+		inline const Transform& GetTransform() const { return m_Transform; }
 		inline const std::string GetName() const { return m_Name; }
 		inline const bool GetIsActive() const { return m_IsActive; }
 		
 	private: 
-		bool m_IsActive;
-		std::vector<GameObject*> m_Children;
-		Transform m_Transform;
-		std::vector<std::unique_ptr<Component>> m_Components;
 		std::string m_Name;
+		Transform m_Transform;
+		bool m_IsActive;
+
+		std::vector<GameObject*> m_Children;		
+		std::vector<std::unique_ptr<Component>> m_Components;		
 	};
 
 	//***************

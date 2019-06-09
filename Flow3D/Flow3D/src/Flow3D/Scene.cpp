@@ -80,13 +80,13 @@ namespace Flow {
 
 		Model treeModel("resources/models/Tree/Tree.obj");
 		GameObject* tree = new GameObject("tree", Vec3(0.0f, 3.0f, 0.0f));
-		tree->GetTransform()->SetScale(Vec3(0.2f));
+		tree->GetTransform().SetScale(Vec3(0.2f));
 		tree->AddComponent<Renderable>(tree, treeModel, modelShader, true);
 		AddToScene(tree);
 
 		Model oldManModel("resources/models/man/muro.obj");
 		GameObject* oldMan = new GameObject("oldMan", Vec3(0.0f, 0.0f, 2.0f));
-		oldMan->GetTransform()->SetScale(Vec3(0.01f));
+		oldMan->GetTransform().SetScale(Vec3(0.01f));
 		oldMan->AddComponent<Renderable>(oldMan, oldManModel, modelShader, false);
 		AddToScene(oldMan);
 
@@ -99,25 +99,25 @@ namespace Flow {
 
 		Model trexModel("resources/models/trex/trex.fbx");
 		GameObject* trex = new GameObject("trex", Vec3(2.5f, 0.0f, 2.0f));
-		trex->GetTransform()->SetScale(Vec3(0.2f));
+		trex->GetTransform().SetScale(Vec3(0.2f));
 		trex->AddComponent<Renderable>(trex, trexModel, modelShader, false);
 		AddToScene(trex);
 
 		GameObject* trex2 = new GameObject("trex2", Vec3(-2.5f, 0.0f, 2.0f));
-		trex2->GetTransform()->SetScale(Vec3(0.2f));
+		trex2->GetTransform().SetScale(Vec3(0.2f));
 		trex2->AddComponent<Rotatable>(trex2);
 		trex2->AddComponent<Renderable>(trex2, trexModel, modelShader, false);
 		AddToScene(trex2);
 
 		Model houseModel("resources/models/old_house/house.obj");
 		GameObject* house = new GameObject("house", Vec3(-7.0f, 0.0f, 7.0f), Vec3(0.0f, -90.0f, 0.0f));
-		house->GetTransform()->SetScale(Vec3(0.02f));
+		house->GetTransform().SetScale(Vec3(0.02f));
 		house->AddComponent<Renderable>(house, houseModel, modelShader, false);
 		AddToScene(house);
 
 		Model houseModel2("resources/models/house/house.obj");
 		GameObject* house2 = new GameObject("house2", Vec3(10.0f, 0.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f));
-		house2->GetTransform()->SetScale(Vec3(0.008f));
+		house2->GetTransform().SetScale(Vec3(0.008f));
 		house2->AddComponent<Renderable>(house2, houseModel2, modelShader, false);
 		AddToScene(house2);
 
@@ -136,6 +136,9 @@ namespace Flow {
 		GameObject* stick = new GameObject("stick", Vec3(0.0f, 0.0f, -1.0f), Vec3(-45.0f, 30.0f, -30.0f), Vec3(0.1f, 0.5f, 0.1f));
 		stick->AddComponent<Renderable>(stick, Model(std::make_shared<Cube>(metalFloorTexture)), texturedShapesShader);
 		m_MainCamera->AddChild(stick);
+
+		GameObject test1 = GameObject("test1");
+		FLOW_CORE_INFO("test1 has the name {0}", test1.GetName());
 		
 		/*
 		Model swordModel("resources/models/sword/Sword.obj");

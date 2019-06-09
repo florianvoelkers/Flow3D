@@ -46,7 +46,7 @@ namespace Flow {
 					
 					if (ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen))
 					{
-						Transform& transform = *currentGameObject->GetTransform();
+						Transform& transform = currentGameObject->GetTransform();
 						float posX = transform.GetPosition().x;
 						float posY = transform.GetPosition().y;
 						float posZ = transform.GetPosition().z;

@@ -11,6 +11,14 @@ namespace Flow {
 	{
 	}
 
+	GameObject::GameObject(const GameObject& other)
+		: m_Name(other.GetName()), 
+		m_Transform(other.GetTransform().GetPosition(), other.GetTransform().GetRotation(), other.GetTransform().GetScale()), 
+		m_IsActive(other.GetIsActive())
+	{
+
+	}
+
 	GameObject::~GameObject()
 	{
 		m_Children.clear();
@@ -19,7 +27,7 @@ namespace Flow {
 	void GameObject::AddChild(GameObject* child)
 	{
 		m_Children.push_back(child);
-		child->GetTransform()->SetParent(&m_Transform);
+		child->GetTransform().SetParent(&m_Transform);
 	}
 
 	GameObject* GameObject::Find(std::string name)
