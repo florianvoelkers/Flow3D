@@ -65,6 +65,9 @@ namespace Flow {
 		inline Transform& GetTransform() { return m_GameObject.GetTransform(); }
 		inline const Transform& GetTransform() const { return m_GameObject.GetTransform(); }
 
+		inline GameObject& GetGameObject() { return m_GameObject; }
+		inline const GameObject& GetGameObject() const { return m_GameObject; }
+
 		inline const bool GetEnabled() const { return m_Enabled; }
 		void SetEnabled(bool enabled) { m_Enabled = enabled; }
 

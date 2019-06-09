@@ -13,7 +13,6 @@ namespace Flow {
 	public:
 		// Creates a Transform with default values for positon, rotation and scale
 		Transform(const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f));
-		~Transform();
 		
 		void Translate(const Vec3& translation); 
 		void Rotate(const Vec3& axis, float angle);

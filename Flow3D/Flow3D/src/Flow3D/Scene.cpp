@@ -14,7 +14,7 @@ namespace Flow {
 		SetDirectionalLight(&m_Root->GetComponent<DirectionalLight>());
 
 		// The main camera is used for rendering purposes.
-		m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 2.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
+		m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.5f, 7.0f), Vec3(0.0f, 0.0f, 0.0f));
 		m_MainCamera->AddComponent<FreeCamera>(*m_MainCamera, m_Window);
 		AddToScene(m_MainCamera);
 	}
@@ -64,6 +64,12 @@ namespace Flow {
 		std::shared_ptr<GameObject> nose = std::make_shared<GameObject>("nose", Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
 		nose->AddComponent<Renderable>(*nose, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		firstCube->AddChild(nose);
+
+		std::shared_ptr<GameObject> cubeLamp = std::make_shared<GameObject>("cubeLamp", Vec3(0.0f, 0.42f, 0.525f), Vec3(0.0f), Vec3(0.05f));
+		cubeLamp->AddComponent<Renderable>(*cubeLamp, Model(std::make_shared<Cube>(1.0f, 0.0f, 1.0f)), coloredShapesShader);
+		cubeLamp->AddComponent<PointLight>(*cubeLamp, Vec3(0.05f), Vec3(0.8f), Vec3(1.0f), Attenuation(1.0f, 0.09f, 0.032f));
+		firstCube->AddChild(cubeLamp);
+		AddPointLight(&cubeLamp->GetComponent<PointLight>());
 
 		std::shared_ptr<GameObject> grass1 = std::make_shared<GameObject>("grass1", Vec3(-1.0f, 0.5f, 0.51f));
 		grass1->AddComponent<Renderable>(*grass1, Model(std::make_shared<Plane>(grassTexture)), texturedShapesShader);
