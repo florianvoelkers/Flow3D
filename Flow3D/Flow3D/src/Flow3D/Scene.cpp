@@ -11,16 +11,16 @@ namespace Flow {
 		m_Root = std::make_unique<GameObject>("root");
 
 		// The main camera is used for rendering purposes.
-		m_MainCamera = std::make_unique<GameObject>("MainCamera", Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
+		m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
 		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera.get(), m_Window);
-		AddToScene(m_MainCamera.get());
+		AddToScene(m_MainCamera);
 	}
 
 	Scene::~Scene()
 	{	
 	}
 
-	void Scene::AddToScene(GameObject* gameObject)
+	void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
 	{
 		m_Root->AddChild(gameObject);
 	}
@@ -42,37 +42,24 @@ namespace Flow {
 		Shader texturedShapesShader("resources/shader/Standard.vert", "resources/shader/Standard.frag");
 		Shader coloredShapesShader("resources/shader/Basic3D.vert", "resources/shader/Colored.frag");
 
-		GameObject* sun = new GameObject("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
-		sun->AddComponent<DirectionalLight>(sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.3f), Vec3(0.7f), Vec3(0.7f));
+		std::shared_ptr<GameObject> sun = std::make_shared<GameObject>("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
+		sun->AddComponent<DirectionalLight>(sun.get(), Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.3f), Vec3(0.7f), Vec3(0.7f));
 		SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
 		AddToScene(sun);
 		
 		// do these need to be deleted in here or is it enough that the scenes root object will be deleted in the end?
-		GameObject* plane = new GameObject("plane", Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
-		plane->AddComponent<Renderable>(plane, Model(std::make_shared<Plane>(metalFloorTexture)), texturedShapesShader);
+		std::shared_ptr<GameObject> plane = std::make_shared<GameObject>("plane", Vec3(0.0f, -0.01f, 0.0f), Vec3(-90.0f, 0.0f, 0.0f), Vec3(31.0f));
+		plane->AddComponent<Renderable>(plane.get(), Model(std::make_shared<Plane>(metalFloorTexture)), texturedShapesShader);
 		AddToScene(plane);
 
-		GameObject* firstCube = new GameObject("firstCube", Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
-		firstCube->AddComponent<Renderable>(firstCube, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
+		std::shared_ptr<GameObject> firstCube = std::make_shared<GameObject>("firstCube", Vec3(0.0f, 1.5f, -1.0f), Vec3(0.0f, 0.0f, 0.0f), Vec3(3.0f));
+		firstCube->AddComponent<Renderable>(firstCube.get(), Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		AddToScene(firstCube);
 
-		GameObject* nose = new GameObject("nose", Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
-		nose->AddComponent<Renderable>(nose, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
+		std::shared_ptr<GameObject> nose = std::make_shared<GameObject>("nose", Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
+		nose->AddComponent<Renderable>(nose.get(), Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);
 		firstCube->AddChild(nose);
 
-		
-		std::shared_ptr<GameObject> test1 = std::make_shared<GameObject>("test1");
-		FLOW_CORE_INFO("test1 has the name {0}", test1->GetName());
-		std::shared_ptr<GameObject> testChild = std::make_shared<GameObject>("testChild");
-		test1->AddChild(testChild.get());
-
-		std::shared_ptr<GameObject> test2 = test1;
-		FLOW_CORE_INFO("test2 has the name {0}", test2->GetName());
-		for (auto *child : test2->GetChildren())
-		{
-			FLOW_CORE_INFO("name of the child is {0}", child->GetName());
-		}
-		
 		/*
 		GameObject* nose = new GameObject("nose", Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(0.1f, 1.0f, 0.1f));
 		nose->AddComponent<Renderable>(nose, Model(std::make_shared<Cube>(brickTexture)), texturedShapesShader);

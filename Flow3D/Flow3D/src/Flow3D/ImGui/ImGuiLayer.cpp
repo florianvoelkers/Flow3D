@@ -137,7 +137,7 @@ namespace Flow {
 			ImGui::Columns(1);
 
 			// Iterate dummy objects with dummy members (all the same data)
-			std::vector<GameObject*> allGameObjects = Application::Get().GetAllGameObjects();
+			std::vector<std::shared_ptr<GameObject>> allGameObjects = Application::Get().GetAllGameObjects();
 			for (int i = 0; i < allGameObjects.size(); i++)
 				ShowGameObject(allGameObjects[i]->GetName().c_str(), i, *allGameObjects[i]);
 
@@ -181,7 +181,7 @@ namespace Flow {
 	{
 		ImGui::PushID(uid);                      // Use object uid as identifier. Most commonly you could also use the object pointer as a base ID.
 		ImGui::AlignTextToFramePadding();  // Text and Tree nodes are less high than regular widgets, here we add vertical spacing to make the tree lines equal high.
-		const std::vector<GameObject*>& children = child.GetChildren();
+		const std::vector<std::shared_ptr<GameObject>>& children = child.GetChildren();
 		if (children.size() > 0)
 		{
 			bool node_open = ImGui::TreeNodeEx(prefix, ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow);

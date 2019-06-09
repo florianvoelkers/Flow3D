@@ -15,7 +15,7 @@ namespace Flow {
 		Scene(std::string name, const Window& window);
 		~Scene();
 
-		void AddToScene(GameObject* gameObject);
+		void AddToScene(std::shared_ptr<GameObject> gameObject);
 
 		void OnAttach();
 		void OnDetach();
@@ -44,7 +44,7 @@ namespace Flow {
 		const Window& m_Window;
 		std::unique_ptr<GameObject> m_Root;
 		std::string m_Name;
-		std::unique_ptr<GameObject> m_MainCamera;
+		std::shared_ptr<GameObject> m_MainCamera;
 		std::unique_ptr<Skybox> m_Skybox;
 
 		DirectionalLight* m_DirectionalLight;

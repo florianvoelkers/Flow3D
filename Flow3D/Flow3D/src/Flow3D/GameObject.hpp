@@ -22,7 +22,7 @@ namespace Flow {
 		GameObject(const GameObject& other);
 		virtual ~GameObject();
 
-		void AddChild(GameObject* child);
+		void AddChild(std::shared_ptr<GameObject> child);
 
 		// from: https://stackoverflow.com/questions/44105058/how-does-unitys-getcomponent-work
 		template<class ComponentType, typename... Args>
@@ -35,7 +35,7 @@ namespace Flow {
 		bool RemoveComponent();
 
 		GameObject* Find(std::string name);
-		const std::vector<GameObject*>& GetChildren() const{ return m_Children; }
+		const std::vector<std::shared_ptr<GameObject>>& GetChildren() const{ return m_Children; }
 		const std::vector<std::unique_ptr<Component>>& GetComponents() const { return m_Components; }
 
 		void OnUpdate(double deltaTime);
@@ -53,7 +53,7 @@ namespace Flow {
 		Transform m_Transform;
 		bool m_IsActive;
 
-		std::vector<GameObject*> m_Children;		
+		std::vector<std::shared_ptr<GameObject>> m_Children;
 		std::vector<std::unique_ptr<Component>> m_Components;		
 	};
 

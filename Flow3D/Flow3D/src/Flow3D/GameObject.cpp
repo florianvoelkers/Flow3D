@@ -28,9 +28,10 @@ namespace Flow {
 	GameObject::~GameObject()
 	{
 		m_Children.clear();
+		FLOW_CORE_INFO("destructor called");
 	}
 
-	void GameObject::AddChild(GameObject* child)
+	void GameObject::AddChild(std::shared_ptr<GameObject> child)
 	{
 		m_Children.push_back(child);
 		child->GetTransform().SetParent(&m_Transform);
