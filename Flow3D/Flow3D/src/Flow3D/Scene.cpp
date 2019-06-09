@@ -137,8 +137,10 @@ namespace Flow {
 		stick->AddComponent<Renderable>(stick, Model(std::make_shared<Cube>(metalFloorTexture)), texturedShapesShader);
 		m_MainCamera->AddChild(stick);
 
-		GameObject test1 = GameObject("test1");
+		GameObject test1 ("test1");
 		FLOW_CORE_INFO("test1 has the name {0}", test1.GetName());
+		GameObject test2 (test1);
+		FLOW_CORE_INFO("test2 has the name {0}", test2.GetName());
 		
 		/*
 		Model swordModel("resources/models/sword/Sword.obj");
