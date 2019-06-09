@@ -11,14 +11,13 @@ namespace Flow {
 		m_Root = std::make_unique<GameObject>("root");
 
 		// The main camera is used for rendering purposes.
-		m_MainCamera = new GameObject("MainCamera", Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
-		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera, m_Window);
-		AddToScene(m_MainCamera);
+		m_MainCamera = std::make_unique<GameObject>("MainCamera", Vec3(0.0f, 1.0f, 5.0f), Vec3(0.0f, 0.0f, 0.0f));
+		m_MainCamera->AddComponent<FreeCamera>(m_MainCamera.get(), m_Window);
+		AddToScene(m_MainCamera.get());
 	}
 
 	Scene::~Scene()
-	{
-		delete m_MainCamera;		
+	{	
 	}
 
 	void Scene::AddToScene(GameObject* gameObject)

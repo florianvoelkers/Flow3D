@@ -44,7 +44,7 @@ namespace Flow {
 		const Window& m_Window;
 		std::unique_ptr<GameObject> m_Root;
 		std::string m_Name;
-		GameObject* m_MainCamera;
+		std::unique_ptr<GameObject> m_MainCamera;
 		std::unique_ptr<Skybox> m_Skybox;
 
 		DirectionalLight* m_DirectionalLight;
