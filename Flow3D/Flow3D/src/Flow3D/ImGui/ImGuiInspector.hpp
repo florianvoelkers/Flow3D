@@ -76,6 +76,18 @@ namespace Flow {
 						ImGui::PushItemWidth(75);
 
 						if (ImGui::DragFloat("x##2", &rotX, 1.0f, -360.0f, 360.0f))
+							transform.SetRotation(Vec3(rotX, rotY, rotZ));
+
+						ImGui::SameLine();
+						if (ImGui::DragFloat("y##2", &rotY, 1.0f, -360.0f, 360.0f))
+							transform.SetRotation(Vec3(rotX, rotY, rotZ));
+
+						ImGui::SameLine();
+						if (ImGui::DragFloat("z##2", &rotZ, 1.0f, -360.0f, 360.0f))
+							transform.SetRotation(Vec3(rotX, rotY, rotZ));
+
+						/*
+						if (ImGui::DragFloat("x##2", &rotX, 1.0f, -360.0f, 360.0f))
 							transform.Rotate(Vec3(1.0f, 0.0f, 0.0f), rotX - transform.GetRotation().x);
 
 						ImGui::SameLine();
@@ -85,7 +97,7 @@ namespace Flow {
 						ImGui::SameLine();
 						if (ImGui::DragFloat("z##2", &rotZ, 1.0f, -360.0f, 360.0f))
 							transform.Rotate(Vec3(0.0f, 0.0f, 1.0f), rotZ - transform.GetRotation().z);
-
+						*/
 						ImGui::PopItemWidth();
 
 						float scaleX = transform.GetScale().x;
