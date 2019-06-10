@@ -7,20 +7,22 @@ namespace Flow {
 	enum DIRECTIONS {
 		up, down, right, left, front, back
 	};
+	
+	class GameObject;
 
-	struct Transform
+	class Transform
 	{
 	public:
 		// Creates a Transform with default values for positon, rotation and scale
-		Transform(const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f));
+		Transform(const GameObject& gameObject, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f));
 		
 		void Translate(const Vec3& translation); 
 		void Rotate(const Vec3& amount);
 		void SetOrientation(const Quaternion& orientation);
+		void SetRotation(const Vec3& rotation);
 		void SetIsCamera(bool isCamera); 
 
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
-		inline void SetRotation(const Vec3& rotation) { m_Rotation = rotation; }
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
 		inline void SetParent(Transform* parent) { m_Parent = parent; }
 		inline void SetFrontVector(Vec3& front) { m_Front = front; }
@@ -43,12 +45,13 @@ namespace Flow {
 		const Vec3 GetWorldScale() const;		
 
 	private:
-		Transform* m_Parent;
-		bool m_IsCamera;
+		const GameObject& m_GameObject;
 		Vec3 m_Position;
 		Vec3 m_Rotation; 
 		Quaternion m_Orientation;
 		Vec3 m_Scale;
+		Transform* m_Parent;
+		bool m_IsCamera;		
 
 		Vec3 m_Front;
 		Vec3 m_Up;

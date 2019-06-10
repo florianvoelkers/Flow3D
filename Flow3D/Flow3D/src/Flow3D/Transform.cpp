@@ -1,11 +1,12 @@
 #include "Transform.hpp"
 
 #include "Flow3D/Log.hpp"
+#include "GameObject.hpp"
 
 namespace Flow {
 
-	Transform::Transform(const Vec3& position, const Vec3& rotation, const Vec3& scale)
-		: m_Position(position), m_Rotation(rotation), m_Scale(scale)
+	Transform::Transform(const GameObject& gameObject, const Vec3& position, const Vec3& rotation, const Vec3& scale)
+		: m_GameObject(gameObject), m_Position(position), m_Rotation(rotation), m_Scale(scale)
 	{
 		m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
 		m_Orientation = Quaternion(m_Rotation);
@@ -22,12 +23,22 @@ namespace Flow {
 	void Transform::Rotate(const Vec3& amount)
 	{
 		m_Rotation += amount;
+		m_Orientation = Quaternion(m_Rotation);
+		UpdateVectors();
 	}
 
 	void Transform::SetOrientation(const Quaternion & orientation)
 	{
 		m_Orientation = orientation;
 		m_Rotation = m_Orientation.ToEulerAngles();
+		UpdateVectors();
+	}
+
+	void Transform::SetRotation(const Vec3& rotation)
+	{ 
+		m_Rotation = rotation; 
+		m_Orientation = Quaternion(m_Rotation);
+		UpdateVectors();
 	}
 
 	void Transform::SetIsCamera(bool isCamera)
@@ -116,12 +127,20 @@ namespace Flow {
 
 	void Transform::UpdateVectors()
 	{
-		glm::vec3 worldFront = glm::vec3(0.0f, 0.0f, -1.0f);
-		glm::vec3 worldRight = glm::vec3(1.0f, 0.0f, 0.0f);
-			
-		glm::quat quat = glm::quat(m_Orientation.w, m_Orientation.x, m_Orientation.y, m_Orientation.z);
-		m_Front = Vec3(worldFront * quat).Normalize();
-		m_Right = Vec3(worldRight * quat).Normalize();
-		m_Up = Vec3::Cross(m_Right, m_Front).Normalize();
+		// Calculate the new Front vector
+		glm::vec3 front;
+		front.x = sin(glm::radians(m_Rotation.y)) * cos(glm::radians(m_Rotation.x));
+		front.y = sin(glm::radians(-m_Rotation.x));
+		front.z = cos(glm::radians(m_Rotation.x)) * cos(glm::radians(m_Rotation.y));
+		m_Front = Vec3(glm::normalize(front));
+		// Also re-calculate the Right and Up vector
+		m_Right = Vec3(glm::normalize(glm::cross(glm::vec3(m_Front.x, m_Front.y, m_Front.z), glm::vec3(m_WorldUp.x, m_WorldUp.y, m_WorldUp.z))));
+		// Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+		m_Up = glm::normalize(glm::cross(glm::vec3(m_Right.x, m_Right.y, m_Right.z), glm::vec3(m_Front.x, m_Front.y, m_Front.z)));
+
+		FLOW_CORE_INFO("The direction vectors of {0} are:", m_GameObject.GetName());
+		FLOW_CORE_INFO("front: {0}", m_Front.ToString());
+		FLOW_CORE_INFO("right: {0}", m_Right.ToString());
+		FLOW_CORE_INFO("up: {0}", m_Up.ToString());
 	}
 }
