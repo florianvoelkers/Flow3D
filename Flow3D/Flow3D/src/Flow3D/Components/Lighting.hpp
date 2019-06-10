@@ -105,10 +105,10 @@ namespace Flow {
 		Attenuation m_Attenuation;
 	};
 
-	// Constructor: SpotLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, DIRECTIONS direction, 
+	// Constructor: SpotLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, 
 	// float cutoff, float outerCutoff, const Attenuation& attenuation = Attenuation(), bool enabled = true)
 	// A spotlight is a light source that is located somewhere in the environment that, 
-	// instead of shooting light rays in all directions, only shoots them in a specific direction. 
+	// instead of shooting light rays in all directions, only shoots them in a forward direction. 
 	// The result is that only the objects within a certain radius of the spotlight's direction are lit and everything else stays dark. 
 	// A good example of a spotlight would be a street lamp or a flashlight.
 	class SpotLight : public BaseLight
@@ -117,46 +117,16 @@ namespace Flow {
 		CLASS_DECLARATION(SpotLight)
 
 	public:
-		SpotLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, DIRECTIONS direction, 
+		SpotLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, 
 			float cutoff, float outerCutoff, const Attenuation& attenuation = Attenuation(), bool enabled = true)
-			: BaseLight(gameObject, ambient, diffuse, specular, "SpotLight", enabled), m_Direction(direction), m_Cutoff(cutoff), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation) {}
+			: BaseLight(gameObject, ambient, diffuse, specular, "SpotLight", enabled), m_Cutoff(cutoff), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation) {}
 
 		inline const Attenuation& GetAttenuation() const { return m_Attenuation; }
-		const Vec3& GetDirection() const 
-		{ 
-			Vec3 direction = Vec3(0.0f);
-			if (m_Direction == DIRECTIONS::up)
-			{
-				direction += GetTransform().GetUpVector();
-			}
-			else if(m_Direction == DIRECTIONS::down)
-			{
-				direction -= GetTransform().GetUpVector();
-			}
-			else if (m_Direction == DIRECTIONS::right)
-			{
-				direction += GetTransform().GetRightVector();
-			}
-			else if (m_Direction == DIRECTIONS::left)
-			{
-				direction -= GetTransform().GetRightVector();
-			}
-			else if (m_Direction == DIRECTIONS::front)
-			{
-				direction += GetTransform().GetFrontVector();
-			}
-			else if(m_Direction == DIRECTIONS::back)
-			{
-				direction -= GetTransform().GetFrontVector();
-			}
-
-			return direction; 
-		}
+		const Vec3& GetDirection() const { return GetTransform().GetFrontVector(); }
 		inline const float GetCutoff() const { return m_Cutoff; }
 		inline const float GetOuterCutoff() const { return m_OuterCutoff; }
 
 		Attenuation m_Attenuation;
-		DIRECTIONS m_Direction;
 		float m_Cutoff;
 		float m_OuterCutoff;
 

@@ -31,7 +31,6 @@ namespace Flow {
 	{
 		m_Orientation = orientation;
 		m_Rotation = m_Orientation.ToEulerAngles();
-		UpdateVectors();
 	}
 
 	void Transform::SetRotation(const Vec3& rotation)
@@ -44,7 +43,6 @@ namespace Flow {
 	void Transform::SetIsCamera(bool isCamera)
 	{
 		m_IsCamera = isCamera;
-		UpdateVectors(); // update vectors because the vector for cameras are inverted
 	}
 
 	Mat4 Transform::GetTransformation() const
@@ -61,10 +59,10 @@ namespace Flow {
 		}
 		else
 		{
-			
+			// This produces gimbal lock when z is 90 or 270°
 			Quaternion rotation = Quaternion(Vec3(0.0f, m_Rotation.y, 0.0f));
-			rotation = rotation * Quaternion(Vec3(m_Rotation.x, 0.0f, 0.0f));
 			rotation = rotation * Quaternion(Vec3(0.0f, 0.0f, m_Rotation.z));
+			rotation = rotation * Quaternion(Vec3(m_Rotation.x, 0.0f, 0.0f));			
 
 			rotationMatrix = rotation.ToMat4();
 		}
@@ -131,16 +129,12 @@ namespace Flow {
 		glm::vec3 front;
 		front.x = sin(glm::radians(m_Rotation.y)) * cos(glm::radians(m_Rotation.x));
 		front.y = sin(glm::radians(-m_Rotation.x));
-		front.z = cos(glm::radians(m_Rotation.x)) * cos(glm::radians(m_Rotation.y));
+		front.z = cos(glm::radians(m_Rotation.x)) * cos(glm::radians(m_Rotation.y));		
+
 		m_Front = Vec3(glm::normalize(front));
 		// Also re-calculate the Right and Up vector
 		m_Right = Vec3(glm::normalize(glm::cross(glm::vec3(m_Front.x, m_Front.y, m_Front.z), glm::vec3(m_WorldUp.x, m_WorldUp.y, m_WorldUp.z))));
 		// Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 		m_Up = glm::normalize(glm::cross(glm::vec3(m_Right.x, m_Right.y, m_Right.z), glm::vec3(m_Front.x, m_Front.y, m_Front.z)));
-
-		FLOW_CORE_INFO("The direction vectors of {0} are:", m_GameObject.GetName());
-		FLOW_CORE_INFO("front: {0}", m_Front.ToString());
-		FLOW_CORE_INFO("right: {0}", m_Right.ToString());
-		FLOW_CORE_INFO("up: {0}", m_Up.ToString());
 	}
 }
