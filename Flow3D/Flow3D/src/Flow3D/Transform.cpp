@@ -148,16 +148,11 @@ namespace Flow {
 		front.y = sin(glm::radians(-pitch));
 		front.z = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
 
-		m_Front = Vec3(glm::normalize(front));
+		m_Forward = Vec3(glm::normalize(front));
 		// Also re-calculate the Right and Up vector
-		m_Right = Vec3(glm::normalize(glm::cross(glm::vec3(m_Front.x, m_Front.y, m_Front.z), glm::vec3(m_WorldUp.x, m_WorldUp.y, m_WorldUp.z))));
+		m_Right = Vec3(glm::normalize(glm::cross(glm::vec3(m_Forward.x, m_Forward.y, m_Forward.z), glm::vec3(m_WorldUp.x, m_WorldUp.y, m_WorldUp.z))));
 		// Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-		m_Up = glm::normalize(glm::cross(glm::vec3(m_Right.x, m_Right.y, m_Right.z), glm::vec3(m_Front.x, m_Front.y, m_Front.z)));
-
-		FLOW_CORE_INFO("The direction vectors of {0} are:", m_GameObject.GetName());
-		FLOW_CORE_INFO("front: {0}", m_Front.ToString());
-		FLOW_CORE_INFO("right: {0}", m_Right.ToString());
-		FLOW_CORE_INFO("up: {0}", m_Up.ToString());
+		m_Up = glm::normalize(glm::cross(glm::vec3(m_Right.x, m_Right.y, m_Right.z), glm::vec3(m_Forward.x, m_Forward.y, m_Forward.z)));
 	}
 
 	void Transform::UpdateVectorRotations()

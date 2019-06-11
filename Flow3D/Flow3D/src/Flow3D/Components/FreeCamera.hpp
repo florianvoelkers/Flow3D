@@ -60,13 +60,13 @@ namespace Flow {
 
 			if (m_Input.GetKey(Keycode::W))
 			{
-				Vec3 front = GetTransform().GetFrontVector();
-				GetTransform().Translate(front * velocity);
+				Vec3 forward = GetTransform().GetForwardVector();
+				GetTransform().Translate(forward * velocity);
 			}
 			if (m_Input.GetKey(Keycode::S))
 			{
-				Vec3 front = GetTransform().GetFrontVector();
-				GetTransform().Translate(front * velocity * -1.0f);
+				Vec3 forward = GetTransform().GetForwardVector();
+				GetTransform().Translate(forward * velocity * -1.0f);
 			}
 			if (m_Input.GetKey(Keycode::D))
 			{

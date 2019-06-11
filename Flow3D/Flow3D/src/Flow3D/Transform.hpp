@@ -25,11 +25,11 @@ namespace Flow {
 
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
-		inline void SetFrontVector(Vec3& front) { m_Front = front; }
+		inline void SetFrontVector(Vec3& front) { m_Forward = front; }
 		inline void SetRightVector(Vec3& right) { m_Right = right; }
 		inline void SetUpVector(Vec3& up) { m_Up = up; }
 
-		inline const Vec3 GetFrontVector() const { return m_Front; }
+		inline const Vec3 GetForwardVector() const { return m_Forward; }
 		inline const Vec3 GetUpVector() const { return m_Up; }
 		inline const Vec3 GetRightVector() const { return m_Right; }
 		inline const bool GetIsCamera() const { return m_IsCamera; }
@@ -54,7 +54,7 @@ namespace Flow {
 		Transform* m_Parent;
 		bool m_IsCamera;		
 
-		Vec3 m_Front;
+		Vec3 m_Forward;
 		Vec3 m_Up;
 		Vec3 m_Right;
 		Vec3 m_WorldUp;
