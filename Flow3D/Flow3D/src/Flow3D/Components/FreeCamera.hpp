@@ -15,6 +15,8 @@ namespace Flow {
 	const float SPEED = 5.0f;
 	const float SENSITIVITY = 0.1f;
 	const float ZOOM = 45.0f;
+	const float ZNEAR = 0.1f;
+	const float ZFAR = 100.0f;
 
 	// Constructor: FreeCamera(GameObject& gameObject, const Window& window, bool enabled = true)
 	// Gives functionality and data for a free moving camera which can be moved with 
@@ -32,6 +34,8 @@ namespace Flow {
 			m_MovementSpeed = SPEED;
 			m_MouseSensitivity = SENSITIVITY;
 			m_Zoom = ZOOM;
+			m_ZNear = ZNEAR;
+			m_ZFar = ZFAR;
 
 			m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
 
@@ -103,7 +107,17 @@ namespace Flow {
 			return Mat4::LookAt(position, position + m_Front, m_Up);
 		}
 
+		inline void SetMovementSpeed(float movementSpeed) { m_MovementSpeed = movementSpeed; }
+		inline void SetMouseSensititvy(float mouseSensitivity) { m_MouseSensitivity = mouseSensitivity; }
+		inline void SetZoom(float zoom) { m_Zoom = zoom; }
+		inline void SetZNear(float ZNear) { m_ZNear = ZNear; }
+		inline void SetZFar(float ZFar) { m_ZFar = ZFar; }
+
+		float GetMovementSpeed() { return m_MovementSpeed; }
+		float GetMouseSensitivy() { return m_MouseSensitivity; }
 		float GetZoom() { return m_Zoom; }
+		float GetZNear() { return m_ZNear; }
+		float GetZFar() { return m_ZFar; }
 
 	private:
 		const Window& m_Window;
@@ -112,7 +126,6 @@ namespace Flow {
 
 		float m_Pitch;
 		float m_Yaw;
-		float adjustedYaw;
 
 		Vec3 m_WorldUp;
 		Vec3 m_Front;
@@ -122,6 +135,8 @@ namespace Flow {
 		float m_MovementSpeed;
 		float m_MouseSensitivity;
 		float m_Zoom;
+		float m_ZNear;
+		float m_ZFar;
 
 		Input& m_Input;
 

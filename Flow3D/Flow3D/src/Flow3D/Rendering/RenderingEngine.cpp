@@ -52,11 +52,13 @@ namespace Flow {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// receive the view matrix from the current main camera
-		Mat4 view = mainCamera.GetComponent<FreeCamera>().GetViewMatrix();
+		FreeCamera& freeCamera = mainCamera.GetComponent<FreeCamera>();
+		Mat4 view = freeCamera.GetViewMatrix();
 
 		// get the projection matrix
 		Mat4 projection = Mat4();
-		projection = Mat4::GetPerspectiveProjection(Math::Radians(mainCamera.GetComponent<FreeCamera>().GetZoom()), (float)m_Window.GetWidth() / (float)m_Window.GetHeight(), 0.1f, 100.0f);
+		projection = Mat4::GetPerspectiveProjection(Math::Radians(freeCamera.GetZoom()), 
+			(float)m_Window.GetWidth() / (float)m_Window.GetHeight(), freeCamera.GetZNear(), freeCamera.GetZFar());
 
 		// render the scene starting with the scenes root object which contains all scene objects
 		root.Render(view, projection, *this);

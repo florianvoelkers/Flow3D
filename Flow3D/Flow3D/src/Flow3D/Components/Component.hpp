@@ -11,7 +11,6 @@
 #include "Flow3D/Core.hpp"
 #include "Flow3D/Rendering/RenderingEngine.hpp"
 
-
 /*
 Code for implementing template functions for components is taken from:
 https://stackoverflow.com/questions/44105058/how-does-unitys-getcomponent-work

@@ -579,6 +579,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClCompile Include="src\Flow3D\Application.cpp" />
     <ClCompile Include="src\Flow3D\Components\ComponentClasses.cpp" />
     <ClCompile Include="src\Flow3D\GameObject.cpp" />
+    <ClCompile Include="src\Flow3D\ImGui\ImGuiInspector.cpp" />
     <ClCompile Include="src\Flow3D\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\Flow3D\Input.cpp" />
     <ClCompile Include="src\Flow3D\Log.cpp" />
