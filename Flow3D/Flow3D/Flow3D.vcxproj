@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include;$(SolutionDir)Flow3D\external_libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
@@ -110,7 +110,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Debug-Win32\San
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include;$(SolutionDir)Flow3D\external_libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Lib>
@@ -131,7 +131,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Debug-x64\Sandb
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include;$(SolutionDir)Flow3D\external_libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
@@ -156,7 +156,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-Win32\S
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>FLOW_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)Flow3D\src;$(SolutionDir)Flow3D\external_libraries;$(SolutionDir)Flow3D\external_libraries\spdlog\include;$(SolutionDir)Flow3D\external_libraries\GLFW\include;$(SolutionDir)Flow3D\external_libraries\glad\include;$(SolutionDir)Flow3D\external_libraries\assimp\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>

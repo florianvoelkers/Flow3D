@@ -1,5 +1,8 @@
 #include "ImGuiInspector.hpp"
 #include "Flow3D/Components/FreeCamera.hpp"
+#include "Flow3D/Components/GameObjectToggler.hpp"
+
+#include <cstring>
 
 namespace Flow {
 	
@@ -79,45 +82,6 @@ namespace Flow {
 
 					ImGui::PopItemWidth();
 
-					/*
-					Quaternion orientation = transform.GetOrientation();
-					float quatX = orientation.x;
-					float quatY = orientation.y;
-					float quatZ = orientation.z;
-					float quatW = orientation.w;
-					ImGui::Text("Quat");
-					ImGui::SameLine(0, 36);
-					ImGui::PushItemWidth(56);
-
-					Quaternion rotationQuat;
-					if (ImGui::DragFloat("x##4", &quatX, 0.01f, -1.0f, 1.0f))
-					{
-						rotationQuat = Quaternion(quatX - orientation.x, 0.0f, 0.0f, 1.0f);
-						transform.Rotate(rotationQuat);
-					}
-
-					ImGui::SameLine();
-					if (ImGui::DragFloat("y##4", &quatY, 0.01f, -1.0f, 1.0f))
-					{
-						rotationQuat = Quaternion(0.0f, quatY - orientation.y, 0.0f, 1.0f);
-						transform.Rotate(rotationQuat);
-					}
-
-					ImGui::SameLine();
-					if (ImGui::DragFloat("z##4", &quatZ, 0.01f, -1.0f, 1.0f))
-					{
-						rotationQuat = Quaternion(0.0f, 0.0f, quatZ - orientation.z, 1.0f);
-						transform.Rotate(rotationQuat);
-					}
-
-					ImGui::SameLine();
-					ImGui::Text("%.3f w", orientation.w);
-					//ImGui::DragFloat("w##4", &quatW, 0.0f, -1.0f, 1.0f);
-						//transform.SetOrientation(Quaternion(orientation.x, orientation.y, orientation.z, quatW));
-
-					ImGui::PopItemWidth();
-					*/
-
 					float scaleX = transform.GetScale().x;
 					float scaleY = transform.GetScale().y;
 					float scaleZ = transform.GetScale().z;
@@ -196,6 +160,16 @@ namespace Flow {
 							ImGui::PushItemWidth(100);
 							if (ImGui::DragFloat("##8", &zFar, 0.1f, zNear, 1000.0f))
 								freeCamera->SetZFar(zFar);
+						}
+
+						if (component.GetName() == "GameObjectToggler")
+						{
+							GameObjectToggler* toggler = dynamic_cast<GameObjectToggler*>(components[i].get());
+							std::string name = toggler->GetGameObjectName();
+							static char nameBuffer[32] = "thisisamerica";
+							strcpy(nameBuffer, name.c_str());
+							if (ImGui::InputText("Name of GameObject", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
+								toggler->SetGameObjectName(nameBuffer);
 						}
 
 						ImGui::TreePop();

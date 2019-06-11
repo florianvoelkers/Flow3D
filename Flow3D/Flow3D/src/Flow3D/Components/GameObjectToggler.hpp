@@ -14,7 +14,7 @@ namespace Flow {
 
 	public:
 		GameObjectToggler(GameObject& gameObject, std::string gameObjectName, bool enabled = true)
-			: Component(gameObject, enabled, "GameObjectToggler"), m_Input(Input::Get()) 
+			: Component(gameObject, enabled, "GameObjectToggler"), m_Input(Input::Get()), m_GameObjectName(gameObjectName)
 		{
 			m_GameObjectToToggle = Application::Get().GetCurrentScene().FindGameObject(gameObjectName);
 		}
@@ -25,8 +25,16 @@ namespace Flow {
 			dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(GameObjectToggler::OnKeyPressed));
 		}
 
+		void SetGameObjectName(std::string newName)
+		{
+			m_GameObjectName = newName;
+			m_GameObjectToToggle = Application::Get().GetCurrentScene().FindGameObject(m_GameObjectName);
+		}
+		const std::string GetGameObjectName() const { return m_GameObjectName; }
+
 	private:
 		Input& m_Input;
+		std::string m_GameObjectName;
 		GameObject* m_GameObjectToToggle;
 
 		bool OnKeyPressed(KeyPressedEvent& e)
