@@ -103,12 +103,14 @@ namespace Flow {
 		oldMan->AddComponent<Renderable>(*oldMan, oldManModel, modelShader, false);
 		AddToScene(oldMan);
 
-		std::shared_ptr<GameObject> spotLight = std::make_shared<GameObject>("spotLight", Vec3(-2.5f, 3.0f, 0.0f), Vec3(90.0f, 0.0f, 0.0f), Vec3(0.05f));
-		spotLight->AddComponent<Renderable>(*spotLight, Model(std::make_shared<Cube>(1.0f, 0.0f, 1.0f)), coloredShapesShader);
+		std::shared_ptr<GameObject> spotLightLamp = std::make_shared<GameObject>("spotLightLamp", Vec3(-2.5f, 3.0f, 0.0f), Vec3(90.0f, 0.0f, 0.0f), Vec3(0.05f));
+		spotLightLamp->AddComponent<Renderable>(*spotLightLamp, Model(std::make_shared<Cube>(1.0f, 0.0f, 1.0f)), coloredShapesShader);
+		std::shared_ptr<GameObject> spotLight = std::make_shared<GameObject>("spotLight");
+		spotLightLamp->AddChild(spotLight);
 		spotLight->AddComponent<SpotLight>(*spotLight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f),
 			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&spotLight->GetComponent<SpotLight>());
-		AddToScene(spotLight);
+		AddToScene(spotLightLamp);
 
 		Model trexModel("resources/models/trex/trex.fbx");
 		std::shared_ptr<GameObject> trex = std::make_shared<GameObject>("trex", Vec3(2.5f, 0.0f, 2.0f));

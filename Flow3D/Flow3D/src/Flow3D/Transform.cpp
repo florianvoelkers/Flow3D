@@ -6,7 +6,7 @@
 namespace Flow {
 
 	Transform::Transform(const GameObject& gameObject, const Vec3& position, const Vec3& rotation, const Vec3& scale)
-		: m_GameObject(gameObject), m_Position(position), m_Rotation(rotation), m_Scale(scale)
+		: m_GameObject(gameObject), m_Position(position), m_Rotation(rotation), m_Scale(scale), m_Parent(nullptr)
 	{
 		m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
 		m_Orientation = Quaternion(m_Rotation);
@@ -48,6 +48,13 @@ namespace Flow {
 		m_IsCamera = isCamera;
 	}
 
+	void Transform::SetParent(Transform* parent) 
+	{ 
+		m_Parent = parent; 
+		if (!m_IsCamera)
+			UpdateVectors();
+	}
+
 	Mat4 Transform::GetTransformation() const
 	{
 		Mat4 translationMatrix = Mat4();
@@ -61,9 +68,7 @@ namespace Flow {
 			rotationMatrix = Quaternion(adjustedEuler).ToMat4();
 		}
 		else
-			rotationMatrix = m_Orientation.ToMat4();
-
-			
+			rotationMatrix = m_Orientation.ToMat4();			
 
 		Mat4 scaleMatrix = Mat4();
 		scaleMatrix.Scale(m_Scale);
@@ -122,11 +127,26 @@ namespace Flow {
 
 	void Transform::UpdateVectors()
 	{
+		float pitch, yaw, roll;
+		if (m_Parent != nullptr)
+		{
+			Quaternion parentOrientation = m_Parent->GetOrientation();
+			Quaternion worldOrientation = parentOrientation * m_Orientation;
+			Quaternion::ToEulerAngle(worldOrientation, pitch, yaw, roll);
+		}
+		else
+		{
+			pitch = m_Rotation.x;
+			yaw = m_Rotation.y;
+			roll = m_Rotation.z;
+		}
+		
+
 		// Calculate the new Front vector
 		glm::vec3 front;
-		front.x = sin(glm::radians(m_Rotation.y)) * cos(glm::radians(m_Rotation.x));
-		front.y = sin(glm::radians(-m_Rotation.x));
-		front.z = cos(glm::radians(m_Rotation.x)) * cos(glm::radians(m_Rotation.y));		
+		front.x = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
+		front.y = sin(glm::radians(-pitch));
+		front.z = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
 
 		m_Front = Vec3(glm::normalize(front));
 		// Also re-calculate the Right and Up vector
