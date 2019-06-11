@@ -1,6 +1,7 @@
 #include "ImGuiInspector.hpp"
 #include "Flow3D/Components/FreeCamera.hpp"
 #include "Flow3D/Components/GameObjectToggler.hpp"
+#include "Flow3D/Components/Lighting.hpp"
 
 #include <cstring>
 
@@ -170,6 +171,108 @@ namespace Flow {
 							strcpy(nameBuffer, name.c_str());
 							if (ImGui::InputText("Name of GameObject", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
 								toggler->SetGameObjectName(nameBuffer);
+						}
+
+						if (component.GetName() == "DirectionalLight")
+						{
+							DirectionalLight* dl = dynamic_cast<DirectionalLight*>(components[i].get());
+							
+							Vec3 ambient = dl->GetAmbientIntensity();
+							float ambientR, ambientG, ambientB;
+							ambientR = ambient.x;
+							ambientG = ambient.y;
+							ambientB = ambient.z;
+							ImGui::Text("Ambient");
+							ImGui::SameLine(0, 20);
+							ImGui::PushItemWidth(70);
+
+							if (ImGui::DragFloat("r##8", &ambientR, 0.01f, 0.0f, 1.0f))
+								dl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##8", &ambientG, 0.01f, 0.0f, 1.0f))
+								dl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##8", &ambientB, 0.01f, 0.0f, 1.0f))
+								dl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::PopItemWidth();
+
+							Vec3 diffuse = dl->GetDiffuseIntensity();
+							float diffuseR, diffuseG, diffuseB;
+							diffuseR = diffuse.x;
+							diffuseG = diffuse.y;
+							diffuseB = diffuse.z;
+							ImGui::Text("Diffuse");
+							ImGui::SameLine(0, 20);
+							ImGui::PushItemWidth(70);
+
+							if (ImGui::DragFloat("r##9", &diffuseR, 0.01f, 0.0f, 1.0f))
+								dl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##9", &diffuseG, 0.01f, 0.0f, 1.0f))
+								dl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##9", &diffuseB, 0.01f, 0.0f, 1.0f))
+								dl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::PopItemWidth();
+
+							Vec3 specular = dl->GetSpecularIntensity();
+							float specularR, specularG, specularB;
+							specularR = specular.x;
+							specularG = specular.y;
+							specularB = specular.z;
+							ImGui::Text("Specular");
+							ImGui::SameLine(0, 13);
+							ImGui::PushItemWidth(70);
+
+							if (ImGui::DragFloat("r##10", &specularR, 0.01f, 0.0f, 1.0f))
+								dl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##10", &specularG, 0.01f, 0.0f, 1.0f))
+								dl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##10", &specularB, 0.01f, 0.0f, 1.0f))
+								dl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::PopItemWidth();
+
+							Vec3 direction = dl->GetDirection();
+							float x, y, z;
+							x = direction.x;
+							y = direction.y;
+							z = direction.z;
+							ImGui::Text("Direction");
+							ImGui::SameLine(0, 7);
+							ImGui::PushItemWidth(70);
+
+							if (ImGui::DragFloat("x##11", &x, 0.01f, -1.0f, 1.0f))
+							{
+								Vec3 newDirection = Vec3(x, y, z);
+								dl->SetDirection(newDirection);
+							}								
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("y##11", &y, 0.01f, -1.0f, 1.0f))
+							{
+								Vec3 newDirection = Vec3(x, y, z);
+								dl->SetDirection(newDirection);
+							}
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("z##11", &z, 0.01f, -1.0f, 1.0f))
+							{
+								Vec3 newDirection = Vec3(x, y, z);
+								dl->SetDirection(newDirection);
+							}
+
+							ImGui::PopItemWidth();
 						}
 
 						ImGui::TreePop();
