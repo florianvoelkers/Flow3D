@@ -17,9 +17,9 @@ namespace Flow {
 		Transform(const GameObject& gameObject, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f));
 		
 		void Translate(const Vec3& translation); 
-		void Rotate(const Vec3& amount);
+		void Rotate(const Vec3& axis, float angle);
+		void Rotate(Quaternion& rotation);
 		void SetOrientation(const Quaternion& orientation);
-		void SetRotation(const Vec3& rotation);
 		void SetIsCamera(bool isCamera); 
 
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
@@ -48,6 +48,7 @@ namespace Flow {
 		const GameObject& m_GameObject;
 		Vec3 m_Position;
 		Vec3 m_Rotation; 
+		Vec3 m_RotationEuler;
 		Quaternion m_Orientation;
 		Vec3 m_Scale;
 		Transform* m_Parent;
@@ -59,6 +60,7 @@ namespace Flow {
 		Vec3 m_WorldUp;
 
 		void UpdateVectors();
+		void UpdateVectorRotations();
 	};
 }
 

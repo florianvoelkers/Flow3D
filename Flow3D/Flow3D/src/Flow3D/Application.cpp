@@ -26,7 +26,6 @@ namespace Flow {
 
 		m_ImGui = std::make_unique<ImGuiLayer>();
 		m_ImGui->OnAttach();
-
 	}
 
 	Application::~Application()

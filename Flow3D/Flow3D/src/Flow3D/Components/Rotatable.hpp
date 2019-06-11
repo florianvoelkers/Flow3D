@@ -18,22 +18,22 @@ namespace Flow {
 		virtual void OnUpdate(double deltaTime) override
 		{
 			if (m_Input.GetKey(Keycode::U))
-				GetTransform().Rotate(Vec3(1.0f, 0.0f, 0.0f));
+				GetTransform().Rotate(Vec3(1.0f, 0.0f, 0.0f), 1.0f);
 
 			if (m_Input.GetKey(Keycode::I))
-				GetTransform().Rotate(Vec3(0.0f, 1.0f, 0.0f));
+				GetTransform().Rotate(Vec3(0.0f, 1.0f, 0.0f), 1.0f);
 
 			if (m_Input.GetKey(Keycode::O))
-				GetTransform().Rotate(Vec3(0.0f, 0.0f, 1.0f));
+				GetTransform().Rotate(Vec3(0.0f, 0.0f, 1.0f), 1.0f);
 
 			if (m_Input.GetKey(Keycode::J))
-				GetTransform().Rotate(Vec3(-1.0f, 0.0f, 0.0f));
+				GetTransform().Rotate(Vec3(1.0f, 0.0f, 0.0f), -1.0f);
 
 			if (m_Input.GetKey(Keycode::K))
-				GetTransform().Rotate(Vec3(0.0f, -1.0f, 0.0f));
+				GetTransform().Rotate(Vec3(0.0f, 1.0f, 0.0f), -1.0f);
 
 			if (m_Input.GetKey(Keycode::L))
-				GetTransform().Rotate(Vec3(0.0f, 0.0f, -1.0f));
+				GetTransform().Rotate(Vec3(0.0f, 0.0f, 1.0f), -1.0f);
 		}
 
 	private:

@@ -48,9 +48,10 @@ namespace Flow {
 					if (ImGui::TreeNodeEx("Transform", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen))
 					{
 						Transform& transform = currentGameObject->GetTransform();
-						float posX = transform.GetPosition().x;
-						float posY = transform.GetPosition().y;
-						float posZ = transform.GetPosition().z;
+						Vec3 position = transform.GetPosition();
+						float posX = position.x;
+						float posY = position.y;
+						float posZ = position.z;
 						ImGui::Text("Position");
 						ImGui::SameLine(); 
 						ImGui::PushItemWidth(75);
@@ -68,25 +69,14 @@ namespace Flow {
 
 						ImGui::PopItemWidth();
 
-						float rotX = transform.GetRotation().x;
-						float rotY = transform.GetRotation().y;
-						float rotZ = transform.GetRotation().z;
+						Vec3 rotation = transform.GetRotation();
+						float rotX = rotation.x;
+						float rotY = rotation.y;
+						float rotZ = rotation.z;
 						ImGui::Text("Rotation");
 						ImGui::SameLine();
 						ImGui::PushItemWidth(75);
 
-						if (ImGui::DragFloat("x##2", &rotX, 1.0f, -360.0f, 360.0f))
-							transform.SetRotation(Vec3(rotX, rotY, rotZ));
-
-						ImGui::SameLine();
-						if (ImGui::DragFloat("y##2", &rotY, 1.0f, -360.0f, 360.0f))
-							transform.SetRotation(Vec3(rotX, rotY, rotZ));
-
-						ImGui::SameLine();
-						if (ImGui::DragFloat("z##2", &rotZ, 1.0f, -360.0f, 360.0f))
-							transform.SetRotation(Vec3(rotX, rotY, rotZ));
-
-						/*
 						if (ImGui::DragFloat("x##2", &rotX, 1.0f, -360.0f, 360.0f))
 							transform.Rotate(Vec3(1.0f, 0.0f, 0.0f), rotX - transform.GetRotation().x);
 
@@ -97,8 +87,47 @@ namespace Flow {
 						ImGui::SameLine();
 						if (ImGui::DragFloat("z##2", &rotZ, 1.0f, -360.0f, 360.0f))
 							transform.Rotate(Vec3(0.0f, 0.0f, 1.0f), rotZ - transform.GetRotation().z);
-						*/
+						
 						ImGui::PopItemWidth();
+
+						/*
+						Quaternion orientation = transform.GetOrientation();
+						float quatX = orientation.x;
+						float quatY = orientation.y;
+						float quatZ = orientation.z;
+						float quatW = orientation.w;
+						ImGui::Text("Quat");
+						ImGui::SameLine(0, 36);
+						ImGui::PushItemWidth(56);
+
+						Quaternion rotationQuat;
+						if (ImGui::DragFloat("x##4", &quatX, 0.01f, -1.0f, 1.0f))
+						{
+							rotationQuat = Quaternion(quatX - orientation.x, 0.0f, 0.0f, 1.0f);
+							transform.Rotate(rotationQuat);
+						}							
+
+						ImGui::SameLine();
+						if (ImGui::DragFloat("y##4", &quatY, 0.01f, -1.0f, 1.0f))
+						{
+							rotationQuat = Quaternion(0.0f, quatY - orientation.y, 0.0f, 1.0f);
+							transform.Rotate(rotationQuat);
+						}
+
+						ImGui::SameLine();
+						if (ImGui::DragFloat("z##4", &quatZ, 0.01f, -1.0f, 1.0f))
+						{
+							rotationQuat = Quaternion(0.0f, 0.0f, quatZ - orientation.z, 1.0f);
+							transform.Rotate(rotationQuat);
+						}
+
+						ImGui::SameLine();
+						ImGui::Text("%.3f w", orientation.w);
+						//ImGui::DragFloat("w##4", &quatW, 0.0f, -1.0f, 1.0f);
+							//transform.SetOrientation(Quaternion(orientation.x, orientation.y, orientation.z, quatW));
+
+						ImGui::PopItemWidth();
+						*/
 
 						float scaleX = transform.GetScale().x;
 						float scaleY = transform.GetScale().y;

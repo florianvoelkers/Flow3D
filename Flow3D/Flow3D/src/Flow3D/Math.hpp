@@ -8,6 +8,10 @@
 #include <glm/gtx/quaternion.hpp>
 
 #include <iostream>
+#define _USE_MATH_DEFINES
+#include <math.h>
+
+#include "Flow3D/Log.hpp"
 
 #include "StructVisit.hpp"
 
@@ -356,6 +360,7 @@ namespace Flow {
 		Quaternion(const Vec4& r) : x(r.x), y(r.y), z(r.z), w(r.w) {}
 		Quaternion(const Quaternion& r) : x(r.x), y(r.y), z(r.z), w(r.w) {}
 		Quaternion(const glm::quat& r) : x(r.x), y(r.y), z(r.z), w(r.w) {}
+
 		Quaternion(const Vec3& axis, float angle) 
 		{
 			glm::quat quat = glm::angleAxis(glm::radians(angle), glm::vec3(axis.x, axis.y, axis.z));
@@ -380,6 +385,7 @@ namespace Flow {
 			return os;
 		}
 
+		
 		// Order is XYZ, e.g. flips to 180, -90, 180 from 0, -89, 0
 		Vec3 ToEulerAngles() const
 		{
@@ -388,6 +394,7 @@ namespace Flow {
 			glm::vec3 eulerAngles = glm::vec3(glm::degrees(eulerAnglesRadians.x), glm::degrees(eulerAnglesRadians.y), glm::degrees(eulerAnglesRadians.z));
 			return Vec3(eulerAngles);
 		}
+		
 
 		Mat4 ToMat4() const
 		{
@@ -499,6 +506,54 @@ namespace Flow {
 			glm::mat4 view = glm::rotate(glm::mat4{}, pitch, glm::vec3(1.0f, 0.0f, 0.0f)) * glm::mat4_cast(glm::quat(orientation.w, orientation.x, orientation.y, orientation.z)) *
 				glm::translate(glm::mat4(), glm::vec3(-1 * position.x, -1 * position.y, -1 * position.z));
 			return Mat4(view);
+		}
+
+		static void ToEulerAngle(const Quaternion& q1, float& pitch, float& yaw, float& roll)
+		{
+			float test = q1.x*q1.y + q1.z*q1.w;
+			if (test > 0.499) { // singularity at north pole
+				yaw = glm::degrees(2.0f * atan2(q1.x, q1.w));
+				roll = glm::degrees((float)M_PI / 2);
+				pitch = glm::degrees(0.0f);
+				return;
+			}
+			if (test < -0.499) { // singularity at south pole
+				yaw = glm::degrees(-2.0f * atan2(q1.x, q1.w));
+				roll = glm::degrees((float)-M_PI / 2);
+				pitch = glm::degrees(0.0f);
+				return;
+			}
+			float sqx = q1.x*q1.x;
+			float sqy = q1.y*q1.y;
+			float sqz = q1.z*q1.z;
+			yaw = glm::degrees(atan2(2 * q1.y*q1.w - 2 * q1.x*q1.z, 1 - 2 * sqy - 2 * sqz));
+			roll = glm::degrees(asin(2 * test));
+			pitch = glm::degrees(atan2(2 * q1.x*q1.w - 2 * q1.y*q1.z, 1 - 2 * sqx - 2 * sqz));
+		}
+
+		static void ToAngles(const Quaternion& q, float& x, float& y, float& z)
+		{
+			Vec3 axis;
+			if (1 - (q.w * q.w) < 0.000001)
+			{
+				axis.x = q.x;
+				axis.y = q.y;
+				axis.z = q.z;
+			}
+			else
+			{
+				// http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToAngle/
+				float s = glm::sqrt(1 - (q.w * q.w));
+				axis.x = q.x / s;
+				axis.y = q.y / s;
+				axis.z = q.z / s;
+			}
+
+			float angle = 2 * glm::acos(q.w);
+
+			x = glm::degrees(axis.x * angle);
+			y = glm::degrees(axis.y * angle);
+			z = glm::degrees(axis.z * angle);
 		}
 
 		float x, y, z, w;

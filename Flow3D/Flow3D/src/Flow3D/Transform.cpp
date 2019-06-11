@@ -20,24 +20,27 @@ namespace Flow {
 		m_Position += translation;
 	}
 
-	void Transform::Rotate(const Vec3& amount)
+	void Transform::Rotate(const Vec3 & axis, float angle)
 	{
-		m_Rotation += amount;
-		m_Orientation = Quaternion(m_Rotation);
+		Quaternion quat = Quaternion(axis, angle);
+		Rotate(quat);
+	}
+
+	void Transform::Rotate(Quaternion& rotation)
+	{
+		m_Orientation = Quaternion(rotation * m_Orientation).Normalize();
+
+		UpdateVectorRotations();
 		UpdateVectors();
 	}
 
 	void Transform::SetOrientation(const Quaternion & orientation)
 	{
 		m_Orientation = orientation;
-		m_Rotation = m_Orientation.ToEulerAngles();
-	}
-
-	void Transform::SetRotation(const Vec3& rotation)
-	{ 
-		m_Rotation = rotation; 
-		m_Orientation = Quaternion(m_Rotation);
-		UpdateVectors();
+		UpdateVectorRotations();
+		// don't call UpdateVectors because this is done from the camera component
+		if (!m_IsCamera)
+			UpdateVectors();
 	}
 
 	void Transform::SetIsCamera(bool isCamera)
@@ -58,14 +61,8 @@ namespace Flow {
 			rotationMatrix = Quaternion(adjustedEuler).ToMat4();
 		}
 		else
-		{
-			// This produces gimbal lock when z is 90 or 270°
-			Quaternion rotation = Quaternion(Vec3(0.0f, m_Rotation.y, 0.0f));
-			rotation = rotation * Quaternion(Vec3(0.0f, 0.0f, m_Rotation.z));
-			rotation = rotation * Quaternion(Vec3(m_Rotation.x, 0.0f, 0.0f));			
+			rotationMatrix = m_Orientation.ToMat4();
 
-			rotationMatrix = rotation.ToMat4();
-		}
 			
 
 		Mat4 scaleMatrix = Mat4();
@@ -136,5 +133,17 @@ namespace Flow {
 		m_Right = Vec3(glm::normalize(glm::cross(glm::vec3(m_Front.x, m_Front.y, m_Front.z), glm::vec3(m_WorldUp.x, m_WorldUp.y, m_WorldUp.z))));
 		// Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
 		m_Up = glm::normalize(glm::cross(glm::vec3(m_Right.x, m_Right.y, m_Right.z), glm::vec3(m_Front.x, m_Front.y, m_Front.z)));
+
+		FLOW_CORE_INFO("The direction vectors of {0} are:", m_GameObject.GetName());
+		FLOW_CORE_INFO("front: {0}", m_Front.ToString());
+		FLOW_CORE_INFO("right: {0}", m_Right.ToString());
+		FLOW_CORE_INFO("up: {0}", m_Up.ToString());
+	}
+
+	void Transform::UpdateVectorRotations()
+	{
+		float pitch, yaw, roll;
+		Quaternion::ToEulerAngle(m_Orientation, pitch, yaw, roll);
+		m_Rotation = Vec3(pitch, yaw, roll);
 	}
 }
