@@ -47,7 +47,7 @@ namespace Flow {
 					float posZ = position.z;
 					ImGui::Text("Position");
 					ImGui::SameLine();
-					ImGui::PushItemWidth(75);
+					ImGui::PushItemWidth(66);
 
 					if (ImGui::DragFloat("x##1", &posX, 0.1f))
 						transform.SetPosition(Vec3(posX, posY, posZ));
@@ -68,7 +68,7 @@ namespace Flow {
 					float rotZ = rotation.z;
 					ImGui::Text("Rotation");
 					ImGui::SameLine();
-					ImGui::PushItemWidth(75);
+					ImGui::PushItemWidth(66);
 
 					if (ImGui::DragFloat("x##2", &rotX, 1.0f, -360.0f, 360.0f))
 						transform.Rotate(Vec3(1.0f, 0.0f, 0.0f), rotX - transform.GetRotation().x);
@@ -88,7 +88,7 @@ namespace Flow {
 					float scaleZ = transform.GetScale().z;
 					ImGui::Text("Scale");
 					ImGui::SameLine(0, 29);
-					ImGui::PushItemWidth(75);
+					ImGui::PushItemWidth(66);
 
 					if (ImGui::DragFloat("x##3", &scaleX, 0.01f))
 						transform.SetScale(Vec3(scaleX, scaleY, scaleZ));
@@ -184,7 +184,7 @@ namespace Flow {
 							ambientB = ambient.z;
 							ImGui::Text("Ambient");
 							ImGui::SameLine(0, 20);
-							ImGui::PushItemWidth(70);
+							ImGui::PushItemWidth(66);
 
 							if (ImGui::DragFloat("r##8", &ambientR, 0.01f, 0.0f, 1.0f))
 								dl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
@@ -206,7 +206,7 @@ namespace Flow {
 							diffuseB = diffuse.z;
 							ImGui::Text("Diffuse");
 							ImGui::SameLine(0, 20);
-							ImGui::PushItemWidth(70);
+							ImGui::PushItemWidth(66);
 
 							if (ImGui::DragFloat("r##9", &diffuseR, 0.01f, 0.0f, 1.0f))
 								dl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
@@ -228,7 +228,7 @@ namespace Flow {
 							specularB = specular.z;
 							ImGui::Text("Specular");
 							ImGui::SameLine(0, 13);
-							ImGui::PushItemWidth(70);
+							ImGui::PushItemWidth(66);
 
 							if (ImGui::DragFloat("r##10", &specularR, 0.01f, 0.0f, 1.0f))
 								dl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
@@ -249,8 +249,8 @@ namespace Flow {
 							y = direction.y;
 							z = direction.z;
 							ImGui::Text("Direction");
-							ImGui::SameLine(0, 7);
-							ImGui::PushItemWidth(70);
+							ImGui::SameLine(0, 6);
+							ImGui::PushItemWidth(66);
 
 							if (ImGui::DragFloat("x##11", &x, 0.01f, -1.0f, 1.0f))
 							{
@@ -273,6 +273,99 @@ namespace Flow {
 							}
 
 							ImGui::PopItemWidth();
+						}
+
+						if (component.GetName() == "PointLight")
+						{
+							PointLight* pl = dynamic_cast<PointLight*>(components[i].get());
+
+							Vec3 ambient = pl->GetAmbientIntensity();
+							float ambientR, ambientG, ambientB;
+							ambientR = ambient.x;
+							ambientG = ambient.y;
+							ambientB = ambient.z;
+							ImGui::Text("Ambient");
+							ImGui::SameLine(0, 20);
+							ImGui::PushItemWidth(66);
+
+							if (ImGui::DragFloat("r##12", &ambientR, 0.01f, 0.0f, 1.0f))
+								pl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##12", &ambientG, 0.01f, 0.0f, 1.0f))
+								pl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##12", &ambientB, 0.01f, 0.0f, 1.0f))
+								pl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::PopItemWidth();
+
+							Vec3 diffuse = pl->GetDiffuseIntensity();
+							float diffuseR, diffuseG, diffuseB;
+							diffuseR = diffuse.x;
+							diffuseG = diffuse.y;
+							diffuseB = diffuse.z;
+							ImGui::Text("Diffuse");
+							ImGui::SameLine(0, 20);
+							ImGui::PushItemWidth(66);
+
+							if (ImGui::DragFloat("r##13", &diffuseR, 0.01f, 0.0f, 1.0f))
+								pl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##13", &diffuseG, 0.01f, 0.0f, 1.0f))
+								pl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##13", &diffuseB, 0.01f, 0.0f, 1.0f))
+								pl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::PopItemWidth();
+
+							Vec3 specular = pl->GetSpecularIntensity();
+							float specularR, specularG, specularB;
+							specularR = specular.x;
+							specularG = specular.y;
+							specularB = specular.z;
+							ImGui::Text("Specular");
+							ImGui::SameLine(0, 13);
+							ImGui::PushItemWidth(66);
+
+							if (ImGui::DragFloat("r##14", &specularR, 0.01f, 0.0f, 1.0f))
+								pl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##14", &specularG, 0.01f, 0.0f, 1.0f))
+								pl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##14", &specularB, 0.01f, 0.0f, 1.0f))
+								pl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::PopItemWidth();
+
+							if (ImGui::TreeNodeEx("Attenuation", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen))
+							{
+								Attenuation& att = pl->GetAttenuation();
+								float constant, linear, exponent;
+								constant = att.GetConstant();
+								linear = att.GetLinear();
+								exponent = att.GetExponent();
+
+								ImGui::PushItemWidth(150);
+								if (ImGui::DragFloat("Constant##15", &constant, 0.01f, 0.0f, 100.0f))
+									att.SetConstant(constant);
+
+								if (ImGui::DragFloat("Linear##15", &linear, 0.01f, 0.0f, 100.0f))
+									att.SetLinear(linear);
+
+								if (ImGui::DragFloat("Exponent##15", &exponent, 0.001f, 0.0f, 100.0f))
+									att.SetExponent(exponent);
+									
+								ImGui::PopItemWidth();
+								ImGui::TreePop();
+							}							
 						}
 
 						ImGui::TreePop();

@@ -76,6 +76,9 @@ namespace Flow {
 		Attenuation(float constant = 0, float linear = 0, float exponent = 1)
 			: m_Constant(constant), m_Linear(linear), m_Exponent(exponent) {}
 
+		inline void SetConstant(float constant) { m_Constant = constant; }
+		inline void SetLinear(float linear) { m_Linear = linear; }
+		inline void SetExponent(float exponent) { m_Exponent = exponent; }
 		inline float GetConstant() const { return m_Constant; }
 		inline float GetLinear() const { return m_Linear; }
 		inline float GetExponent() const { return m_Exponent; }
@@ -104,7 +107,7 @@ namespace Flow {
 		PointLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation(), bool enabled = true)
 			: BaseLight(gameObject, ambient, diffuse, specular, "PointLight", enabled), m_Attenuation(attenuation) {}
 
-		inline const Attenuation& GetAttenuation() const{ return m_Attenuation; }
+		inline Attenuation& GetAttenuation() { return m_Attenuation; }
 
 		Attenuation m_Attenuation;
 	};
