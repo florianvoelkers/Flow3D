@@ -29,6 +29,11 @@ namespace Flow {
 			return glm::radians(degrees);
 		}
 
+		static float Degrees(const float &radians)
+		{
+			return glm::degrees(radians);
+		}
+
 		// angle in degrees, not radians
 		static float Sin(const float &degrees)
 		{

@@ -94,9 +94,9 @@ namespace Flow {
 				shaderString = uniform + std::string("direction");
 				m_Shader.SetVec3(shaderString, spotLights[i]->GetDirection());
 				shaderString = uniform + std::string("cutOff");
-				m_Shader.SetFloat(shaderString, spotLights[i]->GetCutoff());
+				m_Shader.SetFloat(shaderString, glm::cos(glm::radians(spotLights[i]->GetCutoff())));
 				shaderString = uniform + std::string("outerCutOff");
-				m_Shader.SetFloat(shaderString, spotLights[i]->GetOuterCutoff());
+				m_Shader.SetFloat(shaderString, glm::cos(glm::radians(spotLights[i]->GetOuterCutoff())));
 				if (spotLights[i]->GetEnabled() && spotLights[i]->GetGameObject().GetIsActive() )
 				{
 					shaderString = uniform + std::string("ambient");

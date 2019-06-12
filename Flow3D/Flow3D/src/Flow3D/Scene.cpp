@@ -108,7 +108,7 @@ namespace Flow {
 		std::shared_ptr<GameObject> spotLight = std::make_shared<GameObject>("spotLight");
 		spotLightLamp->AddChild(spotLight);
 		spotLight->AddComponent<SpotLight>(*spotLight, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f),
-			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
+			12.5f, 15.0f, Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&spotLight->GetComponent<SpotLight>());
 		AddToScene(spotLightLamp);
 
@@ -151,7 +151,7 @@ namespace Flow {
 
 		// flash light for the camera		
 		m_MainCamera->AddComponent<SpotLight>(*m_MainCamera, Vec3(0.0f), Vec3(1.0f), Vec3(1.0f),
-			glm::cos(glm::radians(12.5f)), glm::cos(glm::radians(15.0f)), Attenuation(1.0f, 0.09f, 0.032f));
+			12.5f, 15.0f, Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
 		// add component to toggle flash light; need a better way to disabling lights
 		m_MainCamera->AddComponent<ComponentToggler>(*m_MainCamera, m_MainCamera->GetComponent<SpotLight>());

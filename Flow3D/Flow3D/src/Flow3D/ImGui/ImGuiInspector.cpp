@@ -2,6 +2,7 @@
 #include "Flow3D/Components/FreeCamera.hpp"
 #include "Flow3D/Components/GameObjectToggler.hpp"
 #include "Flow3D/Components/Lighting.hpp"
+#include "Flow3D/Math.hpp"
 
 #include <cstring>
 
@@ -365,7 +366,113 @@ namespace Flow {
 									
 								ImGui::PopItemWidth();
 								ImGui::TreePop();
-							}							
+							}	
+
+							
+						}
+
+						if (component.GetName() == "SpotLight")
+						{
+							SpotLight* sl = dynamic_cast<SpotLight*>(components[i].get());
+
+							Vec3 ambient = sl->GetAmbientIntensity();
+							float ambientR, ambientG, ambientB;
+							ambientR = ambient.x;
+							ambientG = ambient.y;
+							ambientB = ambient.z;
+							ImGui::Text("Ambient");
+							ImGui::SameLine(0, 20);
+							ImGui::PushItemWidth(66);
+
+							if (ImGui::DragFloat("r##16", &ambientR, 0.01f, 0.0f, 1.0f))
+								sl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##16", &ambientG, 0.01f, 0.0f, 1.0f))
+								sl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##16", &ambientB, 0.01f, 0.0f, 1.0f))
+								sl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
+
+							ImGui::PopItemWidth();
+
+							Vec3 diffuse = sl->GetDiffuseIntensity();
+							float diffuseR, diffuseG, diffuseB;
+							diffuseR = diffuse.x;
+							diffuseG = diffuse.y;
+							diffuseB = diffuse.z;
+							ImGui::Text("Diffuse");
+							ImGui::SameLine(0, 20);
+							ImGui::PushItemWidth(66);
+
+							if (ImGui::DragFloat("r##17", &diffuseR, 0.01f, 0.0f, 1.0f))
+								sl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##17", &diffuseG, 0.01f, 0.0f, 1.0f))
+								sl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##17", &diffuseB, 0.01f, 0.0f, 1.0f))
+								sl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
+
+							ImGui::PopItemWidth();
+
+							Vec3 specular = sl->GetSpecularIntensity();
+							float specularR, specularG, specularB;
+							specularR = specular.x;
+							specularG = specular.y;
+							specularB = specular.z;
+							ImGui::Text("Specular");
+							ImGui::SameLine(0, 13);
+							ImGui::PushItemWidth(66);
+
+							if (ImGui::DragFloat("r##18", &specularR, 0.01f, 0.0f, 1.0f))
+								sl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("g##18", &specularG, 0.01f, 0.0f, 1.0f))
+								sl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::SameLine();
+							if (ImGui::DragFloat("b##18", &specularB, 0.01f, 0.0f, 1.0f))
+								sl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
+
+							ImGui::PopItemWidth();
+
+							if (ImGui::TreeNodeEx("Attenuation", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen))
+							{
+								Attenuation& att = sl->GetAttenuation();
+								float constant, linear, exponent;
+								constant = att.GetConstant();
+								linear = att.GetLinear();
+								exponent = att.GetExponent();
+
+								ImGui::PushItemWidth(150);
+								if (ImGui::DragFloat("Constant##19", &constant, 0.01f, 0.0f, 100.0f))
+									att.SetConstant(constant);
+
+								if (ImGui::DragFloat("Linear##19", &linear, 0.01f, 0.0f, 100.0f))
+									att.SetLinear(linear);
+
+								if (ImGui::DragFloat("Exponent##19", &exponent, 0.001f, 0.0f, 100.0f))
+									att.SetExponent(exponent);
+
+								ImGui::PopItemWidth();
+								ImGui::TreePop();
+							}
+
+							float cutoff = sl->GetCutoff();
+							float outerCutoff = sl->GetOuterCutoff();
+							ImGui::PushItemWidth(150);
+							if (ImGui::DragFloat("Cutoff##20", &cutoff, 0.1f, 0.0f, 360.0f))
+								sl->SetCutoff(cutoff);
+
+							if (ImGui::DragFloat("OuterCutoff##20", &outerCutoff, 0.1f, 0.0f, 360.0f))
+								sl->SetOuterCutoff(outerCutoff);
+
+							ImGui::PopItemWidth();
 						}
 
 						ImGui::TreePop();
