@@ -11,6 +11,7 @@ namespace Flow {
 		unsigned int id;
 		std::string type;
 		std::string path;
+		bool textureLoaded = false;
 
 		Texture();
 		Texture(std::string path, std::string typeName, bool flip);

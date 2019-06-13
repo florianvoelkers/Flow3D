@@ -9,9 +9,10 @@
 
 namespace Flow {
 
+	// Default constructor
 	Texture::Texture()
 	{
-
+		
 	}
 
 	Texture::Texture(std::string path, std::string typeName, bool flip)
@@ -70,11 +71,13 @@ namespace Flow {
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 			stbi_image_free(data);
+			textureLoaded = true;
 		}
 		else
 		{
 			FLOW_CORE_ERROR("Failed to load texture at {0}", path);
 			stbi_image_free(data);
+			textureLoaded = false;
 		}
 
 		return textureID;

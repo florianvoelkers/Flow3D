@@ -30,8 +30,15 @@ namespace Flow {
 		void Draw(Shader& shader);
 		void SetColor(Color color);
 
+		void SetDiffuseTexture(Texture texture) { m_DiffuseTexture = texture; }
+		void SetSpecularTexture(Texture texture) { m_SpecularTexture = texture; }
+
+		bool GetIsTexture() { return m_IsTextured; }
+		Color GetColor() { return m_Color; }
+		Texture& GetDiffuseTexture() { return m_DiffuseTexture; }
+		Texture& GetSpecularTexture() { return m_SpecularTexture; }
+
 	private:
-		std::shared_ptr<Shader> m_Shader;
 		unsigned int VAO;
 		Color m_Color;
 		Texture m_DiffuseTexture;

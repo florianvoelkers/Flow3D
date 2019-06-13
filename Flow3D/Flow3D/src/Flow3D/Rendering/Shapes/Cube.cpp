@@ -3,41 +3,43 @@
 #include "Flow3D/Application.hpp"
 #include "Flow3D/Components/Lighting.hpp"
 
+#include "Flow3D/Log.hpp"
+
 namespace Flow {
 
 	Cube::Cube()
-		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(false)
+		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(false), m_TextureInitialized(false)
 	{
 		SetupCube();
 	}
 
 	Cube::Cube(float r, float g, float b)
-		: m_Color(Color(r, g, b)), m_IsTextured(false)
+		: m_Color(Color(r, g, b)), m_IsTextured(false), m_TextureInitialized(false)
 	{
 		SetupCube();
 	}
 
 	Cube::Cube(float r, float g, float b, float a)
-		: m_Color(Color(r, g, b, a)), m_IsTextured(false)
+		: m_Color(Color(r, g, b, a)), m_IsTextured(false), m_TextureInitialized(false)
 	{
 		SetupCube();
 	}
 
 	Cube::Cube(Color color)
-		: m_Color(color), m_IsTextured(false)
+		: m_Color(color), m_IsTextured(false), m_TextureInitialized(false)
 	{
 		SetupCube();
 	}
 
 	// TODO: maybe it is better to set the specular value to 0.2f instead of taking the diffuseTexture
 	Cube::Cube(Texture texture)
-		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(texture), m_SpecularTexture(texture)
+		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(texture), m_SpecularTexture(texture), m_TextureInitialized(true)
 	{
 		SetupCube();
 	}
 
 	Cube::Cube(Texture diffuseTexture, Texture specularTexture)
-		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(diffuseTexture), m_SpecularTexture(specularTexture)
+		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(diffuseTexture), m_SpecularTexture(specularTexture), m_TextureInitialized(true)
 	{
 		SetupCube();
 	}
@@ -73,9 +75,11 @@ namespace Flow {
 		glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
 	}
 
-	void Cube::SetColor(Color color)
-	{
-		m_Color = color;
+	void Cube::SetIsTextured(bool isTextured) 
+	{ 
+		m_IsTextured = isTextured;
+		if (isTextured)
+			SetupCube();		 
 	}
 
 	void Cube::SetupCube()

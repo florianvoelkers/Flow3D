@@ -133,7 +133,11 @@ namespace Flow {
 			renderingEngine.SetBlending(false);
 		}
 
-		void SetShader(Shader shader) { m_Shader = shader; }
+		void SetShader(Shader shader) 
+		{ 
+			FLOW_CORE_INFO("set shader");
+			m_Shader = shader; 
+		}
 		Model& GetModel() { return m_Model; }
 		Shader& GetShader() { return m_Shader; }
 

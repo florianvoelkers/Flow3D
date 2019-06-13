@@ -28,12 +28,18 @@ namespace Flow {
 		~Cube();
 
 		void Draw(Shader& shader);
-		void SetColor(Color color);
+		
+		void SetIsTextured(bool isTextured);
+		void SetTextureInitialized(bool textureInitialized) { m_TextureInitialized = textureInitialized; }
+		void SetColor(Color color) { m_Color = color; }
+		void SetDiffuseTexture(Texture texture) { m_DiffuseTexture = texture; }
+		void SetSpecularTexture(Texture texture) { m_SpecularTexture = texture; }
 
 		bool GetIsTexture() { return m_IsTextured; }
 		Color GetColor() { return m_Color; }
 		Texture& GetDiffuseTexture() { return m_DiffuseTexture; }
 		Texture& GetSpecularTexture() { return m_SpecularTexture; }
+		bool GetTextureInitialized() { return m_TextureInitialized; }
 
 	private:
 		unsigned int VAO;
@@ -41,6 +47,7 @@ namespace Flow {
 		Texture m_DiffuseTexture;
 		Texture m_SpecularTexture;
 		bool m_IsTextured;
+		bool m_TextureInitialized;
 
 		void SetupCube();
 	};
