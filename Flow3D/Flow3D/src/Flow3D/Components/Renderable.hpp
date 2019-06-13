@@ -22,7 +22,8 @@ namespace Flow {
 		CLASS_DECLARATION(Renderable)
 
 	public:
-		Renderable(GameObject& gameObject, Model model, Shader shader, bool blending = false, bool enabled = true)
+		Renderable(GameObject& gameObject, Model model = std::make_shared<Cube>(0.5f, 0.5f, 0.5f, 1.0f), 
+			Shader shader = Shader("resources/shader/Basic3D.vert", "resources/shader/Colored.frag"), bool blending = false, bool enabled = true)
 			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject, enabled, "Renderable") {}
 
 		virtual void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) override
@@ -132,6 +133,9 @@ namespace Flow {
 			renderingEngine.SetBlending(false);
 		}
 
+		void SetShader(Shader shader) { m_Shader = shader; }
+		Model& GetModel() { return m_Model; }
+		Shader& GetShader() { return m_Shader; }
 
 	private:
 		Model m_Model;

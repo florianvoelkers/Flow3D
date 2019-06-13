@@ -21,6 +21,7 @@ namespace Flow {
 		std::vector<Texture> textures_loaded;
 		std::vector<Mesh> meshes;
 		std::string directory;
+		std::string filepath;
 		bool gammaCorrection;
 
 		/* Functions */
@@ -30,6 +31,9 @@ namespace Flow {
 		Model(std::shared_ptr<Plane> plane);
 
 		void Draw(Shader shader);
+
+		std::shared_ptr<Cube> GetCube() { return m_Cube; }
+		std::shared_ptr<Plane> GetPlane() { return m_Plane; }
 
 	private:
 		std::shared_ptr<Cube> m_Cube;

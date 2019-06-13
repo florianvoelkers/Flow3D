@@ -5,6 +5,7 @@ namespace Flow {
 	Model::Model(std::string const & path)
 	{
 		LoadModel(path);
+		filepath = path;
 	}
 
 	Model::Model(std::shared_ptr<Cube> cube) : m_Cube(cube) {}
@@ -20,9 +21,7 @@ namespace Flow {
 		{
 			for (unsigned int i = 0; i < meshes.size(); i++)
 				meshes[i].Draw(shader);
-		}
-		
-			
+		}				
 	}
 
 	void Model::LoadModel(std::string const & path)

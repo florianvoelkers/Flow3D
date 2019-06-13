@@ -10,6 +10,8 @@
 #include "ImGuiDirectionalLightEditor.hpp"
 #include "ImGuiPointLightEditor.hpp"
 #include "ImGuiSpotLightEditor.hpp"
+#include "Flow3D/Components/Renderable.hpp"
+#include "ImGuiRenderableEditor.hpp"
 #include "Flow3D/Math.hpp"
 
 #include <cstring>
@@ -99,6 +101,11 @@ namespace Flow {
 						{
 							SpotLightEditor editor = SpotLightEditor();
 							editor.Draw(dynamic_cast<SpotLight*>(components[i].get()));							
+						}
+						else if (component.GetName() == "Renderable")
+						{
+							RenderableEditor editor = RenderableEditor();
+							editor.Draw(dynamic_cast<Renderable*>(components[i].get()));
 						}
 
 						ImGui::TreePop();

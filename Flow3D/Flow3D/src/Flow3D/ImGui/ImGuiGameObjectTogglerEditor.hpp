@@ -13,7 +13,7 @@ namespace Flow {
 		void Draw(GameObjectToggler* toggler)
 		{
 			std::string name = toggler->GetGameObjectName();
-			static char nameBuffer[32] = "thisisamerica";
+			static char nameBuffer[32] = "GameObject";
 			strcpy(nameBuffer, name.c_str());
 			if (ImGui::InputText("Name of GameObject", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
 				toggler->SetGameObjectName(nameBuffer);

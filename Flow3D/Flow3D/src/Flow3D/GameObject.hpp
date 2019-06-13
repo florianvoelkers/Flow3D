@@ -72,7 +72,7 @@ namespace Flow {
 	// GameObject::GetComponent
 	// returns the first component that matches the template type
 	// or that is derived from the template type
-	// EG: if the template type is Component, and components[0] type is BoxCollider
+	// EG: if th template type is Component, and components[0] type is BoxCollider
 	// then components[0] will be returned because it derives from Component
 	//***************
 	template<class ComponentType, typename ...Args>

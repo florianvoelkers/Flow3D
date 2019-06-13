@@ -27,14 +27,11 @@ namespace Flow {
 			int componentID = -1;
 			std::string currentComponentName = toggler->GetComponentToToggle().GetName();
 			std::vector<const char*> chars;
-			FLOW_CORE_INFO("component names has a size of {0}", components.size());
 			for (unsigned int i = 0; i < componentNames.size(); i++)
 			{				
 				if (componentNames[i] == currentComponentName)
-				{
-					FLOW_CORE_INFO("component name found at {0}", i);
 					componentID = i;
-				}	
+
 				chars.push_back(componentNames[i].c_str());
 			}
 
