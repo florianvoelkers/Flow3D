@@ -550,6 +550,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\GameObject.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiAttenuationEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiBaseLightEditor.hpp" />
+    <ClInclude Include="src\Flow3D\ImGui\ImGuiComponentTogglerEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiDirectionalLightEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiFreeCameraEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiGameObjectTogglerEditor.hpp" />

@@ -4,6 +4,8 @@
 #include "ImGuiFreeCameraEditor.hpp"
 #include "Flow3D/Components/GameObjectToggler.hpp"
 #include "ImGuiGameObjectTogglerEditor.hpp"
+#include "Flow3D/Components/ComponentToggler.hpp"
+#include "ImGuiComponentTogglerEditor.hpp"
 #include "Flow3D/Components/Lighting.hpp"
 #include "ImGuiDirectionalLightEditor.hpp"
 #include "ImGuiPointLightEditor.hpp"
@@ -49,6 +51,14 @@ namespace Flow {
 				
 
 				const std::vector<std::unique_ptr<Component>>& components = currentGameObject->GetComponents();
+				std::vector<std::string> componentNames;
+				for (unsigned int i = 0; i < components.size(); i++)
+				{
+					Component& component = *components[i];
+					std::string componentName = component.GetName();
+					componentNames.push_back(componentName);
+				}
+				
 				for (unsigned int i = 0; i < components.size(); i++)
 				{
 					Component& component = *components[i];
@@ -70,6 +80,11 @@ namespace Flow {
 							GameObjectTogglerEditor editor = GameObjectTogglerEditor();
 							editor.Draw(dynamic_cast<GameObjectToggler*>(components[i].get()));
 						}
+						else if (componentName == "ComponentToggler")
+						{
+							ComponentTogglerEditor editor = ComponentTogglerEditor();
+							editor.Draw(dynamic_cast<ComponentToggler*>(components[i].get()), components, componentNames);
+						}
 						else if (componentName == "DirectionalLight")
 						{
 							DirectionalLightEditor editor = DirectionalLightEditor();
@@ -90,7 +105,7 @@ namespace Flow {
 					}
 
 					ImGui::Separator();
-				}
+				}				
 			}
 
 

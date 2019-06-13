@@ -12,7 +12,7 @@ namespace Flow {
 		CLASS_DECLARATION(ComponentToggler)
 
 	public:
-		ComponentToggler(GameObject& gameObject, Component& componentToToggle, bool enabled = true) 
+		ComponentToggler(GameObject& gameObject, Component* componentToToggle, bool enabled = true) 
 			: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()), m_ComponentToToggle(componentToToggle) {}
 
 		virtual void OnEvent(Event& e) override
@@ -21,14 +21,17 @@ namespace Flow {
 			dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ComponentToggler::OnKeyPressed));
 		}
 
+		Component& GetComponentToToggle() { return *m_ComponentToToggle; }
+		void SetComponentToToggle(Component* componentToToggle) { m_ComponentToToggle = componentToToggle; }
+
 	private:
 		Input& m_Input;
-		Component& m_ComponentToToggle;
+		Component* m_ComponentToToggle;
 
 		bool OnKeyPressed(KeyPressedEvent& e)
 		{
 			if (e.GetKeyCode() == (int)Keycode::T)
-				m_ComponentToToggle.SetEnabled(!m_ComponentToToggle.GetEnabled());
+				m_ComponentToToggle->SetEnabled(!m_ComponentToToggle->GetEnabled());
 
 			return false; // should not block other events right now because it is only for testing
 		}

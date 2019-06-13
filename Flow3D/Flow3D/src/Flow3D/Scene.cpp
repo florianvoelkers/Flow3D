@@ -154,7 +154,7 @@ namespace Flow {
 			12.5f, 15.0f, Attenuation(1.0f, 0.09f, 0.032f));
 		AddSpotLight(&m_MainCamera->GetComponent<SpotLight>());
 		// add component to toggle flash light; need a better way to disabling lights
-		m_MainCamera->AddComponent<ComponentToggler>(*m_MainCamera, m_MainCamera->GetComponent<SpotLight>());
+		m_MainCamera->AddComponent<ComponentToggler>(*m_MainCamera, &m_MainCamera->GetComponent<SpotLight>());
 		m_MainCamera->AddComponent<GameObjectToggler>(*m_MainCamera, "trex2");	
 		
 	}
