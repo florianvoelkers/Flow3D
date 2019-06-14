@@ -52,6 +52,7 @@ namespace Flow {
 
 		std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
 		std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
+		std::vector<std::shared_ptr<Model>> GetAllModels() { return models; }
 
 	private:
 		static Application* s_Instance;

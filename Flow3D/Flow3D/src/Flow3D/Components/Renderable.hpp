@@ -22,7 +22,7 @@ namespace Flow {
 		CLASS_DECLARATION(Renderable)
 
 	public:
-		Renderable(GameObject& gameObject, Model model = std::make_shared<Cube>(0.5f, 0.5f, 0.5f, 1.0f), 
+		Renderable(GameObject& gameObject, std::shared_ptr<Model> model = std::make_shared<Model>(std::make_shared<Cube>(0.5f, 0.5f, 0.5f, 1.0f)), 
 			std::shared_ptr<Shader> shader = Application::Get().GetAllShaders().at(1), bool blending = false, bool enabled = true)
 			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject, enabled, "Renderable") {}
 
@@ -122,23 +122,21 @@ namespace Flow {
 				m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetLinear());
 				shaderString = uniform + std::string("quadratic");
 				m_Shader->SetFloat(shaderString, spotLights[i]->GetAttenuation().GetExponent());
-				uniform = "";
-
-				
+				uniform = "";				
 			}
 
-			m_Model.Draw(*m_Shader);
+			m_Model->Draw(*m_Shader);
 
 			// reset blending to default
 			renderingEngine.SetBlending(false);
 		}
 
 		void SetShader(std::shared_ptr<Shader> shader) {	m_Shader = shader; }
-		Model& GetModel() { return m_Model; }
+		Model& GetModel() { return *m_Model; }
 		Shader& GetShader() { return *m_Shader; }
 
 	private:
-		Model m_Model;
+		std::shared_ptr<Model> m_Model;
 		std::shared_ptr<Shader> m_Shader;
 		bool m_Blending;
 	};

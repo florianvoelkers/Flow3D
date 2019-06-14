@@ -19,7 +19,6 @@ namespace Flow {
 		: path(path), type(typeName), m_Flip(flip)
 	{
 		id = LoadTextureFromFile(path.c_str());
-		FLOW_CORE_INFO("texture at path {0} has id {1}", path, id);
 	}
 
 	Texture::~Texture()

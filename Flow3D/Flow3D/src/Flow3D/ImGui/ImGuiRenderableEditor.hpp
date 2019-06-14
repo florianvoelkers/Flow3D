@@ -167,7 +167,7 @@ namespace Flow {
 			}
 			else
 			{
-				FLOW_CORE_INFO("this is a loaded model");
+				
 			}
 		}
 	};
