@@ -6,37 +6,37 @@
 namespace Flow {
 
 	Plane::Plane()
-		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(false)
+		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(false), m_TextureInitialized(false)
 	{
 		SetupPlane();
 	}
 
 	Plane::Plane(float r, float g, float b)
-		: m_Color(Color(r, g, b)), m_IsTextured(false)
+		: m_Color(Color(r, g, b)), m_IsTextured(false), m_TextureInitialized(false)
 	{
 		SetupPlane();
 	}
 
 	Plane::Plane(float r, float g, float b, float a)
-		: m_Color(Color(r, g, b, a)), m_IsTextured(false)
+		: m_Color(Color(r, g, b, a)), m_IsTextured(false), m_TextureInitialized(false)
 	{
 		SetupPlane();
 	}
 
 	Plane::Plane(Color color)
-		: m_Color(color), m_IsTextured(false)
+		: m_Color(color), m_IsTextured(false), m_TextureInitialized(false)
 	{
 		SetupPlane();
 	}
 
-	Plane::Plane(Texture texture)
-		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(texture), m_SpecularTexture(texture)
+	Plane::Plane(std::shared_ptr<Texture> texture)
+		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(texture), m_SpecularTexture(texture), m_TextureInitialized(false)
 	{
 		SetupPlane();
 	}
 
-	Plane::Plane(Texture diffuseTexture, Texture specularTexture)
-		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(diffuseTexture), m_SpecularTexture(specularTexture)
+	Plane::Plane(std::shared_ptr<Texture> diffuseTexture, std::shared_ptr<Texture> specularTexture)
+		: m_Color(0.0f, 0.0f, 0.0f), m_IsTextured(true), m_DiffuseTexture(diffuseTexture), m_SpecularTexture(specularTexture), m_TextureInitialized(false)
 	{
 		SetupPlane();
 	}
@@ -47,17 +47,20 @@ namespace Flow {
 
 	void Plane::Draw(Shader& shader)
 	{
+		if (m_WireframeMode)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
 		// set data for the shader
 		shader.Use();
 		if (m_IsTextured)
 		{
 			shader.SetBool("material.hasSpecularTexture", true);
-			glActiveTexture(GL_TEXTURE0 + m_DiffuseTexture.id);
-			shader.SetInt("material.diffuse", m_DiffuseTexture.id);
-			glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture.id);
+			glActiveTexture(GL_TEXTURE0 + m_DiffuseTexture->id);
+			shader.SetInt("material.diffuse", m_DiffuseTexture->id);
+			glBindTexture(GL_TEXTURE_2D, m_DiffuseTexture->id);
 			glActiveTexture(GL_TEXTURE1);
-			shader.SetInt("material.specular", m_DiffuseTexture.id);
-			glBindTexture(GL_TEXTURE_2D, m_SpecularTexture.id);
+			shader.SetInt("material.specular", m_DiffuseTexture->id);
+			glBindTexture(GL_TEXTURE_2D, m_SpecularTexture->id);
 			// TODO: value should be set externally
 			shader.SetFloat("material.shininess", 17);
 		}
@@ -69,15 +72,26 @@ namespace Flow {
 		// render plane
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		if (m_WireframeMode)
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+		// good practice to set everytghing back to defaults once configured
+		glBindVertexArray(0);
+		glActiveTexture(GL_TEXTURE0);
 	}
 
-	void Plane::SetColor(Color color)
+	void Plane::SetIsTextured(bool isTextured)
 	{
-		m_Color = color;
+		m_IsTextured = isTextured;
+		if (isTextured)
+			SetupPlane();
 	}
 
 	void Plane::SetupPlane()
 	{
+		m_WireframeMode = false;
+
 		// setup vertices and indices for drawing a plane
 		float vertices[] = {
 			 0.5f,  0.5f, 0.0f,		0.0f, 0.0f, 1.0f,	1.0f, 1.0f, // top right
@@ -119,6 +133,8 @@ namespace Flow {
 			glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 			glEnableVertexAttribArray(2);
 		}
+
+		glBindVertexArray(0);
 	}
 
 }

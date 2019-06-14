@@ -22,8 +22,8 @@ namespace Flow {
 		Cube(float r, float g, float b);
 		Cube(float r, float g, float b, float a);
 		Cube(Color color);
-		Cube(Texture texture);
-		Cube(Texture diffuseTexture, Texture specularTexture);
+		Cube(std::shared_ptr<Texture> texture);
+		Cube(std::shared_ptr<Texture> diffuseTexture, std::shared_ptr<Texture> specularTexture);
 
 		~Cube();
 
@@ -32,22 +32,25 @@ namespace Flow {
 		void SetIsTextured(bool isTextured);
 		void SetTextureInitialized(bool textureInitialized) { m_TextureInitialized = textureInitialized; }
 		void SetColor(Color color) { m_Color = color; }
-		void SetDiffuseTexture(Texture texture) { m_DiffuseTexture = texture; }
-		void SetSpecularTexture(Texture texture) { m_SpecularTexture = texture; }
+		void SetDiffuseTexture(std::shared_ptr<Texture> texture) { m_DiffuseTexture = texture; }
+		void SetSpecularTexture(std::shared_ptr<Texture> texture) { m_SpecularTexture = texture; }
+		void SetWireframeMode(bool wireframeMode) { m_WireframeMode = wireframeMode; }
 
 		bool GetIsTexture() { return m_IsTextured; }
 		Color GetColor() { return m_Color; }
-		Texture& GetDiffuseTexture() { return m_DiffuseTexture; }
-		Texture& GetSpecularTexture() { return m_SpecularTexture; }
+		Texture& GetDiffuseTexture() { return *m_DiffuseTexture; }
+		Texture& GetSpecularTexture() { return *m_SpecularTexture; }
 		bool GetTextureInitialized() { return m_TextureInitialized; }
+		bool GetWireframeMode() { return m_WireframeMode; }
 
 	private:
 		unsigned int VAO;
 		Color m_Color;
-		Texture m_DiffuseTexture;
-		Texture m_SpecularTexture;
+		std::shared_ptr<Texture> m_DiffuseTexture;
+		std::shared_ptr<Texture> m_SpecularTexture;
 		bool m_IsTextured;
 		bool m_TextureInitialized;
+		bool m_WireframeMode;
 
 		void SetupCube();
 	};

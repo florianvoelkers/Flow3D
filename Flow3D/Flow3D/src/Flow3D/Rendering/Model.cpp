@@ -11,7 +11,7 @@ namespace Flow {
 	Model::Model(std::shared_ptr<Cube> cube) : m_Cube(cube) {}
 	Model::Model(std::shared_ptr<Plane> plane) : m_Plane(plane) {}
 
-	void Model::Draw(Shader shader)
+	void Model::Draw(Shader& shader)
 	{
 		if (m_Cube != nullptr)
 			m_Cube->Draw(shader);

@@ -30,7 +30,7 @@ namespace Flow {
 		Model(std::shared_ptr<Cube> cube);
 		Model(std::shared_ptr<Plane> plane);
 
-		void Draw(Shader shader);
+		void Draw(Shader& shader);
 
 		std::shared_ptr<Cube> GetCube() { return m_Cube; }
 		std::shared_ptr<Plane> GetPlane() { return m_Plane; }

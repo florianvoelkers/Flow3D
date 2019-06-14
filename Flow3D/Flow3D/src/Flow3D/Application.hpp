@@ -7,6 +7,9 @@
 #include "Rendering/RenderingEngine.hpp"
 #include "Scene.hpp"
 #include "ImGui/ImGuiLayer.hpp"
+#include "Flow3D/Rendering/Shader.hpp"
+#include "Flow3D/Rendering/Texture.hpp"
+#include "Flow3D/Rendering/Model.hpp"
 
 #include "Window.hpp"
 
@@ -44,8 +47,11 @@ namespace Flow {
 		inline GameObject& GetMainCamera() { m_CurrentScene->GetMainCamera(); }
 		inline Scene& GetCurrentScene() { return *m_CurrentScene.get(); }
 		const std::vector<std::shared_ptr<GameObject>>& GetAllGameObjects() const { return m_CurrentScene->GetRoot().GetChildren(); }
-		inline const std::shared_ptr<Shader> GetStandardShader() { return m_StandardShader; }
+		inline const std::shared_ptr<Shader> GetStandardShader() { return shaders.at(0); }
 		inline const unsigned int GetRenderTexture() const { return m_RenderingEngine->GetRenderTexture(); }
+
+		std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
+		std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
 
 	private:
 		static Application* s_Instance;
@@ -55,8 +61,11 @@ namespace Flow {
 		std::unique_ptr<Input> m_Input;
 		std::unique_ptr<RenderingEngine> m_RenderingEngine;
 		std::unique_ptr<Scene> m_CurrentScene;
-		std::shared_ptr<Shader> m_StandardShader;
 		std::unique_ptr<ImGuiLayer> m_ImGui;
+
+		std::vector<std::shared_ptr<Shader>> shaders;
+		std::vector<std::shared_ptr<Texture>> textures;
+		std::vector<std::shared_ptr<Model>> models;
 
 		bool OnWindowClose(WindowCloseEvent& e);	
 		bool OnKeyPressed(KeyPressedEvent& e);

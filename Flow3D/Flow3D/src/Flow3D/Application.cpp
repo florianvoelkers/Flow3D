@@ -19,13 +19,27 @@ namespace Flow {
 		m_Input = std::make_unique<Input>();
 		m_RenderingEngine = std::make_unique<RenderingEngine>(*m_Window);
 
-		m_StandardShader = std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag");
+		// TODO: load scene data from file; until then manually create scene objects here
+		textures.push_back(std::make_shared<Texture>("resources/textures/container.jpg", "diffuse", true));					// 0
+		textures.push_back(std::make_shared<Texture>("resources/textures/brickwall.jpg", "diffuse", true));					// 1
+		textures.push_back(std::make_shared<Texture>("resources/textures/wall.jpg", "diffuse", true));						// 2
+		textures.push_back(std::make_shared<Texture>("resources/textures/metal.png", "diffuse", true));						// 3
+		textures.push_back(std::make_shared<Texture>("resources/textures/grass.png", "diffuse", true));						// 4
+		textures.push_back(std::make_shared<Texture>("resources/textures/container2.png", "diffuse", true));				// 5
+		textures.push_back(std::make_shared<Texture>("resources/textures/container2_specular.png", "specular", true));		// 6
+		
+
+		shaders.push_back(std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag"));
+		shaders.push_back(std::make_shared<Shader>("resources/shader/Basic3D.vert", "resources/shader/Colored.frag"));
+		shaders.push_back(std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag"));
 
 		m_CurrentScene = std::make_unique<Scene>("TestScene", *m_Window);
 		m_CurrentScene->OnAttach();
 
 		m_ImGui = std::make_unique<ImGuiLayer>();
 		m_ImGui->OnAttach();
+
+		
 	}
 
 	Application::~Application()

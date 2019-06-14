@@ -25,25 +25,6 @@ namespace Flow {
 
 		for (unsigned int i = 0; i < m_Textures.size(); i++)
 		{
-			/* for without lights
-			glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
-			// retrieve texture number (the N in diffuse_textureN
-			std::string number;
-			std::string name = m_Textures[i].type;
-			if (name == "texture_diffuse")
-				number = std::to_string(diffuseNumber++);
-			else if (name == "texture_specular")
-				number = std::to_string(specularNumber++); // transfer unsigned int to stream
-			else if (name == "texture_normal")
-				number = std::to_string(normalNumber++); // transfer unsigned int to stream 
-			else if (name == "texture_height")
-				number = std::to_string(heightNumber++); // transfer unsigned int to stream
-
-			// set the sample to the correct texture unit
-			// glUniform1i(glGetUniformLocation(shader.m_ID, (name + number).c_str()), i); <--- same as below
-			shader.SetInt((name + number).c_str(), i);
-			*/
-
 			// for shader MultipleLights
 			glActiveTexture(GL_TEXTURE0 + i); // active proper texture unit before binding
 			// retrieve texture number (the N in diffuse_textureN
