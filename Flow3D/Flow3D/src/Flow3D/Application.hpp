@@ -50,6 +50,9 @@ namespace Flow {
 		inline const std::shared_ptr<Shader> GetStandardShader() { return shaders.at(0); }
 		inline const unsigned int GetRenderTexture() const { return m_RenderingEngine->GetRenderTexture(); }
 
+		void AddTexture(std::shared_ptr<Texture> texture) { textures.push_back(texture); }
+		void RemoveTexture(int index) { textures.erase(textures.begin() + index); }
+
 		std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
 		std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
 		std::vector<std::shared_ptr<Model>> GetAllModels() { return models; }

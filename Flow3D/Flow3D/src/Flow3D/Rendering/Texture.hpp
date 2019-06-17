@@ -18,6 +18,8 @@ namespace Flow {
 		Texture(std::string path, std::string typeName, bool flip);
 		~Texture();
 
+		bool GetFlipped() { return m_Flip; }
+
 		static unsigned char* LoadData(std::string path, int& width, int& height, int& nrChannels, int req_comp);
 		static void FreeImageData(unsigned char *data);
 

@@ -31,8 +31,7 @@ namespace Flow {
 		bool m_ReceiveEvents = true;
 
 		std::unique_ptr<Flow3DLog> m_Logger;
-		std::unique_ptr<Flow3DInspector> m_Inspector;
-		
+		std::unique_ptr<Flow3DInspector> m_Inspector;		
 
 		void ShowGameObject(const char* prefix, int uid, GameObject& child);
 
