@@ -59,6 +59,20 @@ namespace Flow {
 		void AddModel(std::shared_ptr<Model> model) { models.push_back(model); }
 		void RemoveModel(int index) { models.erase(models.begin() + index); }
 
+		std::vector<const char*> GetAllComponentNames()
+		{
+			std::vector<const char*> names;
+			names.push_back("Rotatable");
+			names.push_back("FreeCamera");
+			names.push_back("Renderable");
+			names.push_back("DirectionalLight");
+			names.push_back("PointLight");
+			names.push_back("SpotLight");
+			names.push_back("ComponentToggler");
+			names.push_back("GameObjectToggler");
+			return names;
+		}
+
 		std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
 		std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
 		std::vector<std::shared_ptr<Model>> GetAllModels() { return models; }

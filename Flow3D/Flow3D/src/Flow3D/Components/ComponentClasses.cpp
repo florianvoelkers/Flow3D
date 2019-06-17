@@ -23,3 +23,5 @@ CLASS_DEFINITION(BaseLight, PointLight)
 CLASS_DEFINITION(BaseLight, SpotLight)
 CLASS_DEFINITION(Component, ComponentToggler)
 CLASS_DEFINITION(Component, GameObjectToggler)
+
+// IMPORTANT: ADD COMPONENT NAMES TO Application.hpp

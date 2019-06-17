@@ -87,6 +87,9 @@ namespace Flow {
 		tree->AddComponent<Renderable>(*tree, models[0], shaders.at(2), true);
 		AddToScene(tree);
 
+		std::shared_ptr<GameObject> emptyGO = std::make_shared<GameObject>("empty", Vec3(2.0f, 2.0f, 2.0f));
+		AddToScene(emptyGO);
+
 		
 		std::shared_ptr<GameObject> oldMan = std::make_shared<GameObject>("oldMan", Vec3(0.0f, 0.0f, 2.0f));
 		oldMan->GetTransform().SetScale(Vec3(0.01f));

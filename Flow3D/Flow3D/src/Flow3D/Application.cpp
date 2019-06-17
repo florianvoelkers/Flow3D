@@ -43,9 +43,7 @@ namespace Flow {
 		m_CurrentScene->OnAttach();
 
 		m_ImGui = std::make_unique<ImGuiLayer>();
-		m_ImGui->OnAttach();
-
-		
+		m_ImGui->OnAttach();		
 	}
 
 	Application::~Application()

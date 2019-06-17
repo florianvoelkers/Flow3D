@@ -146,7 +146,7 @@ namespace Flow {
 						planePtr->SetWireframeMode(wireframeMode);
 
 					bool hasTexture = planePtr->GetIsTexture();
-					if (ImGui::Checkbox("IsTexured", &hasTexture))
+					if (ImGui::Checkbox("IsTextured", &hasTexture))
 					{
 						planePtr->SetIsTextured(hasTexture);
 						if (hasTexture)
