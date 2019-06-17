@@ -19,11 +19,18 @@ namespace Flow {
 			std::vector<std::shared_ptr<Shader>> shaders = Application::Get().GetAllShaders();
 
 			static int currentShader = -1;
+			bool shaderFound = false;
 			std::vector<const char*> shaderNames;
 			for (unsigned int i = 0; i < shaders.size(); i++)
 			{
 				if (shader.m_Name == shaders[i]->m_Name)
+				{
+					shaderFound = true;
 					currentShader = i;
+				}
+					
+				if (!shaderFound)
+					currentShader = -1;
 
 				shaderNames.push_back(shaders[i]->m_Name.c_str());
 			}
@@ -79,15 +86,29 @@ namespace Flow {
 							Texture& specularTexture = cubePtr->GetSpecularTexture();
 
 							static int currentDiffuseName = -1; 
+							bool diffuseFound = false;
 							static int currentSpecularName = -1;
+							bool specularFound = false;
 							std::vector<const char*> textureNames;
 							for (unsigned int i = 0; i < textures.size(); i++)
 							{
 								if (diffuseTexture.name == textures[i]->name)
+								{
+									diffuseFound = true;
 									currentDiffuseName = i;
+								}
+									
+								if (!diffuseFound)
+									currentDiffuseName = -1;
 
 								if (specularTexture.name == textures[i]->name)
+								{
+									specularFound = true;
 									currentSpecularName = i;
+								}
+									
+								if (!specularFound)
+									currentSpecularName = -1;
 
 								textureNames.push_back(textures[i]->name.c_str());
 							}
@@ -147,15 +168,29 @@ namespace Flow {
 							Texture& specularTexture = planePtr->GetSpecularTexture();
 
 							static int currentDiffuseName = -1;
+							bool diffuseFound = false;
 							static int currentSpecularName = -1;
+							bool specularFound = false;
 							std::vector<const char*> textureNames;
 							for (unsigned int i = 0; i < textures.size(); i++)
 							{
 								if (diffuseTexture.name == textures[i]->name)
+								{
+									diffuseFound = true;
 									currentDiffuseName = i;
+								}
+
+								if (!diffuseFound)
+									currentDiffuseName = -1;
 
 								if (specularTexture.name == textures[i]->name)
+								{
+									specularFound = true;
 									currentSpecularName = i;
+								}
+
+								if (!specularFound)
+									currentSpecularName = -1;
 
 								textureNames.push_back(textures[i]->name.c_str());
 							}
@@ -188,11 +223,18 @@ namespace Flow {
 			{
 				std::vector<std::shared_ptr<Model>> models = Application::Get().GetAllModels();
 				static int currentModel = -1;
+				bool modelFound = false;
 				std::vector<const char*> modelNames;
 				for (unsigned int i = 0; i < models.size(); i++)
 				{
 					if (model.name == models[i]->name)
+					{
+						modelFound = true;
 						currentModel = i;
+					}
+						
+					if (!modelFound)
+						currentModel = -1;
 
 					modelNames.push_back(models[i]->name.c_str());
 				}
