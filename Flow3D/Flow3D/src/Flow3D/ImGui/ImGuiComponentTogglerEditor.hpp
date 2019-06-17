@@ -37,7 +37,7 @@ namespace Flow {
 
 			ImGui::PushItemWidth(200);	
 			
-			if (ImGui::Combo("Components", &componentID, &chars[0], chars.size()))
+			if (ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size()))
 				toggler->SetComponentToToggle(components[componentID].get());
 
 			ImGui::PopItemWidth();

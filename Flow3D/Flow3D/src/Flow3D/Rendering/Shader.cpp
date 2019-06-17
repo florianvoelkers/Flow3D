@@ -7,7 +7,8 @@
 
 namespace Flow {
 
-	Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath)
+	Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath, std::string name)
+		: m_Name(name)
 	{
 		// 1. retrieve the vertex/fragment source code from the file paths
 		std::string vertexCode;

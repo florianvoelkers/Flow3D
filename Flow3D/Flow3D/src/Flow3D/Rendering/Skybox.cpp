@@ -41,7 +41,7 @@ namespace Flow {
 
 	void Skybox::SetupCube(std::string skyboxDirectory, std::string filetype)
 	{
-		m_Shader = new Shader("resources/shader/Skybox.vert", "resources/shader/Skybox.frag");
+		m_Shader = new Shader("resources/shader/Skybox.vert", "resources/shader/Skybox.frag", "Skybox");
 
 		float skyboxVertices[] = {
 			// positions          

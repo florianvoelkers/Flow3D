@@ -2,6 +2,7 @@
 
 #include <imgui/imgui.h>
 #include "Flow3D/Components/Renderable.hpp"
+#include "ImGuiHelper.hpp"
 
 namespace Flow {
 
@@ -14,11 +15,34 @@ namespace Flow {
 		{
 			Model& model = renderable->GetModel();
 			Shader& shader = renderable->GetShader();
+			
+			std::vector<std::shared_ptr<Shader>> shaders = Application::Get().GetAllShaders();
 
-			std::vector<std::shared_ptr<Texture>> textures = Application::Get().GetAllTextures();
+			static int currentShader = -1;
+			std::vector<const char*> shaderNames;
+			for (unsigned int i = 0; i < shaders.size(); i++)
+			{
+				if (shader.m_Name == shaders[i]->m_Name)
+					currentShader = i;
+
+				shaderNames.push_back(shaders[i]->m_Name.c_str());
+			}
+
+			ImGui::PushItemWidth(200);
+
+			if (ImGui::Combo("Shader", &currentShader, &shaderNames[0], (int)shaderNames.size()))
+			{
+				//renderable->SetShader(shaders[currentShader]);
+			}
+			ImGui::SameLine();
+			ShowHelpMarker("Currently shaders should not be swapped, because that causes problems!");
+
+			ImGui::PopItemWidth();
 
 			if (model.filepath.empty())
 			{
+				std::vector<std::shared_ptr<Texture>> textures = Application::Get().GetAllTextures();
+
 				std::shared_ptr<Cube> cubePtr = model.GetCube();
 				std::shared_ptr<Plane> planePtr = model.GetPlane();
 
@@ -36,16 +60,15 @@ namespace Flow {
 						{
 							if (!cubePtr->GetTextureInitialized())
 							{
-								std::shared_ptr<Texture> diffuse = std::make_shared<Texture>("resources/textures/container2.png", "diffuse", true);
-								std::shared_ptr<Texture> specular = std::make_shared<Texture>("resources/textures/container2_specular.jpg", "specular", true);
-								cubePtr->SetDiffuseTexture(diffuse);
-								cubePtr->SetSpecularTexture(specular);
+								cubePtr->SetDiffuseTexture(textures[0]);
+								cubePtr->SetSpecularTexture(textures[0]);
 								cubePtr->SetTextureInitialized(true);
 							}
-							renderable->SetShader(std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag"));
+
+							renderable->SetShader(shaders[0]);
 						}							
 						else
-							renderable->SetShader(std::make_shared<Shader>("resources/shader/Basic3D.vert", "resources/shader/Colored.frag"));
+							renderable->SetShader(shaders[1]);
 					}						
 
 					if (hasTexture)
@@ -71,12 +94,13 @@ namespace Flow {
 
 							ImGui::PushItemWidth(200);
 							
-							if (ImGui::Combo("Diffuse", &currentDiffuseName, &textureNames[0], textureNames.size()))
+							if (ImGui::Combo("Diffuse", &currentDiffuseName, &textureNames[0], (int)textureNames.size()))
 								cubePtr->SetDiffuseTexture(textures[currentDiffuseName]);
 
-							if (ImGui::Combo("Specular", &currentSpecularName, &textureNames[0], textureNames.size()))
+							if (ImGui::Combo("Specular", &currentSpecularName, &textureNames[0], (int)textureNames.size()))
 								cubePtr->SetSpecularTexture(textures[currentSpecularName]);
 
+							ImGui::PopItemWidth();
 							ImGui::TreePop();
 						}
 						
@@ -104,16 +128,15 @@ namespace Flow {
 						{
 							if (!planePtr->GetTextureInitialized())
 							{
-								std::shared_ptr<Texture> diffuse = std::make_shared<Texture>("resources/textures/container2.png", "diffuse", true);
-								std::shared_ptr<Texture> specular = std::make_shared<Texture>("resources/textures/container2_specular.jpg", "specular", true);
-								planePtr->SetDiffuseTexture(diffuse);
-								planePtr->SetSpecularTexture(specular);
+								planePtr->SetDiffuseTexture(textures[0]);
+								planePtr->SetSpecularTexture(textures[0]);
 								planePtr->SetTextureInitialized(true);
 							}
-							renderable->SetShader(std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag"));
+
+							renderable->SetShader(shaders[0]);
 						}
 						else
-							renderable->SetShader(std::make_shared<Shader>("resources/shader/Basic3D.vert", "resources/shader/Colored.frag"));
+							renderable->SetShader(shaders[1]);
 					}
 
 					if (hasTexture)
@@ -123,30 +146,28 @@ namespace Flow {
 							Texture& diffuseTexture = planePtr->GetDiffuseTexture();
 							Texture& specularTexture = planePtr->GetSpecularTexture();
 
-							ImGui::PushItemWidth(320);
-							ImGui::Text("Diffuse:");
-							static char diffuseBuffer[128] = "DiffuseTexture";
-							strcpy(diffuseBuffer, diffuseTexture.path.c_str());
-							if (ImGui::InputText("Diffuse##hidelabel", diffuseBuffer, IM_ARRAYSIZE(diffuseBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
+							static int currentDiffuseName = -1;
+							static int currentSpecularName = -1;
+							std::vector<const char*> textureNames;
+							for (unsigned int i = 0; i < textures.size(); i++)
 							{
-								std::shared_ptr<Texture> texture = std::make_shared<Texture>(diffuseBuffer, "diffuse", true);
-								if (texture->textureLoaded)
-									planePtr->SetDiffuseTexture(texture);
-								else
-									FLOW_CORE_ERROR("texture not loaded");
+								if (diffuseTexture.name == textures[i]->name)
+									currentDiffuseName = i;
+
+								if (specularTexture.name == textures[i]->name)
+									currentSpecularName = i;
+
+								textureNames.push_back(textures[i]->name.c_str());
 							}
 
-							ImGui::Text("Specular:");
-							static char specularBuffer[128] = "SpecularTexture";
-							strcpy(specularBuffer, specularTexture.path.c_str());
-							if (ImGui::InputText("Specular##hidelabel", specularBuffer, IM_ARRAYSIZE(specularBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
-							{
-								std::shared_ptr<Texture> texture = std::make_shared<Texture>(specularBuffer, "specular", true);
-								if (texture->textureLoaded)
-									planePtr->SetSpecularTexture(texture);
-								else
-									FLOW_CORE_ERROR("texture not loaded");
-							}
+							ImGui::PushItemWidth(200);
+
+							if (ImGui::Combo("Diffuse", &currentDiffuseName, &textureNames[0], (int)textureNames.size()))
+								planePtr->SetDiffuseTexture(textures[currentDiffuseName]);
+
+							if (ImGui::Combo("Specular", &currentSpecularName, &textureNames[0], (int)textureNames.size()))
+								planePtr->SetSpecularTexture(textures[currentSpecularName]);
+
 							ImGui::PopItemWidth();
 
 							ImGui::TreePop();
@@ -165,7 +186,23 @@ namespace Flow {
 			}
 			else
 			{
-				
+				std::vector<std::shared_ptr<Model>> models = Application::Get().GetAllModels();
+				static int currentModel = -1;
+				std::vector<const char*> modelNames;
+				for (unsigned int i = 0; i < models.size(); i++)
+				{
+					if (model.name == models[i]->name)
+						currentModel = i;
+
+					modelNames.push_back(models[i]->name.c_str());
+				}
+
+				ImGui::PushItemWidth(200);
+
+				if (ImGui::Combo("Models", &currentModel, &modelNames[0], (int)modelNames.size()))
+				{
+					renderable->SetModel(models[currentModel]);
+				}
 			}
 		}
 	};

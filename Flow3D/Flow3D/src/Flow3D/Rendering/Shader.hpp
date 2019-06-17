@@ -16,8 +16,9 @@ namespace Flow {
 
 	public:
 		unsigned int m_ID;
+		std::string m_Name;
 
-		Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+		Shader(const GLchar* vertexPath, const GLchar* fragmentPath, std::string name);
 		~Shader();
 
 		void Use();

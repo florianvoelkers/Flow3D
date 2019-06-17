@@ -129,7 +129,7 @@ namespace Flow {
 			: BaseLight(gameObject, ambient, diffuse, specular, "SpotLight", enabled), m_Cutoff(cutoff), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation) {}
 
 		inline Attenuation& GetAttenuation() { return m_Attenuation; }
-		inline const Vec3& GetDirection() const { return GetTransform().GetForwardVector(); }
+		inline const Vec3 GetDirection() const { return GetTransform().GetForwardVector(); }
 		inline float GetCutoff() { return m_Cutoff; }
 		inline float GetOuterCutoff() { return m_OuterCutoff; }
 

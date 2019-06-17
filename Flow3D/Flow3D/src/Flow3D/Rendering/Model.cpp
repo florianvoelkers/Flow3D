@@ -2,14 +2,18 @@
 
 namespace Flow {
 
-	Model::Model(std::string const & path)
+	Model::Model(std::string path)
+		: name("name")
 	{
 		LoadModel(path);
 		filepath = path;
+		std::size_t start = path.find_last_of("/") + 1;
+		std::size_t end = path.find(".");
+		name = path.substr(start, end - start);
 	}
 
-	Model::Model(std::shared_ptr<Cube> cube) : m_Cube(cube) {}
-	Model::Model(std::shared_ptr<Plane> plane) : m_Plane(plane) {}
+	Model::Model(std::shared_ptr<Cube> cube) : m_Cube(cube), name("name") {}
+	Model::Model(std::shared_ptr<Plane> plane) : m_Plane(plane), name("name") {}
 
 	void Model::Draw(Shader& shader)
 	{

@@ -22,11 +22,12 @@ namespace Flow {
 		std::vector<Mesh> meshes;
 		std::string directory;
 		std::string filepath;
+		std::string name;
 		bool gammaCorrection;
 
 		/* Functions */
 		// constrcutor, expects a filepath to a 3D model
-		Model(std::string const& path);
+		Model(std::string path);
 		Model(std::shared_ptr<Cube> cube);
 		Model(std::shared_ptr<Plane> plane);
 

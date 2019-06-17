@@ -131,7 +131,9 @@ namespace Flow {
 			renderingEngine.SetBlending(false);
 		}
 
-		void SetShader(std::shared_ptr<Shader> shader) {	m_Shader = shader; }
+		void SetShader(std::shared_ptr<Shader> shader) { m_Shader = shader; }
+		void SetModel(std::shared_ptr<Model> model) { m_Model = model; }
+
 		Model& GetModel() { return *m_Model; }
 		Shader& GetShader() { return *m_Shader; }
 

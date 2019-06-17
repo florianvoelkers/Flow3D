@@ -28,9 +28,9 @@ namespace Flow {
 		textures.push_back(std::make_shared<Texture>("resources/textures/container2.png", "diffuse", true));				// 5
 		textures.push_back(std::make_shared<Texture>("resources/textures/container2_specular.png", "specular", true));		// 6		
 
-		shaders.push_back(std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag"));
-		shaders.push_back(std::make_shared<Shader>("resources/shader/Basic3D.vert", "resources/shader/Colored.frag"));
-		shaders.push_back(std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag"));
+		shaders.push_back(std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag", "Standard"));
+		shaders.push_back(std::make_shared<Shader>("resources/shader/Basic3D.vert", "resources/shader/Colored.frag", "Colored"));
+		shaders.push_back(std::make_shared<Shader>("resources/shader/Standard.vert", "resources/shader/Standard.frag", "Models"));
 
 		models.push_back(std::make_shared<Model>("resources/models/Tree/Tree.obj"));
 		models.push_back(std::make_shared<Model>("resources/models/man/muro.obj"));
