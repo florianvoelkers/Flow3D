@@ -12,6 +12,7 @@
 #include "ImGuiHelper.hpp"
 #include "ImGuiTextureEditor.hpp"
 #include "ImGuiShaderEditor.hpp"
+#include "ImGuiModelsEditor.hpp"
 
 namespace Flow {
 
@@ -189,6 +190,11 @@ namespace Flow {
 					{
 						ShaderEditor shaderEditor;
 						shaderEditor.Draw();
+					}
+					else if (selected == 2)
+					{
+						ModelsEditor modelsEditor;
+						modelsEditor.Draw();
 					}
 
 

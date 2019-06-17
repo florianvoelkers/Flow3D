@@ -134,6 +134,9 @@ namespace Flow {
 		void SetShader(std::shared_ptr<Shader> shader) { m_Shader = shader; }
 		void SetModel(std::shared_ptr<Model> model) { m_Model = model; }
 
+		void SetBlending(bool blending) { m_Blending = blending; }
+		bool GetBlending() { return m_Blending; }
+
 		Model& GetModel() { return *m_Model; }
 		Shader& GetShader() { return *m_Shader; }
 

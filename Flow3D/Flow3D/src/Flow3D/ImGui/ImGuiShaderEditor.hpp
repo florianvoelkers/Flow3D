@@ -93,6 +93,8 @@ namespace Flow {
 				ImGui::NextColumn();
 				ImGui::Separator();
 			}
+
+			ImGui::Columns(1);
 		}
 	};
 }

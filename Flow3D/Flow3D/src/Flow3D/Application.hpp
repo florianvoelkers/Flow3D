@@ -56,6 +56,9 @@ namespace Flow {
 		void AddShader(std::shared_ptr<Shader> shader) { shaders.push_back(shader); }
 		void RemoveShader(int index) { shaders.erase(shaders.begin() + index); }
 
+		void AddModel(std::shared_ptr<Model> model) { models.push_back(model); }
+		void RemoveModel(int index) { models.erase(models.begin() + index); }
+
 		std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
 		std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
 		std::vector<std::shared_ptr<Model>> GetAllModels() { return models; }

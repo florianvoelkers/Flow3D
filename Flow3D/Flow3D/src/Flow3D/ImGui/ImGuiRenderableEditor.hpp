@@ -15,6 +15,10 @@ namespace Flow {
 		{
 			Model& model = renderable->GetModel();
 			Shader& shader = renderable->GetShader();
+
+			bool blendingActive = renderable->GetBlending();
+			if (ImGui::Checkbox("Blending", &blendingActive))
+				renderable->SetBlending(blendingActive);
 			
 			std::vector<std::shared_ptr<Shader>> shaders = Application::Get().GetAllShaders();
 

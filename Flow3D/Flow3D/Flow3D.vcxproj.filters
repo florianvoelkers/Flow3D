@@ -1230,6 +1230,9 @@
     <ClInclude Include="src\Flow3D\ImGui\ImGuiShaderEditor.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Flow3D\ImGui\ImGuiModelsEditor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp">
