@@ -17,6 +17,7 @@ namespace Flow {
 
 	void Mesh::Draw(Shader& shader)
 	{
+		shader.Use();
 		// bind appropiate textures
 		unsigned int diffuseNumber = 1;
 		unsigned int specularNumber = 1;
@@ -31,9 +32,9 @@ namespace Flow {
 			std::string number;
 			std::string name = m_Textures[i].type;
 			if (name == "texture_diffuse")
-				shader.SetInt(("material.texture_diffuse" + number).c_str(), i);
+				shader.SetInt("material.texture_diffuse", i);
 			else if (name == "texture_specular")
-				shader.SetInt(("material.texture_specular" + number).c_str(), i);
+				shader.SetInt("material.texture_specular", i);
 			else if (name == "texture_normal")
 				number = std::to_string(normalNumber++); // transfer unsigned int to stream 
 			else if (name == "texture_height")

@@ -16,9 +16,12 @@ namespace Flow {
 	}
 
 	Texture::Texture(std::string path, std::string typeName, bool flip)
-		: path(path), type(typeName), m_Flip(flip)
+		: path(path), type(typeName), m_Flip(flip), name("Test")
 	{
 		id = LoadTextureFromFile(path.c_str());
+		std::size_t start = path.find_last_of("/") + 1;
+		std::size_t end = path.find(".");
+		name = path.substr(start, end - start);
 	}
 
 	Texture::~Texture()

@@ -32,7 +32,7 @@ namespace Flow {
 
 	void Scene::OnAttach()
 	{
-		m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", false);
+		m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", true);
 
 		std::vector<std::shared_ptr<Texture>> textures = Application::Get().GetAllTextures();
 		std::vector<std::shared_ptr<Shader>> shaders = Application::Get().GetAllShaders();

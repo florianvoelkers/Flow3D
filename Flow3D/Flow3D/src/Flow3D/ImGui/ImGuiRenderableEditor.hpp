@@ -15,6 +15,8 @@ namespace Flow {
 			Model& model = renderable->GetModel();
 			Shader& shader = renderable->GetShader();
 
+			std::vector<std::shared_ptr<Texture>> textures = Application::Get().GetAllTextures();
+
 			if (model.filepath.empty())
 			{
 				std::shared_ptr<Cube> cubePtr = model.GetCube();
@@ -27,7 +29,7 @@ namespace Flow {
 						cubePtr->SetWireframeMode(wireframeMode);
 
 					bool hasTexture = cubePtr->GetIsTexture();
-					if (ImGui::Checkbox("IsTexured", &hasTexture))
+					if (ImGui::Checkbox("IsTextured", &hasTexture))
 					{
 						cubePtr->SetIsTextured(hasTexture);
 						if (hasTexture)
@@ -53,31 +55,27 @@ namespace Flow {
 							Texture& diffuseTexture = cubePtr->GetDiffuseTexture();
 							Texture& specularTexture = cubePtr->GetSpecularTexture();
 
-							ImGui::PushItemWidth(320);
-							ImGui::Text("Diffuse:");
-							static char diffuseBuffer[128] = "DiffuseTexture";
-							strcpy(diffuseBuffer, diffuseTexture.path.c_str());
-							if (ImGui::InputText("Diffuse##hidelabel", diffuseBuffer, IM_ARRAYSIZE(diffuseBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
+							static int currentDiffuseName = -1; 
+							static int currentSpecularName = -1;
+							std::vector<const char*> textureNames;
+							for (unsigned int i = 0; i < textures.size(); i++)
 							{
-								std::shared_ptr<Texture> texture = std::make_shared<Texture>(diffuseBuffer, "diffuse", true);
-								if (texture->textureLoaded)
-									cubePtr->SetDiffuseTexture(texture);
-								else
-									FLOW_CORE_ERROR("texture not loaded");
-							}							
+								if (diffuseTexture.name == textures[i]->name)
+									currentDiffuseName = i;
 
-							ImGui::Text("Specular:");
-							static char specularBuffer[128] = "SpecularTexture";
-							strcpy(specularBuffer, specularTexture.path.c_str());
-							if (ImGui::InputText("Specular##hidelabel", specularBuffer, IM_ARRAYSIZE(specularBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
-							{
-								std::shared_ptr<Texture> texture = std::make_shared<Texture>(specularBuffer, "specular", true);
-								if (texture->textureLoaded)
-									cubePtr->SetSpecularTexture(texture);
-								else
-									FLOW_CORE_ERROR("texture not loaded");
+								if (specularTexture.name == textures[i]->name)
+									currentSpecularName = i;
+
+								textureNames.push_back(textures[i]->name.c_str());
 							}
-							ImGui::PopItemWidth();
+
+							ImGui::PushItemWidth(200);
+							
+							if (ImGui::Combo("Diffuse", &currentDiffuseName, &textureNames[0], textureNames.size()))
+								cubePtr->SetDiffuseTexture(textures[currentDiffuseName]);
+
+							if (ImGui::Combo("Specular", &currentSpecularName, &textureNames[0], textureNames.size()))
+								cubePtr->SetSpecularTexture(textures[currentSpecularName]);
 
 							ImGui::TreePop();
 						}
