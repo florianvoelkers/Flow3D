@@ -14,11 +14,14 @@ namespace Flow {
 
 		void Draw(PointLight* pl)
 		{
-			BaseLightEditor editor = BaseLightEditor();
-			editor.Draw(dynamic_cast<BaseLight*>(pl));
+			if (pl != nullptr)
+			{
+				BaseLightEditor editor = BaseLightEditor();
+				editor.Draw(dynamic_cast<BaseLight*>(pl));
 
-			AttenuationEditor attEditor = AttenuationEditor();
-			attEditor.Draw(pl->GetAttenuation());
+				AttenuationEditor attEditor = AttenuationEditor();
+				attEditor.Draw(pl->GetAttenuation());
+			}			
 		}
 	};
 }

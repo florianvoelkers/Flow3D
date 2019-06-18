@@ -33,6 +33,8 @@ namespace Flow {
 		template<class ComponentType>
 		bool RemoveComponent();
 
+		void RemoveComponent(std::string name);
+
 		GameObject* Find(std::string name);
 		const std::vector<std::shared_ptr<GameObject>>& GetChildren() const{ return m_Children; }
 		const std::vector<std::unique_ptr<Component>>& GetComponents() const { return m_Components; }
@@ -48,12 +50,12 @@ namespace Flow {
 		inline const bool GetIsActive() const { return m_IsActive; }
 		
 	private: 
+		std::vector<std::shared_ptr<GameObject>> m_Children;
+		std::vector<std::unique_ptr<Component>> m_Components;
+
 		std::string m_Name;
 		Transform m_Transform;
-		bool m_IsActive;
-
-		std::vector<std::shared_ptr<GameObject>> m_Children;
-		std::vector<std::unique_ptr<Component>> m_Components;		
+		bool m_IsActive;		
 	};
 
 	//***************
@@ -88,20 +90,19 @@ namespace Flow {
 	}
 
 	//***************
-	// GameObject::RemoveComponent
-	// returns true on successful removal
-	// returns false if components is empty, or no such component exists
-	//***************
-	template<class ComponentType>
-	inline bool GameObject::RemoveComponent()
-	{
+// GameObject::RemoveComponent
+// returns true on successful removal
+// returns false if components is empty, or no such component exists
+//***************
+	template< class ComponentType >
+	bool GameObject::RemoveComponent() {
 		if (m_Components.empty())
 			return false;
 
-		auto& index = std::find_if(m_Components.begin(), 
+		auto & index = std::find_if(m_Components.begin(),
 			m_Components.end(),
-			[classType = ComponentType::Type](auto& component) {
-			return component->IsClassType();
+			[classType = ComponentType::Type](auto & component) {
+			return component->IsClassType(classType);
 		});
 
 		bool success = index != m_Components.end();

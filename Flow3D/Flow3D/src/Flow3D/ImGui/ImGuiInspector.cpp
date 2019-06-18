@@ -41,6 +41,9 @@ namespace Flow {
 			{
 				const std::vector<std::unique_ptr<Component>>& components = currentGameObject->GetComponents();
 				std::vector<std::string> componentNames;
+
+				Scene& currentScene = Application::Get().GetCurrentScene();
+
 				for (unsigned int i = 0; i < components.size(); i++)
 				{
 					Component& component = *components[i];
@@ -260,7 +263,7 @@ namespace Flow {
 						{
 							currentGameObject->AddComponent<DirectionalLight>(*currentGameObject, Vec3(posX, posY, posZ),
 								Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB));
-							// Application::Get().GetCurrentScene().AddDirectionalLight(currentGameObject->GetComponent<DirectionalLight>());
+							// currentScene.AddDirectionalLight(currentGameObject->GetComponent<DirectionalLight>());
 							ImGui::CloseCurrentPopup();
 						}
 
@@ -317,7 +320,7 @@ namespace Flow {
 						{
 							currentGameObject->AddComponent<PointLight>(*currentGameObject, Vec3(ambientR, ambientG, ambientB), 
 								Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB), Attenuation(constant, linear, exponent));
-							Application::Get().GetCurrentScene().AddPointLight(&currentGameObject->GetComponent<PointLight>());
+							currentScene.AddPointLight(&currentGameObject->GetComponent<PointLight>());
 							ImGui::CloseCurrentPopup();
 						}
 
@@ -376,7 +379,7 @@ namespace Flow {
 						{
 							currentGameObject->AddComponent<SpotLight>(*currentGameObject, Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), 
 								Vec3(specularR, specularG, specularB), cutoff, outerCutoff, Attenuation(constant, linear, exponent));
-							Application::Get().GetCurrentScene().AddSpotLight(&currentGameObject->GetComponent<SpotLight>());
+							currentScene.AddSpotLight(&currentGameObject->GetComponent<SpotLight>());
 							ImGui::CloseCurrentPopup();
 						}
 
@@ -444,6 +447,61 @@ namespace Flow {
 						bool componentActive = component.GetEnabled();
 						if (ImGui::Checkbox("Enabled", &componentActive))
 							component.SetEnabled(componentActive);
+						
+						ImGui::SameLine(0, 190);
+						std::string buttonName = "Remove ";
+						buttonName.append(componentName);
+						if (ImGui::Button("Remove"))
+							ImGui::OpenPopup(buttonName.c_str());
+
+						if (ImGui::BeginPopupModal(buttonName.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
+						{
+							ImGui::Text("This component will be removed.\n\n");
+							ImGui::Separator();
+
+							if (ImGui::Button("OK", ImVec2(120, 0)))
+							{
+								if (componentName == "FreeCamera")
+								{
+									FLOW_CORE_INFO("should not be removed at the moment");
+								}
+								else if (componentName == "GameObjectToggler")
+								{
+									currentGameObject->RemoveComponent(componentName);
+								}
+								else if (componentName == "ComponentToggler")
+								{
+									currentGameObject->RemoveComponent(componentName);
+								}
+								else if (componentName == "DirectionalLight")
+								{
+									FLOW_CORE_INFO("should not be removed at the moment");
+								}
+								else if (component.GetName() == "PointLight")
+								{
+									currentScene.RemovePointLight(&currentGameObject->GetComponent<PointLight>());
+									currentGameObject->RemoveComponent(componentName);
+								}
+								else if (component.GetName() == "SpotLight")
+								{
+									currentScene.RemoveSpotLight(&currentGameObject->GetComponent<SpotLight>());
+									currentGameObject->RemoveComponent(componentName);
+								}
+								else if (component.GetName() == "Renderable")
+								{
+									currentGameObject->RemoveComponent(componentName);
+								}
+								else if (component.GetName() == "Rotatable")
+								{
+									currentGameObject->RemoveComponent(componentName);
+								}
+								ImGui::CloseCurrentPopup();
+							}
+							ImGui::SetItemDefaultFocus();
+							ImGui::SameLine();
+							if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+							ImGui::EndPopup();
+						}
 
 						if (componentName == "FreeCamera")
 						{

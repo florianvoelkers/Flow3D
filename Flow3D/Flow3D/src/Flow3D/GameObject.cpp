@@ -22,6 +22,24 @@ namespace Flow {
 		child->GetTransform().SetParent(&m_Transform);
 	}
 
+	void GameObject::RemoveComponent(std::string name)
+	{
+		int index = -1;
+		for (int i = 0; i < m_Components.size(); i++)
+		{
+			std::string currentName = m_Components[i]->GetName();
+			if (name == currentName)
+			{
+				index = i;
+				break;
+			}
+		}
+
+		std::vector<std::unique_ptr<Component>>::iterator iterator = m_Components.begin() + index;
+		m_Components.erase(std::remove(m_Components.begin(), m_Components.end(), *iterator));
+		std::move(*iterator);
+	}
+
 	GameObject* GameObject::Find(std::string name)
 	{
 		// checks if this is the GameObject we're looking for
