@@ -75,7 +75,7 @@ namespace Flow {
 							}
 							else if (componentNames[selectedComponent] == "SpotLight")
 							{
-
+								ImGui::OpenPopup("Add SpotLight");
 							}
 							else if (componentNames[selectedComponent] == "ComponentToggler")
 							{
@@ -309,6 +309,64 @@ namespace Flow {
 							currentGameObject->AddComponent<PointLight>(*currentGameObject, Vec3(ambientR, ambientG, ambientB), 
 								Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB), Attenuation(constant, linear, exponent));
 							Application::Get().GetCurrentScene().AddPointLight(&currentGameObject->GetComponent<PointLight>());
+						}
+
+						ImGui::EndPopup();
+					}
+
+					if (ImGui::BeginPopup("Add SpotLight"))
+					{
+						static float ambientR, ambientG, ambientB = 0.0f;
+
+						ImGui::Text("Ambient");
+						ImGui::SameLine(0, 20);
+						ImGui::PushItemWidth(66);
+						ImGui::DragFloat("r##8", &ambientR, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("g##8", &ambientG, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("b##8", &ambientB, 0.01f, 0.0f, 1.0f);
+						ImGui::PopItemWidth();
+
+						static float diffuseR, diffuseG, diffuseB = 0.0f;
+
+						ImGui::Text("Diffuse");
+						ImGui::SameLine(0, 20);
+						ImGui::PushItemWidth(66);
+						ImGui::DragFloat("r##9", &diffuseR, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("g##9", &diffuseG, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("b##9", &diffuseB, 0.01f, 0.0f, 1.0f);
+						ImGui::PopItemWidth();
+
+						static float specularR, specularG, specularB = 0.0f;
+
+						ImGui::Text("Specular");
+						ImGui::SameLine(0, 13);
+						ImGui::PushItemWidth(66);
+						ImGui::DragFloat("r##10", &specularR, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("g##10", &specularG, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("b##10", &specularB, 0.01f, 0.0f, 1.0f);
+						ImGui::PopItemWidth();
+
+						static float cutoff, outerCutoff, constant, linear, exponent = 0.0f;
+
+						ImGui::PushItemWidth(150);
+						ImGui::DragFloat("cutoff##15", &cutoff, 0.1f, 0.0f, 360.0f);
+						ImGui::DragFloat("outerCutoff##15", &outerCutoff, 0.1f, 0.0f, 360.0f);
+						ImGui::DragFloat("Constant##15", &constant, 0.01f, 0.0f, 100.0f);
+						ImGui::DragFloat("Linear##15", &linear, 0.01f, 0.0f, 100.0f);
+						ImGui::DragFloat("Exponent##15", &exponent, 0.001f, 0.0f, 100.0f);
+						ImGui::PopItemWidth();
+
+						if (ImGui::Button("Add PointLight", ImVec2(320.0f, 20.0f)))
+						{
+							currentGameObject->AddComponent<SpotLight>(*currentGameObject, Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), 
+								Vec3(specularR, specularG, specularB), cutoff, outerCutoff, Attenuation(constant, linear, exponent));
+							Application::Get().GetCurrentScene().AddSpotLight(&currentGameObject->GetComponent<SpotLight>());
 						}
 
 						ImGui::EndPopup();
