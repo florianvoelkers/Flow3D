@@ -42,7 +42,6 @@ namespace Flow {
 				if (ImGui::Button("Add Component", ImVec2(360.0f, 20.0f)))
 					ImGui::OpenPopup("select");
 
-				ImGui::SameLine();
 				if (ImGui::BeginPopup("select"))
 				{
 					std::vector<const char*> componentNames = Application::Get().GetAllComponentNames();
@@ -68,7 +67,7 @@ namespace Flow {
 							}
 							else if (componentNames[selectedComponent] == "DirectionalLight")
 							{
-
+								ImGui::OpenPopup("Add DirectionalLight");
 							}
 							else if (componentNames[selectedComponent] == "PointLight")
 							{
@@ -193,9 +192,68 @@ namespace Flow {
 								ImGui::CloseCurrentPopup();
 							}
 							
-						}
+						}						
 
-						
+						ImGui::EndPopup();
+					}
+
+					if (ImGui::BeginPopup("Add DirectionalLight"))
+					{
+						static float posX = 0.0f;
+						static float posY = 0.0f;
+						static float posZ = 0.0f;
+						ImGui::Text("Direction");
+						ImGui::SameLine();
+						ImGui::PushItemWidth(66);
+						ImGui::DragFloat("x##1", &posX, 0.1f);
+						ImGui::SameLine();
+						ImGui::DragFloat("y##1", &posY, 0.1f);
+						ImGui::SameLine();
+						ImGui::DragFloat("z##1", &posZ, 0.1f);
+						ImGui::PopItemWidth();
+
+						static float ambientR, ambientG, ambientB = 0.0f;
+
+						ImGui::Text("Ambient");
+						ImGui::SameLine(0, 20);
+						ImGui::PushItemWidth(66);
+						ImGui::DragFloat("r##8", &ambientR, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("g##8", &ambientG, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("b##8", &ambientB, 0.01f, 0.0f, 1.0f);
+						ImGui::PopItemWidth();
+
+						static float diffuseR, diffuseG, diffuseB = 0.0f;
+
+						ImGui::Text("Diffuse");
+						ImGui::SameLine(0, 20);
+						ImGui::PushItemWidth(66);
+						ImGui::DragFloat("r##9", &diffuseR, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("g##9", &diffuseG, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("b##9", &diffuseB, 0.01f, 0.0f, 1.0f);
+						ImGui::PopItemWidth();
+
+						static float specularR, specularG, specularB = 0.0f;
+
+						ImGui::Text("Specular");
+						ImGui::SameLine(0, 13);
+						ImGui::PushItemWidth(66);
+						ImGui::DragFloat("r##10", &specularR, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("g##10", &specularG, 0.01f, 0.0f, 1.0f);
+						ImGui::SameLine();
+						ImGui::DragFloat("b##10", &specularB, 0.01f, 0.0f, 1.0f);
+						ImGui::PopItemWidth();
+
+						if (ImGui::Button("Add DirectionalLight", ImVec2(320.0f, 20.0f)))
+						{
+							currentGameObject->AddComponent<DirectionalLight>(*currentGameObject, Vec3(posX, posY, posZ),
+								Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB));
+							// Application::Get().GetCurrentScene().AddDirectionalLight(currentGameObject->GetComponent<DirectionalLight>());
+						}
 
 						ImGui::EndPopup();
 					}
@@ -203,7 +261,7 @@ namespace Flow {
 					ImGui::EndPopup();
 				}
 
-				
+				ImGui::Separator();
 
 				bool gameObjectActive = currentGameObject->GetIsActive();
 				if (ImGui::Checkbox("", &gameObjectActive))
@@ -212,7 +270,6 @@ namespace Flow {
 				ImGui::SameLine(0, 20.0f);
 				ImGui::TextColored(ImVec4(0.2f, 0.8f, 0.8f, 1.0f), currentGameObject->GetName().c_str());
 
-				ImGui::Separator();
 				ImGui::Separator();
 
 				TransformEditor transformEditor = TransformEditor();
