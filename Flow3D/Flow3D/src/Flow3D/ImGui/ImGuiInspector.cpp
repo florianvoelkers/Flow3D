@@ -39,49 +39,57 @@ namespace Flow {
 		{
 			if (gameObjectSet)
 			{
+				const std::vector<std::unique_ptr<Component>>& components = currentGameObject->GetComponents();
+				std::vector<std::string> componentNames;
+				for (unsigned int i = 0; i < components.size(); i++)
+				{
+					Component& component = *components[i];
+					std::string componentName = component.GetName();
+					componentNames.push_back(componentName);
+				}
+
 				if (ImGui::Button("Add Component", ImVec2(360.0f, 20.0f)))
 					ImGui::OpenPopup("select");
 
 				if (ImGui::BeginPopup("select"))
 				{
-					std::vector<const char*> componentNames = Application::Get().GetAllComponentNames();
+					std::vector<const char*> allComponentNames = Application::Get().GetAllComponentNames();
 					ImGui::Text("ComponentTypes");
 					ImGui::Separator();
 					int selectedComponent = -1;
-					for (int i = 0; i < componentNames.size(); i++)
-						if (ImGui::Button(componentNames[i], ImVec2(340.0f, 20.0f)))
+					for (int i = 0; i < allComponentNames.size(); i++)
+						if (ImGui::Button(allComponentNames[i], ImVec2(340.0f, 20.0f)))
 						{
 							selectedComponent = i;
-							if (componentNames[selectedComponent] == "Rotatable")
+							if (allComponentNames[selectedComponent] == "Rotatable")
 							{
 								currentGameObject->AddComponent<Rotatable>(*currentGameObject);
 							}
-							else if (componentNames[selectedComponent] == "FreeCamera")
+							else if (allComponentNames[selectedComponent] == "FreeCamera")
 							{
 								FLOW_CORE_INFO("should not be added at the moment");
 							}
-							else if (componentNames[selectedComponent] == "Renderable")
-							{
-								
+							else if (allComponentNames[selectedComponent] == "Renderable")
+							{								
 								ImGui::OpenPopup("AddRenderable");
 							}
-							else if (componentNames[selectedComponent] == "DirectionalLight")
+							else if (allComponentNames[selectedComponent] == "DirectionalLight")
 							{
 								ImGui::OpenPopup("Add DirectionalLight");
 							}
-							else if (componentNames[selectedComponent] == "PointLight")
+							else if (allComponentNames[selectedComponent] == "PointLight")
 							{
 								ImGui::OpenPopup("Add PointLight");
 							}
-							else if (componentNames[selectedComponent] == "SpotLight")
+							else if (allComponentNames[selectedComponent] == "SpotLight")
 							{
 								ImGui::OpenPopup("Add SpotLight");
 							}
-							else if (componentNames[selectedComponent] == "ComponentToggler")
+							else if (allComponentNames[selectedComponent] == "ComponentToggler")
 							{
-
+								ImGui::OpenPopup("Add ComponentToggler");
 							}
-							else if (componentNames[selectedComponent] == "GameObjectToggler")
+							else if (allComponentNames[selectedComponent] == "GameObjectToggler")
 							{
 
 							}																			
@@ -253,6 +261,7 @@ namespace Flow {
 							currentGameObject->AddComponent<DirectionalLight>(*currentGameObject, Vec3(posX, posY, posZ),
 								Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB));
 							// Application::Get().GetCurrentScene().AddDirectionalLight(currentGameObject->GetComponent<DirectionalLight>());
+							ImGui::CloseCurrentPopup();
 						}
 
 						ImGui::EndPopup();
@@ -309,6 +318,7 @@ namespace Flow {
 							currentGameObject->AddComponent<PointLight>(*currentGameObject, Vec3(ambientR, ambientG, ambientB), 
 								Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB), Attenuation(constant, linear, exponent));
 							Application::Get().GetCurrentScene().AddPointLight(&currentGameObject->GetComponent<PointLight>());
+							ImGui::CloseCurrentPopup();
 						}
 
 						ImGui::EndPopup();
@@ -367,7 +377,29 @@ namespace Flow {
 							currentGameObject->AddComponent<SpotLight>(*currentGameObject, Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), 
 								Vec3(specularR, specularG, specularB), cutoff, outerCutoff, Attenuation(constant, linear, exponent));
 							Application::Get().GetCurrentScene().AddSpotLight(&currentGameObject->GetComponent<SpotLight>());
+							ImGui::CloseCurrentPopup();
 						}
+
+						ImGui::EndPopup();
+					}
+
+					if (ImGui::BeginPopup("Add ComponentToggler"))
+					{
+						static int componentID = -1;
+						std::vector<const char*> chars;
+						for (unsigned int i = 0; i < componentNames.size(); i++)
+							chars.push_back(componentNames[i].c_str());
+
+						ImGui::PushItemWidth(200);
+						ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size());
+						ImGui::PopItemWidth();
+
+						if (ImGui::Button("Add ComponentToggler", ImVec2(320.0f, 20.0f)))
+						{
+							currentGameObject->AddComponent<ComponentToggler>(*currentGameObject, components[componentID].get());
+							ImGui::CloseCurrentPopup();
+						}
+							
 
 						ImGui::EndPopup();
 					}
@@ -387,17 +419,7 @@ namespace Flow {
 				ImGui::Separator();
 
 				TransformEditor transformEditor = TransformEditor();
-				transformEditor.Draw(currentGameObject->GetTransform());
-				
-
-				const std::vector<std::unique_ptr<Component>>& components = currentGameObject->GetComponents();
-				std::vector<std::string> componentNames;
-				for (unsigned int i = 0; i < components.size(); i++)
-				{
-					Component& component = *components[i];
-					std::string componentName = component.GetName();
-					componentNames.push_back(componentName);
-				}
+				transformEditor.Draw(currentGameObject->GetTransform());				
 				
 				for (unsigned int i = 0; i < components.size(); i++)
 				{
