@@ -91,7 +91,7 @@ namespace Flow {
 							}
 							else if (allComponentNames[selectedComponent] == "GameObjectToggler")
 							{
-
+								ImGui::OpenPopup("Add GameObjectToggler");
 							}																			
 						}	
 
@@ -398,8 +398,21 @@ namespace Flow {
 						{
 							currentGameObject->AddComponent<ComponentToggler>(*currentGameObject, components[componentID].get());
 							ImGui::CloseCurrentPopup();
+						}							
+
+						ImGui::EndPopup();
+					}
+
+					if (ImGui::BeginPopup("Add GameObjectToggler"))
+					{
+						static char nameBuffer[32] = "GameObject";
+						ImGui::InputText("Name of GameObject", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue);
+
+						if (ImGui::Button("Add GameObjectToggler", ImVec2(320.0f, 20.0f)))
+						{
+							currentGameObject->AddComponent<GameObjectToggler>(*currentGameObject, nameBuffer);
+							ImGui::CloseCurrentPopup();
 						}
-							
 
 						ImGui::EndPopup();
 					}
