@@ -1,13 +1,13 @@
 #include "GameObject.hpp"
 
 #include "Log.hpp"
-
+#include "Application.hpp"
 #include "Components/Component.hpp"
 
 namespace Flow {
 
 	GameObject::GameObject(const std::string& name, const Vec3& position, const Vec3& rotation, const Vec3& scale, bool isActive)
-		: m_Name(name), m_Transform(*this, position, rotation, scale), m_IsActive(isActive)
+		: m_Name(name), m_Transform(*this, position, rotation, scale), m_IsActive(isActive), m_ObjectID(Application::Get().GetNextObjectID())
 	{
 	}
 

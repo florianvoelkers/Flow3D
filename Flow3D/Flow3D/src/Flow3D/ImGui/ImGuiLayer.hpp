@@ -30,6 +30,8 @@ namespace Flow {
 		float m_Time = 0.0f;
 		bool m_ReceiveEvents = true;
 
+		GameObject* currentGameObject;
+
 		std::unique_ptr<Flow3DLog> m_Logger;
 		std::unique_ptr<Flow3DInspector> m_Inspector;		
 

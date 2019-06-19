@@ -19,6 +19,8 @@ namespace Flow {
 		m_Input = std::make_unique<Input>();
 		m_RenderingEngine = std::make_unique<RenderingEngine>(*m_Window);
 
+		m_NextObjectID = -1;
+
 		// TODO: load scene data from file; until then manually create scene objects here
 		textures.push_back(std::make_shared<Texture>("resources/textures/container.jpg", "diffuse", true));					// 0
 		textures.push_back(std::make_shared<Texture>("resources/textures/brickwall.jpg", "diffuse", true));					// 1
@@ -118,4 +120,10 @@ namespace Flow {
 
 		return false; // returns false because other functions should be able to receive those events as well
  	}
+
+	int Application::GetNextObjectID()
+	{
+		m_NextObjectID++;
+		return m_NextObjectID;
+	}
 }

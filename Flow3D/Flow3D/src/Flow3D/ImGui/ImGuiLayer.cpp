@@ -206,15 +206,29 @@ namespace Flow {
 		ImGui::SetNextWindowContentSize(ImVec2(240.0f, 960.0f));
 		if (ImGui::Begin("Hierarchy", &show))
 		{
-			static char nameBuffer[32] = "GameObject";
-			if (ImGui::InputText("##hidelabel", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue))
+			if (ImGui::Button("Add GameObject", ImVec2(240.0f, 20.0f)))
+				ImGui::OpenPopup("Add GameObject");
+
+			if (ImGui::BeginPopup("Add GameObject"))
 			{
-				FLOW_CORE_INFO("name is: {0}", nameBuffer);
-			}
-			ImGui::SameLine(0, 20.0f);
-			if (ImGui::Button("ADD GO"))
-			{
-				FLOW_CORE_INFO("new go name would be {0}", nameBuffer);
+				static char nameBuffer[64] = "GameObject";
+				ImGui::InputText("Name of GameObject", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue);
+
+				static bool addAsChild = false;
+				ImGui::Checkbox("Add as a child of the selected object", &addAsChild);
+
+				if (ImGui::Button("Add GameObject", ImVec2(240.0f, 20.0f)))
+				{
+					std::shared_ptr<GameObject> newGO = std::make_shared<GameObject>(nameBuffer);
+					if (addAsChild && currentGameObject != nullptr)
+						currentGameObject->AddChild(newGO);
+					else
+						Application::Get().GetCurrentScene().AddToScene(newGO);
+
+					ImGui::CloseCurrentPopup();
+				}
+
+				ImGui::EndPopup();
 			}
 
 			ImGui::Separator();
@@ -223,7 +237,7 @@ namespace Flow {
 			// Iterate dummy objects with dummy members (all the same data)
 			std::vector<std::shared_ptr<GameObject>> allGameObjects = Application::Get().GetAllGameObjects();
 			for (int i = 0; i < allGameObjects.size(); i++)
-				ShowGameObject(allGameObjects[i]->GetName().c_str(), i, *allGameObjects[i]);
+				ShowGameObject(allGameObjects[i]->GetName().c_str(), allGameObjects[i]->GetObjectID(), *allGameObjects[i]);
 
 			ImGui::Separator();
 
@@ -270,13 +284,17 @@ namespace Flow {
 		{
 			bool node_open = ImGui::TreeNodeEx(prefix, ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow);
 			if (ImGui::IsItemClicked())
-				m_Inspector->SetGameObject(&child);			
+			{
+				currentGameObject = &child;
+				m_Inspector->SetGameObject(&child);
+			}
+							
 
 			ImGui::NextColumn();
 			if (node_open)
 			{
 				for (int i = 0; i < children.size(); i++)
-					ShowGameObject(children[i]->GetName().c_str(), i, *children[i]);
+					ShowGameObject(children[i]->GetName().c_str(), children[i]->GetObjectID(), *children[i]);
 				ImGui::TreePop();
 			}
 		}
@@ -284,7 +302,10 @@ namespace Flow {
 		{
 			ImGui::TreeNodeEx(prefix, ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_Bullet);
 			if (ImGui::IsItemClicked())
+			{
+				currentGameObject = &child;
 				m_Inspector->SetGameObject(&child);
+			}				
 				
 			ImGui::NextColumn();
 		}

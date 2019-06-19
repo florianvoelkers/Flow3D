@@ -48,11 +48,12 @@ namespace Flow {
 		inline const Transform& GetTransform() const { return m_Transform; }
 		inline const std::string GetName() const { return m_Name; }
 		inline const bool GetIsActive() const { return m_IsActive; }
+		inline int GetObjectID() { return m_ObjectID; }
 		
 	private: 
 		std::vector<std::shared_ptr<GameObject>> m_Children;
 		std::vector<std::unique_ptr<Component>> m_Components;
-
+		int m_ObjectID;
 		std::string m_Name;
 		Transform m_Transform;
 		bool m_IsActive;		

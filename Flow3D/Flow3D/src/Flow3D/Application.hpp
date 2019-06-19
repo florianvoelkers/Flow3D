@@ -77,6 +77,8 @@ namespace Flow {
 		std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
 		std::vector<std::shared_ptr<Model>> GetAllModels() { return models; }
 
+		int GetNextObjectID();
+
 	private:
 		static Application* s_Instance;
 
@@ -90,6 +92,8 @@ namespace Flow {
 		std::vector<std::shared_ptr<Shader>> shaders;
 		std::vector<std::shared_ptr<Texture>> textures;
 		std::vector<std::shared_ptr<Model>> models;
+
+		int m_NextObjectID;
 
 		bool OnWindowClose(WindowCloseEvent& e);	
 		bool OnKeyPressed(KeyPressedEvent& e);
