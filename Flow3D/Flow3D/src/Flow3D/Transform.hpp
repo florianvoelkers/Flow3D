@@ -23,6 +23,9 @@ namespace Flow {
 		void SetIsCamera(bool isCamera); 
 		void SetParent(Transform* parent);
 
+		Transform* GetParent() { return m_Parent; }
+		const GameObject& GetGameObject() { return m_GameObject; }
+
 		inline void SetPosition(const Vec3& position) { m_Position = position; }
 		inline void SetScale(const Vec3& scale) { m_Scale = scale; }
 		inline void SetFrontVector(Vec3& front) { m_Forward = front; }

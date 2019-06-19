@@ -217,7 +217,7 @@ namespace Flow {
 				static bool addAsChild = false;
 				ImGui::Checkbox("Add as a child of the selected object", &addAsChild);
 
-				if (ImGui::Button("Add GameObject", ImVec2(240.0f, 20.0f)))
+				if (ImGui::Button("Add GameObject", ImVec2(360.0f, 20.0f)))
 				{
 					std::shared_ptr<GameObject> newGO = std::make_shared<GameObject>(nameBuffer);
 					if (addAsChild && currentGameObject != nullptr)

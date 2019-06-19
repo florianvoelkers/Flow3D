@@ -22,6 +22,7 @@ namespace Flow {
 		virtual ~GameObject();
 
 		void AddChild(std::shared_ptr<GameObject> child);
+		void RemoveChild(int gameObjectID);
 
 		// from: https://stackoverflow.com/questions/44105058/how-does-unitys-getcomponent-work
 		template<class ComponentType, typename... Args>
@@ -49,6 +50,9 @@ namespace Flow {
 		inline const std::string GetName() const { return m_Name; }
 		inline const bool GetIsActive() const { return m_IsActive; }
 		inline int GetObjectID() { return m_ObjectID; }
+
+		GameObject* GetParent() { return m_Parent; }
+		void SetParent(GameObject* parent) { m_Parent = parent; }
 		
 	private: 
 		std::vector<std::shared_ptr<GameObject>> m_Children;
@@ -56,6 +60,7 @@ namespace Flow {
 		int m_ObjectID;
 		std::string m_Name;
 		Transform m_Transform;
+		GameObject* m_Parent;
 		bool m_IsActive;		
 	};
 

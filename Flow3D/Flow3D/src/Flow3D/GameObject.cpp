@@ -20,6 +20,24 @@ namespace Flow {
 	{
 		m_Children.push_back(child);
 		child->GetTransform().SetParent(&m_Transform);
+		child->SetParent(this);
+	}
+
+	void GameObject::RemoveChild(int gameObjectID)
+	{
+		int index = -1;
+		for (int i = 0; i < m_Children.size(); i++)
+		{
+			if (gameObjectID == m_Children[i]->GetObjectID())
+			{
+				index = i;
+				break;
+			}
+		}
+
+		std::vector<std::shared_ptr<GameObject>>::iterator iterator = m_Children.begin() + index;
+		m_Children.erase(std::remove(m_Children.begin(), m_Children.end(), *iterator));
+		std::move(*iterator);
 	}
 
 	void GameObject::RemoveComponent(std::string name)
