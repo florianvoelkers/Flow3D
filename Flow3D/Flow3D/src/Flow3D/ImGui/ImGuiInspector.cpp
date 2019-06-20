@@ -65,38 +65,51 @@ namespace Flow {
 						if (ImGui::Button(allComponentNames[i], ImVec2(340.0f, 20.0f)))
 						{
 							selectedComponent = i;
-							if (allComponentNames[selectedComponent] == "Rotatable")
+							bool noDuplicates = true;
+							// check to see if component already exists, no duplicate components are allowed
+							
+							for (unsigned int j = 0; j < componentNames.size(); j++)
+								if (componentNames[j] == allComponentNames[selectedComponent])
+									noDuplicates = false;
+
+							if (noDuplicates)
 							{
-								currentGameObject->AddComponent<Rotatable>(*currentGameObject);
+								if (allComponentNames[selectedComponent] == "Rotatable")
+								{
+									currentGameObject->AddComponent<Rotatable>(*currentGameObject);
+								}
+								else if (allComponentNames[selectedComponent] == "FreeCamera")
+								{
+									FLOW_CORE_INFO("should not be added at the moment");
+								}
+								else if (allComponentNames[selectedComponent] == "Renderable")
+								{
+									ImGui::OpenPopup("AddRenderable");
+								}
+								else if (allComponentNames[selectedComponent] == "DirectionalLight")
+								{
+									ImGui::OpenPopup("Add DirectionalLight");
+								}
+								else if (allComponentNames[selectedComponent] == "PointLight")
+								{
+									ImGui::OpenPopup("Add PointLight");
+								}
+								else if (allComponentNames[selectedComponent] == "SpotLight")
+								{
+									ImGui::OpenPopup("Add SpotLight");
+								}
+								else if (allComponentNames[selectedComponent] == "ComponentToggler")
+								{
+									ImGui::OpenPopup("Add ComponentToggler");
+								}
+								else if (allComponentNames[selectedComponent] == "GameObjectToggler")
+								{
+									ImGui::OpenPopup("Add GameObjectToggler");
+								}
 							}
-							else if (allComponentNames[selectedComponent] == "FreeCamera")
-							{
-								FLOW_CORE_INFO("should not be added at the moment");
-							}
-							else if (allComponentNames[selectedComponent] == "Renderable")
-							{								
-								ImGui::OpenPopup("AddRenderable");
-							}
-							else if (allComponentNames[selectedComponent] == "DirectionalLight")
-							{
-								ImGui::OpenPopup("Add DirectionalLight");
-							}
-							else if (allComponentNames[selectedComponent] == "PointLight")
-							{
-								ImGui::OpenPopup("Add PointLight");
-							}
-							else if (allComponentNames[selectedComponent] == "SpotLight")
-							{
-								ImGui::OpenPopup("Add SpotLight");
-							}
-							else if (allComponentNames[selectedComponent] == "ComponentToggler")
-							{
-								ImGui::OpenPopup("Add ComponentToggler");
-							}
-							else if (allComponentNames[selectedComponent] == "GameObjectToggler")
-							{
-								ImGui::OpenPopup("Add GameObjectToggler");
-							}																			
+							else
+								FLOW_CORE_INFO("This component already exists. No duplicates are allowed.");
+																		
 						}	
 
 					ImGui::SetNextWindowBgAlpha(1.0f);
