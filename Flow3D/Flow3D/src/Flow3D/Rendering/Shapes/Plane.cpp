@@ -66,6 +66,10 @@ namespace Flow {
 		}
 		else
 		{
+			shader.SetBool("material.hasSpecularTexture", false);
+
+			// TODO: value should be set externally
+			shader.SetFloat("material.shininess", 17);
 			shader.SetVec4("color", m_Color.ToVector4f());
 		}
 
