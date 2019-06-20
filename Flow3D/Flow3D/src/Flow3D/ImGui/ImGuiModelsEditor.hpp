@@ -3,7 +3,7 @@
 #include <imgui/imgui.h>
 
 #include "ImGuiHelper.hpp"
-#include "Flow3D/Application.hpp"
+#include "Flow3D/ResourceManager.hpp"
 
 namespace Flow
 {
@@ -29,7 +29,7 @@ namespace Flow
 
 				if (ImGui::Button("Create", ImVec2(120, 0)))
 				{
-					Application::Get().AddModel(std::make_shared<Model>(pathBuffer));
+					ResourceManager::Get().AddModel(std::make_shared<Model>(pathBuffer));
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::SetItemDefaultFocus();
@@ -39,7 +39,7 @@ namespace Flow
 			}
 			ImGui::Separator();
 
-			std::vector<std::shared_ptr<Model>> models = Application::Get().GetAllModels();
+			std::vector<std::shared_ptr<Model>> models = ResourceManager::Get().GetAllModels();
 			ImGui::Columns(5);
 			ImGui::SetColumnWidth(0, 200.0f);
 			ImGui::SetColumnWidth(1, 460.0f);
@@ -85,7 +85,7 @@ namespace Flow
 
 					if (ImGui::Button("OK", ImVec2(120, 0)))
 					{
-						Application::Get().RemoveModel(i);
+						ResourceManager::Get().RemoveModel(i);
 						ImGui::CloseCurrentPopup();
 					}
 					ImGui::SetItemDefaultFocus();

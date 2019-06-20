@@ -578,6 +578,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\Rendering\Shapes\Plane.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Skybox.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Texture.hpp" />
+    <ClInclude Include="src\Flow3D\ResourceManager.hpp" />
     <ClInclude Include="src\Flow3D\Scene.hpp" />
     <ClInclude Include="src\Flow3D\Transform.hpp" />
     <ClInclude Include="src\Flow3D\Window.hpp" />
@@ -608,6 +609,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClCompile Include="src\Flow3D\Rendering\Shapes\Plane.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Skybox.cpp" />
     <ClCompile Include="src\Flow3D\Rendering\Texture.cpp" />
+    <ClCompile Include="src\Flow3D\ResourceManager.cpp" />
     <ClCompile Include="src\Flow3D\Scene.cpp" />
     <ClCompile Include="src\Flow3D\StructVisit.hpp" />
     <ClCompile Include="src\Flow3D\Transform.cpp" />

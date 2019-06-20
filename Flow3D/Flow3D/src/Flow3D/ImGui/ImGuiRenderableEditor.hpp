@@ -2,6 +2,7 @@
 
 #include <imgui/imgui.h>
 #include "Flow3D/Components/Renderable.hpp"
+#include "Flow3D/ResourceManager.hpp"
 #include "ImGuiHelper.hpp"
 
 namespace Flow {
@@ -22,7 +23,7 @@ namespace Flow {
 				if (ImGui::Checkbox("Blending", &blendingActive))
 					renderable->SetBlending(blendingActive);
 
-				std::vector<std::shared_ptr<Shader>> shaders = Application::Get().GetAllShaders();
+				std::vector<std::shared_ptr<Shader>> shaders = ResourceManager::Get().GetAllShaders();
 
 				static int currentShader = -1;
 				bool shaderFound = false;
@@ -54,7 +55,7 @@ namespace Flow {
 
 				if (model.filepath.empty())
 				{
-					std::vector<std::shared_ptr<Texture>> textures = Application::Get().GetAllTextures();
+					std::vector<std::shared_ptr<Texture>> textures = ResourceManager::Get().GetAllTextures();
 
 					std::shared_ptr<Cube> cubePtr = model.GetCube();
 					std::shared_ptr<Plane> planePtr = model.GetPlane();
@@ -227,7 +228,7 @@ namespace Flow {
 				}
 				else
 				{
-					std::vector<std::shared_ptr<Model>> models = Application::Get().GetAllModels();
+					std::vector<std::shared_ptr<Model>> models = ResourceManager::Get().GetAllModels();
 					static int currentModel = -1;
 					bool modelFound = false;
 					std::vector<const char*> modelNames;

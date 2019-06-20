@@ -3,7 +3,7 @@
 #include <imgui/imgui.h>
 #include "ImGuiHelper.hpp"
 
-#include "Flow3D/Application.hpp"
+#include "Flow3D/ResourceManager.hpp"
 
 namespace Flow {
 
@@ -36,7 +36,7 @@ namespace Flow {
 
 				if (ImGui::Button("Create", ImVec2(120, 0)))
 				{
-					Application::Get().AddTexture(std::make_shared<Texture>(pathBuffer, typeBuffer, flip));
+					ResourceManager::Get().AddTexture(std::make_shared<Texture>(pathBuffer, typeBuffer, flip));
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::SetItemDefaultFocus();
@@ -46,7 +46,7 @@ namespace Flow {
 			}
 			ImGui::Separator();
 
-			std::vector<std::shared_ptr<Texture>> textures = Application::Get().GetAllTextures();
+			std::vector<std::shared_ptr<Texture>> textures = ResourceManager::Get().GetAllTextures();
 			ImGui::Columns(5);
 			ImGui::SetColumnWidth(0, 200.0f);
 			ImGui::SetColumnWidth(1, 400.0f);
@@ -92,7 +92,7 @@ namespace Flow {
 
 					if (ImGui::Button("OK", ImVec2(120, 0)))
 					{
-						Application::Get().RemoveTexture(i);
+						ResourceManager::Get().RemoveTexture(i);
 						ImGui::CloseCurrentPopup();
 					}
 					ImGui::SetItemDefaultFocus();

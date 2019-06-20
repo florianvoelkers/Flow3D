@@ -1,6 +1,7 @@
 #include "Scene.hpp"
 
 #include "Components/ComponentClasses.cpp"
+#include "ResourceManager.hpp"
 
 namespace Flow {
 
@@ -34,9 +35,9 @@ namespace Flow {
 	{
 		m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", true);
 
-		std::vector<std::shared_ptr<Texture>> textures = Application::Get().GetAllTextures();
-		std::vector<std::shared_ptr<Shader>> shaders = Application::Get().GetAllShaders();
-		std::vector<std::shared_ptr<Model>> models = Application::Get().GetAllModels();
+		std::vector<std::shared_ptr<Texture>> textures = ResourceManager::Get().GetAllTextures();
+		std::vector<std::shared_ptr<Shader>> shaders = ResourceManager::Get().GetAllShaders();
+		std::vector<std::shared_ptr<Model>> models = ResourceManager::Get().GetAllModels();
 
 		std::shared_ptr<GameObject> sun = std::make_shared<GameObject>("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 		sun->AddComponent<DirectionalLight>(*sun, Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.3f), Vec3(0.7f), Vec3(0.7f));

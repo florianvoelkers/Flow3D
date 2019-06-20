@@ -7,23 +7,12 @@
 #include "Rendering/RenderingEngine.hpp"
 #include "Scene.hpp"
 #include "ImGui/ImGuiLayer.hpp"
-#include "Flow3D/Rendering/Shader.hpp"
-#include "Flow3D/Rendering/Texture.hpp"
-#include "Flow3D/Rendering/Model.hpp"
-
+#include "Rendering/Shader.hpp"
+#include "Rendering/Texture.hpp"
+#include "Rendering/Model.hpp"
+#include "ResourceManager.hpp"
 #include "Window.hpp"
-
 #include "Math.hpp"
-#include "StructVisit.hpp"
-
-struct test_struct_one {
-	int a;
-	float b;
-	std::string c;
-	Flow::Vec3 d;
-};
-
-VISITABLE_STRUCT(test_struct_one, a, b, c, d);
 
 namespace Flow {
 
@@ -46,18 +35,8 @@ namespace Flow {
 		inline const Window& GetWindow() const { return *m_Window; }
 		inline GameObject& GetMainCamera() { m_CurrentScene->GetMainCamera(); }
 		inline Scene& GetCurrentScene() { return *m_CurrentScene.get(); }
-		const std::vector<std::shared_ptr<GameObject>>& GetAllGameObjects() const { return m_CurrentScene->GetRoot().GetChildren(); }
-		inline const std::shared_ptr<Shader> GetStandardShader() { return shaders.at(0); }
+		const std::vector<std::shared_ptr<GameObject>>& GetAllGameObjects() const { return m_CurrentScene->GetRoot().GetChildren(); }		
 		inline const unsigned int GetRenderTexture() const { return m_RenderingEngine->GetRenderTexture(); }
-
-		void AddTexture(std::shared_ptr<Texture> texture) { textures.push_back(texture); }
-		void RemoveTexture(int index) { textures.erase(textures.begin() + index); }
-
-		void AddShader(std::shared_ptr<Shader> shader) { shaders.push_back(shader); }
-		void RemoveShader(int index) { shaders.erase(shaders.begin() + index); }
-
-		void AddModel(std::shared_ptr<Model> model) { models.push_back(model); }
-		void RemoveModel(int index) { models.erase(models.begin() + index); }
 
 		std::vector<const char*> GetAllComponentNames()
 		{
@@ -73,10 +52,6 @@ namespace Flow {
 			return names;
 		}
 
-		std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
-		std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
-		std::vector<std::shared_ptr<Model>> GetAllModels() { return models; }
-
 		int GetNextObjectID();
 
 	private:
@@ -87,11 +62,8 @@ namespace Flow {
 		std::unique_ptr<Input> m_Input;
 		std::unique_ptr<RenderingEngine> m_RenderingEngine;
 		std::unique_ptr<Scene> m_CurrentScene;
-		std::unique_ptr<ImGuiLayer> m_ImGui;
-
-		std::vector<std::shared_ptr<Shader>> shaders;
-		std::vector<std::shared_ptr<Texture>> textures;
-		std::vector<std::shared_ptr<Model>> models;
+		std::unique_ptr<ImGuiLayer> m_ImGui;	
+		std::unique_ptr<ResourceManager> m_ResourceManager;
 
 		int m_NextObjectID;
 

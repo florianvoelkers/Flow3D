@@ -3,6 +3,7 @@
 #include "Component.hpp"
 
 #include "Flow3D/Application.hpp"
+#include "Flow3D/ResourceManager.hpp"
 #include "Lighting.hpp"
 
 #include "Flow3D/Rendering/Model.hpp"
@@ -23,7 +24,7 @@ namespace Flow {
 
 	public:
 		Renderable(GameObject& gameObject, std::shared_ptr<Model> model = std::make_shared<Model>(std::make_shared<Cube>(0.5f, 0.5f, 0.5f, 1.0f)), 
-			std::shared_ptr<Shader> shader = Application::Get().GetAllShaders().at(1), bool blending = false, bool enabled = true)
+			std::shared_ptr<Shader> shader = ResourceManager::Get().GetAllShaders().at(1), bool blending = false, bool enabled = true)
 			: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject, enabled, "Renderable") {}
 
 		virtual void Render(Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) override

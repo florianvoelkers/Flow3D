@@ -15,6 +15,7 @@
 #include "Flow3D/Components/Rotatable.hpp"
 #include "Flow3D/Math.hpp"
 #include "Flow3D/Application.hpp"
+#include "Flow3D/ResourceManager.hpp"
 
 #include <cstring>
 
@@ -109,7 +110,7 @@ namespace Flow {
 						ImGui::RadioButton("From Shape", &renderableType, 1);
 						ImGui::Separator();
 
-						std::vector<std::shared_ptr<Shader>> shaders = Application::Get().GetAllShaders();
+						std::vector<std::shared_ptr<Shader>> shaders = ResourceManager::Get().GetAllShaders();
 						static int currentShader = 0;
 						std::vector<const char*> shaderNames;
 						for (unsigned int i = 0; i < shaders.size(); i++)
@@ -122,7 +123,7 @@ namespace Flow {
 						{
 							ImGui::SameLine();
 							ShowHelpMarker("Should use the Models shader");
-							std::vector<std::shared_ptr<Model>> models = Application::Get().GetAllModels();
+							std::vector<std::shared_ptr<Model>> models = ResourceManager::Get().GetAllModels();
 							static int currentModel = 0;
 							std::vector<const char*> modelNames;
 							for (unsigned int i = 0; i < models.size(); i++)
@@ -147,7 +148,7 @@ namespace Flow {
 							ImGui::RadioButton("Plane", &shapeType, 1);
 							ImGui::Separator();
 
-							std::vector<std::shared_ptr<Texture>> textures = Application::Get().GetAllTextures();
+							std::vector<std::shared_ptr<Texture>> textures = ResourceManager::Get().GetAllTextures();
 							static int currentDiffuseTexture = 0;
 							static int currentSpecularTexture = 0;
 							std::vector<const char*> textureNames;

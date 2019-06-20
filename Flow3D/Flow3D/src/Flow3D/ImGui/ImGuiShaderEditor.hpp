@@ -3,7 +3,7 @@
 #include <imgui/imgui.h>
 
 #include "ImGuiHelper.hpp"
-#include "Flow3D/Application.hpp"
+#include "Flow3D/ResourceManager.hpp"
 
 namespace Flow {
 
@@ -36,7 +36,7 @@ namespace Flow {
 
 				if (ImGui::Button("Create", ImVec2(120, 0)))
 				{
-					Application::Get().AddShader(std::make_shared<Shader>(vertexPath, fragmentPath, nameBuffer));
+					ResourceManager::Get().AddShader(std::make_shared<Shader>(vertexPath, fragmentPath, nameBuffer));
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::SetItemDefaultFocus();
@@ -46,7 +46,7 @@ namespace Flow {
 			}
 			ImGui::Separator();
 
-			std::vector<std::shared_ptr<Shader>> shaders = Application::Get().GetAllShaders();
+			std::vector<std::shared_ptr<Shader>> shaders = ResourceManager::Get().GetAllShaders();
 			ImGui::Columns(3);
 			ImGui::SetColumnWidth(0, 320.0f);
 			ImGui::SetColumnWidth(1, 320.0f);
@@ -81,7 +81,7 @@ namespace Flow {
 
 					if (ImGui::Button("OK", ImVec2(120, 0)))
 					{
-						Application::Get().RemoveShader(i);
+						ResourceManager::Get().RemoveShader(i);
 						ImGui::CloseCurrentPopup();
 					}
 					ImGui::SetItemDefaultFocus();
