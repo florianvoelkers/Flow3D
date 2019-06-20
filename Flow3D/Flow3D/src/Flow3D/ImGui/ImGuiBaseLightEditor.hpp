@@ -10,7 +10,7 @@ namespace Flow {
 
 		BaseLightEditor() {}
 
-		void Draw(BaseLight* bl)
+		void Draw(BaseLight* bl, std::string lightType)
 		{
 			if (bl != nullptr)
 			{
@@ -23,15 +23,21 @@ namespace Flow {
 				ImGui::SameLine(0, 20);
 				ImGui::PushItemWidth(66);
 
-				if (ImGui::DragFloat("r##8", &ambientR, 0.01f, 0.0f, 1.0f))
+				std::string label = "r##8";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &ambientR, 0.01f, 0.0f, 1.0f))
 					bl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
 
 				ImGui::SameLine();
-				if (ImGui::DragFloat("g##8", &ambientG, 0.01f, 0.0f, 1.0f))
+				label = "g##8";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &ambientG, 0.01f, 0.0f, 1.0f))
 					bl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
 
 				ImGui::SameLine();
-				if (ImGui::DragFloat("b##8", &ambientB, 0.01f, 0.0f, 1.0f))
+				label = "b##8";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &ambientB, 0.01f, 0.0f, 1.0f))
 					bl->SetAmbientIntensity(Vec3(ambientR, ambientG, ambientB));
 
 				ImGui::PopItemWidth();
@@ -45,15 +51,21 @@ namespace Flow {
 				ImGui::SameLine(0, 20);
 				ImGui::PushItemWidth(66);
 
-				if (ImGui::DragFloat("r##9", &diffuseR, 0.01f, 0.0f, 1.0f))
+				label = "r##9";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &diffuseR, 0.01f, 0.0f, 1.0f))
 					bl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
 
 				ImGui::SameLine();
-				if (ImGui::DragFloat("g##9", &diffuseG, 0.01f, 0.0f, 1.0f))
+				label = "g##9";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &diffuseG, 0.01f, 0.0f, 1.0f))
 					bl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
 
 				ImGui::SameLine();
-				if (ImGui::DragFloat("b##9", &diffuseB, 0.01f, 0.0f, 1.0f))
+				label = "b##9";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &diffuseB, 0.01f, 0.0f, 1.0f))
 					bl->SetDiffuseIntensity(Vec3(diffuseR, diffuseG, diffuseB));
 
 				ImGui::PopItemWidth();
@@ -67,15 +79,21 @@ namespace Flow {
 				ImGui::SameLine(0, 13);
 				ImGui::PushItemWidth(66);
 
-				if (ImGui::DragFloat("r##10", &specularR, 0.01f, 0.0f, 1.0f))
+				label = "r##10";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &specularR, 0.01f, 0.0f, 1.0f))
 					bl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
 
 				ImGui::SameLine();
-				if (ImGui::DragFloat("g##10", &specularG, 0.01f, 0.0f, 1.0f))
+				label = "g##10";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &specularG, 0.01f, 0.0f, 1.0f))
 					bl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
 
 				ImGui::SameLine();
-				if (ImGui::DragFloat("b##10", &specularB, 0.01f, 0.0f, 1.0f))
+				label = "b##10";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &specularB, 0.01f, 0.0f, 1.0f))
 					bl->SetSpecularIntensity(Vec3(specularR, specularG, specularB));
 
 				ImGui::PopItemWidth();

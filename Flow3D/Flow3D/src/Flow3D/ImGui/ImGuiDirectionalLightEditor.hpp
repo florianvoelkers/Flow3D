@@ -17,7 +17,7 @@ namespace Flow{
 			{
 
 				BaseLightEditor editor = BaseLightEditor();
-				editor.Draw(dynamic_cast<BaseLight*>(dl));
+				editor.Draw(dynamic_cast<BaseLight*>(dl), "DirectionalLight");
 
 				Vec3 direction = dl->GetDirection();
 				float x, y, z;

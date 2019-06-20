@@ -9,7 +9,7 @@ namespace Flow {
 	{
 		AttenuationEditor() {}
 
-		void Draw(Attenuation& att)
+		void Draw(Attenuation& att, std::string lightType)
 		{
 			if (ImGui::TreeNodeEx("Attenuation", ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen))
 			{
@@ -19,13 +19,19 @@ namespace Flow {
 				exponent = att.GetExponent();
 
 				ImGui::PushItemWidth(150);
-				if (ImGui::DragFloat("Constant##15", &constant, 0.01f, 0.0f, 100.0f))
+				std::string label = "Constant##15";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &constant, 0.01f, 0.0f, 100.0f))
 					att.SetConstant(constant);
 
-				if (ImGui::DragFloat("Linear##15", &linear, 0.01f, 0.0f, 100.0f))
+				label = "Linear##15";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &linear, 0.01f, 0.0f, 100.0f))
 					att.SetLinear(linear);
 
-				if (ImGui::DragFloat("Exponent##15", &exponent, 0.001f, 0.0f, 100.0f))
+				label = "Exponent##15";
+				label.append(lightType);
+				if (ImGui::DragFloat(label.c_str(), &exponent, 0.001f, 0.0f, 100.0f))
 					att.SetExponent(exponent);
 
 				ImGui::PopItemWidth();

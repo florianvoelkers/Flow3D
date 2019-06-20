@@ -45,7 +45,7 @@ namespace Flow {
 				ImGui::PopItemWidth();
 
 				BaseLightEditor editor = BaseLightEditor();
-				editor.Draw(dynamic_cast<BaseLight*>(sl));
+				editor.Draw(dynamic_cast<BaseLight*>(sl), "SpotLight");
 
 				float cutoff = sl->GetCutoff();
 				float outerCutoff = sl->GetOuterCutoff();
@@ -59,7 +59,7 @@ namespace Flow {
 				ImGui::PopItemWidth();
 
 				AttenuationEditor attEditor = AttenuationEditor();
-				attEditor.Draw(sl->GetAttenuation());
+				attEditor.Draw(sl->GetAttenuation(), "SpotLight");
 			}			
 		}
 	};
