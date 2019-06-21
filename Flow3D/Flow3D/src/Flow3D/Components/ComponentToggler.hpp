@@ -48,15 +48,11 @@ namespace Flow {
 
 	private:
 		Input& m_Input;
-		Component* m_ComponentToToggle;
 
 		std::vector<std::tuple<Component*, Keycode>> m_ComponentsToToggle;
 
 		bool OnKeyPressed(KeyPressedEvent& e)
 		{
-			if (e.GetKeyCode() == (int)Keycode::T)
-				m_ComponentToToggle->SetEnabled(!m_ComponentToToggle->GetEnabled());
-
 			for (std::vector<std::tuple<Component*, Keycode>>::const_iterator i = m_ComponentsToToggle.begin(); i != m_ComponentsToToggle.end(); ++i)
 				if (e.GetKeyCode() == (int)std::get<1>(*i))
 					std::get<0>(*i)->SetEnabled(!std::get<0>(*i)->GetEnabled());

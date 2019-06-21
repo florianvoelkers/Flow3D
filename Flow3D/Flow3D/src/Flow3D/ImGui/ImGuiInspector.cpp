@@ -432,14 +432,35 @@ namespace Flow {
 					if (ImGui::BeginPopup("Add GameObjectToggler"))
 					{
 						static char nameBuffer[32] = "GameObject";
-						ImGui::InputText("Name of GameObject", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue);
+						ImGui::InputText("Name of GameObject", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue);						
+
+						ImGui::PushItemWidth(200);
+
+						std::vector<std::tuple<Keycode, const char*>>& keyMap = Input::Get().GetKeyMap();
+						static int selectedChar = -1;
+						std::vector<const char*> keysChars;
+						for (unsigned int i = 0; i < keyMap.size(); i++)
+							keysChars.push_back(std::get<1>(keyMap[i]));
+
+						ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size());
 
 						if (ImGui::Button("Add GameObjectToggler", ImVec2(320.0f, 20.0f)))
 						{
-							currentGameObject->AddComponent<GameObjectToggler>(*currentGameObject, nameBuffer);
+							GameObject* gameObjectToToggle = Application::Get().GetCurrentScene().FindGameObject(nameBuffer);
+							if (gameObjectToToggle != nullptr)
+							{
+								currentGameObject->AddComponent<GameObjectToggler>(*currentGameObject);
+								currentGameObject->GetComponent<GameObjectToggler>().AddGameObjectToToggle(std::make_tuple(gameObjectToToggle, 
+									nameBuffer, std::get<0>(keyMap[selectedChar])));
+							}
+							else
+							{
+								FLOW_CORE_INFO("Game Object not found");
+							}
+							
 							ImGui::CloseCurrentPopup();
 						}
-
+						
 						ImGui::EndPopup();
 					}
 
