@@ -26,21 +26,41 @@ namespace Flow {
 		{
 			if (toggler != nullptr)
 			{
-				int componentID = -1;
-				std::string currentComponentName = toggler->GetComponentToToggle().GetName();
-				std::vector<const char*> chars;
-				for (unsigned int i = 0; i < componentNames.size(); i++)
+				std::vector<std::tuple<Component*, Keycode>>& componentsToToggle = toggler->GetComponentsToToggle();
+
+				for (unsigned int j = 0; j < componentsToToggle.size(); j++)
 				{
-					if (componentNames[i] == currentComponentName)
-						componentID = i;
+					int componentID = -1;
+					std::string currentComponentName = std::get<0>(componentsToToggle[j])->GetName();
+					std::vector<const char*> chars;
+					for (unsigned int i = 0; i < componentNames.size(); i++)
+					{
+						if (componentNames[i] == currentComponentName)
+							componentID = i;
 
-					chars.push_back(componentNames[i].c_str());
-				}
+						chars.push_back(componentNames[i].c_str());
+					}
 
-				ImGui::PushItemWidth(200);
+					ImGui::PushItemWidth(200);
 
-				if (ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size()))
-					toggler->SetComponentToToggle(components[componentID].get());
+					if (ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size()))
+						std::get<0>(componentsToToggle[j]) = components[componentID].get();
+
+					std::vector<std::tuple<Keycode, const char*>>& keyMap = Input::Get().GetKeyMap();
+					int selectedChar = -1;
+					Keycode currentKey = std::get<1>(componentsToToggle[j]);
+					std::vector<const char*> keysChars;
+					for (unsigned int i = 0; i < keyMap.size(); i++)
+					{
+						if (currentKey == std::get<0>(keyMap[i]))
+							selectedChar = i;
+
+						keysChars.push_back(std::get<1>(keyMap[i]));
+					}
+
+					if (ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size()))
+						std::get<1>(componentsToToggle[j]) = std::get<0>(keyMap[selectedChar]);
+				}				
 
 				ImGui::PopItemWidth();
 			}			

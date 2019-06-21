@@ -149,11 +149,15 @@ namespace Flow {
 		// temporary functions for mouseX and mouseY, later Vector2
 		inline Vec2 GetMousePosition() const { return m_MousePosition; }
 
+		inline std::vector<std::tuple<Keycode, const char*>>& GetKeyMap() { return keyMap; }
+
 		static const int NUMBER_OF_KEYS = 512;
 		static const int NUMBER_OF_MOUSEBUTTONS = 16;
 
 	private:
 		static Input* s_Instance;
+
+		std::vector<std::tuple<Keycode, const char*>> keyMap;
 
 		bool m_Inputs[NUMBER_OF_KEYS]; // 
 		bool m_DownKeys[NUMBER_OF_KEYS]; // reset every frame

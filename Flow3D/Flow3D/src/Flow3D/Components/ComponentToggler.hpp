@@ -17,8 +17,8 @@ namespace Flow {
 		CLASS_DECLARATION(ComponentToggler)
 
 	public:
-		ComponentToggler(GameObject& gameObject, Component* componentToToggle, bool enabled = true) 
-			: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()), m_ComponentToToggle(componentToToggle) {}
+		ComponentToggler(GameObject& gameObject, bool enabled = true) 
+			: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()) {}
 
 		virtual void OnEvent(Event& e) override
 		{
@@ -26,16 +26,25 @@ namespace Flow {
 			dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ComponentToggler::OnKeyPressed));
 		}
 
-		Component& GetComponentToToggle() { return *m_ComponentToToggle; }
-		void SetComponentToToggle(Component* componentToToggle) { m_ComponentToToggle = componentToToggle; }
-
 		void AddComponentToToggle(std::tuple<Component*, Keycode> component)
 		{
 			m_ComponentsToToggle.push_back(component);
 		}
 
+		void RemoveComponentToToggle(Component* component)
+		{
+			for (int i = 0; i < m_ComponentsToToggle.size(); i++)
+			{
+				// Test: we're going to delete the tuple of which the 3rd element (index 2) = 3.
+				if (std::get<0>(m_ComponentsToToggle[i]) == component)
+				{
+					m_ComponentsToToggle.erase(m_ComponentsToToggle.begin() + i);
+					i--;
+				}
+			}
+		}
 
-		std::vector<std::tuple<Component*, Keycode>> GetComponentsToToggle() { return m_ComponentsToToggle; }
+		std::vector<std::tuple<Component*, Keycode>>& GetComponentsToToggle() { return m_ComponentsToToggle; }
 
 	private:
 		Input& m_Input;
