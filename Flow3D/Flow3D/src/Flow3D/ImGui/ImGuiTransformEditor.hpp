@@ -39,6 +39,21 @@ namespace Flow {
 
 				ImGui::PopItemWidth();
 
+				bool constrainPositionX = transform.GetConstrainPositionX();
+				bool constrainPositionY = transform.GetConstrainPositionY();
+				bool constrainPositionZ = transform.GetConstrainPositionZ();
+				
+				ImGui::Text("Constraints:");
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("x##1constrain", &constrainPositionX))
+					transform.ConstrainPosition(constrainPositionX, constrainPositionY, constrainPositionZ);
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("y##1constrain", &constrainPositionY))
+					transform.ConstrainPosition(constrainPositionX, constrainPositionY, constrainPositionZ);
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("z##1constrain", &constrainPositionZ))
+					transform.ConstrainPosition(constrainPositionX, constrainPositionY, constrainPositionZ);
+
 				Vec3 rotation = transform.GetRotation();
 				float rotX = rotation.x;
 				float rotY = rotation.y;
@@ -60,6 +75,21 @@ namespace Flow {
 
 				ImGui::PopItemWidth();
 
+				bool constrainRotationX = transform.GetConstrainRotationX();
+				bool constrainRotationY = transform.GetConstrainRotationY();
+				bool constrainRotationZ = transform.GetConstrainRotationZ();
+
+				ImGui::Text("Constraints:");
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("x##2constrain", &constrainRotationX))
+					transform.ConstrainRotation(constrainRotationX, constrainRotationY, constrainRotationZ);
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("y##2constrain", &constrainRotationY))
+					transform.ConstrainRotation(constrainRotationX, constrainRotationY, constrainRotationZ);
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("z##2constrain", &constrainRotationZ))
+					transform.ConstrainRotation(constrainRotationX, constrainRotationY, constrainRotationZ);
+
 				float scaleX = transform.GetScale().x;
 				float scaleY = transform.GetScale().y;
 				float scaleZ = transform.GetScale().z;
@@ -79,6 +109,21 @@ namespace Flow {
 					transform.SetScale(Vec3(scaleX, scaleY, scaleZ));
 
 				ImGui::PopItemWidth();
+
+				bool constrainScaleX = transform.GetConstrainScaleX();
+				bool constrainScaleY = transform.GetConstrainScaleY();
+				bool constrainScaleZ = transform.GetConstrainScaleZ();
+
+				ImGui::Text("Constraints:");
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("x##3constrain", &constrainScaleX))
+					transform.SetConstrainScaleX(constrainScaleX);
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("y##3constrain", &constrainScaleY))
+					transform.SetConstrainScaleY(constrainScaleY);
+				ImGui::SameLine(0, 20);
+				if (ImGui::Checkbox("z##3constrain", &constrainScaleZ))
+					transform.SetConstrainScaleZ(constrainScaleZ);
 
 				ImGui::TreePop();
 			}

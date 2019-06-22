@@ -15,15 +15,33 @@ namespace Flow {
 		UpdateVectors();
 	}
 
-	void Transform::Translate(const Vec3& translation)
+	void Transform::Translate(Vec3& translation)
 	{
+		if (constrainPositionX)
+			translation.x = 0.0f;
+
+		if (constrainPositionY)
+			translation.y = 0.0f;
+
+		if (constrainPositionZ)
+			translation.z = 0.0f;
+
 		m_Position += translation;
 	}
 
 	void Transform::Rotate(const Vec3 & axis, float angle)
 	{
-		Quaternion quat = Quaternion(axis, angle);
-		Rotate(quat);
+		if (axis.x > 0.0f && constrainRotationX)
+			FLOW_CORE_INFO("x axis rotation is constrained");
+		else if (axis.y > 0.0f && constrainRotationY)
+			FLOW_CORE_INFO("y axis rotation is constrained");
+		else if (axis.z > 0.0f && constrainRotationZ)
+			FLOW_CORE_INFO("z axis rotation is constrained");
+		else
+		{
+			Quaternion quat = Quaternion(axis, angle);
+			Rotate(quat);
+		}		
 	}
 
 	void Transform::Rotate(Quaternion& rotation)
@@ -53,6 +71,38 @@ namespace Flow {
 		m_Parent = parent; 
 		if (!m_IsCamera)
 			UpdateVectors();
+	}
+
+	void Transform::SetPosition(const Vec3& position)
+	{
+		Vec3 newPosition = position;
+
+		if (constrainPositionX)
+			newPosition.x = m_Position.x;
+
+		if (constrainPositionY)
+			newPosition.y = m_Position.y;
+
+		if (constrainPositionZ)
+			newPosition.z = m_Position.z;
+
+		m_Position = newPosition;
+	}
+
+	void Transform::SetScale(const Vec3& scale)
+	{
+		Vec3 newScale = scale;
+
+		if (constrainScaleX)
+			newScale.x = m_Scale.x;
+
+		if (constrainScaleY)
+			newScale.y = m_Scale.y;
+
+		if (constrainScaleZ)
+			newScale.z = m_Scale.z;
+
+		m_Scale = newScale;
 	}
 
 	Mat4 Transform::GetTransformation() const

@@ -16,6 +16,7 @@ namespace Flow {
 
 		// The main camera is used for rendering purposes.
 		m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.5f, 7.0f), Vec3(0.0f, 0.0f, 0.0f));
+		m_MainCamera->GetTransform().ConstrainPosition(false, true, false);
 		m_MainCamera->AddComponent<FreeCamera>(*m_MainCamera, m_Window);
 		AddToScene(m_MainCamera);
 	}
@@ -94,6 +95,7 @@ namespace Flow {
 		
 		std::shared_ptr<GameObject> oldMan = std::make_shared<GameObject>("oldMan", Vec3(0.0f, 0.0f, 2.0f));
 		oldMan->GetTransform().SetScale(Vec3(0.01f));
+		oldMan->GetTransform().ConstrainScale(true, true, true);
 		oldMan->AddComponent<Renderable>(*oldMan, models[1], shaders.at(2), false);
 		AddToScene(oldMan);
 
@@ -115,6 +117,7 @@ namespace Flow {
 		std::shared_ptr<GameObject> trex2 = std::make_shared<GameObject>("trex2", Vec3(-2.5f, 0.0f, 2.0f));
 		trex2->GetTransform().SetScale(Vec3(0.2f));
 		trex2->AddComponent<Rotatable>(*trex2);
+		trex2->GetTransform().ConstrainRotation(true, false, false);
 		trex2->AddComponent<Renderable>(*trex2, models[2], shaders.at(2), false);
 		AddToScene(trex2);
 

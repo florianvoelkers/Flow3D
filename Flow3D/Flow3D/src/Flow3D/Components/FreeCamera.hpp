@@ -65,32 +65,38 @@ namespace Flow {
 			if (m_Input.GetKey(Keycode::W))
 			{
 				Vec3 forward = GetTransform().GetForwardVector();
-				GetTransform().Translate(forward * velocity);
+				forward = forward * velocity;
+				GetTransform().Translate(forward);
 			}
 			if (m_Input.GetKey(Keycode::S))
 			{
 				Vec3 forward = GetTransform().GetForwardVector();
-				GetTransform().Translate(forward * velocity * -1.0f);
+				forward = forward * velocity * -1.0f;
+				GetTransform().Translate(forward);
 			}
 			if (m_Input.GetKey(Keycode::D))
 			{
 				Vec3 right = GetTransform().GetRightVector();
-				GetTransform().Translate(right * velocity);
+				right = right * velocity;
+				GetTransform().Translate(right);
 			}
 			if (m_Input.GetKey(Keycode::A))
 			{
 				Vec3 right = GetTransform().GetRightVector();
-				GetTransform().Translate(right * velocity * -1.0f);
+				right = right * velocity * -1.0f;
+				GetTransform().Translate(right);
 			}
 			if (m_Input.GetKey(Keycode::PageUp))
 			{
 				Vec3 up = GetTransform().GetUpVector();
-				GetTransform().Translate(up * velocity);
+				up = up * velocity;
+				GetTransform().Translate(up);
 			}
 			if (m_Input.GetKey(Keycode::PageDown))
 			{
 				Vec3 up = GetTransform().GetUpVector();
-				GetTransform().Translate(up * velocity * -1.0f);
+				up = up * velocity * -1.0f;
+				GetTransform().Translate(up);
 			}
 		}
 
