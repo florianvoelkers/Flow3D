@@ -54,6 +54,8 @@ namespace Flow {
 		GameObject* GetParent() { return m_Parent; }
 		void SetParent(GameObject* parent) { m_Parent = parent; }
 
+		bool GetParentsActive();
+
 		static void Destroy(GameObject* object);
 		
 	private: 

@@ -129,6 +129,22 @@ namespace Flow {
 		}
 	}
 
+	bool GameObject::GetParentsActive()
+	{
+		if (m_Parent != nullptr)
+		{
+			if (m_Parent->GetParentsActive())
+				return m_IsActive;
+			else
+				return false;
+		}			
+		else
+			return m_IsActive;
+
+
+		return false;
+	}
+
 	void GameObject::Destroy(GameObject * object)
 	{
 		const std::vector<std::unique_ptr<Component>>& components = object->GetComponents();

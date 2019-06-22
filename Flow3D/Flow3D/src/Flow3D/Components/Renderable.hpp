@@ -57,7 +57,7 @@ namespace Flow {
 				uniform += std::string("pointLights[") + std::to_string(i) + std::string("].");
 				std::string shaderString = uniform + std::string("position");
 				m_Shader->SetVec3(shaderString, pointLights[i]->GetTransform().GetWorldPosition());
-				if (pointLights[i]->GetEnabled() && pointLights[i]->GetGameObject().GetIsActive())
+				if (pointLights[i]->GetEnabled() && pointLights[i]->GetGameObject().GetParentsActive())
 				{
 					shaderString = uniform + std::string("ambient");
 					m_Shader->SetVec3(shaderString, pointLights[i]->GetAmbientIntensity());
@@ -99,7 +99,7 @@ namespace Flow {
 				m_Shader->SetFloat(shaderString, glm::cos(glm::radians(spotLights[i]->GetCutoff())));
 				shaderString = uniform + std::string("outerCutOff");
 				m_Shader->SetFloat(shaderString, glm::cos(glm::radians(spotLights[i]->GetOuterCutoff())));
-				if (spotLights[i]->GetEnabled() && spotLights[i]->GetGameObject().GetIsActive() )
+				if (spotLights[i]->GetEnabled() && spotLights[i]->GetGameObject().GetParentsActive() )
 				{
 					shaderString = uniform + std::string("ambient");
 					m_Shader->SetVec3(shaderString, spotLights[i]->GetAmbientIntensity());
