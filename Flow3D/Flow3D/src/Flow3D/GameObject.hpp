@@ -53,6 +53,8 @@ namespace Flow {
 
 		GameObject* GetParent() { return m_Parent; }
 		void SetParent(GameObject* parent) { m_Parent = parent; }
+
+		static void Destroy(GameObject* object);
 		
 	private: 
 		std::vector<std::shared_ptr<GameObject>> m_Children;

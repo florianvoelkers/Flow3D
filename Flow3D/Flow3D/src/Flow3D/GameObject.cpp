@@ -128,4 +128,59 @@ namespace Flow {
 			}
 		}
 	}
+
+	void GameObject::Destroy(GameObject * object)
+	{
+		const std::vector<std::unique_ptr<Component>>& components = object->GetComponents();
+		std::vector<std::string> componentNames;
+
+		Scene& currentScene = Application::Get().GetCurrentScene();
+
+		for (unsigned int i = 0; i < components.size(); i++)
+		{
+			Component& component = *components[i];
+			std::string componentName = component.GetName();
+			componentNames.push_back(componentName);
+		}
+
+		for (unsigned int i = 0; i < componentNames.size(); i++)
+		{
+			if (componentNames[i] == "DirectionalLight")
+			{
+				FLOW_CORE_INFO("should be removed from array in scene");
+			}
+			else if (componentNames[i] == "PointLight")
+			{
+				currentScene.RemovePointLight(&object->GetComponent<PointLight>());
+			}
+			else if (componentNames[i] == "SpotLight")
+			{
+				currentScene.RemoveSpotLight(&object->GetComponent<SpotLight>());
+			}
+		}
+
+		const std::vector<std::shared_ptr<GameObject>>& children = object->GetChildren();
+		for (unsigned int i = 0; i < children.size(); i++)
+		{
+			const std::vector<std::unique_ptr<Component>>& childrenComponents = children[i]->GetComponents();
+			for (unsigned int j = 0; j < childrenComponents.size(); j++)
+			{
+				const std::string childComponentName = childrenComponents[j]->GetName();
+				if (childComponentName == "DirectionalLight")
+				{
+					FLOW_CORE_INFO("should be removed from array in scene");
+				}
+				else if (childComponentName == "PointLight")
+				{
+					currentScene.RemovePointLight(&children[i]->GetComponent<PointLight>());
+				}
+				else if (childComponentName == "SpotLight")
+				{
+					currentScene.RemoveSpotLight(&children[i]->GetComponent<SpotLight>());
+				}
+			}
+		}
+
+		object->GetParent()->RemoveChild(object->GetObjectID());
+	}
 }

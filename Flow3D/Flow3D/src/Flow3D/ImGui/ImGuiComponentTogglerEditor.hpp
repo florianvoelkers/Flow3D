@@ -26,6 +26,37 @@ namespace Flow {
 		{
 			if (toggler != nullptr)
 			{
+				if (ImGui::Button("Add entry", ImVec2(320.0f, 20.0f)))
+					ImGui::OpenPopup("Add Entry to toggle");
+
+				if (ImGui::BeginPopup("Add Entry to toggle"))
+				{
+					static int componentID = -1;
+					std::vector<const char*> chars;
+					for (unsigned int i = 0; i < componentNames.size(); i++)
+						chars.push_back(componentNames[i].c_str());
+
+					ImGui::PushItemWidth(200);
+					ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size());
+					ImGui::PopItemWidth();
+
+					std::vector<std::tuple<Keycode, const char*>>& keyMap = Input::Get().GetKeyMap();
+					static int selectedChar = -1;
+					std::vector<const char*> keysChars;
+					for (unsigned int i = 0; i < keyMap.size(); i++)
+						keysChars.push_back(std::get<1>(keyMap[i]));
+
+					ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size());
+
+					if (ImGui::Button("Add ComponentToggler", ImVec2(320.0f, 20.0f)))
+					{
+						toggler->AddComponentToToggle(std::make_tuple(components[componentID].get(), std::get<0>(keyMap[selectedChar])));
+						ImGui::CloseCurrentPopup();
+					}
+
+					ImGui::EndPopup();
+				}
+
 				std::vector<std::tuple<Component*, Keycode>>& componentsToToggle = toggler->GetComponentsToToggle();
 
 				for (unsigned int j = 0; j < componentsToToggle.size(); j++)
