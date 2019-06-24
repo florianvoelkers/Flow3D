@@ -38,7 +38,7 @@ void Flow3DInspector::Draw()
 	{
 		if (gameObjectSet && currentGameObject != NULL)
 		{
-			const std::vector<std::unique_ptr<Component>>& components = currentGameObject->GetComponents();
+			const std::vector<std::shared_ptr<Component>>& components = currentGameObject->GetComponents();
 			std::vector<std::string> componentNames;
 
 			Scene& currentScene = Application::Get().GetCurrentScene();
@@ -74,7 +74,7 @@ void Flow3DInspector::Draw()
 						{
 							if (allComponentNames[selectedComponent] == "Rotatable")
 							{
-								currentGameObject->AddComponent<Rotatable>(*currentGameObject);
+								currentGameObject->AddComponent<Rotatable>(currentGameObject);
 							}
 							else if (allComponentNames[selectedComponent] == "FreeCamera")
 							{
@@ -145,7 +145,7 @@ void Flow3DInspector::Draw()
 
 						if (ImGui::Button("Add Renderable", ImVec2(320.0f, 20.0f)))
 						{
-							currentGameObject->AddComponent<Renderable>(*currentGameObject, models[currentModel], shaders[currentShader]);
+							currentGameObject->AddComponent<Renderable>(currentGameObject, models[currentModel], shaders[currentShader]);
 							ImGui::CloseCurrentPopup();
 						}
 					}
@@ -194,22 +194,22 @@ void Flow3DInspector::Draw()
 						{
 							if (shapeType == 0 && fragmentType == 0)
 							{
-								currentGameObject->AddComponent<Renderable>(*currentGameObject, 
+								currentGameObject->AddComponent<Renderable>(currentGameObject, 
 									std::make_shared<Model>(std::make_shared<Cube>(textures[currentDiffuseTexture], textures[currentSpecularTexture])), shaders[currentShader]);
 							}
 							else if (shapeType == 0 && fragmentType == 1)
 							{
-								currentGameObject->AddComponent<Renderable>(*currentGameObject,
+								currentGameObject->AddComponent<Renderable>(currentGameObject,
 									std::make_shared<Model>(std::make_shared<Cube>(color.x, color.y, color.z, color.w)), shaders[currentShader]);
 							}
 							else if (shapeType == 1 && fragmentType == 0)
 							{
-								currentGameObject->AddComponent<Renderable>(*currentGameObject,
+								currentGameObject->AddComponent<Renderable>(currentGameObject,
 									std::make_shared<Model>(std::make_shared<Plane>(textures[currentDiffuseTexture], textures[currentSpecularTexture])), shaders[currentShader]);
 							}
 							else if (shapeType == 1 && fragmentType == 1)
 							{
-								currentGameObject->AddComponent<Renderable>(*currentGameObject,
+								currentGameObject->AddComponent<Renderable>(currentGameObject,
 									std::make_shared<Model>(std::make_shared<Plane>(color.x, color.y, color.z, color.w)), shaders[currentShader]);
 							}
 							ImGui::CloseCurrentPopup();
@@ -273,7 +273,7 @@ void Flow3DInspector::Draw()
 
 					if (ImGui::Button("Add DirectionalLight", ImVec2(320.0f, 20.0f)))
 					{
-						currentGameObject->AddComponent<DirectionalLight>(*currentGameObject, Vec3(posX, posY, posZ),
+						currentGameObject->AddComponent<DirectionalLight>(currentGameObject, Vec3(posX, posY, posZ),
 							Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB));
 						// currentScene.AddDirectionalLight(currentGameObject->GetComponent<DirectionalLight>());
 						ImGui::CloseCurrentPopup();
@@ -330,7 +330,7 @@ void Flow3DInspector::Draw()
 
 					if (ImGui::Button("Add PointLight", ImVec2(320.0f, 20.0f)))
 					{
-						currentGameObject->AddComponent<PointLight>(*currentGameObject, Vec3(ambientR, ambientG, ambientB), 
+						currentGameObject->AddComponent<PointLight>(currentGameObject, Vec3(ambientR, ambientG, ambientB), 
 							Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB), Attenuation(constant, linear, exponent));
 						currentScene.AddPointLight(&currentGameObject->GetComponent<PointLight>());
 						ImGui::CloseCurrentPopup();
@@ -389,7 +389,7 @@ void Flow3DInspector::Draw()
 
 					if (ImGui::Button("Add PointLight", ImVec2(320.0f, 20.0f)))
 					{
-						currentGameObject->AddComponent<SpotLight>(*currentGameObject, Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), 
+						currentGameObject->AddComponent<SpotLight>(currentGameObject, Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), 
 							Vec3(specularR, specularG, specularB), cutoff, outerCutoff, Attenuation(constant, linear, exponent));
 						currentScene.AddSpotLight(&currentGameObject->GetComponent<SpotLight>());
 						ImGui::CloseCurrentPopup();
@@ -419,7 +419,7 @@ void Flow3DInspector::Draw()
 
 					if (ImGui::Button("Add ComponentToggler", ImVec2(320.0f, 20.0f)))
 					{
-						currentGameObject->AddComponent<ComponentToggler>(*currentGameObject);
+						currentGameObject->AddComponent<ComponentToggler>(currentGameObject);
 						currentGameObject->GetComponent<ComponentToggler>().AddComponentToToggle(std::make_tuple(components[componentID].get(), std::get<0>(keyMap[selectedChar])));
 						ImGui::CloseCurrentPopup();
 					}	
@@ -447,7 +447,7 @@ void Flow3DInspector::Draw()
 						GameObject* gameObjectToToggle = Application::Get().GetCurrentScene().FindGameObject(nameBuffer);
 						if (gameObjectToToggle != nullptr)
 						{
-							currentGameObject->AddComponent<GameObjectToggler>(*currentGameObject);
+							currentGameObject->AddComponent<GameObjectToggler>(currentGameObject);
 							currentGameObject->GetComponent<GameObjectToggler>().AddGameObjectToToggle(std::make_tuple(gameObjectToToggle, 
 								nameBuffer, std::get<0>(keyMap[selectedChar])));
 						}

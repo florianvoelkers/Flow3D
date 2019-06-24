@@ -20,7 +20,7 @@ struct ComponentTogglerEditor
 
 	ComponentTogglerEditor () {}
 
-	void Draw(ComponentToggler* toggler, const std::vector<std::unique_ptr<Component>>& components, std::vector<std::string> componentNames)
+	void Draw(ComponentToggler* toggler, const std::vector<std::shared_ptr<Component>>& components, std::vector<std::string> componentNames)
 	{
 		if (toggler != nullptr)
 		{

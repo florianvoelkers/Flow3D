@@ -51,18 +51,23 @@ public:
 		return classType == Type; 
 	}
 
-	Component(GameObject& gameObject, bool enabled = true, std::string name = "Component") : m_GameObject(gameObject), m_Enabled(enabled), m_Name(name) {}
-	virtual ~Component() {} 
+	Component() {}
+	Component(GameObject* gameObject, bool enabled = true, std::string name = "Component") : m_GameObject(gameObject), m_Enabled(enabled), m_Name(name) {}
+	~Component() 
+	{
+		FLOW_CORE_INFO("component {0} deleted", m_Name);
+	} 
+	Component(const Component&) = default;
 
 	virtual void OnUpdate (double deltaTime) {}
 	virtual void OnEvent (Event& event) {}
 	virtual void Render (Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) {}
 
-	inline Transform& GetTransform() { return m_GameObject.GetTransform(); }
-	inline const Transform& GetTransform() const { return m_GameObject.GetTransform(); }
+	inline Transform& GetTransform() { return m_GameObject->GetTransform(); }
+	inline const Transform& GetTransform() const { return m_GameObject->GetTransform(); }
 
-	inline GameObject& GetGameObject() { return m_GameObject; }
-	inline const GameObject& GetGameObject() const { return m_GameObject; }
+	inline GameObject& GetGameObject() { return *m_GameObject; }
+	inline const GameObject& GetGameObject() const { return *m_GameObject; }
 
 	inline const bool GetEnabled() const { return m_Enabled; }
 	void SetEnabled(bool enabled) { m_Enabled = enabled; }
@@ -70,7 +75,7 @@ public:
 	inline const std::string GetName() const { return m_Name; }
 
 protected:
-	GameObject& m_GameObject; 
+	GameObject* m_GameObject; 
 	bool m_Enabled;
 	std::string m_Name;
 };

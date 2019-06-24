@@ -15,7 +15,7 @@ class ComponentToggler : public Component
 	CLASS_DECLARATION(ComponentToggler)
 
 public:
-	ComponentToggler(GameObject& gameObject, bool enabled = true) 
+	ComponentToggler(GameObject* gameObject, bool enabled = true) 
 		: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()) {}
 
 	virtual void OnEvent(Event& e) override

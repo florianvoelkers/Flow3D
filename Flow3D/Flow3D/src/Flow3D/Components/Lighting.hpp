@@ -19,7 +19,7 @@ class BaseLight : public Component
 	CLASS_DECLARATION(BaseLight)
 
 public: 
-	BaseLight(GameObject& gameObject, const Vec3& ambient, const Vec3& diffuse, const Vec3& specular, std::string componentName, bool enabled = true)
+	BaseLight(GameObject* gameObject, const Vec3& ambient, const Vec3& diffuse, const Vec3& specular, std::string componentName, bool enabled = true)
 		: Component(gameObject, enabled, componentName), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular) {}
 
 	inline void SetAmbientIntensity(Vec3 ambient) { m_Ambient = ambient; }
@@ -49,7 +49,7 @@ class DirectionalLight : public BaseLight
 	CLASS_DECLARATION(DirectionalLight)
 
 public:
-	DirectionalLight(GameObject& gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, bool enabled = true)
+	DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, bool enabled = true)
 		: BaseLight(gameObject, ambient, diffuse, specular, "DirectionalLight", enabled), m_Direction(direction) {}
 
 	inline void SetDirection(Vec3& direction) { m_Direction = direction; }
@@ -102,7 +102,7 @@ class PointLight : public BaseLight
 	CLASS_DECLARATION(PointLight)
 
 public:
-	PointLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation(), bool enabled = true)
+	PointLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation(), bool enabled = true)
 		: BaseLight(gameObject, ambient, diffuse, specular, "PointLight", enabled), m_Attenuation(attenuation) {}
 
 	inline Attenuation& GetAttenuation() { return m_Attenuation; }
@@ -122,7 +122,7 @@ class SpotLight : public BaseLight
 	CLASS_DECLARATION(SpotLight)
 
 public:
-	SpotLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, 
+	SpotLight(GameObject* gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, 
 		float cutoff, float outerCutoff, const Attenuation& attenuation = Attenuation(), bool enabled = true)
 		: BaseLight(gameObject, ambient, diffuse, specular, "SpotLight", enabled), m_Cutoff(cutoff), m_OuterCutoff(outerCutoff), m_Attenuation(attenuation) {}
 

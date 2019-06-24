@@ -17,7 +17,7 @@ class GameObjectToggler : public Component
 	CLASS_DECLARATION(GameObjectToggler)
 
 public:
-	GameObjectToggler(GameObject& gameObject, bool enabled = true)
+	GameObjectToggler(GameObject* gameObject, bool enabled = true)
 		: Component(gameObject, enabled, "GameObjectToggler"), m_Input(Input::Get())
 	{
 	}

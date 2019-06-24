@@ -49,5 +49,5 @@ private:
 	std::vector<PointLight*> m_PointLights;
 	std::vector<SpotLight*> m_SpotLights;
 
-	// TODO: Members directional light, other properties
+	void SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream& myfile);
 };

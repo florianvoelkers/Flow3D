@@ -4,6 +4,8 @@
 #include "Application.hpp"
 #include "Components/Component.hpp"
 
+GameObject::GameObject() {}
+
 GameObject::GameObject(const std::string& name, const Vec3& position, const Vec3& rotation, const Vec3& scale, bool isActive)
 	: m_Name(name), m_Transform(this, position, rotation, scale), m_IsActive(isActive), m_ObjectID(Application::Get().GetNextObjectID())
 {
@@ -51,7 +53,7 @@ void GameObject::RemoveComponent(std::string name)
 		}
 	}
 
-	std::vector<std::unique_ptr<Component>>::iterator iterator = m_Components.begin() + index;
+	std::vector<std::shared_ptr<Component>>::iterator iterator = m_Components.begin() + index;
 	m_Components.erase(std::remove(m_Components.begin(), m_Components.end(), *iterator));
 	std::move(*iterator);
 }
@@ -145,7 +147,7 @@ bool GameObject::GetParentsActive()
 
 void GameObject::Destroy(GameObject * object)
 {
-	const std::vector<std::unique_ptr<Component>>& components = object->GetComponents();
+	const std::vector<std::shared_ptr<Component>>& components = object->GetComponents();
 	std::vector<std::string> componentNames;
 
 	Scene& currentScene = Application::Get().GetCurrentScene();
@@ -176,7 +178,7 @@ void GameObject::Destroy(GameObject * object)
 	const std::vector<std::shared_ptr<GameObject>>& children = object->GetChildren();
 	for (unsigned int i = 0; i < children.size(); i++)
 	{
-		const std::vector<std::unique_ptr<Component>>& childrenComponents = children[i]->GetComponents();
+		const std::vector<std::shared_ptr<Component>>& childrenComponents = children[i]->GetComponents();
 		for (unsigned int j = 0; j < childrenComponents.size(); j++)
 		{
 			const std::string childComponentName = childrenComponents[j]->GetName();

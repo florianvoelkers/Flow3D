@@ -16,8 +16,9 @@ class RenderingEngine;
 class GameObject 
 {
 public:
+	GameObject();
 	GameObject(const std::string& name, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f), bool isActive = true);
-	virtual ~GameObject();
+	~GameObject();
 
 	void AddChild(std::shared_ptr<GameObject> child);
 	void RemoveChild(int gameObjectID);
@@ -36,7 +37,7 @@ public:
 
 	GameObject* Find(std::string name);
 	const std::vector<std::shared_ptr<GameObject>>& GetChildren() const{ return m_Children; }
-	const std::vector<std::unique_ptr<Component>>& GetComponents() const { return m_Components; }
+	const std::vector<std::shared_ptr<Component>>& GetComponents() const { return m_Components; }
 
 	void OnUpdate(double deltaTime);
 	void OnEvent(Event& e);
@@ -56,15 +57,18 @@ public:
 
 	static void Destroy(GameObject* object);
 		
-private: 
-	std::vector<std::shared_ptr<GameObject>> m_Children;
-	std::vector<std::unique_ptr<Component>> m_Components;
-	int m_ObjectID;
 	std::string m_Name;
 	Transform m_Transform;
-	GameObject* m_Parent;
-	bool m_IsActive;		
+	bool m_IsActive;
+
+private: 
+	std::vector<std::shared_ptr<GameObject>> m_Children;
+	std::vector<std::shared_ptr<Component>> m_Components;
+	int m_ObjectID;
+	
+	GameObject* m_Parent;			
 };
+
 
 //***************
 // GameObject::AddComponent
@@ -120,3 +124,19 @@ bool GameObject::RemoveComponent() {
 
 	return success;
 }
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<GameObject>()
+	{
+		return members(
+			member("m_Name", &GameObject::m_Name),
+			member("m_Transform", &GameObject::m_Transform),
+			member("m_IsActive", &GameObject::m_IsActive)
+		);
+	}
+
+} // end of namespace meta
