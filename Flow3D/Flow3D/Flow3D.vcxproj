@@ -481,6 +481,13 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="external_libraries\imgui\imstb_rectpack.h" />
     <ClInclude Include="external_libraries\imgui\imstb_textedit.h" />
     <ClInclude Include="external_libraries\imgui\imstb_truetype.h" />
+    <ClInclude Include="external_libraries\json\json.hpp" />
+    <ClInclude Include="external_libraries\MetaStuff\include\detail\MetaHolder.h" />
+    <ClInclude Include="external_libraries\MetaStuff\include\detail\template_helpers.h" />
+    <ClInclude Include="external_libraries\MetaStuff\include\JsonCast.h" />
+    <ClInclude Include="external_libraries\MetaStuff\include\Member.h" />
+    <ClInclude Include="external_libraries\MetaStuff\include\Meta.h" />
+    <ClInclude Include="external_libraries\MetaStuff\include\StringCast.h" />
     <ClInclude Include="external_libraries\spdlog\include\spdlog\async.h" />
     <ClInclude Include="external_libraries\spdlog\include\spdlog\async_logger.h" />
     <ClInclude Include="external_libraries\spdlog\include\spdlog\common.h" />
@@ -569,7 +576,9 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\Input.hpp" />
     <ClInclude Include="src\Flow3D\Log.hpp" />
     <ClInclude Include="src\Flow3D\Math.hpp" />
+    <ClInclude Include="src\Flow3D\MovieInfo.hpp" />
     <ClInclude Include="src\Flow3D\OpenGLWindow.hpp" />
+    <ClInclude Include="src\Flow3D\Person.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Mesh.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Model.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\RenderingEngine.hpp" />
@@ -592,6 +601,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClCompile Include="external_libraries\imgui\imgui_draw.cpp" />
     <ClCompile Include="external_libraries\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="external_libraries\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="external_libraries\MetaStuff\include\StringCast.cpp" />
     <ClCompile Include="src\Flow3D\Application.cpp" />
     <ClCompile Include="src\Flow3D\Components\ComponentClasses.cpp" />
     <ClCompile Include="src\Flow3D\GameObject.cpp" />
@@ -759,6 +769,10 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <None Include="external_libraries\glm\gtx\vector_angle.inl" />
     <None Include="external_libraries\glm\gtx\vector_query.inl" />
     <None Include="external_libraries\glm\gtx\wrap.inl" />
+    <None Include="external_libraries\MetaStuff\include\detail\template_helpers.inl" />
+    <None Include="external_libraries\MetaStuff\include\JsonCast.inl" />
+    <None Include="external_libraries\MetaStuff\include\Member.inl" />
+    <None Include="external_libraries\MetaStuff\include\Meta.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

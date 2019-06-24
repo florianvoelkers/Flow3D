@@ -1,0 +1,23 @@
+{
+    "age": 25,
+    "favouriteMovies": {
+        "John Tron": [
+            {
+                "name": "Goosebumps",
+                "rating": 10.0
+            },
+            {
+                "name": "Talking Cat",
+                "rating": 9.0
+            }
+        ],
+        "Nostalgia Critic": [
+            {
+                "name": "The Room",
+                "rating": 8.5
+            }
+        ]
+    },
+    "name": "Ron Burgundy",
+    "salary": 3.5
+}

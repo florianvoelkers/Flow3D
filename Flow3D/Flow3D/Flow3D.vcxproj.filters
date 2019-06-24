@@ -1236,6 +1236,33 @@
     <ClInclude Include="src\Flow3D\ResourceManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="external_libraries\json\json.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\MetaStuff\include\detail\MetaHolder.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\MetaStuff\include\detail\template_helpers.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\MetaStuff\include\Member.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\MetaStuff\include\Meta.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flow3D\Person.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Flow3D\MovieInfo.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\MetaStuff\include\JsonCast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="external_libraries\MetaStuff\include\StringCast.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp">
@@ -1323,6 +1350,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Flow3D\ResourceManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="external_libraries\MetaStuff\include\StringCast.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1757,6 +1787,18 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="external_libraries\assimp\include\assimp\vector3.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="external_libraries\MetaStuff\include\detail\template_helpers.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="external_libraries\MetaStuff\include\Member.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="external_libraries\MetaStuff\include\Meta.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="external_libraries\MetaStuff\include\JsonCast.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>

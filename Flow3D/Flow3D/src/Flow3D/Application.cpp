@@ -4,7 +4,21 @@
 #include "Rendering/RenderingEngine.hpp"
 #include "Log.hpp"
 
+// basic file operations
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <fstream>
+
+// metastuff testing
+#include <MetaStuff/include/Meta.h>
+#include "Person.hpp"
+#include <json/json.hpp>
+#include <MetaStuff/include/JsonCast.h>
+
 namespace Flow {
+
+	using json = nlohmann::json;
 
 	Application* Application::s_Instance = nullptr;
 
@@ -28,6 +42,88 @@ namespace Flow {
 
 		m_ImGui = std::make_unique<ImGuiLayer>();
 		m_ImGui->OnAttach();		
+
+		std::ofstream myfile;
+		myfile.open("example.json");
+		myfile << "Writing something different to a file.\n";
+		myfile.close();
+
+		Person person;
+		person.age = 25;
+		person.salary = 3.50f;
+		person.name = "Alex"; // I'm a person!
+
+		person.favouriteMovies["Nostalgia Critic"] = { MovieInfo{ "The Room", 8.5f } };
+		person.favouriteMovies["John Tron"] = { MovieInfo{ "Goosebumps", 10.0f },
+			MovieInfo{ "Talking Cat", 9.0f } };
+
+		// printing members of different classes
+		std::cout << "Members of class Person:\n";
+		meta::doForAllMembers<Person>(
+			[](const auto& member)
+		{
+			std::cout << "* " << member.getName() << '\n';
+		}
+		);
+
+		std::cout << "Members of class MovieInfo:\n";
+		meta::doForAllMembers<MovieInfo>(
+			[](const auto& member)
+		{
+			std::cout << "* " << member.getName() << '\n';
+		}
+		);
+
+		std::cout << "========================\n";
+
+		// checking if classes are registered
+		if (meta::isRegistered<Person>()) {
+			std::cout << "Person class is registered\n";
+			std::cout << "It has " << meta::getMemberCount<Person>() << " members registered.\n";
+		}
+
+		// meta::isRegistered is constexpr, so can be used in enable_if and static_assert!
+		static_assert(meta::isRegistered<Person>(), "Person class is not registered!");
+		static_assert(meta::getMemberCount<Person>() == 4, "Person does not have 4 members registered?");
+
+		// checking if class has a member
+		if (meta::hasMember<Person>("age")) {
+			std::cout << "Person has member named 'age'\n";
+		}
+
+		// getting members
+		auto age = meta::getMemberValue<int>(person, "age");
+		std::cout << "Got person's age: " << age << '\n';
+
+		auto name = meta::getMemberValue<std::string>(person, "name");
+		std::cout << "Got person's name: " << name << '\n';
+
+		// setting members
+		meta::setMemberValue<std::string>(person, "name", "Ron Burgundy");
+		name = meta::getMemberValue<std::string>(person, "name");
+		std::cout << "Changed person's name to " << name << '\n';
+
+		std::cout << "========================\n";
+
+		// And here's how you can serialize/deserialize
+		// (if you write a function for your type)
+		std::cout << "Serializing person:" << '\n';
+		json root = person;
+		std::cout << root << std::endl;
+
+		myfile.open("person.json");
+		myfile << std::setw(4) << root;
+		myfile.close();
+
+		//Unregistered y;
+		//json root2 = y; // this will fail at compile time
+
+		std::cout << "========================\n";
+
+		std::cout << "Serializing Person 2 from JSON:\n";
+
+		auto person2 = root.get<Person>();
+		std::cout << "Person 2 name is " << person2.getName() << " too!" << '\n';
 	}
 
 	Application::~Application()
