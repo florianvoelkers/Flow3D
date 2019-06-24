@@ -15,86 +15,84 @@ char *convert(const std::string & s)
 	return pc;
 }
 
-namespace Flow {
+struct ComponentTogglerEditor
+{
 
-	struct ComponentTogglerEditor
+	ComponentTogglerEditor () {}
+
+	void Draw(ComponentToggler* toggler, const std::vector<std::unique_ptr<Component>>& components, std::vector<std::string> componentNames)
 	{
-
-		ComponentTogglerEditor () {}
-
-		void Draw(ComponentToggler* toggler, const std::vector<std::unique_ptr<Component>>& components, std::vector<std::string> componentNames)
+		if (toggler != nullptr)
 		{
-			if (toggler != nullptr)
+			if (ImGui::Button("Add entry", ImVec2(320.0f, 20.0f)))
+				ImGui::OpenPopup("Add Entry to toggle");
+
+			if (ImGui::BeginPopup("Add Entry to toggle"))
 			{
-				if (ImGui::Button("Add entry", ImVec2(320.0f, 20.0f)))
-					ImGui::OpenPopup("Add Entry to toggle");
+				static int componentID = -1;
+				std::vector<const char*> chars;
+				for (unsigned int i = 0; i < componentNames.size(); i++)
+					chars.push_back(componentNames[i].c_str());
 
-				if (ImGui::BeginPopup("Add Entry to toggle"))
+				ImGui::PushItemWidth(200);
+				ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size());
+				ImGui::PopItemWidth();
+
+				std::vector<std::tuple<Keycode, const char*>>& keyMap = Input::Get().GetKeyMap();
+				static int selectedChar = -1;
+				std::vector<const char*> keysChars;
+				for (unsigned int i = 0; i < keyMap.size(); i++)
+					keysChars.push_back(std::get<1>(keyMap[i]));
+
+				ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size());
+
+				if (ImGui::Button("Add ComponentToggler", ImVec2(320.0f, 20.0f)))
 				{
-					static int componentID = -1;
-					std::vector<const char*> chars;
-					for (unsigned int i = 0; i < componentNames.size(); i++)
-						chars.push_back(componentNames[i].c_str());
-
-					ImGui::PushItemWidth(200);
-					ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size());
-					ImGui::PopItemWidth();
-
-					std::vector<std::tuple<Keycode, const char*>>& keyMap = Input::Get().GetKeyMap();
-					static int selectedChar = -1;
-					std::vector<const char*> keysChars;
-					for (unsigned int i = 0; i < keyMap.size(); i++)
-						keysChars.push_back(std::get<1>(keyMap[i]));
-
-					ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size());
-
-					if (ImGui::Button("Add ComponentToggler", ImVec2(320.0f, 20.0f)))
-					{
-						toggler->AddComponentToToggle(std::make_tuple(components[componentID].get(), std::get<0>(keyMap[selectedChar])));
-						ImGui::CloseCurrentPopup();
-					}
-
-					ImGui::EndPopup();
+					toggler->AddComponentToToggle(std::make_tuple(components[componentID].get(), std::get<0>(keyMap[selectedChar])));
+					ImGui::CloseCurrentPopup();
 				}
 
-				std::vector<std::tuple<Component*, Keycode>>& componentsToToggle = toggler->GetComponentsToToggle();
+				ImGui::EndPopup();
+			}
 
-				for (unsigned int j = 0; j < componentsToToggle.size(); j++)
+			std::vector<std::tuple<Component*, Keycode>>& componentsToToggle = toggler->GetComponentsToToggle();
+
+			for (unsigned int j = 0; j < componentsToToggle.size(); j++)
+			{
+				int componentID = -1;
+				std::string currentComponentName = std::get<0>(componentsToToggle[j])->GetName();
+				std::vector<const char*> chars;
+				for (unsigned int i = 0; i < componentNames.size(); i++)
 				{
-					int componentID = -1;
-					std::string currentComponentName = std::get<0>(componentsToToggle[j])->GetName();
-					std::vector<const char*> chars;
-					for (unsigned int i = 0; i < componentNames.size(); i++)
-					{
-						if (componentNames[i] == currentComponentName)
-							componentID = i;
+					if (componentNames[i] == currentComponentName)
+						componentID = i;
 
-						chars.push_back(componentNames[i].c_str());
-					}
+					chars.push_back(componentNames[i].c_str());
+				}
 
-					ImGui::PushItemWidth(200);
+				ImGui::PushItemWidth(200);
 
-					if (ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size()))
-						std::get<0>(componentsToToggle[j]) = components[componentID].get();
+				if (ImGui::Combo("Components", &componentID, &chars[0], (int)chars.size()))
+					std::get<0>(componentsToToggle[j]) = components[componentID].get();
 
-					std::vector<std::tuple<Keycode, const char*>>& keyMap = Input::Get().GetKeyMap();
-					int selectedChar = -1;
-					Keycode currentKey = std::get<1>(componentsToToggle[j]);
-					std::vector<const char*> keysChars;
-					for (unsigned int i = 0; i < keyMap.size(); i++)
-					{
-						if (currentKey == std::get<0>(keyMap[i]))
-							selectedChar = i;
+				std::vector<std::tuple<Keycode, const char*>>& keyMap = Input::Get().GetKeyMap();
+				int selectedChar = -1;
+				Keycode currentKey = std::get<1>(componentsToToggle[j]);
+				std::vector<const char*> keysChars;
+				for (unsigned int i = 0; i < keyMap.size(); i++)
+				{
+					if (currentKey == std::get<0>(keyMap[i]))
+						selectedChar = i;
 
-						keysChars.push_back(std::get<1>(keyMap[i]));
-					}
+					keysChars.push_back(std::get<1>(keyMap[i]));
+				}
 
-					if (ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size()))
-						std::get<1>(componentsToToggle[j]) = std::get<0>(keyMap[selectedChar]);
-				}				
+				if (ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size()))
+					std::get<1>(componentsToToggle[j]) = std::get<0>(keyMap[selectedChar]);
+			}				
 
-				ImGui::PopItemWidth();
-			}			
-		}		
-	};
-}
+			ImGui::PopItemWidth();
+		}			
+	}		
+};
+

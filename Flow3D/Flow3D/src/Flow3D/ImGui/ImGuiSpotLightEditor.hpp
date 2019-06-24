@@ -5,62 +5,60 @@
 #include "ImGuiBaseLightEditor.hpp"
 #include "ImGuiAttenuationEditor.hpp"
 
-namespace Flow {
+struct SpotLightEditor
+{
 
-	struct SpotLightEditor
+	SpotLightEditor() {}
+
+	void Draw(SpotLight* sl)
 	{
-
-		SpotLightEditor() {}
-
-		void Draw(SpotLight* sl)
+		if (sl != nullptr)
 		{
-			if (sl != nullptr)
+			Vec3 direction = sl->GetDirection();
+			float x, y, z;
+			x = direction.x;
+			y = direction.y;
+			z = direction.z;
+			ImGui::Text("Direction");
+			ImGui::SameLine(0, 6);
+			ImGui::PushItemWidth(66);
+
+			if (ImGui::DragFloat("x##21", &x, 0.01f, -1.0f, 1.0f))
 			{
-				Vec3 direction = sl->GetDirection();
-				float x, y, z;
-				x = direction.x;
-				y = direction.y;
-				z = direction.z;
-				ImGui::Text("Direction");
-				ImGui::SameLine(0, 6);
-				ImGui::PushItemWidth(66);
 
-				if (ImGui::DragFloat("x##21", &x, 0.01f, -1.0f, 1.0f))
-				{
+			}
 
-				}
+			ImGui::SameLine();
+			if (ImGui::DragFloat("y##21", &y, 0.01f, -1.0f, 1.0f))
+			{
 
-				ImGui::SameLine();
-				if (ImGui::DragFloat("y##21", &y, 0.01f, -1.0f, 1.0f))
-				{
+			}
 
-				}
+			ImGui::SameLine();
+			if (ImGui::DragFloat("z##21", &z, 0.01f, -1.0f, 1.0f))
+			{
 
-				ImGui::SameLine();
-				if (ImGui::DragFloat("z##21", &z, 0.01f, -1.0f, 1.0f))
-				{
+			}
 
-				}
+			ImGui::PopItemWidth();
 
-				ImGui::PopItemWidth();
+			BaseLightEditor editor = BaseLightEditor();
+			editor.Draw(dynamic_cast<BaseLight*>(sl), "SpotLight");
 
-				BaseLightEditor editor = BaseLightEditor();
-				editor.Draw(dynamic_cast<BaseLight*>(sl), "SpotLight");
+			float cutoff = sl->GetCutoff();
+			float outerCutoff = sl->GetOuterCutoff();
+			ImGui::PushItemWidth(150);
+			if (ImGui::DragFloat("Cutoff##20", &cutoff, 0.1f, 0.0f, 360.0f))
+				sl->SetCutoff(cutoff);
 
-				float cutoff = sl->GetCutoff();
-				float outerCutoff = sl->GetOuterCutoff();
-				ImGui::PushItemWidth(150);
-				if (ImGui::DragFloat("Cutoff##20", &cutoff, 0.1f, 0.0f, 360.0f))
-					sl->SetCutoff(cutoff);
+			if (ImGui::DragFloat("OuterCutoff##20", &outerCutoff, 0.1f, 0.0f, 360.0f))
+				sl->SetOuterCutoff(outerCutoff);
 
-				if (ImGui::DragFloat("OuterCutoff##20", &outerCutoff, 0.1f, 0.0f, 360.0f))
-					sl->SetOuterCutoff(outerCutoff);
+			ImGui::PopItemWidth();
 
-				ImGui::PopItemWidth();
+			AttenuationEditor attEditor = AttenuationEditor();
+			attEditor.Draw(sl->GetAttenuation(), "SpotLight");
+		}			
+	}
+};
 
-				AttenuationEditor attEditor = AttenuationEditor();
-				attEditor.Draw(sl->GetAttenuation(), "SpotLight");
-			}			
-		}
-	};
-}

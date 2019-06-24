@@ -37,44 +37,41 @@ bool childclass::IsClassType( const std::size_t classType ) const {             
         return parentclass::IsClassType( classType );                                       \
 }                                                                                           \
 
+// Components make up GameObjects and give them Data and Functionality
+// Add a component to the GameObject and it will be updated, receive events
+// and render; called from the Application
+// A Component does not need to implement all functions and can implement only those it needs
+// When creating a new type of component the CLASS_DEFINITION needs to be added in the ComponentClasses.cpp
+class Component
+{
+public:
+	static const std::size_t Type;
+	virtual bool IsClassType(const std::size_t classType) const 
+	{ 
+		return classType == Type; 
+	}
 
-namespace Flow {
+	Component(GameObject& gameObject, bool enabled = true, std::string name = "Component") : m_GameObject(gameObject), m_Enabled(enabled), m_Name(name) {}
+	virtual ~Component() {} 
 
-	// Components make up GameObjects and give them Data and Functionality
-	// Add a component to the GameObject and it will be updated, receive events
-	// and render; called from the Application
-	// A Component does not need to implement all functions and can implement only those it needs
-	// When creating a new type of component the CLASS_DEFINITION needs to be added in the ComponentClasses.cpp
-	class Component
-	{
-	public:
-		static const std::size_t Type;
-		virtual bool IsClassType(const std::size_t classType) const 
-		{ 
-			return classType == Type; 
-		}
+	virtual void OnUpdate (double deltaTime) {}
+	virtual void OnEvent (Event& event) {}
+	virtual void Render (Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) {}
 
-		Component(GameObject& gameObject, bool enabled = true, std::string name = "Component") : m_GameObject(gameObject), m_Enabled(enabled), m_Name(name) {}
-		virtual ~Component() {} 
+	inline Transform& GetTransform() { return m_GameObject.GetTransform(); }
+	inline const Transform& GetTransform() const { return m_GameObject.GetTransform(); }
 
-		virtual void OnUpdate (double deltaTime) {}
-		virtual void OnEvent (Event& event) {}
-		virtual void Render (Mat4 view, Mat4 projection, RenderingEngine& renderingEngine) {}
+	inline GameObject& GetGameObject() { return m_GameObject; }
+	inline const GameObject& GetGameObject() const { return m_GameObject; }
 
-		inline Transform& GetTransform() { return m_GameObject.GetTransform(); }
-		inline const Transform& GetTransform() const { return m_GameObject.GetTransform(); }
+	inline const bool GetEnabled() const { return m_Enabled; }
+	void SetEnabled(bool enabled) { m_Enabled = enabled; }
 
-		inline GameObject& GetGameObject() { return m_GameObject; }
-		inline const GameObject& GetGameObject() const { return m_GameObject; }
+	inline const std::string GetName() const { return m_Name; }
 
-		inline const bool GetEnabled() const { return m_Enabled; }
-		void SetEnabled(bool enabled) { m_Enabled = enabled; }
+protected:
+	GameObject& m_GameObject; 
+	bool m_Enabled;
+	std::string m_Name;
+};
 
-		inline const std::string GetName() const { return m_Name; }
-
-	protected:
-		GameObject& m_GameObject; 
-		bool m_Enabled;
-		std::string m_Name;
-	};
-}

@@ -5,21 +5,18 @@
 #include "Flow3D/GameObject.hpp"
 #include "Flow3D/Components/Component.hpp"
 
-namespace Flow {
+// Struct for creating a Flow3DInspector Window
+struct Flow3DInspector 
+{
+	std::string gameObjectName;
+	bool gameObjectSet;
+	GameObject* currentGameObject;
 
-	// Struct for creating a Flow3DInspector Window
-	struct Flow3DInspector 
-	{
-		std::string gameObjectName;
-		bool gameObjectSet;
-		GameObject* currentGameObject;
+	Flow3DInspector();
 
-		Flow3DInspector();
+	void SetGameObject(GameObject* gameObject);
 
-		void SetGameObject(GameObject* gameObject);
+	void Draw();
 
-		void Draw();
+};
 
-	};
-
-}

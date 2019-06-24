@@ -8,8 +8,6 @@
 #include "ComponentToggler.hpp"
 #include "GameObjectToggler.hpp"
 
-using namespace Flow;
-
 const std::size_t Component::Type = std::hash<std::string>()(TO_STRING(Component));
 
 // All class definitions for components

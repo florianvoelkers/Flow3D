@@ -1340,9 +1340,6 @@
     <ClCompile Include="src\Flow3D\Rendering\Skybox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Flow3D\StructVisit.hpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Flow3D\ImGui\ImGuiInspector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

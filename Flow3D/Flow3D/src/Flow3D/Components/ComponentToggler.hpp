@@ -8,56 +8,54 @@
 #include <algorithm>
 #include <iostream>
 
-namespace Flow {
+// Constructor: ComponentToggler(GameObject& gameObject, Component& componentToToggle, bool enabled = true)
+// gives the object the functionality and data to enable/disable the referenced component
+class ComponentToggler : public Component
+{
+	CLASS_DECLARATION(ComponentToggler)
 
-	// Constructor: ComponentToggler(GameObject& gameObject, Component& componentToToggle, bool enabled = true)
-	// gives the object the functionality and data to enable/disable the referenced component
-	class ComponentToggler : public Component
+public:
+	ComponentToggler(GameObject& gameObject, bool enabled = true) 
+		: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()) {}
+
+	virtual void OnEvent(Event& e) override
 	{
-		CLASS_DECLARATION(ComponentToggler)
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ComponentToggler::OnKeyPressed));
+	}
 
-	public:
-		ComponentToggler(GameObject& gameObject, bool enabled = true) 
-			: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()) {}
+	void AddComponentToToggle(std::tuple<Component*, Keycode> component)
+	{
+		m_ComponentsToToggle.push_back(component);
+	}
 
-		virtual void OnEvent(Event& e) override
+	void RemoveComponentToToggle(Component* component)
+	{
+		for (int i = 0; i < m_ComponentsToToggle.size(); i++)
 		{
-			EventDispatcher dispatcher(e);
-			dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ComponentToggler::OnKeyPressed));
-		}
-
-		void AddComponentToToggle(std::tuple<Component*, Keycode> component)
-		{
-			m_ComponentsToToggle.push_back(component);
-		}
-
-		void RemoveComponentToToggle(Component* component)
-		{
-			for (int i = 0; i < m_ComponentsToToggle.size(); i++)
+			// Test: we're going to delete the tuple of which the 3rd element (index 2) = 3.
+			if (std::get<0>(m_ComponentsToToggle[i]) == component)
 			{
-				// Test: we're going to delete the tuple of which the 3rd element (index 2) = 3.
-				if (std::get<0>(m_ComponentsToToggle[i]) == component)
-				{
-					m_ComponentsToToggle.erase(m_ComponentsToToggle.begin() + i);
-					i--;
-				}
+				m_ComponentsToToggle.erase(m_ComponentsToToggle.begin() + i);
+				i--;
 			}
 		}
+	}
 
-		std::vector<std::tuple<Component*, Keycode>>& GetComponentsToToggle() { return m_ComponentsToToggle; }
+	std::vector<std::tuple<Component*, Keycode>>& GetComponentsToToggle() { return m_ComponentsToToggle; }
 
-	private:
-		Input& m_Input;
+private:
+	Input& m_Input;
 
-		std::vector<std::tuple<Component*, Keycode>> m_ComponentsToToggle;
+	std::vector<std::tuple<Component*, Keycode>> m_ComponentsToToggle;
 
-		bool OnKeyPressed(KeyPressedEvent& e)
-		{
-			for (std::vector<std::tuple<Component*, Keycode>>::const_iterator i = m_ComponentsToToggle.begin(); i != m_ComponentsToToggle.end(); ++i)
-				if (e.GetKeyCode() == (int)std::get<1>(*i))
-					std::get<0>(*i)->SetEnabled(!std::get<0>(*i)->GetEnabled());
+	bool OnKeyPressed(KeyPressedEvent& e)
+	{
+		for (std::vector<std::tuple<Component*, Keycode>>::const_iterator i = m_ComponentsToToggle.begin(); i != m_ComponentsToToggle.end(); ++i)
+			if (e.GetKeyCode() == (int)std::get<1>(*i))
+				std::get<0>(*i)->SetEnabled(!std::get<0>(*i)->GetEnabled());
 
-			return false; // should not block other events right now because it is only for testing
-		}
-	};
-}
+		return false; // should not block other events right now because it is only for testing
+	}
+};
+

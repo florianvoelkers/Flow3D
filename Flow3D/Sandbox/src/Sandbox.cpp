@@ -1,7 +1,7 @@
 #include "Flow3D.hpp"
 
 
-class Sandbox : public Flow::Application
+class Sandbox : public Application
 {
 public:
 	Sandbox()
@@ -14,7 +14,7 @@ public:
 	}
 };
 
-Flow::Application* Flow::CreateApplication()
+Application* CreateApplication()
 {
 	return new Sandbox();
 }

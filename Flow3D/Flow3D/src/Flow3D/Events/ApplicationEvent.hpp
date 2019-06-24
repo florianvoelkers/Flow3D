@@ -4,37 +4,34 @@
 
 #include <sstream>
 
-namespace Flow {
+class WindowResizeEvent : public Event
+{
+public:
+	WindowResizeEvent(unsigned int width, unsigned int height)
+		: m_width(width), m_height(height) {}
 
-	class WindowResizeEvent : public Event
+	inline unsigned int GetWidth() const { return m_width; }
+	inline unsigned int GetHeight() const { return m_height; }
+
+	std::string ToString() const override
 	{
-	public:
-		WindowResizeEvent(unsigned int width, unsigned int height)
-			: m_width(width), m_height(height) {}
+		std::stringstream ss;
+		ss << "WindowResizeEvent: " << m_width << ", " << m_height;
+		return ss.str();
+	}
 
-		inline unsigned int GetWidth() const { return m_width; }
-		inline unsigned int GetHeight() const { return m_height; }
+	EVENT_CLASS_TYPE(WindowResize)
+		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+private:
+	unsigned int m_width, m_height;
+};
 
-		std::string ToString() const override
-		{
-			std::stringstream ss;
-			ss << "WindowResizeEvent: " << m_width << ", " << m_height;
-			return ss.str();
-		}
+class WindowCloseEvent : public Event
+{
+public:
+	WindowCloseEvent() {}
 
-		EVENT_CLASS_TYPE(WindowResize)
-			EVENT_CLASS_CATEGORY(EventCategoryApplication)
-	private:
-		unsigned int m_width, m_height;
-	};
+	EVENT_CLASS_TYPE(WindowClose)
+		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+};
 
-	class WindowCloseEvent : public Event
-	{
-	public:
-		WindowCloseEvent() {}
-
-		EVENT_CLASS_TYPE(WindowClose)
-			EVENT_CLASS_CATEGORY(EventCategoryApplication)
-	};
-
-}

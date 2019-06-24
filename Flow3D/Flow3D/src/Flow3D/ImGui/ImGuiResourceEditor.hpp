@@ -7,16 +7,13 @@
 #include "Flow3D/Rendering/Texture.hpp"
 #include "Flow3D/Rendering/Model.hpp"
 
-namespace Flow {
+struct FlowResourceEditor
+{
+	std::vector<std::shared_ptr<Shader>> shaders;
+	std::vector<std::shared_ptr<Texture>> textures;
+	std::vector<std::shared_ptr<Model>> models;
 
-	struct FlowResourceEditor
-	{
-		std::vector<std::shared_ptr<Shader>> shaders;
-		std::vector<std::shared_ptr<Texture>> textures;
-		std::vector<std::shared_ptr<Model>> models;
+	FlowResourceEditor();
 
-		FlowResourceEditor();
-
-		void Draw();
-	};
-}
+	void Draw();
+};

@@ -8,25 +8,22 @@
 #include "Flow3D/GameObject.hpp"
 #include "Skybox.hpp"
 
-namespace Flow {
+// Handles rendering graphics with OpenGL in a GLFW Window
+class RenderingEngine
+{
+public:
+	RenderingEngine(const Window& window);
+	virtual ~RenderingEngine() {}
 
-	// Handles rendering graphics with OpenGL in a GLFW Window
-	class RenderingEngine
-	{
-	public:
-		RenderingEngine(const Window& window);
-		virtual ~RenderingEngine() {}
+	void Render(const GameObject& root, GameObject& mainCamera, const Skybox& skybox);
+	void SetBlending(bool blending);
 
-		void Render(const GameObject& root, GameObject& mainCamera, const Skybox& skybox);
-		void SetBlending(bool blending);
+	inline const Vec3 GetViewPosition() const { return viewPosition; }
+	inline const unsigned int GetRenderTexture() const { return m_RenderTexture; }
 
-		inline const Vec3 GetViewPosition() const { return viewPosition; }
-		inline const unsigned int GetRenderTexture() const { return m_RenderTexture; }
-
-	private:
-		const Window& m_Window;
-		Vec3 viewPosition;
-		unsigned int m_RenderTexture;
-		unsigned int m_Framebuffer;
-	};
-}
+private:
+	const Window& m_Window;
+	Vec3 viewPosition;
+	unsigned int m_RenderTexture;
+	unsigned int m_Framebuffer;
+};

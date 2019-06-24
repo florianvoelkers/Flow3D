@@ -5,23 +5,21 @@
 #include "ImGuiBaseLightEditor.hpp"
 #include "ImGuiAttenuationEditor.hpp"
 
-namespace Flow {
+struct PointLightEditor
+{
 
-	struct PointLightEditor
+	PointLightEditor() {}
+
+	void Draw(PointLight* pl)
 	{
-
-		PointLightEditor() {}
-
-		void Draw(PointLight* pl)
+		if (pl != nullptr)
 		{
-			if (pl != nullptr)
-			{
-				BaseLightEditor editor = BaseLightEditor();
-				editor.Draw(dynamic_cast<BaseLight*>(pl), "PointLight");
+			BaseLightEditor editor = BaseLightEditor();
+			editor.Draw(dynamic_cast<BaseLight*>(pl), "PointLight");
 
-				AttenuationEditor attEditor = AttenuationEditor();
-				attEditor.Draw(pl->GetAttenuation(), "PointLight");
-			}			
-		}
-	};
-}
+			AttenuationEditor attEditor = AttenuationEditor();
+			attEditor.Draw(pl->GetAttenuation(), "PointLight");
+		}			
+	}
+};
+
