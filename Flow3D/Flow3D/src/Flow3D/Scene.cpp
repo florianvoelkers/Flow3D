@@ -10,13 +10,7 @@ Scene::Scene(std::string name, const Window& window)
 	m_Root = std::make_unique<GameObject>("root");
 	// set a default directional light
 	m_Root->AddComponent<DirectionalLight>(m_Root.get(), Vec3(0.0f), Vec3(0.0f), Vec3(0.0f), Vec3(0.0f));
-	SetDirectionalLight(&m_Root->GetComponent<DirectionalLight>());
-
-	// The main camera is used for rendering purposes.
-	m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.5f, 7.0f), Vec3(0.0f, 0.0f, 0.0f));
-	m_MainCamera->GetTransform().ConstrainPosition(false, true, false);
-	m_MainCamera->AddComponent<FreeCamera>(m_MainCamera.get(), m_Window);
-	AddToScene(m_MainCamera);		
+	SetDirectionalLight(&m_Root->GetComponent<DirectionalLight>());	
 }
 
 Scene::~Scene()
@@ -32,6 +26,12 @@ void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
 
 void Scene::OnAttach()
 {
+	// The main camera is used for rendering purposes.
+	m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.5f, 7.0f), Vec3(0.0f, 0.0f, 0.0f));
+	m_MainCamera->GetTransform().ConstrainPosition(false, true, false);
+	m_MainCamera->AddComponent<FreeCamera>(m_MainCamera.get(), m_Window);
+	AddToScene(m_MainCamera);
+
 	m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", true);
 
 	std::vector<std::shared_ptr<Texture>> textures = ResourceManager::Get().GetAllTextures();

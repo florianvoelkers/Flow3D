@@ -8,8 +8,13 @@
 #include "Flow3D/Components/Rotatable.hpp"
 #include "Flow3D/ResourceManager.hpp"
 
+#include <io.h>     // For access().
+#include <sys/types.h>  // For stat().
+#include <sys/stat.h>   // For stat().
+#include <filesystem>
 
-void Serializer::Serialize(Scene & scene)
+
+void Serializer::Serialize(Scene& scene)
 {
 	GameObject& rootObject = scene.GetRoot();
 	json rootAsJSON = rootObject;
@@ -33,8 +38,34 @@ void Serializer::Serialize(Scene & scene)
 	SerializeChildren(rootChildren, directory, myfile);
 }
 
-void Serializer::Deserialize()
+void Serializer::Deserialize(Scene& scene)
 {
+	std::string sceneName = scene.GetName();
+	std::string serializationDirectory = "serialization\\" + sceneName;
+	if (std::experimental::filesystem::exists(serializationDirectory.c_str()))
+	{		
+		std::string rootDirectory = serializationDirectory + "\\root";
+		if (std::experimental::filesystem::exists(rootDirectory.c_str()))
+		{
+			// find the children of the root object -> all GameObjects in the scene
+			std::vector<std::string> rootDirectories = get_directories(rootDirectory);
+			for (unsigned int i = 0; i < rootDirectories[i].size(); i++)
+			{;
+				std::size_t lastBackSlashPosition = rootDirectories[i].find_last_of("\\");
+				std::string gameObjectName = rootDirectories[i].substr(lastBackSlashPosition + 1);
+				
+				// load json of the GameObject
+				std::string filepath = rootDirectories[i] + "\\" + gameObjectName + ".json";
+				std::ifstream gameObjectFile(filepath);
+				json gameObjectJson;
+				gameObjectFile >> gameObjectJson;
+				// Create GameObject and add it to root
+
+				// Check for components and add them to the GameObject
+				// recursively for children, create them and add them to the GameObject
+			}				
+		}
+	}
 }
 
 void Serializer::SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream & myfile)
@@ -190,4 +221,23 @@ void Serializer::SerializeChildren(const std::vector<std::shared_ptr<GameObject>
 		if (rootChildren[i]->GetChildren().size() > 0)
 			SerializeChildren(rootChildren[i]->GetChildren(), newDirectory, myfile);
 	}
+}
+
+std::vector<std::string> Serializer::get_directories(const std::string & s)
+{
+	std::vector<std::string> r;
+	for (auto& p : std::experimental::filesystem::recursive_directory_iterator(s))
+		if (p.status().type() == std::experimental::filesystem::file_type::directory)
+			r.push_back(p.path().string());
+
+	std::vector<std::string> directSubDirectories;
+	for (unsigned int i = 0; i < r.size(); i++)
+	{
+		std::size_t sizeOfCurrentDirectoryName = s.size();
+		std::size_t stringPosition = r[i].find(s);
+		std::size_t slashAfterRoot = r[i].find("\\", stringPosition + sizeOfCurrentDirectoryName + 2); // +2 because of the backslash and the offest
+		if (static_cast<int>(slashAfterRoot) < 0)
+			directSubDirectories.push_back(r[i]);
+	}
+	return directSubDirectories;
 }

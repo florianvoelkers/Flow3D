@@ -3,6 +3,7 @@
 #include "Input.hpp"
 #include "Rendering/RenderingEngine.hpp"
 #include "Log.hpp"
+#include "Serializer.hpp"
 
 Application* Application::s_Instance = nullptr;
 
@@ -23,6 +24,7 @@ Application::Application()
 
 	m_CurrentScene = std::make_unique<Scene>("TestScene", *m_Window);
 	m_CurrentScene->OnAttach();
+	Serializer::Deserialize(*m_CurrentScene);
 
 	m_ImGui = std::make_unique<ImGuiLayer>();
 	m_ImGui->OnAttach();				

@@ -22,9 +22,10 @@ public:
 	
 	static void Serialize(Scene& scene);
 
-	static void Deserialize();
+	static void Deserialize(Scene& scene);
 
 private:
 
 	static void SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream& myfile);
+	static std::vector<std::string> get_directories(const std::string& s);
 };
