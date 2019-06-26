@@ -171,18 +171,13 @@ void Scene::OnAttach()
 
 	std::ofstream myfile;
 
-	json FreeCameraJSON = m_MainCamera->GetComponent<FreeCamera>();
-	myfile.open("FreeCamera.json");
-	myfile << std::setw(4) << FreeCameraJSON;
-	myfile.close();
-
-	auto freeCameraCopy = FreeCameraJSON.get<FreeCamera>();
-	std::cout << "freeCameraCopy zoom is " << freeCameraCopy.GetZoom() << std::endl;
-
 	json componentTogglerJSON = m_MainCamera->GetComponent<ComponentToggler>();
 	myfile.open("componentToggler.json");
 	myfile << std::setw(4) << componentTogglerJSON;
 	myfile.close();
+
+	auto componentDeserialized = componentTogglerJSON.get<ComponentToggler>();
+	std::cout << "componentDeserialized name is " << componentDeserialized.GetName() << std::endl;
 
 	json GameObjectTogglerJSON = m_MainCamera->GetComponent<GameObjectToggler>();
 	myfile.open("GameObjectToggler.json");

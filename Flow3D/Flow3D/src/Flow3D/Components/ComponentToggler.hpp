@@ -15,6 +15,7 @@ class ComponentToggler : public Component
 	CLASS_DECLARATION(ComponentToggler)
 
 public:
+	ComponentToggler() : m_Input(Input::Get()) {}
 	ComponentToggler(GameObject* gameObject, bool enabled = true) 
 		: Component(gameObject, enabled, "ComponentToggler"), m_Input(Input::Get()) {}
 
