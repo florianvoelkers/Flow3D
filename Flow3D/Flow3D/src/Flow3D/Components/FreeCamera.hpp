@@ -4,7 +4,7 @@
 #include "Flow3D/Math.hpp"
 #include "Flow3D/Window.hpp"
 #include "Flow3D/Input.hpp"
-
+#include "Flow3D/Application.hpp"
 #include "Flow3D/Log.hpp"
 
 static const float PI = 3.1415926f;
@@ -26,6 +26,7 @@ class FreeCamera : public Component
 	CLASS_DECLARATION(FreeCamera)
 
 public:
+	FreeCamera() : m_Window(Application::Get().GetWindow()), m_Input(Input::Get()) {}
 	FreeCamera(GameObject* gameObject, const Window& window, bool enabled = true)
 		: m_Window(window), Component(gameObject, enabled, "FreeCamera"), m_Input(Input::Get())
 	{

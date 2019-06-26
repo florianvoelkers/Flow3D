@@ -176,6 +176,9 @@ void Scene::OnAttach()
 	myfile << std::setw(4) << FreeCameraJSON;
 	myfile.close();
 
+	auto freeCameraCopy = FreeCameraJSON.get<FreeCamera>();
+	std::cout << "freeCameraCopy zoom is " << freeCameraCopy.GetZoom() << std::endl;
+
 	json componentTogglerJSON = m_MainCamera->GetComponent<ComponentToggler>();
 	myfile.open("componentToggler.json");
 	myfile << std::setw(4) << componentTogglerJSON;
@@ -275,7 +278,6 @@ void Scene::OnAttach()
 	myfile.open(path.c_str());
 	myfile << std::setw(4) << rootAsJSON;
 	myfile.close();
-
 
 	const std::vector<std::shared_ptr<GameObject>>& rootChildren = m_Root->GetChildren();
 	SerializeChildren(rootChildren, directory, myfile);
