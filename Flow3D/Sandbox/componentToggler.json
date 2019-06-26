@@ -1,0 +1,10 @@
+{
+    "componentsToToggle": [
+        [
+            "SpotLight",
+            66
+        ]
+    ],
+    "m_Enabled": true,
+    "m_Name": "ComponentToggler"
+}

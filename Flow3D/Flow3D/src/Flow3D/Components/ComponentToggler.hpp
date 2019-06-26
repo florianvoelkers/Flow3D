@@ -27,16 +27,17 @@ public:
 	void AddComponentToToggle(std::tuple<Component*, Keycode> component)
 	{
 		m_ComponentsToToggle.push_back(component);
+		componentsToToggle.push_back(std::make_tuple(std::get<0>(component)->GetName(), (int)std::get<1>(component)));
 	}
 
 	void RemoveComponentToToggle(Component* component)
 	{
 		for (int i = 0; i < m_ComponentsToToggle.size(); i++)
 		{
-			// Test: we're going to delete the tuple of which the 3rd element (index 2) = 3.
 			if (std::get<0>(m_ComponentsToToggle[i]) == component)
 			{
 				m_ComponentsToToggle.erase(m_ComponentsToToggle.begin() + i);
+				componentsToToggle.erase(componentsToToggle.begin() + i);
 				i--;
 			}
 		}
@@ -44,10 +45,12 @@ public:
 
 	std::vector<std::tuple<Component*, Keycode>>& GetComponentsToToggle() { return m_ComponentsToToggle; }
 
-	std::vector<std::tuple<Component*, Keycode>> m_ComponentsToToggle;
+	// used for serialization
+	std::vector<std::tuple<std::string, int>> componentsToToggle;
 
 private:
 	Input& m_Input;	
+	std::vector<std::tuple<Component*, Keycode>> m_ComponentsToToggle;
 
 	bool OnKeyPressed(KeyPressedEvent& e)
 	{
@@ -58,6 +61,23 @@ private:
 		return false; // should not block other events right now because it is only for testing
 	}
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<ComponentToggler>()
+	{
+		return std::tuple_cat(
+			meta::getMembers<Component>(),
+			members(
+				member("componentsToToggle", &ComponentToggler::componentsToToggle)
+			)
+		);
+	}
+
+} // end of namespace meta
 
 
 

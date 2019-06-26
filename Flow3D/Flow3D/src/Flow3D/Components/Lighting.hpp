@@ -41,6 +41,25 @@ public:
 	}
 };
 
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<BaseLight>()
+	{
+		return std::tuple_cat(
+			meta::getMembers<Component>(),
+			members(
+				member("m_Ambient", &BaseLight::m_Ambient),
+				member("m_Diffuse", &BaseLight::m_Diffuse),
+				member("m_Specular", &BaseLight::m_Specular)
+			)
+		);
+	}
+
+} // end of namespace meta
+
 // Constructor: DirectionalLight(GameObject& gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, bool enabled = true)
 // DirectionalLight (for example a sun) is made up of ambient, diffuse and specular intensity and a direction of the light.
 class DirectionalLight : public BaseLight
@@ -63,6 +82,21 @@ public:
 		return os;
 	}
 };
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<DirectionalLight>()
+	{
+		return std::tuple_cat(
+			meta::getMembers<BaseLight>(),
+			members(
+				member("m_Direction", &DirectionalLight::m_Direction)
+			)
+		);
+	}
+
+} // end of namespace meta
 
 // Constructor: Attenuation(float constant = 0, float linear = 0, float exponent = 1)
 // To reduce the intensity of light, over the distance a light ray travels, is generally called attenuation.
@@ -92,6 +126,20 @@ public:
 	}
 };
 
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Attenuation>()
+	{
+		return members(
+			member("m_Constant", &Attenuation::m_Constant),
+			member("m_Linear", &Attenuation::m_Linear),
+			member("m_Exponent", &Attenuation::m_Exponent)
+		);
+	}
+
+} // end of namespace meta
+
 // Constructor: PointLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation(), bool enabled = true)
 // A point light is a light source with a given position somewhere in a world 
 // that illuminates in all directions where the light rays fade out over distance. 
@@ -109,6 +157,21 @@ public:
 
 	Attenuation m_Attenuation;
 };
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<PointLight>()
+	{
+		return std::tuple_cat(
+			meta::getMembers<BaseLight>(),
+			members(
+				member("m_Attenuation", &PointLight::m_Attenuation)
+			)
+		);
+	}
+
+} // end of namespace meta
 
 // Constructor: SpotLight(GameObject& gameObject, Vec3 ambient, Vec3 diffuse, Vec3 specular, 
 // float cutoff, float outerCutoff, const Attenuation& attenuation = Attenuation(), bool enabled = true)
@@ -145,6 +208,23 @@ public:
 		return os;
 	}
 };
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<SpotLight>()
+	{
+		return std::tuple_cat(
+			meta::getMembers<BaseLight>(),
+			members(
+				member("m_Attenuation", &SpotLight::m_Attenuation),
+				member("m_Cutoff", &SpotLight::m_Cutoff),
+				member("m_OuterCutoff", &SpotLight::m_OuterCutoff)
+			)
+		);
+	}
+
+} // end of namespace meta
 
 
 

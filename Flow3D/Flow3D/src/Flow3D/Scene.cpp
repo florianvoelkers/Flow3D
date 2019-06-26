@@ -103,7 +103,6 @@ void Scene::OnAttach()
 
 	std::shared_ptr<GameObject> emptyGO = std::make_shared<GameObject>("empty", Vec3(2.0f, 2.0f, 2.0f));
 	AddToScene(emptyGO);
-
 		
 	std::shared_ptr<GameObject> oldMan = std::make_shared<GameObject>("oldMan", Vec3(0.0f, 0.0f, 2.0f));
 	oldMan->GetTransform().SetScale(Vec3(0.01f));
@@ -132,7 +131,6 @@ void Scene::OnAttach()
 	trex2->GetTransform().ConstrainRotation(true, false, false);
 	trex2->AddComponent<Renderable>(trex2.get(), models[2], shaders.at(2), false);
 	AddToScene(trex2);
-
 		
 	std::shared_ptr<GameObject> house = std::make_shared<GameObject>("house", Vec3(-7.0f, 0.0f, 7.0f), Vec3(0.0f, -90.0f, 0.0f));
 	house->GetTransform().SetScale(Vec3(0.02f));
@@ -174,11 +172,36 @@ void Scene::OnAttach()
 
 	std::ofstream myfile;
 
-	json FreeCameraComponent = m_MainCamera->GetComponent<FreeCamera>();
-	myfile.open("FreeCameraComponent.json");
-	myfile << std::setw(4) << FreeCameraComponent;
+	json FreeCameraJSON = m_MainCamera->GetComponent<FreeCamera>();
+	myfile.open("FreeCamera.json");
+	myfile << std::setw(4) << FreeCameraJSON;
 	myfile.close();
 
+	json componentTogglerJSON = m_MainCamera->GetComponent<ComponentToggler>();
+	myfile.open("componentToggler.json");
+	myfile << std::setw(4) << componentTogglerJSON;
+	myfile.close();
+
+	json GameObjectTogglerJSON = m_MainCamera->GetComponent<GameObjectToggler>();
+	myfile.open("GameObjectToggler.json");
+	myfile << std::setw(4) << GameObjectTogglerJSON;
+	myfile.close();
+
+	json SpotLightJSON = m_MainCamera->GetComponent<SpotLight>();
+	myfile.open("SpotLight.json");
+	myfile << std::setw(4) << SpotLightJSON;
+	myfile.close();
+
+	json PointLightJSON = cubeLamp->GetComponent<PointLight>();
+	myfile.open("PointLight.json");
+	myfile << std::setw(4) << PointLightJSON;
+	myfile.close();
+
+	json DirectionalLightJSON = sun->GetComponent<DirectionalLight>();
+	myfile.open("DirectionalLight.json");
+	myfile << std::setw(4) << DirectionalLightJSON;
+	myfile.close();
+	
 
 	CreateDirectory("serialization", NULL);
 	std::string directory = "serialization/" + m_Name;

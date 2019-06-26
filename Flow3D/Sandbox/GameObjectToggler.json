@@ -1,0 +1,10 @@
+{
+    "gameObjectsToToggle": [
+        [
+            "trex2",
+            67
+        ]
+    ],
+    "m_Enabled": true,
+    "m_Name": "GameObjectToggler"
+}

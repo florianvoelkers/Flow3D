@@ -31,6 +31,7 @@ public:
 	void AddGameObjectToToggle(std::tuple<GameObject*, std::string, Keycode> gameObject)
 	{
 		m_GameObjectsToToggle.push_back(gameObject);
+		gameObjectsToToggle.push_back(std::make_tuple(std::get<1>(gameObject), (int)std::get<2>(gameObject)));
 	}
 
 	void RemoveGameObjectToToggle(GameObject* gameObject)
@@ -41,12 +42,16 @@ public:
 			if (std::get<0>(m_GameObjectsToToggle[i]) == gameObject)
 			{
 				m_GameObjectsToToggle.erase(m_GameObjectsToToggle.begin() + i);
+				gameObjectsToToggle.erase(gameObjectsToToggle.begin() + i);
 				i--;
 			}
 		}
 	}
 
 	std::vector<std::tuple<GameObject*, std::string, Keycode>>& GetGameObjectsToToggle() { return m_GameObjectsToToggle; }
+
+	// only for serialization
+	std::vector<std::tuple<std::string, int>> gameObjectsToToggle;
 
 private:
 	Input& m_Input;
@@ -62,4 +67,21 @@ private:
 		return false; // should not block other events right now because it is only for testing
 	}
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<GameObjectToggler>()
+	{
+		return std::tuple_cat(
+			meta::getMembers<Component>(),
+			members(
+				member("gameObjectsToToggle", &GameObjectToggler::gameObjectsToToggle)
+			)
+		);
+	}
+
+} // end of namespace meta
 
