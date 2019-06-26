@@ -12,7 +12,7 @@ class ResourceManager
 {
 public:
 
-	ResourceManager();;
+	ResourceManager();
 
 	inline static ResourceManager& Get() { return *s_Instance; }
 		

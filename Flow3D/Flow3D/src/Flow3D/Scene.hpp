@@ -48,6 +48,4 @@ private:
 	DirectionalLight* m_DirectionalLight;
 	std::vector<PointLight*> m_PointLights;
 	std::vector<SpotLight*> m_SpotLights;
-
-	void SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream& myfile);
 };

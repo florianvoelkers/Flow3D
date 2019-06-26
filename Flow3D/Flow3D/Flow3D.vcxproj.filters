@@ -1263,6 +1263,9 @@
     <ClInclude Include="external_libraries\MetaStuff\include\StringCast.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Flow3D\Serializer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp">
@@ -1331,9 +1334,6 @@
     <ClCompile Include="src\Flow3D\GameObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Flow3D\Components\ComponentClasses.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Flow3D\Rendering\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1350,6 +1350,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="external_libraries\MetaStuff\include\StringCast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flow3D\Serializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Flow3D\Components\ComponentClasses.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

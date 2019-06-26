@@ -14,6 +14,8 @@
 #include "ImGuiShaderEditor.hpp"
 #include "ImGuiModelsEditor.hpp"
 
+#include "Flow3D/Serializer.hpp"
+
 ImGuiLayer::ImGuiLayer() {}
 
 void ImGuiLayer::OnAttach()
@@ -127,6 +129,10 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 	{
 		if (ImGui::BeginMenu("Flow3D"))
 		{
+			if (ImGui::MenuItem("Save current Scene")) 
+			{
+				Serializer::Serialize(Application::Get().GetCurrentScene());
+			}
 			ImGui::EndMenu();
 		}
 

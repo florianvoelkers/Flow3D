@@ -589,6 +589,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\Rendering\Texture.hpp" />
     <ClInclude Include="src\Flow3D\ResourceManager.hpp" />
     <ClInclude Include="src\Flow3D\Scene.hpp" />
+    <ClInclude Include="src\Flow3D\Serializer.hpp" />
     <ClInclude Include="src\Flow3D\Transform.hpp" />
     <ClInclude Include="src\Flow3D\Window.hpp" />
   </ItemGroup>
@@ -621,6 +622,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClCompile Include="src\Flow3D\Rendering\Texture.cpp" />
     <ClCompile Include="src\Flow3D\ResourceManager.cpp" />
     <ClCompile Include="src\Flow3D\Scene.cpp" />
+    <ClCompile Include="src\Flow3D\Serializer.cpp" />
     <ClCompile Include="src\Flow3D\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
