@@ -171,18 +171,13 @@ void Scene::OnAttach()
 
 	std::ofstream myfile;
 
-	json SpotLightJSON = m_MainCamera->GetComponent<SpotLight>();
-	myfile.open("SpotLight.json");
-	myfile << std::setw(4) << SpotLightJSON;
-	myfile.close();
-
-	auto componentDeserialized = SpotLightJSON.get<SpotLight>();
-	std::cout << "componentDeserialized name is " << componentDeserialized.GetDiffuseIntensity() << std::endl;
-
 	json PointLightJSON = cubeLamp->GetComponent<PointLight>();
 	myfile.open("PointLight.json");
 	myfile << std::setw(4) << PointLightJSON;
 	myfile.close();
+
+	auto componentDeserialized = PointLightJSON.get<PointLight>();
+	std::cout << "componentDeserialized name is " << componentDeserialized.GetDiffuseIntensity() << std::endl;
 
 	json DirectionalLightJSON = sun->GetComponent<DirectionalLight>();
 	myfile.open("DirectionalLight.json");
