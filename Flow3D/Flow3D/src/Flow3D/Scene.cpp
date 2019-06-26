@@ -171,18 +171,13 @@ void Scene::OnAttach()
 
 	std::ofstream myfile;
 
-	json GameObjectTogglerJSON = m_MainCamera->GetComponent<GameObjectToggler>();
-	myfile.open("GameObjectToggler.json");
-	myfile << std::setw(4) << GameObjectTogglerJSON;
-	myfile.close();
-
-	auto componentDeserialized = GameObjectTogglerJSON.get<GameObjectToggler>();
-	std::cout << "componentDeserialized name is " << std::get<0>(componentDeserialized.gameObjectsToToggle[0]) << std::endl;
-
 	json SpotLightJSON = m_MainCamera->GetComponent<SpotLight>();
 	myfile.open("SpotLight.json");
 	myfile << std::setw(4) << SpotLightJSON;
 	myfile.close();
+
+	auto componentDeserialized = SpotLightJSON.get<SpotLight>();
+	std::cout << "componentDeserialized name is " << componentDeserialized.GetDiffuseIntensity() << std::endl;
 
 	json PointLightJSON = cubeLamp->GetComponent<PointLight>();
 	myfile.open("PointLight.json");
