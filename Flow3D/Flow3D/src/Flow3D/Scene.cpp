@@ -186,10 +186,7 @@ void Scene::OnAttach()
 		json stickRenderableModelCube = *stick->GetComponent<Renderable>().GetModel().GetCube().get();
 		myfile.open("stickRenderableModelCube.json");
 		myfile << std::setw(4) << stickRenderableModelCube;
-		myfile.close();
-
-		auto componentDeserialized = stickRenderableModelCube.get<Cube>();
-		std::cout << "componentDeserialized textured is " << componentDeserialized.GetIsTextured() << std::endl;
+		myfile.close();		
 
 		if (stick->GetComponent<Renderable>().GetModel().GetCube()->GetIsTextured())
 		{
@@ -197,6 +194,9 @@ void Scene::OnAttach()
 			myfile.open("stickRenderableDiffuseTexture.json");
 			myfile << std::setw(4) << stickRenderableDiffuseTexture;
 			myfile.close();
+
+			auto componentDeserialized = stickRenderableDiffuseTexture.get<Texture>();
+			std::cout << "componentDeserialized textured is " << componentDeserialized.path << std::endl;
 
 			json stickRenderableSpecularTexture = stick->GetComponent<Renderable>().GetModel().GetCube()->GetSpecularTexture();
 			myfile.open("stickRenderableSpecularTexture.json");
