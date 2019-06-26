@@ -169,20 +169,15 @@ void Scene::OnAttach()
 	json rootAsJSON = *m_Root.get();
 	std::cout << std::setw(4) << rootAsJSON << std::endl;
 
-	std::ofstream myfile;
-
-	json PointLightJSON = cubeLamp->GetComponent<PointLight>();
-	myfile.open("PointLight.json");
-	myfile << std::setw(4) << PointLightJSON;
-	myfile.close();
-
-	auto componentDeserialized = PointLightJSON.get<PointLight>();
-	std::cout << "componentDeserialized name is " << componentDeserialized.GetDiffuseIntensity() << std::endl;
+	std::ofstream myfile;	
 
 	json DirectionalLightJSON = sun->GetComponent<DirectionalLight>();
 	myfile.open("DirectionalLight.json");
 	myfile << std::setw(4) << DirectionalLightJSON;
 	myfile.close();
+
+	auto componentDeserialized = DirectionalLightJSON.get<DirectionalLight>();
+	std::cout << "componentDeserialized name is " << componentDeserialized.GetDiffuseIntensity() << std::endl;
 
 	json stickRenderable = stick->GetComponent<Renderable>();
 	myfile.open("stickRenderable.json");
