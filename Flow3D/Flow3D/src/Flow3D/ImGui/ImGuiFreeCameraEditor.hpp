@@ -24,9 +24,9 @@ struct FreeCameraEditor
 			ImGui::SameLine(0, 50);
 			ImGui::PushItemWidth(100);
 
-			float mouseSensitivity = freeCamera->GetMouseSensitivy();
+			float mouseSensitivity = freeCamera->GetMouseSensitivity();
 			if (ImGui::DragFloat("##5", &mouseSensitivity, 0.01f))
-				freeCamera->SetMouseSensititvy(mouseSensitivity);
+				freeCamera->SetMouseSensitivity(mouseSensitivity);
 
 			ImGui::Text("Field of view");
 			ImGui::SameLine(0, 78);

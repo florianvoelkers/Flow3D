@@ -44,10 +44,10 @@ public:
 
 	std::vector<std::tuple<Component*, Keycode>>& GetComponentsToToggle() { return m_ComponentsToToggle; }
 
-private:
-	Input& m_Input;
-
 	std::vector<std::tuple<Component*, Keycode>> m_ComponentsToToggle;
+
+private:
+	Input& m_Input;	
 
 	bool OnKeyPressed(KeyPressedEvent& e)
 	{
@@ -58,4 +58,6 @@ private:
 		return false; // should not block other events right now because it is only for testing
 	}
 };
+
+
 

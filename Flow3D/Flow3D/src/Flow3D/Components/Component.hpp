@@ -69,14 +69,31 @@ public:
 	inline GameObject& GetGameObject() { return *m_GameObject; }
 	inline const GameObject& GetGameObject() const { return *m_GameObject; }
 
-	inline const bool GetEnabled() const { return m_Enabled; }
+	bool GetEnabled() const { return m_Enabled; }
 	void SetEnabled(bool enabled) { m_Enabled = enabled; }
 
-	inline const std::string GetName() const { return m_Name; }
+	std::string GetName() const { return m_Name; }
+	void SetName(const std::string name) { m_Name = name; }	
 
 protected:
 	GameObject* m_GameObject; 
-	bool m_Enabled;
 	std::string m_Name;
+	bool m_Enabled;
+	
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Component>()
+	{
+		return members(
+			member("m_Name", &Component::GetName, &Component::SetName),
+			member("m_Enabled", &Component::GetEnabled, &Component::SetEnabled)
+		);
+	}
+
+} // end of namespace meta
 

@@ -174,10 +174,18 @@ void Scene::OnAttach()
 
 	std::ofstream myfile;
 
+	json FreeCameraComponent = m_MainCamera->GetComponent<FreeCamera>();
+	myfile.open("FreeCameraComponent.json");
+	myfile << std::setw(4) << FreeCameraComponent;
+	myfile.close();
+
+
 	CreateDirectory("serialization", NULL);
-	std::string directory = "serialization/";
+	std::string directory = "serialization/" + m_Name;
+	CreateDirectory(directory.c_str(), NULL);
+	directory = directory + "/";
 	std::string filename = m_Root->GetName();
-	directory = "serialization/" + m_Root->GetName();
+	directory = directory + m_Root->GetName();
 	CreateDirectory(directory.c_str(), NULL);
 	filename.append(".json");
 	std::string path = directory + "/" + filename;

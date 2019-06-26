@@ -111,17 +111,17 @@ public:
 		return Mat4::LookAt(position, position + m_Front, m_Up);
 	}
 
-	inline void SetMovementSpeed(float movementSpeed) { m_MovementSpeed = movementSpeed; }
-	inline void SetMouseSensititvy(float mouseSensitivity) { m_MouseSensitivity = mouseSensitivity; }
-	inline void SetZoom(float zoom) { m_Zoom = zoom; }
-	inline void SetZNear(float ZNear) { m_ZNear = ZNear; }
-	inline void SetZFar(float ZFar) { m_ZFar = ZFar; }
+	void SetMovementSpeed(float movementSpeed) { m_MovementSpeed = movementSpeed; }
+	void SetMouseSensitivity(float mouseSensitivity) { m_MouseSensitivity = mouseSensitivity; }
+	void SetZoom(float zoom) { m_Zoom = zoom; }
+	void SetZNear(float ZNear) { m_ZNear = ZNear; }
+	void SetZFar(float ZFar) { m_ZFar = ZFar; }
 
-	float GetMovementSpeed() { return m_MovementSpeed; }
-	float GetMouseSensitivy() { return m_MouseSensitivity; }
-	float GetZoom() { return m_Zoom; }
-	float GetZNear() { return m_ZNear; }
-	float GetZFar() { return m_ZFar; }
+	float GetMovementSpeed() const { return m_MovementSpeed; }
+	float GetMouseSensitivity() const { return m_MouseSensitivity; }
+	float GetZoom() const { return m_Zoom; }
+	float GetZNear() const { return m_ZNear; }
+	float GetZFar() const { return m_ZFar; }
 
 private:
 	const Window& m_Window;
@@ -210,4 +210,25 @@ private:
 		GetTransform().SetUpVector(m_Up);
 	}
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<FreeCamera>()
+	{
+		return std::tuple_cat(
+			meta::getMembers<Component>(),
+			members(
+				member("m_MovementSpeed", &FreeCamera::GetMovementSpeed, &FreeCamera::SetMovementSpeed),
+				member("m_MouseSensitivity", &FreeCamera::GetMouseSensitivity, &FreeCamera::SetMouseSensitivity),
+				member("m_Zoom", &FreeCamera::GetZoom, &FreeCamera::SetZoom),
+				member("m_ZNear", &FreeCamera::GetZNear, &FreeCamera::SetZNear),
+				member("m_ZFar", &FreeCamera::GetZFar, &FreeCamera::SetZFar)
+			)			
+		);
+	}
+
+} // end of namespace meta
 
