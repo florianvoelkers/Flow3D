@@ -64,7 +64,7 @@ struct RenderableEditor
 					if (ImGui::Checkbox("Wireframe Mode", &wireframeMode))
 						cubePtr->SetWireframeMode(wireframeMode);
 
-					bool hasTexture = cubePtr->GetIsTexture();
+					bool hasTexture = cubePtr->GetIsTextured();
 					if (ImGui::Checkbox("IsTextured", &hasTexture))
 					{
 						cubePtr->SetIsTextured(hasTexture);
@@ -146,7 +146,7 @@ struct RenderableEditor
 					if (ImGui::Checkbox("Wireframe Mode", &wireframeMode))
 						planePtr->SetWireframeMode(wireframeMode);
 
-					bool hasTexture = planePtr->GetIsTexture();
+					bool hasTexture = planePtr->GetIsTextured();
 					if (ImGui::Checkbox("IsTextured", &hasTexture))
 					{
 						planePtr->SetIsTextured(hasTexture);

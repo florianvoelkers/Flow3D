@@ -11,6 +11,7 @@ public:
 	std::string path;
 	std::string name;
 	bool textureLoaded = false;
+	bool m_Flip;
 
 	Texture();
 	Texture(std::string path, std::string typeName, bool flip);
@@ -23,5 +24,22 @@ public:
 
 private:
 	unsigned int LoadTextureFromFile(const char* path);
-	bool m_Flip;
+	
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Texture>()
+	{
+		return members(
+			member("id", &Texture::id),
+			member("type", &Texture::type),
+			member("path", &Texture::path),
+			member("m_Flip", &Texture::m_Flip)
+		);
+	}
+
+} // end of namespace meta

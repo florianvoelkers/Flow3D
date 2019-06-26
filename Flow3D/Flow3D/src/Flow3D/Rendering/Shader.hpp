@@ -37,3 +37,18 @@ private:
 	void CheckCompileErrors(GLuint shader, std::string type);
 };
 
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Shader>()
+	{
+		return members(
+			member("m_ID", &Shader::m_ID),
+			member("m_Name", &Shader::m_Name)
+		);
+	}
+
+} // end of namespace meta
+

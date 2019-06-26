@@ -25,3 +25,20 @@ struct Color {
 	float b;
 	float a;
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Color>()
+	{
+		return members(
+			member("r", &Color::r),
+			member("g", &Color::g),
+			member("b", &Color::b),
+			member("a", &Color::a)
+		);
+	}
+
+} // end of namespace meta

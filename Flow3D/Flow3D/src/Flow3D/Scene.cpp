@@ -136,7 +136,6 @@ void Scene::OnAttach()
 	house->GetTransform().SetScale(Vec3(0.02f));
 	house->AddComponent<Renderable>(house.get(), models[3], shaders.at(2), false);
 	AddToScene(house);
-
 		
 	std::shared_ptr<GameObject> house2 = std::make_shared<GameObject>("house2", Vec3(10.0f, 0.0f, 10.0f), Vec3(0.0f, -90.0f, 0.0f));
 	house2->GetTransform().SetScale(Vec3(0.008f));
@@ -201,7 +200,68 @@ void Scene::OnAttach()
 	myfile.open("DirectionalLight.json");
 	myfile << std::setw(4) << DirectionalLightJSON;
 	myfile.close();
-	
+
+	json stickRenderable = stick->GetComponent<Renderable>();
+	myfile.open("stickRenderable.json");
+	myfile << std::setw(4) << stickRenderable;
+	myfile.close();
+
+	json stickRenderableShader = stick->GetComponent<Renderable>().GetShader();
+	myfile.open("stickRenderableShader.json");
+	myfile << std::setw(4) << stickRenderableShader;
+	myfile.close();
+
+	if (stick->GetComponent<Renderable>().GetModel().GetCube() != nullptr)
+	{
+		json stickRenderableModelCube = *stick->GetComponent<Renderable>().GetModel().GetCube().get();
+		myfile.open("stickRenderableModelCube.json");
+		myfile << std::setw(4) << stickRenderableModelCube;
+		myfile.close();
+
+		if (stick->GetComponent<Renderable>().GetModel().GetCube()->GetIsTextured())
+		{
+			json stickRenderableDiffuseTexture = stick->GetComponent<Renderable>().GetModel().GetCube()->GetDiffuseTexture();
+			myfile.open("stickRenderableDiffuseTexture.json");
+			myfile << std::setw(4) << stickRenderableDiffuseTexture;
+			myfile.close();
+
+			json stickRenderableSpecularTexture = stick->GetComponent<Renderable>().GetModel().GetCube()->GetSpecularTexture();
+			myfile.open("stickRenderableSpecularTexture.json");
+			myfile << std::setw(4) << stickRenderableSpecularTexture;
+			myfile.close();
+		}
+	}
+
+	json planeRenderable = plane->GetComponent<Renderable>();
+	myfile.open("planeRenderable.json");
+	myfile << std::setw(4) << planeRenderable;
+	myfile.close();
+
+	json planeRenderableShader = plane->GetComponent<Renderable>().GetShader();
+	myfile.open("planeRenderableShader.json");
+	myfile << std::setw(4) << planeRenderableShader;
+	myfile.close();
+
+	if (plane->GetComponent<Renderable>().GetModel().GetPlane() != nullptr)
+	{
+		json planeRenderableModelPlane = *plane->GetComponent<Renderable>().GetModel().GetPlane().get();
+		myfile.open("stickRenderableModelPlane.json");
+		myfile << std::setw(4) << planeRenderableModelPlane;
+		myfile.close();
+
+		if (plane->GetComponent<Renderable>().GetModel().GetPlane()->GetIsTextured())
+		{
+			json planeRenderableDiffuseTexture = plane->GetComponent<Renderable>().GetModel().GetPlane()->GetDiffuseTexture();
+			myfile.open("planeRenderableDiffuseTexture.json");
+			myfile << std::setw(4) << planeRenderableDiffuseTexture;
+			myfile.close();
+
+			json planeRenderableSpecularTexture = plane->GetComponent<Renderable>().GetModel().GetPlane()->GetSpecularTexture();
+			myfile.open("stickRenderableSpecularTexture.json");
+			myfile << std::setw(4) << planeRenderableSpecularTexture;
+			myfile.close();
+		}
+	}
 
 	CreateDirectory("serialization", NULL);
 	std::string directory = "serialization/" + m_Name;

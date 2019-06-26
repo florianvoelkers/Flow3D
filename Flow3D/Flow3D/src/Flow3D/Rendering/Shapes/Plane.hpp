@@ -34,22 +34,38 @@ public:
 	void SetSpecularTexture(std::shared_ptr<Texture> texture) { m_SpecularTexture = texture; }
 	void SetWireframeMode(bool wireframeMode) { m_WireframeMode = wireframeMode; }
 
-	bool GetIsTexture() { return m_IsTextured; }
+	bool GetIsTextured() { return m_IsTextured; }
 	Color GetColor() { return m_Color; }
 	Texture& GetDiffuseTexture() { return *m_DiffuseTexture; }
 	Texture& GetSpecularTexture() { return *m_SpecularTexture; }
 	bool GetTextureInitialized() { return m_TextureInitialized; }
 	bool GetWireframeMode() { return m_WireframeMode; }
 
-private:
-	unsigned int VAO;
-	Color m_Color;
-	std::shared_ptr<Texture> m_DiffuseTexture;
-	std::shared_ptr<Texture> m_SpecularTexture;
 	bool m_IsTextured;
+	Color m_Color;
+
+private:
+	unsigned int VAO;	
+	std::shared_ptr<Texture> m_DiffuseTexture;
+	std::shared_ptr<Texture> m_SpecularTexture;	
 	bool m_TextureInitialized;
 	bool m_WireframeMode;
 
 	void SetupPlane();
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Plane>()
+	{
+		return members(
+			member("m_IsTextured", &Plane::m_IsTextured),
+			member("m_Color", &Plane::m_Color)
+		);
+	}
+
+} // end of namespace meta
 

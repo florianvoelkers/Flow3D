@@ -134,13 +134,30 @@ public:
 	void SetModel(std::shared_ptr<Model> model) { m_Model = model; }
 
 	void SetBlending(bool blending) { m_Blending = blending; }
-	bool GetBlending() { return m_Blending; }
+	bool GetBlending() const { return m_Blending; }
 
 	Model& GetModel() { return *m_Model; }
 	Shader& GetShader() { return *m_Shader; }
-
+	
 private:
 	std::shared_ptr<Model> m_Model;
 	std::shared_ptr<Shader> m_Shader;
 	bool m_Blending;
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Renderable>()
+	{
+		return std::tuple_cat(
+			meta::getMembers<Component>(),
+			members(
+				member("m_Blending", &Renderable::GetBlending, &Renderable::SetBlending)
+			)
+		);
+	}
+
+} // end of namespace meta

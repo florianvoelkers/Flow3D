@@ -34,9 +34,10 @@ public:
 	std::shared_ptr<Cube> GetCube() { return m_Cube; }
 	std::shared_ptr<Plane> GetPlane() { return m_Plane; }
 
-private:
 	std::shared_ptr<Cube> m_Cube;
 	std::shared_ptr<Plane> m_Plane;
+
+private:
 
 	/* Functions */
 	// loads a model with supported assimp extensions from file and stores the resulting meshes in the meshes vector
@@ -54,5 +55,19 @@ private:
 
 	Material LoadMaterial(aiMaterial* mat);
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Model>()
+	{
+		return members(
+			member("filepath", &Model::filepath)
+		);
+	}
+
+} // end of namespace meta
 
 

@@ -15,8 +15,8 @@
 class Cube {
 
 public:
-	Cube();
 
+	Cube();
 	Cube(float r, float g, float b);
 	Cube(float r, float g, float b, float a);
 	Cube(Color color);
@@ -34,22 +34,38 @@ public:
 	void SetSpecularTexture(std::shared_ptr<Texture> texture) { m_SpecularTexture = texture; }
 	void SetWireframeMode(bool wireframeMode) { m_WireframeMode = wireframeMode; }
 
-	bool GetIsTexture() { return m_IsTextured; }
+	bool GetIsTextured() { return m_IsTextured; }
 	Color GetColor() { return m_Color; }
 	Texture& GetDiffuseTexture() { return *m_DiffuseTexture; }
 	Texture& GetSpecularTexture() { return *m_SpecularTexture; }
 	bool GetTextureInitialized() { return m_TextureInitialized; }
 	bool GetWireframeMode() { return m_WireframeMode; }
 
-private:
-	unsigned int VAO;
+	bool m_IsTextured;
 	Color m_Color;
+
+private:
+	unsigned int VAO;	
 	std::shared_ptr<Texture> m_DiffuseTexture;
 	std::shared_ptr<Texture> m_SpecularTexture;
-	bool m_IsTextured;
 	bool m_TextureInitialized;
 	bool m_WireframeMode;
 
 	void SetupCube();
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Cube>()
+	{
+		return members(
+			member("m_IsTextured", &Cube::m_IsTextured),
+			member("m_Color", &Cube::m_Color)
+		);
+	}
+
+} // end of namespace meta
 
