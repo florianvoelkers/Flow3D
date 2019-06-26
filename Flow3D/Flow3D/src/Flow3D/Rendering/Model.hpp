@@ -25,6 +25,7 @@ public:
 
 	/* Functions */
 	// constrcutor, expects a filepath to a 3D model
+	Model() {}
 	Model(std::string path);
 	Model(std::shared_ptr<Cube> cube);
 	Model(std::shared_ptr<Plane> plane);
