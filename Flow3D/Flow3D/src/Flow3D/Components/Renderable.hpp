@@ -21,6 +21,7 @@ class Renderable : public Component
 	CLASS_DECLARATION(Renderable)
 
 public:
+	Renderable() {}
 	Renderable(GameObject* gameObject, std::shared_ptr<Model> model = std::make_shared<Model>(std::make_shared<Cube>(0.5f, 0.5f, 0.5f, 1.0f)), 
 		std::shared_ptr<Shader> shader = ResourceManager::Get().GetAllShaders().at(1), bool blending = false, bool enabled = true)
 		: m_Model(model), m_Shader(shader), m_Blending(blending), Component(gameObject, enabled, "Renderable") {}

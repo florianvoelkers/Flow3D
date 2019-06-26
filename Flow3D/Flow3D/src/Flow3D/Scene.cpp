@@ -171,18 +171,13 @@ void Scene::OnAttach()
 
 	std::ofstream myfile;	
 
-	json DirectionalLightJSON = sun->GetComponent<DirectionalLight>();
-	myfile.open("DirectionalLight.json");
-	myfile << std::setw(4) << DirectionalLightJSON;
-	myfile.close();
-
-	auto componentDeserialized = DirectionalLightJSON.get<DirectionalLight>();
-	std::cout << "componentDeserialized name is " << componentDeserialized.GetDiffuseIntensity() << std::endl;
-
 	json stickRenderable = stick->GetComponent<Renderable>();
 	myfile.open("stickRenderable.json");
 	myfile << std::setw(4) << stickRenderable;
 	myfile.close();
+
+	auto componentDeserialized = stickRenderable.get<Renderable>();
+	std::cout << "componentDeserialized name is " << componentDeserialized.GetName() << std::endl;
 
 	json stickRenderableShader = stick->GetComponent<Renderable>().GetShader();
 	myfile.open("stickRenderableShader.json");
