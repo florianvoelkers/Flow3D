@@ -16,6 +16,7 @@ public:
 	unsigned int m_ID;
 	std::string m_Name;
 
+	Shader() {}
 	Shader(const GLchar* vertexPath, const GLchar* fragmentPath, std::string name);
 	~Shader();
 

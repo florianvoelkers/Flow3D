@@ -174,15 +174,15 @@ void Scene::OnAttach()
 	json stickRenderable = stick->GetComponent<Renderable>();
 	myfile.open("stickRenderable.json");
 	myfile << std::setw(4) << stickRenderable;
-	myfile.close();
-
-	auto componentDeserialized = stickRenderable.get<Renderable>();
-	std::cout << "componentDeserialized name is " << componentDeserialized.GetName() << std::endl;
+	myfile.close();	
 
 	json stickRenderableShader = stick->GetComponent<Renderable>().GetShader();
 	myfile.open("stickRenderableShader.json");
 	myfile << std::setw(4) << stickRenderableShader;
 	myfile.close();
+
+	auto componentDeserialized = stickRenderableShader.get<Shader>();
+	std::cout << "componentDeserialized name is " << componentDeserialized.m_Name << std::endl;
 
 	if (stick->GetComponent<Renderable>().GetModel().GetCube() != nullptr)
 	{
