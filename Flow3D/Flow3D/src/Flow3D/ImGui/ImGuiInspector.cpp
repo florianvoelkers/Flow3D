@@ -449,7 +449,7 @@ void Flow3DInspector::Draw()
 						{
 							currentGameObject->AddComponent<GameObjectToggler>(currentGameObject);
 							currentGameObject->GetComponent<GameObjectToggler>().AddGameObjectToToggle(std::make_tuple(gameObjectToToggle, 
-								nameBuffer, std::get<0>(keyMap[selectedChar])));
+								nameBuffer, std::get<0>(keyMap[selectedChar])), false);
 						}
 						else
 						{

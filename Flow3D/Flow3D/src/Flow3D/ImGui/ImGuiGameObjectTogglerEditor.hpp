@@ -36,7 +36,7 @@ struct GameObjectTogglerEditor
 					if (gameObjectToToggle != nullptr)
 					{
 						toggler->AddGameObjectToToggle(std::make_tuple(gameObjectToToggle,
-							nameBuffer, std::get<0>(keyMap[selectedChar])));
+							nameBuffer, std::get<0>(keyMap[selectedChar])), false);
 					}
 					else
 					{

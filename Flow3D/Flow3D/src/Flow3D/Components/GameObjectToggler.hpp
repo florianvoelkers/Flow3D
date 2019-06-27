@@ -29,10 +29,11 @@ public:
 		dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(GameObjectToggler::OnKeyPressed));
 	}
 
-	void AddGameObjectToToggle(std::tuple<GameObject*, std::string, Keycode> gameObject)
+	void AddGameObjectToToggle(std::tuple<GameObject*, std::string, Keycode> gameObject, bool fromFile)
 	{
 		m_GameObjectsToToggle.push_back(gameObject);
-		gameObjectsToToggle.push_back(std::make_tuple(std::get<1>(gameObject), (int)std::get<2>(gameObject)));
+		if (!fromFile)
+			gameObjectsToToggle.push_back(std::make_tuple(std::get<1>(gameObject), (int)std::get<2>(gameObject)));
 	}
 
 	void RemoveGameObjectToToggle(GameObject* gameObject)
