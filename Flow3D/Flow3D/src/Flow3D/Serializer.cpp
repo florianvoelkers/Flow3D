@@ -102,7 +102,6 @@ void Serializer::Deserialize(Scene& scene)
 								}*/
 								if (allComponentNames[j] == "FreeCamera")
 								{
-									/*
 									auto freeCamera = componentAsJson.get<FreeCamera>();
 									gameObject->AddComponent<FreeCamera>(gameObject.get(), Application::Get().GetWindow(), freeCamera.GetEnabled());
 									FreeCamera freeCameraComponent = gameObject->GetComponent<FreeCamera>();
@@ -111,7 +110,7 @@ void Serializer::Deserialize(Scene& scene)
 									freeCameraComponent.SetZoom(freeCamera.GetZoom());
 									freeCameraComponent.SetZNear(freeCamera.GetZNear());
 									freeCameraComponent.SetZFar(freeCamera.GetZFar());
-									*/
+									scene.SetMainCamera(gameObject);
 								}
 								else if (allComponentNames[j] == "Renderable")
 								{

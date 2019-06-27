@@ -26,19 +26,22 @@ void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
 
 void Scene::OnAttach()
 {
+	m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", true);
+
+	/*
 	// The main camera is used for rendering purposes.
 	m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.5f, 7.0f));
 	m_MainCamera->GetTransform().ConstrainPosition(false, true, false);
 	m_MainCamera->AddComponent<FreeCamera>(m_MainCamera.get(), m_Window);
 	AddToScene(m_MainCamera);
 
-	m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", true);
+	
 
 	std::vector<std::shared_ptr<Texture>> textures = ResourceManager::Get().GetAllTextures();
 	std::vector<std::shared_ptr<Shader>> shaders = ResourceManager::Get().GetAllShaders();
 	std::vector<std::shared_ptr<Model>> models = ResourceManager::Get().GetAllModels();
 	
-	/*
+	
 	std::shared_ptr<GameObject> sun = std::make_shared<GameObject>("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 	sun->AddComponent<DirectionalLight>(sun.get(), Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.3f), Vec3(0.7f), Vec3(0.7f));
 	SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
