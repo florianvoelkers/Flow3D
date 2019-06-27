@@ -27,6 +27,7 @@ public:
 private:
 
 	static void SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream& myfile);
+	static void DeserializeChildren(const std::string rootDirectory, GameObject& parent, std::vector<const char*>& allComponentNames, Scene& scene, std::vector<std::shared_ptr<GameObject>>& gameObjectsWithGameObjectToggler);
 	static std::vector<std::string> get_directories(const std::string& s);
 	static unsigned int GetShaderID(const std::string& componentsDirectory);
 	static std::string GetModelFilepath(const std::string& componentsDirectory);
