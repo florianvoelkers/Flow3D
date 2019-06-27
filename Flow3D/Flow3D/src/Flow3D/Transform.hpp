@@ -13,7 +13,8 @@ class Transform
 public:
 	Transform() {}
 	// Creates a Transform with default values for positon, rotation and scale
-	Transform(const GameObject* gameObject, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f));
+	Transform(const GameObject* gameObject, const Vec3& position = Vec3(0.0f), const Quaternion& orientation = Quaternion(0.0f, 0.0f, 0.0f, 1.0f), 
+		const Vec3& scale = Vec3(1.0f));
 		
 	void Translate(Vec3& translation); 
 	void Rotate(const Vec3& axis, float angle);

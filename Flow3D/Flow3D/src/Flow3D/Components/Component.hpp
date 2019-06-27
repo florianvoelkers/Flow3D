@@ -55,7 +55,7 @@ public:
 	Component(GameObject* gameObject, bool enabled = true, std::string name = "Component") : m_GameObject(gameObject), m_Enabled(enabled), m_Name(name) {}
 	~Component() 
 	{
-		FLOW_CORE_INFO("component {0} deleted", m_Name);
+		//FLOW_CORE_INFO("component {0} deleted", m_Name);
 	} 
 	Component(const Component&) = default;
 

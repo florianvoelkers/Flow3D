@@ -27,3 +27,33 @@ ResourceManager::ResourceManager()
 	models.push_back(std::make_shared<Model>("resources/models/house/house.obj"));
 	models.push_back(std::make_shared<Model>("resources/models/sword/Sword.obj"));
 }
+
+std::shared_ptr<Texture> ResourceManager::FindTexture(unsigned int id)
+{
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		if (id == textures[i]->id)
+			return textures[i];
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Shader> ResourceManager::FindShader(unsigned int id)
+{
+	for (unsigned int i = 0; i < shaders.size(); i++)
+	{
+		if (id == shaders[i]->m_ID)
+			return shaders[i];
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Model> ResourceManager::FindModel(std::string path)
+{
+	for (unsigned int i = 0; i < models.size(); i++)
+	{
+		if (path == models[i]->filepath)
+			return models[i];
+	}
+	return nullptr;
+}

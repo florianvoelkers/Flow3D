@@ -17,7 +17,8 @@ class GameObject
 {
 public:
 	GameObject();
-	GameObject(const std::string& name, const Vec3& position = Vec3(0.0f), const Vec3& rotation = Vec3(0.0f), const Vec3& scale = Vec3(1.0f), bool isActive = true);
+	GameObject(const std::string& name, const Vec3& position = Vec3(0.0f), const Quaternion& orientation = Quaternion(0.0f, 0.0f, 0.0f, 1.0f), 
+		const Vec3& scale = Vec3(1.0f), bool isActive = true);
 	~GameObject();
 
 	void AddChild(std::shared_ptr<GameObject> child);

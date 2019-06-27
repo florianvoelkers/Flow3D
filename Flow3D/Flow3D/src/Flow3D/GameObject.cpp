@@ -6,14 +6,14 @@
 
 GameObject::GameObject() {}
 
-GameObject::GameObject(const std::string& name, const Vec3& position, const Vec3& rotation, const Vec3& scale, bool isActive)
-	: m_Name(name), m_Transform(this, position, rotation, scale), m_IsActive(isActive), m_ObjectID(Application::Get().GetNextObjectID())
+GameObject::GameObject(const std::string& name, const Vec3& position, const Quaternion& orientation, const Vec3& scale, bool isActive)
+	: m_Name(name), m_Transform(this, position, orientation, scale), m_IsActive(isActive), m_ObjectID(Application::Get().GetNextObjectID())
 {
 }
 
 GameObject::~GameObject()
 {
-	FLOW_CORE_INFO("destructor of {0} called", m_Name);
+	//FLOW_CORE_INFO("destructor of {0} called", m_Name);
 }
 
 void GameObject::AddChild(std::shared_ptr<GameObject> child)

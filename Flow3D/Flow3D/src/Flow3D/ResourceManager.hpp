@@ -18,12 +18,15 @@ public:
 		
 	void AddTexture(std::shared_ptr<Texture> texture) { textures.push_back(texture); }
 	void RemoveTexture(int index) { textures.erase(textures.begin() + index); }
+	std::shared_ptr<Texture> FindTexture(unsigned int id);
 
 	void AddShader(std::shared_ptr<Shader> shader) { shaders.push_back(shader); }
 	void RemoveShader(int index) { shaders.erase(shaders.begin() + index); }
+	std::shared_ptr<Shader> FindShader(unsigned int id);
 
 	void AddModel(std::shared_ptr<Model> model) { models.push_back(model); }
 	void RemoveModel(int index) { models.erase(models.begin() + index); }
+	std::shared_ptr<Model> FindModel(std::string path);
 
 	std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
 	std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }

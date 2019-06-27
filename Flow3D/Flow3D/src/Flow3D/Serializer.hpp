@@ -28,4 +28,7 @@ private:
 
 	static void SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream& myfile);
 	static std::vector<std::string> get_directories(const std::string& s);
+	static unsigned int GetShaderID(const std::string& componentsDirectory);
+	static std::string GetModelFilepath(const std::string& componentsDirectory);
+	static unsigned int GetTextureID(const std::string& texturesDirectory, const std::string& type);
 };

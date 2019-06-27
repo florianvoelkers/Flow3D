@@ -20,7 +20,7 @@ public:
 	void OnUpdate(double deltaTime);
 	void OnEvent(Event& event);
 
-	inline GameObject* FindGameObject(std::string name);
+	GameObject* FindGameObject(std::string name);
 
 	inline std::string GetName() { return m_Name; };
 	inline GameObject& GetRoot() { return *m_Root; } // is this correct?

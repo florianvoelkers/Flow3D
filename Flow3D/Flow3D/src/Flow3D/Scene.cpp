@@ -27,7 +27,7 @@ void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
 void Scene::OnAttach()
 {
 	// The main camera is used for rendering purposes.
-	m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.5f, 7.0f), Vec3(0.0f, 0.0f, 0.0f));
+	m_MainCamera = std::make_shared<GameObject>("MainCamera", Vec3(0.0f, 1.5f, 7.0f));
 	m_MainCamera->GetTransform().ConstrainPosition(false, true, false);
 	m_MainCamera->AddComponent<FreeCamera>(m_MainCamera.get(), m_Window);
 	AddToScene(m_MainCamera);
@@ -37,7 +37,8 @@ void Scene::OnAttach()
 	std::vector<std::shared_ptr<Texture>> textures = ResourceManager::Get().GetAllTextures();
 	std::vector<std::shared_ptr<Shader>> shaders = ResourceManager::Get().GetAllShaders();
 	std::vector<std::shared_ptr<Model>> models = ResourceManager::Get().GetAllModels();
-
+	
+	/*
 	std::shared_ptr<GameObject> sun = std::make_shared<GameObject>("sun", Vec3(0.0f, 100.0f, 0.0f), Vec3(0.0f), Vec3(5.0f));
 	sun->AddComponent<DirectionalLight>(sun.get(), Vec3(-0.2f, -1.0f, -0.3f), Vec3(0.3f), Vec3(0.7f), Vec3(0.7f));
 	SetDirectionalLight(&sun->GetComponent<DirectionalLight>());
@@ -131,14 +132,12 @@ void Scene::OnAttach()
 	std::shared_ptr<GameObject> stick = std::make_shared<GameObject>("stick", Vec3(0.0f, 0.0f, -1.0f), Vec3(-45.0f, 30.0f, -30.0f), Vec3(0.1f, 0.5f, 0.1f), false);
 	stick->AddComponent<Renderable>(stick.get(), std::make_shared<Model>(std::make_shared<Cube>(textures[3])), shaders.at(0));
 	m_MainCamera->AddChild(stick);
-		
-	/*		
+			
 	std::shared_ptr<GameObject> sword = std::make_shared<GameObject>("sword", Vec3(0.2f, -0.1f, -0.5f), Vec3(0.0f, 90.0f, 0.0f));
 	sword->GetTransform()->SetScale(Vec3(0.05f));
 	sword->AddComponent<Renderable>(sword.get(), models[5], shaders.at(2), false);
 	sword->AddComponent<ComponentToggler>(sword.get(), sword->GetComponent<Renderable>());
 	m_MainCamera->AddChild(sword);
-	*/
 
 	// flash light for the camera		
 	m_MainCamera->AddComponent<SpotLight>(m_MainCamera.get(), Vec3(0.0f), Vec3(1.0f), Vec3(1.0f),
@@ -150,6 +149,7 @@ void Scene::OnAttach()
 		"trex2", Keycode::C));
 	m_MainCamera->AddComponent<ComponentToggler>(m_MainCamera.get());
 	m_MainCamera->GetComponent<ComponentToggler>().AddComponentToToggle(std::make_tuple(&m_MainCamera->GetComponent<SpotLight>(), Keycode::B));	
+	*/
 }
 	 
 void Scene::OnDetach()
@@ -167,7 +167,7 @@ void Scene::OnEvent(Event& event)
 	m_Root->OnEvent(event);
 }
 
-inline GameObject* Scene::FindGameObject(std::string name)
+GameObject* Scene::FindGameObject(std::string name)
 {
 	return m_Root->Find(name);
 }

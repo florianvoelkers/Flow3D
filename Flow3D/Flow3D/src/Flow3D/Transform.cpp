@@ -4,13 +4,12 @@
 #include "GameObject.hpp"
 
 
-Transform::Transform(const GameObject* gameObject, const Vec3& position, const Vec3& rotation, const Vec3& scale)
-	: m_GameObject(gameObject), m_Position(position), m_Rotation(rotation), m_Scale(scale), m_Parent(nullptr)
+Transform::Transform(const GameObject* gameObject, const Vec3& position, const Quaternion& orientation, const Vec3& scale)
+	: m_GameObject(gameObject), m_Position(position), m_Orientation(orientation), m_Scale(scale), m_Parent(nullptr)
 {
-	m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
-	m_Orientation = Quaternion(m_Rotation);
+	m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);	
 	m_IsCamera = false;
-
+	UpdateVectorRotations();
 	UpdateVectors();
 }
 

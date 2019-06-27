@@ -12,6 +12,7 @@ class Rotatable : public Component
 	CLASS_DECLARATION(Rotatable)
 
 public: 
+	Rotatable() : m_Input(Input::Get()) {}
 	Rotatable(GameObject* gameObject, bool enabled = true) : Component(gameObject, enabled, "Rotatable"), m_Input(Input::Get()) {}
 
 	virtual void OnUpdate(double deltaTime) override
