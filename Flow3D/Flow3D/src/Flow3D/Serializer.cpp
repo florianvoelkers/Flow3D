@@ -52,7 +52,7 @@ void Serializer::Deserialize(Scene& scene)
 			// find the children of the root object -> all GameObjects in the scene
 			std::vector<std::string> rootDirectories = get_directories(rootDirectory);
 			for (unsigned int i = 0; i < rootDirectories[i].size(); i++)
-			{;
+			{
 				std::size_t lastBackSlashPosition = rootDirectories[i].find_last_of("\\");
 				std::string gameObjectName = rootDirectories[i].substr(lastBackSlashPosition + 1);
 				
@@ -220,31 +220,36 @@ void Serializer::Deserialize(Scene& scene)
 								gameObject->AddComponent<PointLight>(gameObject.get(), pointLight.m_Ambient, pointLight.m_Diffuse, pointLight.m_Specular,
 									pointLight.GetAttenuation(), pointLight.GetEnabled());
 								scene.AddPointLight(&gameObject->GetComponent<PointLight>());
-							//Vec3 ambient, Vec3 diffuse, Vec3 specular, const Attenuation& attenuation = Attenuation(0, 0, 1), bool enabled = true
-							//	Attenuation(float constant, float linear, float exponent)
 							}
 							else if (allComponentNames[j] == "SpotLight")
-							{
-							/*
+							{							
 								auto spotLight = componentAsJson.get<SpotLight>();
 								gameObject->AddComponent<SpotLight>(gameObject.get(), spotLight.m_Ambient, spotLight.m_Diffuse, spotLight.m_Specular,
 									spotLight.m_Cutoff, spotLight.m_OuterCutoff, spotLight.GetAttenuation(), spotLight.GetEnabled());
-								scene.AddPointLight(&gameObject->GetComponent<PointLight>());
-								*/
-							}
-								
+								scene.AddSpotLight(&gameObject->GetComponent<SpotLight>());								
+							}								
 							else if (allComponentNames[j] == "ComponentToggler")
 							{
+								auto componentToggler = componentAsJson.get<ComponentToggler>();
+								gameObject->AddComponent<ComponentToggler>(gameObject.get(), componentToggler.GetEnabled());
+								gameObject->GetComponent<ComponentToggler>().componentsToToggle = componentToggler.componentsToToggle;
 							}
 							else if (allComponentNames[j] == "GameObjectToggler")
 							{
+								auto gameObjectToggler = componentAsJson.get<GameObjectToggler>();
+								gameObject->AddComponent<GameObjectToggler>(gameObject.get(), gameObjectToggler.GetEnabled());
+								gameObject->GetComponent<GameObjectToggler>().gameObjectsToToggle = gameObjectToggler.gameObjectsToToggle;
 							}
 						}
 					}
 				}
 
+				// after all components are added the ComponentToggler needs to add its entries
+
 				// recursively for children, create them and add them to the GameObject
-			}				
+			}	
+
+			// after all GameObjects are created the GameObjectToggler needs to add its entries
 		}
 	}
 }

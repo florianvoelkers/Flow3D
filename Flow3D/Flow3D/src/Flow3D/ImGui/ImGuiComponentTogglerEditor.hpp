@@ -89,9 +89,9 @@ struct ComponentTogglerEditor
 
 				if (ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size()))
 					std::get<1>(componentsToToggle[j]) = std::get<0>(keyMap[selectedChar]);
-			}				
 
-			ImGui::PopItemWidth();
+				ImGui::PopItemWidth();
+			}				
 		}			
 	}		
 };
