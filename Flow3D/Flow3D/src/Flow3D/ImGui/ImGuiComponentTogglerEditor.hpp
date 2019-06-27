@@ -48,7 +48,7 @@ struct ComponentTogglerEditor
 
 				if (ImGui::Button("Add ComponentToggler", ImVec2(320.0f, 20.0f)))
 				{
-					toggler->AddComponentToToggle(std::make_tuple(components[componentID].get(), std::get<0>(keyMap[selectedChar])));
+					toggler->AddComponentToToggle(std::make_tuple(components[componentID].get(), std::get<0>(keyMap[selectedChar])), false);
 					ImGui::CloseCurrentPopup();
 				}
 

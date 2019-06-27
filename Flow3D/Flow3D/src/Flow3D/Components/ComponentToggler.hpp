@@ -25,10 +25,11 @@ public:
 		dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(ComponentToggler::OnKeyPressed));
 	}
 
-	void AddComponentToToggle(std::tuple<Component*, Keycode> component)
+	void AddComponentToToggle(std::tuple<Component*, Keycode> component, bool fromFile)
 	{
 		m_ComponentsToToggle.push_back(component);
-		componentsToToggle.push_back(std::make_tuple(std::get<0>(component)->GetName(), (int)std::get<1>(component)));
+		if (!fromFile)
+			componentsToToggle.push_back(std::make_tuple(std::get<0>(component)->GetName(), (int)std::get<1>(component)));
 	}
 
 	void RemoveComponentToToggle(Component* component)

@@ -245,6 +245,35 @@ void Serializer::Deserialize(Scene& scene)
 				}
 
 				// after all components are added the ComponentToggler needs to add its entries
+				ComponentToggler& componentToggler = gameObject->GetComponent<ComponentToggler>();
+				if (&componentToggler != nullptr)
+				{					
+					std::vector<std::tuple<std::string, int>>& componentsToToggle = componentToggler.componentsToToggle;
+
+					const std::vector<std::shared_ptr<Component>>& components = gameObject->GetComponents();
+					std::vector<std::string> componentNames;
+					for (unsigned int j = 0; j < components.size(); j++)
+					{
+						Component& component = *components[j];
+						std::string componentName = component.GetName();
+						componentNames.push_back(componentName);
+					}
+
+					for (unsigned int j = 0; j < componentsToToggle.size(); j++)
+					{
+						std::string componentName = std::get<0>(componentsToToggle[j]);
+						Keycode keycode = static_cast<Keycode>(std::get<1>(componentsToToggle[j]));
+
+						for (unsigned int k = 0; k < componentNames.size(); k++)
+						{
+							if (componentName == componentNames[k])
+								componentToggler.AddComponentToToggle(std::make_tuple(components[k].get(), keycode), true);
+						}
+					}
+					
+				}
+				
+				
 
 				// recursively for children, create them and add them to the GameObject
 			}	

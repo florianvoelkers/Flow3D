@@ -420,7 +420,7 @@ void Flow3DInspector::Draw()
 					if (ImGui::Button("Add ComponentToggler", ImVec2(320.0f, 20.0f)))
 					{
 						currentGameObject->AddComponent<ComponentToggler>(currentGameObject);
-						currentGameObject->GetComponent<ComponentToggler>().AddComponentToToggle(std::make_tuple(components[componentID].get(), std::get<0>(keyMap[selectedChar])));
+						currentGameObject->GetComponent<ComponentToggler>().AddComponentToToggle(std::make_tuple(components[componentID].get(), std::get<0>(keyMap[selectedChar])), false);
 						ImGui::CloseCurrentPopup();
 					}	
 
