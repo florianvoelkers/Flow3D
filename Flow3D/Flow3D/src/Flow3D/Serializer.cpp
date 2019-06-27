@@ -106,7 +106,13 @@ void Serializer::SerializeChildren(const std::vector<std::shared_ptr<GameObject>
 			std::string componentPath = componentDirectory + "/" + componentFileName;
 			myfile.open(componentPath.c_str());
 
-			if (componentName == "FreeCamera")
+			if (componentName == "Rotatable")
+			{
+				json componentAsJson = *dynamic_cast<Rotatable*>(components[j].get());
+				myfile << std::setw(4) << componentAsJson;
+				myfile.close();
+			}
+			else if (componentName == "FreeCamera")
 			{
 				json componentAsJson = *dynamic_cast<FreeCamera*>(components[j].get());
 				myfile << std::setw(4) << componentAsJson;
@@ -277,18 +283,15 @@ void Serializer::DeserializeChildren(const std::string rootDirectory, GameObject
 							json componentAsJson;
 							componentFile >> componentAsJson;
 
-							/*
 							if (allComponentNames[j] == "Rotatable")
 							{
-
 								auto rotatable = componentAsJson.get<Rotatable>();
 								gameObject->AddComponent<Rotatable>(gameObject.get(), rotatable.GetEnabled());
-
-							}*/
-							if (allComponentNames[j] == "FreeCamera")
+							}
+							else if (allComponentNames[j] == "FreeCamera")
 							{
 								auto freeCamera = componentAsJson.get<FreeCamera>();
-								gameObject->AddComponent<FreeCamera>(gameObject.get(), Application::Get().GetWindow(), freeCamera.GetEnabled());
+								gameObject->AddComponent<FreeCamera>(gameObject.get(), Application::Get().GetWindow(), freeCamera.GetEnabled(), freeCamera.m_Yaw, freeCamera.m_Pitch);
 								FreeCamera freeCameraComponent = gameObject->GetComponent<FreeCamera>();
 								freeCameraComponent.SetMovementSpeed(freeCamera.GetMovementSpeed());
 								freeCameraComponent.SetMouseSensitivity(freeCamera.GetMouseSensitivity());

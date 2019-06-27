@@ -27,8 +27,8 @@ class FreeCamera : public Component
 
 public:
 	FreeCamera() : m_Window(Application::Get().GetWindow()), m_Input(Input::Get()) {}
-	FreeCamera(GameObject* gameObject, const Window& window, bool enabled = true)
-		: m_Window(window), Component(gameObject, enabled, "FreeCamera"), m_Input(Input::Get())
+	FreeCamera(GameObject* gameObject, const Window& window, bool enabled = true, float yaw = -90.0f, float pitch = 0.0f)
+		: m_Window(window), Component(gameObject, enabled, "FreeCamera"), m_Input(Input::Get()), m_Yaw(yaw), m_Pitch(pitch)
 	{
 		m_MovementSpeed = SPEED;
 		m_MouseSensitivity = SENSITIVITY;
@@ -37,9 +37,6 @@ public:
 		m_ZFar = ZFAR;
 
 		m_WorldUp = Vec3(0.0f, 1.0f, 0.0f);
-
-		m_Yaw = -90.0f;
-		m_Pitch = 0.0f;
 
 		GetTransform().SetIsCamera(true);
 
@@ -124,13 +121,13 @@ public:
 	float GetZNear() const { return m_ZNear; }
 	float GetZFar() const { return m_ZFar; }
 
+	float m_Pitch;
+	float m_Yaw;
+
 private:
 	const Window& m_Window;
 	bool firstMouse = true;
 	Vec2 lastMouse;
-
-	float m_Pitch;
-	float m_Yaw;
 
 	Vec3 m_WorldUp;
 	Vec3 m_Front;
@@ -226,7 +223,9 @@ namespace meta {
 				member("m_MouseSensitivity", &FreeCamera::GetMouseSensitivity, &FreeCamera::SetMouseSensitivity),
 				member("m_Zoom", &FreeCamera::GetZoom, &FreeCamera::SetZoom),
 				member("m_ZNear", &FreeCamera::GetZNear, &FreeCamera::SetZNear),
-				member("m_ZFar", &FreeCamera::GetZFar, &FreeCamera::SetZFar)
+				member("m_ZFar", &FreeCamera::GetZFar, &FreeCamera::SetZFar),
+				member("m_Pitch", &FreeCamera::m_Pitch),
+				member("m_Yaw", &FreeCamera::m_Yaw)
 			)			
 		);
 	}
