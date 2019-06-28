@@ -86,7 +86,30 @@ struct GameObjectTogglerEditor
 				}
 
 				if (ImGui::Combo("Key", &selectedChar, &keysChars[0], (int)keysChars.size()))
-					std::get<2>(gameObjectsToToggle[j]) = std::get<0>(keyMap[selectedChar]);					
+					std::get<2>(gameObjectsToToggle[j]) = std::get<0>(keyMap[selectedChar]);
+
+				std::string buttonName = "Remove ";
+				buttonName.append(name);
+				std::string buttonLabel = "Remove Entry##" + j;
+				if (ImGui::Button(buttonLabel.c_str(), ImVec2(320.0f, 20.0f)))
+					ImGui::OpenPopup(buttonName.c_str());
+
+				if (ImGui::BeginPopupModal(buttonName.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
+				{
+					ImGui::Text("This entry will be removed.\n\n");
+					ImGui::Separator();
+
+					if (ImGui::Button("OK", ImVec2(120, 0)))
+					{
+						toggler->RemoveGameObjectToToggle(std::get<0>(gameObjectsToToggle[j]));
+
+						ImGui::CloseCurrentPopup();
+					}
+					ImGui::SetItemDefaultFocus();
+					ImGui::SameLine();
+					if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
+					ImGui::EndPopup();
+				}
 			}
 		}			
 	}
