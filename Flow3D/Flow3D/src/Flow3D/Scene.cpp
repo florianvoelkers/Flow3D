@@ -1,7 +1,7 @@
 #include "Scene.hpp"
 
 #include "ResourceManager.hpp"
-#include "Components/ComponentClasses.cpp"
+#include "Components/ComponentManager.cpp"
 
 Scene::Scene(std::string name, const Window& window)
 	: m_Name(name), m_Window(window)

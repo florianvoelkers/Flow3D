@@ -1,12 +1,4 @@
-#include "Component.hpp"
-
-// Add all the different component classes here
-#include "Lighting.hpp"
-#include "FreeCamera.hpp"
-#include "Renderable.hpp"
-#include "Rotatable.hpp"
-#include "ComponentToggler.hpp"
-#include "GameObjectToggler.hpp"
+#include "ComponentManager.hpp"
 
 const std::size_t Component::Type = std::hash<std::string>()(TO_STRING(Component));
 
@@ -22,4 +14,8 @@ CLASS_DEFINITION(BaseLight, SpotLight)
 CLASS_DEFINITION(Component, ComponentToggler)
 CLASS_DEFINITION(Component, GameObjectToggler)
 
-// IMPORTANT: ADD COMPONENT NAMES TO Application.hpp
+
+void ComponentManager::AddComponentToGameObject(std::string componentName, GameObject& gameObject)
+{
+
+}

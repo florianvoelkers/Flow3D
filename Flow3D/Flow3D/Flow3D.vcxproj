@@ -541,6 +541,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D.hpp" />
     <ClInclude Include="src\Flow3D\Application.hpp" />
     <ClInclude Include="src\Flow3D\Color.hpp" />
+    <ClInclude Include="src\Flow3D\Components\ComponentManager.hpp" />
     <ClInclude Include="src\Flow3D\Components\ComponentToggler.hpp" />
     <ClInclude Include="src\Flow3D\Components\FreeCamera.hpp" />
     <ClInclude Include="src\Flow3D\Components\Component.hpp" />
@@ -604,7 +605,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClCompile Include="external_libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="external_libraries\MetaStuff\include\StringCast.cpp" />
     <ClCompile Include="src\Flow3D\Application.cpp" />
-    <ClCompile Include="src\Flow3D\Components\ComponentClasses.cpp" />
+    <ClCompile Include="src\Flow3D\Components\ComponentManager.cpp" />
     <ClCompile Include="src\Flow3D\GameObject.cpp" />
     <ClCompile Include="src\Flow3D\ImGui\ImGuiInspector.cpp" />
     <ClCompile Include="src\Flow3D\ImGui\ImGuiLayer.cpp" />

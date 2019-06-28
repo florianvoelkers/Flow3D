@@ -36,20 +36,6 @@ public:
 	const std::vector<std::shared_ptr<GameObject>>& GetAllGameObjects() const { return m_CurrentScene->GetRoot().GetChildren(); }		
 	inline const unsigned int GetRenderTexture() const { return m_RenderingEngine->GetRenderTexture(); }
 
-	std::vector<const char*> GetAllComponentNames()
-	{
-		std::vector<const char*> names;
-		names.push_back("Rotatable");
-		names.push_back("FreeCamera");
-		names.push_back("Renderable");
-		names.push_back("DirectionalLight");
-		names.push_back("PointLight");
-		names.push_back("SpotLight");
-		names.push_back("ComponentToggler");
-		names.push_back("GameObjectToggler");
-		return names;
-	}
-
 	int GetNextObjectID();
 
 private:

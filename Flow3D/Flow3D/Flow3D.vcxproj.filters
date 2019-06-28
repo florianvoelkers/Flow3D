@@ -1266,6 +1266,9 @@
     <ClInclude Include="src\Flow3D\Serializer.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Flow3D\Components\ComponentManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp">
@@ -1355,7 +1358,7 @@
     <ClCompile Include="src\Flow3D\Serializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Flow3D\Components\ComponentClasses.cpp">
+    <ClCompile Include="src\Flow3D\Components\ComponentManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,12 +1,7 @@
 #include "Serializer.hpp"
 
-#include "Flow3D/Components/FreeCamera.hpp"
-#include "Flow3D/Components/GameObjectToggler.hpp"
-#include "Flow3D/Components/ComponentToggler.hpp"
-#include "Flow3D/Components/Lighting.hpp"
-#include "Flow3D/Components/Renderable.hpp"
-#include "Flow3D/Components/Rotatable.hpp"
 #include "Flow3D/ResourceManager.hpp"
+#include "Flow3D/Components/ComponentManager.hpp"
 
 #include <io.h>     // For access().
 #include <sys/types.h>  // For stat().
@@ -48,7 +43,7 @@ void Serializer::Deserialize(Scene& scene)
 		std::string rootDirectory = serializationDirectory + "\\root";
 		if (std::experimental::filesystem::exists(rootDirectory.c_str()))
 		{
-			std::vector<const char*> allComponentNames = Application::Get().GetAllComponentNames();
+			std::vector<const char*> allComponentNames = ComponentManager::GetAllComponentNames();
 			std::vector<std::shared_ptr<GameObject>> gameObjectsWithGameObjectToggler;
 			// find the children of the root object -> all GameObjects in the scene
 

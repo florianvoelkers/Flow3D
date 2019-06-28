@@ -1,21 +1,16 @@
 #include "ImGuiInspector.hpp"
 #include "ImGuiTransformEditor.hpp"
-#include "Flow3D/Components/FreeCamera.hpp"
 #include "ImGuiFreeCameraEditor.hpp"
-#include "Flow3D/Components/GameObjectToggler.hpp"
 #include "ImGuiGameObjectTogglerEditor.hpp"
-#include "Flow3D/Components/ComponentToggler.hpp"
 #include "ImGuiComponentTogglerEditor.hpp"
-#include "Flow3D/Components/Lighting.hpp"
 #include "ImGuiDirectionalLightEditor.hpp"
 #include "ImGuiPointLightEditor.hpp"
 #include "ImGuiSpotLightEditor.hpp"
-#include "Flow3D/Components/Renderable.hpp"
 #include "ImGuiRenderableEditor.hpp"
-#include "Flow3D/Components/Rotatable.hpp"
 #include "Flow3D/Math.hpp"
 #include "Flow3D/Application.hpp"
 #include "Flow3D/ResourceManager.hpp"
+#include "Flow3D/Components/ComponentManager.hpp"
 
 #include <cstring>
 
@@ -34,7 +29,7 @@ void Flow3DInspector::Draw()
 {
 	bool show = true;
 	ImGui::SetNextWindowContentSize(ImVec2(360.0f, 960.0f));
-	if (ImGui::Begin("Inspector", &show, ImGuiWindowFlags_NoCollapse))
+	if (ImGui::Begin("Inspector", &show, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
 	{
 		if (gameObjectSet && currentGameObject != NULL)
 		{
@@ -55,7 +50,7 @@ void Flow3DInspector::Draw()
 
 			if (ImGui::BeginPopup("select"))
 			{
-				std::vector<const char*> allComponentNames = Application::Get().GetAllComponentNames();
+				std::vector<const char*> allComponentNames = ComponentManager::GetAllComponentNames();
 				ImGui::Text("ComponentTypes");
 				ImGui::Separator();
 				int selectedComponent = -1;
