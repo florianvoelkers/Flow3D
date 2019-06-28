@@ -21,8 +21,16 @@ class Serializer
 public:
 	
 	static void Serialize(Scene& scene);
-
 	static void Deserialize(Scene& scene);
+
+	static void SerializeRotatable(std::ofstream & myfile, Component* component);
+	static void SerializeFreeCamera(std::ofstream & myfile, Component* component);
+	static void SerializeGameObjectToggler(std::ofstream & myfile, Component* component);
+	static void SerializeComponentToggler(std::ofstream & myfile, Component* component);
+	static void SerializeDirectionalLight(std::ofstream & myfile, Component* component);
+	static void SerializePointLight(std::ofstream & myfile, Component* component);
+	static void SerializeSpotLight(std::ofstream & myfile, Component* component);
+	static void SerializeRenderable(std::ofstream & myfile, Component* component, const std::string& componentDirectory);
 
 private:
 
@@ -32,4 +40,6 @@ private:
 	static unsigned int GetShaderID(const std::string& componentsDirectory);
 	static std::string GetModelFilepath(const std::string& componentsDirectory);
 	static unsigned int GetTextureID(const std::string& texturesDirectory, const std::string& type);
+
+	
 };

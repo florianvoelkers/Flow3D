@@ -1,12 +1,6 @@
 #include "ImGuiInspector.hpp"
+#include "ImGuiHelper.hpp"
 #include "ImGuiTransformEditor.hpp"
-#include "ImGuiFreeCameraEditor.hpp"
-#include "ImGuiGameObjectTogglerEditor.hpp"
-#include "ImGuiComponentTogglerEditor.hpp"
-#include "ImGuiDirectionalLightEditor.hpp"
-#include "ImGuiPointLightEditor.hpp"
-#include "ImGuiSpotLightEditor.hpp"
-#include "ImGuiRenderableEditor.hpp"
 #include "Flow3D/Math.hpp"
 #include "Flow3D/Application.hpp"
 #include "Flow3D/ResourceManager.hpp"
@@ -67,38 +61,20 @@ void Flow3DInspector::Draw()
 
 						if (noDuplicates)
 						{
-							if (allComponentNames[selectedComponent] == "Rotatable")
+							std::string componentPopup = ComponentManager::ChooseComponentPopup(allComponentNames[selectedComponent]);
+							if (componentPopup == "Rotatable")
 							{
 								currentGameObject->AddComponent<Rotatable>(currentGameObject);
 							}
-							else if (allComponentNames[selectedComponent] == "FreeCamera")
+							else if (componentPopup == "FreeCamera")
 							{
 								FLOW_CORE_INFO("should not be added at the moment");
 							}
-							else if (allComponentNames[selectedComponent] == "Renderable")
+							else
 							{
-								ImGui::OpenPopup("AddRenderable");
-							}
-							else if (allComponentNames[selectedComponent] == "DirectionalLight")
-							{
-								ImGui::OpenPopup("Add DirectionalLight");
-							}
-							else if (allComponentNames[selectedComponent] == "PointLight")
-							{
-								ImGui::OpenPopup("Add PointLight");
-							}
-							else if (allComponentNames[selectedComponent] == "SpotLight")
-							{
-								ImGui::OpenPopup("Add SpotLight");
-							}
-							else if (allComponentNames[selectedComponent] == "ComponentToggler")
-							{
-								ImGui::OpenPopup("Add ComponentToggler");
-							}
-							else if (allComponentNames[selectedComponent] == "GameObjectToggler")
-							{
-								ImGui::OpenPopup("Add GameObjectToggler");
-							}
+								componentPopup = "Add " + componentPopup;
+								ImGui::OpenPopup(componentPopup.c_str());
+							}							
 						}
 						else
 							FLOW_CORE_INFO("This component already exists. No duplicates are allowed.");
@@ -106,7 +82,7 @@ void Flow3DInspector::Draw()
 					}	
 
 				ImGui::SetNextWindowBgAlpha(1.0f);
-				if (ImGui::BeginPopup("AddRenderable"))
+				if (ImGui::BeginPopup("Add Renderable"))
 				{
 					static int renderableType = 0;
 					ImGui::Text("Renderable");
@@ -531,36 +507,25 @@ void Flow3DInspector::Draw()
 							{
 								FLOW_CORE_INFO("should not be removed at the moment");
 							}
-							else if (componentName == "GameObjectToggler")
-							{
-								currentGameObject->RemoveComponent(componentName);
-							}
-							else if (componentName == "ComponentToggler")
-							{
-								currentGameObject->RemoveComponent(componentName);
-							}
 							else if (componentName == "DirectionalLight")
 							{
 								FLOW_CORE_INFO("should not be removed at the moment");
 							}
-							else if (component.GetName() == "PointLight")
+							else if (componentName == "PointLight")
 							{
 								currentScene.RemovePointLight(&currentGameObject->GetComponent<PointLight>());
 								currentGameObject->RemoveComponent(componentName);
 							}
-							else if (component.GetName() == "SpotLight")
+							else if (componentName == "SpotLight")
 							{
 								currentScene.RemoveSpotLight(&currentGameObject->GetComponent<SpotLight>());
 								currentGameObject->RemoveComponent(componentName);
 							}
-							else if (component.GetName() == "Renderable")
+							else
 							{
 								currentGameObject->RemoveComponent(componentName);
 							}
-							else if (component.GetName() == "Rotatable")
-							{
-								currentGameObject->RemoveComponent(componentName);
-							}
+
 							ImGui::CloseCurrentPopup();
 						}
 						ImGui::SetItemDefaultFocus();
@@ -569,41 +534,7 @@ void Flow3DInspector::Draw()
 						ImGui::EndPopup();
 					}
 
-					if (componentName == "FreeCamera")
-					{
-						FreeCameraEditor editor = FreeCameraEditor();
-						editor.Draw(dynamic_cast<FreeCamera*>(components[i].get()));
-					}
-					else if (componentName == "GameObjectToggler")
-					{
-						GameObjectTogglerEditor editor = GameObjectTogglerEditor();
-						editor.Draw(dynamic_cast<GameObjectToggler*>(components[i].get()));
-					}
-					else if (componentName == "ComponentToggler")
-					{
-						ComponentTogglerEditor editor = ComponentTogglerEditor();
-						editor.Draw(dynamic_cast<ComponentToggler*>(components[i].get()), components, componentNames);
-					}
-					else if (componentName == "DirectionalLight")
-					{
-						DirectionalLightEditor editor = DirectionalLightEditor();
-						editor.Draw(dynamic_cast<DirectionalLight*>(components[i].get()));		
-					}
-					else if (component.GetName() == "PointLight")
-					{
-						PointLightEditor editor = PointLightEditor();
-						editor.Draw(dynamic_cast<PointLight*>(components[i].get()));							
-					}
-					else if (component.GetName() == "SpotLight")
-					{
-						SpotLightEditor editor = SpotLightEditor();
-						editor.Draw(dynamic_cast<SpotLight*>(components[i].get()));							
-					}
-					else if (component.GetName() == "Renderable")
-					{
-						RenderableEditor editor = RenderableEditor();
-						editor.Draw(dynamic_cast<Renderable*>(components[i].get()));
-					}
+					ComponentManager::ShowComponentEditor(componentName, componentNames, components[i].get(), components);
 
 					ImGui::TreePop();
 				}

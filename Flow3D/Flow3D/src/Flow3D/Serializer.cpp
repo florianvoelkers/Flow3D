@@ -72,6 +72,139 @@ void Serializer::Deserialize(Scene& scene)
 	}
 }
 
+void Serializer::SerializeRotatable(std::ofstream & myfile, Component* component)
+{
+	json componentAsJson = *dynamic_cast<Rotatable*>(component);
+	myfile << std::setw(4) << componentAsJson;
+	myfile.close();
+}
+
+void Serializer::SerializeFreeCamera(std::ofstream & myfile, Component* component)
+{
+	json componentAsJson = *dynamic_cast<FreeCamera*>(component);
+	myfile << std::setw(4) << componentAsJson;
+	myfile.close();
+}
+
+void Serializer::SerializeGameObjectToggler(std::ofstream & myfile, Component* component)
+{
+	json componentAsJson = *dynamic_cast<GameObjectToggler*>(component);
+	myfile << std::setw(4) << componentAsJson;
+	myfile.close();
+}
+
+void Serializer::SerializeComponentToggler(std::ofstream & myfile, Component* component)
+{
+	json componentAsJson = *dynamic_cast<ComponentToggler*>(component);
+	myfile << std::setw(4) << componentAsJson;
+	myfile.close();
+}
+
+void Serializer::SerializeDirectionalLight(std::ofstream & myfile, Component* component)
+{
+	json componentAsJson = *dynamic_cast<DirectionalLight*>(component);
+	myfile << std::setw(4) << componentAsJson;
+	myfile.close();
+}
+
+void Serializer::SerializePointLight(std::ofstream & myfile, Component* component)
+{
+	json componentAsJson = *dynamic_cast<PointLight*>(component);
+	myfile << std::setw(4) << componentAsJson;
+	myfile.close();
+}
+
+void Serializer::SerializeSpotLight(std::ofstream & myfile, Component* component)
+{
+	json componentAsJson = *dynamic_cast<SpotLight*>(component);
+	myfile << std::setw(4) << componentAsJson;
+	myfile.close();
+}
+
+void Serializer::SerializeRenderable(std::ofstream & myfile, Component* component, const std::string& componentDirectory)
+{
+	Renderable& renderableComponent = *dynamic_cast<Renderable*>(component);
+	json componentAsJson = renderableComponent;
+	myfile << std::setw(4) << componentAsJson;
+	myfile.close();
+
+	std::string shaderDirectory = componentDirectory + "/Shader";
+	CreateDirectory(shaderDirectory.c_str(), NULL);
+	std::string shaderPath = shaderDirectory + "/shader.json";
+	myfile.open(shaderPath.c_str());
+	json shaderAsJson = renderableComponent.GetShader();
+	myfile << std::setw(4) << shaderAsJson;
+	myfile.close();
+
+	std::string modelDirectory = componentDirectory + "/Model";
+	CreateDirectory(modelDirectory.c_str(), NULL);
+	std::string modelPath = modelDirectory + "/model.json";
+	myfile.open(modelPath.c_str());
+	Model& model = renderableComponent.GetModel();
+	json modelAsJson = model;
+	myfile << std::setw(4) << modelAsJson;
+	myfile.close();
+
+	if (model.GetCube() != nullptr)
+	{
+		std::string cubeDirectory = modelDirectory + "/Cube";
+		CreateDirectory(cubeDirectory.c_str(), NULL);
+		std::string cubePath = cubeDirectory + "/cube.json";
+		Cube& cube = *model.GetCube().get();
+		json cubeAsJson = cube;
+		myfile.open(cubePath.c_str());
+		myfile << std::setw(4) << cubeAsJson;
+		myfile.close();
+
+		if (cube.GetIsTextured())
+		{
+			std::string texturesDirectory = cubeDirectory + "/Textures";
+			CreateDirectory(texturesDirectory.c_str(), NULL);
+
+			std::string diffuseTexturePath = texturesDirectory + "/diffuse.json";
+			json diffuseAsJson = cube.GetDiffuseTexture();
+			myfile.open(diffuseTexturePath);
+			myfile << std::setw(4) << diffuseAsJson;
+			myfile.close();
+
+			std::string specularTexturePath = texturesDirectory + "/specular.json";
+			json specularAsJson = cube.GetSpecularTexture();
+			myfile.open(specularTexturePath);
+			myfile << std::setw(4) << specularAsJson;
+			myfile.close();
+		}
+	}
+	else if (model.GetPlane() != nullptr)
+	{
+		std::string planeDirectory = modelDirectory + "/Plane";
+		CreateDirectory(planeDirectory.c_str(), NULL);
+		std::string planePath = planeDirectory + "/plane.json";
+		Plane& plane = *model.GetPlane().get();
+		json planeAsJson = plane;
+		myfile.open(planePath.c_str());
+		myfile << std::setw(4) << planeAsJson;
+		myfile.close();
+
+		if (plane.GetIsTextured())
+		{
+			std::string texturesDirectory = planeDirectory + "/Textures";
+			CreateDirectory(texturesDirectory.c_str(), NULL);
+
+			std::string diffuseTexturePath = texturesDirectory + "/diffuse.json";
+			json diffuseAsJson = plane.GetDiffuseTexture();
+			myfile.open(diffuseTexturePath);
+			myfile << std::setw(4) << diffuseAsJson;
+			myfile.close();
+
+			std::string specularTexturePath = texturesDirectory + "/specular.json";
+			json specularAsJson = plane.GetSpecularTexture();
+			myfile.open(specularTexturePath);
+			myfile << std::setw(4) << specularAsJson;
+			myfile.close();
+		}
+	}
+}
+
 void Serializer::SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream & myfile)
 {
 	for (unsigned int i = 0; i < rootChildren.size(); i++)
@@ -101,131 +234,7 @@ void Serializer::SerializeChildren(const std::vector<std::shared_ptr<GameObject>
 			std::string componentPath = componentDirectory + "/" + componentFileName;
 			myfile.open(componentPath.c_str());
 
-			if (componentName == "Rotatable")
-			{
-				json componentAsJson = *dynamic_cast<Rotatable*>(components[j].get());
-				myfile << std::setw(4) << componentAsJson;
-				myfile.close();
-			}
-			else if (componentName == "FreeCamera")
-			{
-				json componentAsJson = *dynamic_cast<FreeCamera*>(components[j].get());
-				myfile << std::setw(4) << componentAsJson;
-				myfile.close();
-			}
-			else if (componentName == "GameObjectToggler")
-			{
-				json componentAsJson = *dynamic_cast<GameObjectToggler*>(components[j].get());
-				myfile << std::setw(4) << componentAsJson;
-				myfile.close();
-			}
-			else if (componentName == "ComponentToggler")
-			{
-				json componentAsJson = *dynamic_cast<ComponentToggler*>(components[j].get());
-				myfile << std::setw(4) << componentAsJson;
-				myfile.close();
-			}
-			else if (componentName == "DirectionalLight")
-			{
-				json componentAsJson = *dynamic_cast<DirectionalLight*>(components[j].get());
-				myfile << std::setw(4) << componentAsJson;
-				myfile.close();
-			}
-			else if (componentName == "PointLight")
-			{
-				json componentAsJson = *dynamic_cast<PointLight*>(components[j].get());
-				myfile << std::setw(4) << componentAsJson;
-				myfile.close();
-			}
-			else if (componentName == "SpotLight")
-			{
-				json componentAsJson = *dynamic_cast<SpotLight*>(components[j].get());
-				myfile << std::setw(4) << componentAsJson;
-				myfile.close();
-			}
-			else if (componentName == "Renderable")
-			{
-				Renderable& renderableComponent = *dynamic_cast<Renderable*>(components[j].get());
-				json componentAsJson = renderableComponent;
-				myfile << std::setw(4) << componentAsJson;
-				myfile.close();
-
-				std::string shaderDirectory = componentDirectory + "/Shader";
-				CreateDirectory(shaderDirectory.c_str(), NULL);
-				std::string shaderPath = shaderDirectory + "/shader.json";
-				myfile.open(shaderPath.c_str());
-				json shaderAsJson = renderableComponent.GetShader();
-				myfile << std::setw(4) << shaderAsJson;
-				myfile.close();
-
-				std::string modelDirectory = componentDirectory + "/Model";
-				CreateDirectory(modelDirectory.c_str(), NULL);
-				std::string modelPath = modelDirectory + "/model.json";
-				myfile.open(modelPath.c_str());
-				Model& model = renderableComponent.GetModel();
-				json modelAsJson = model;
-				myfile << std::setw(4) << modelAsJson;
-				myfile.close();
-
-				if (model.GetCube() != nullptr)
-				{
-					std::string cubeDirectory = modelDirectory + "/Cube";
-					CreateDirectory(cubeDirectory.c_str(), NULL);
-					std::string cubePath = cubeDirectory + "/cube.json";
-					Cube& cube = *model.GetCube().get();
-					json cubeAsJson = cube;
-					myfile.open(cubePath.c_str());
-					myfile << std::setw(4) << cubeAsJson;
-					myfile.close();
-
-					if (cube.GetIsTextured())
-					{
-						std::string texturesDirectory = cubeDirectory + "/Textures";
-						CreateDirectory(texturesDirectory.c_str(), NULL);
-
-						std::string diffuseTexturePath = texturesDirectory + "/diffuse.json";
-						json diffuseAsJson = cube.GetDiffuseTexture();
-						myfile.open(diffuseTexturePath);
-						myfile << std::setw(4) << diffuseAsJson;
-						myfile.close();
-
-						std::string specularTexturePath = texturesDirectory + "/specular.json";
-						json specularAsJson = cube.GetSpecularTexture();
-						myfile.open(specularTexturePath);
-						myfile << std::setw(4) << specularAsJson;
-						myfile.close();
-					}
-				}
-				else if (model.GetPlane() != nullptr)
-				{
-					std::string planeDirectory = modelDirectory + "/Plane";
-					CreateDirectory(planeDirectory.c_str(), NULL);
-					std::string planePath = planeDirectory + "/plane.json";
-					Plane& plane = *model.GetPlane().get();
-					json planeAsJson = plane;
-					myfile.open(planePath.c_str());
-					myfile << std::setw(4) << planeAsJson;
-					myfile.close();
-
-					if (plane.GetIsTextured())
-					{
-						std::string texturesDirectory = planeDirectory + "/Textures";
-						CreateDirectory(texturesDirectory.c_str(), NULL);
-
-						std::string diffuseTexturePath = texturesDirectory + "/diffuse.json";
-						json diffuseAsJson = plane.GetDiffuseTexture();
-						myfile.open(diffuseTexturePath);
-						myfile << std::setw(4) << diffuseAsJson;
-						myfile.close();
-
-						std::string specularTexturePath = texturesDirectory + "/specular.json";
-						json specularAsJson = plane.GetSpecularTexture();
-						myfile.open(specularTexturePath);
-						myfile << std::setw(4) << specularAsJson;
-						myfile.close();
-					}
-				}
-			}
+			ComponentManager::SerializeComponent(componentName, myfile, components[j].get(), componentDirectory);			
 		}
 
 		if (rootChildren[i]->GetChildren().size() > 0)
