@@ -50,7 +50,6 @@ public:
 
 	~FreeCamera()
 	{
-		// TODO: does m_Window need to be deleted here?
 	}
 
 	virtual void OnUpdate(double deltaTime) override
