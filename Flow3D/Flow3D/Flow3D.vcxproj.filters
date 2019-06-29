@@ -1251,12 +1251,6 @@
     <ClInclude Include="external_libraries\MetaStuff\include\Meta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Flow3D\Person.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Flow3D\MovieInfo.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="external_libraries\MetaStuff\include\JsonCast.h">
       <Filter>Header Files</Filter>
     </ClInclude>

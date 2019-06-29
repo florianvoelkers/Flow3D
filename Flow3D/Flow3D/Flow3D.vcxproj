@@ -577,9 +577,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\Input.hpp" />
     <ClInclude Include="src\Flow3D\Log.hpp" />
     <ClInclude Include="src\Flow3D\Math.hpp" />
-    <ClInclude Include="src\Flow3D\MovieInfo.hpp" />
     <ClInclude Include="src\Flow3D\OpenGLWindow.hpp" />
-    <ClInclude Include="src\Flow3D\Person.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Mesh.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\Model.hpp" />
     <ClInclude Include="src\Flow3D\Rendering\RenderingEngine.hpp" />

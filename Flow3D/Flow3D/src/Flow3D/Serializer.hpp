@@ -32,6 +32,15 @@ public:
 	static void SerializeSpotLight(std::ofstream & myfile, Component* component);
 	static void SerializeRenderable(std::ofstream & myfile, Component* component, const std::string& componentDirectory);
 
+	static void DeserializeRotatable(json& json, GameObject& gameObject, Scene& scene);
+	static void DeserializeFreeCamera(json& json, GameObject& gameObject, Scene& scene);
+	static void DeserializeGameObjectToggler(json& json, GameObject& gameObject, Scene& scene, std::vector<std::shared_ptr<GameObject>>& gameObjectsWithGameObjectToggler);
+	static void DeserializeComponentToggler(json& json, GameObject& gameObject, Scene& scene);
+	static void DeserializeDirectionalLight(json& json, GameObject& gameObject, Scene& scene);
+	static void DeserializePointLight(json& json, GameObject& gameObject, Scene& scene);
+	static void DeserializeSpotLight(json& json, GameObject& gameObject, Scene& scene);
+	static void DeserializeRenderable(json& componentAsJson, GameObject& gameObject, Scene& scene, const std::string& componentsDirectory);
+
 private:
 
 	static void SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream& myfile);

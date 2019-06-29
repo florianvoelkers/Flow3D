@@ -205,6 +205,154 @@ void Serializer::SerializeRenderable(std::ofstream & myfile, Component* componen
 	}
 }
 
+void Serializer::DeserializeRotatable(json& json, GameObject& gameObject, Scene & scene)
+{
+	auto rotatable = json.get<Rotatable>();
+	gameObject.AddComponent<Rotatable>(&gameObject, rotatable.GetEnabled());
+}
+
+void Serializer::DeserializeFreeCamera(json & json, GameObject & gameObject, Scene & scene)
+{
+	auto freeCamera = json.get<FreeCamera>();
+	gameObject.AddComponent<FreeCamera>(&gameObject, Application::Get().GetWindow(), freeCamera.GetEnabled(), freeCamera.m_Yaw, freeCamera.m_Pitch);
+	FreeCamera freeCameraComponent = gameObject.GetComponent<FreeCamera>();
+	freeCameraComponent.SetMovementSpeed(freeCamera.GetMovementSpeed());
+	freeCameraComponent.SetMouseSensitivity(freeCamera.GetMouseSensitivity());
+	freeCameraComponent.SetZoom(freeCamera.GetZoom());
+	freeCameraComponent.SetZNear(freeCamera.GetZNear());
+	freeCameraComponent.SetZFar(freeCamera.GetZFar());
+	scene.SetMainCamera(std::make_shared<GameObject>(gameObject));
+}
+
+void Serializer::DeserializeGameObjectToggler(json & json, GameObject & gameObject, Scene & scene, std::vector<std::shared_ptr<GameObject>>& gameObjectsWithGameObjectToggler)
+{
+	auto gameObjectToggler = json.get<GameObjectToggler>();
+	gameObject.AddComponent<GameObjectToggler>(&gameObject, gameObjectToggler.GetEnabled());
+	gameObject.GetComponent<GameObjectToggler>().gameObjectsToToggle = gameObjectToggler.gameObjectsToToggle;
+
+	gameObjectsWithGameObjectToggler.push_back(std::make_shared<GameObject>(gameObject));
+}
+
+void Serializer::DeserializeComponentToggler(json & json, GameObject & gameObject, Scene & scene)
+{
+	auto componentToggler = json.get<ComponentToggler>();
+	gameObject.AddComponent<ComponentToggler>(&gameObject, componentToggler.GetEnabled());
+	gameObject.GetComponent<ComponentToggler>().componentsToToggle = componentToggler.componentsToToggle;
+}
+
+void Serializer::DeserializeDirectionalLight(json & json, GameObject & gameObject, Scene & scene)
+{
+	auto directionalLight = json.get<DirectionalLight>();
+	gameObject.AddComponent<DirectionalLight>(&gameObject, directionalLight.m_Direction,
+		directionalLight.m_Ambient, directionalLight.m_Diffuse, directionalLight.m_Specular, directionalLight.GetEnabled());
+	scene.SetDirectionalLight(&gameObject.GetComponent<DirectionalLight>());
+}
+
+void Serializer::DeserializePointLight(json & json, GameObject & gameObject, Scene & scene)
+{
+	auto pointLight = json.get<PointLight>();
+	gameObject.AddComponent<PointLight>(&gameObject, pointLight.m_Ambient, pointLight.m_Diffuse, pointLight.m_Specular,
+		pointLight.GetAttenuation(), pointLight.GetEnabled());
+	scene.AddPointLight(&gameObject.GetComponent<PointLight>());
+}
+
+void Serializer::DeserializeSpotLight(json & json, GameObject & gameObject, Scene & scene)
+{
+	auto spotLight = json.get<SpotLight>();
+	gameObject.AddComponent<SpotLight>(&gameObject, spotLight.m_Ambient, spotLight.m_Diffuse, spotLight.m_Specular,
+		spotLight.m_Cutoff, spotLight.m_OuterCutoff, spotLight.GetAttenuation(), spotLight.GetEnabled());
+	scene.AddSpotLight(&gameObject.GetComponent<SpotLight>());
+}
+
+void Serializer::DeserializeRenderable(json & componentAsJson, GameObject & gameObject, Scene & scene, const std::string & componentsDirectory)
+{
+	auto renderable = componentAsJson.get<Renderable>();
+	unsigned int shaderID = GetShaderID(componentsDirectory);
+	if (shaderID == 0)
+		FLOW_CORE_ERROR("Shader not found");
+
+	std::string modelFilepath = GetModelFilepath(componentsDirectory);
+	if (modelFilepath.empty())
+	{
+		// is cube or plane or error
+		std::string cubeDirectory = componentsDirectory + "\\Model\\Cube";
+		std::string planeDirectory = componentsDirectory + "\\Model\\Plane";
+		if (std::experimental::filesystem::exists(cubeDirectory))
+		{
+			std::string cubePath = cubeDirectory + "\\cube.json";
+			std::ifstream cubeFile(cubePath);
+			json cubeAsJson;
+			cubeFile >> cubeAsJson;
+			auto cube = cubeAsJson.get<Cube>();
+			if (cube.GetIsTextured())
+			{
+				// Get the textures
+				std::string texturesDirectory = cubeDirectory + "\\Textures";
+				unsigned int diffuseTextureID;
+				unsigned int specularTextureID;
+				if (std::experimental::filesystem::exists(texturesDirectory))
+				{
+					diffuseTextureID = GetTextureID(texturesDirectory, "diffuse");
+					specularTextureID = GetTextureID(texturesDirectory, "specular");
+				}
+				else
+					FLOW_CORE_ERROR("no textures found");
+
+				gameObject.AddComponent<Renderable>(&gameObject,
+					std::make_shared<Model>(std::make_shared<Cube>(ResourceManager::Get().FindTexture(diffuseTextureID),
+						ResourceManager::Get().FindTexture(specularTextureID))),
+					ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
+			}
+			else
+			{
+				gameObject.AddComponent<Renderable>(&gameObject,
+					std::make_shared<Model>(std::make_shared<Cube>(cube.GetColor())), ResourceManager::Get().FindShader(shaderID),
+					renderable.GetBlending(), renderable.GetEnabled());
+			}
+		}
+		else if (std::experimental::filesystem::exists(planeDirectory))
+		{
+			std::string planePath = planeDirectory + "\\plane.json";
+			std::ifstream planeFile(planePath);
+			json planeAsJson;
+			planeFile >> planeAsJson;
+			auto plane = planeAsJson.get<Plane>();
+			if (plane.GetIsTextured())
+			{
+				// Get the textures
+				std::string texturesDirectory = planeDirectory + "\\Textures";
+				unsigned int diffuseTextureID;
+				unsigned int specularTextureID;
+				if (std::experimental::filesystem::exists(texturesDirectory))
+				{
+					diffuseTextureID = GetTextureID(texturesDirectory, "diffuse");
+					specularTextureID = GetTextureID(texturesDirectory, "specular");
+				}
+				else
+					FLOW_CORE_ERROR("no textures found");
+
+				gameObject.AddComponent<Renderable>(&gameObject,
+					std::make_shared<Model>(std::make_shared<Plane>(ResourceManager::Get().FindTexture(diffuseTextureID),
+						ResourceManager::Get().FindTexture(specularTextureID))),
+					ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
+			}
+			else
+			{
+				gameObject.AddComponent<Renderable>(&gameObject,
+					std::make_shared<Model>(std::make_shared<Plane>(plane.GetColor())), ResourceManager::Get().FindShader(shaderID),
+					renderable.GetBlending(), renderable.GetEnabled());
+			}
+		}
+		else
+			FLOW_CORE_ERROR("Model not found");
+	}
+	else
+	{
+		gameObject.AddComponent<Renderable>(&gameObject, ResourceManager::Get().FindModel(modelFilepath),
+			ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
+	}
+}
+
 void Serializer::SerializeChildren(const std::vector<std::shared_ptr<GameObject>>& rootChildren, std::string directory, std::ofstream & myfile)
 {
 	for (unsigned int i = 0; i < rootChildren.size(); i++)
@@ -287,154 +435,7 @@ void Serializer::DeserializeChildren(const std::string rootDirectory, GameObject
 							json componentAsJson;
 							componentFile >> componentAsJson;
 
-							if (allComponentNames[j] == "Rotatable")
-							{
-								auto rotatable = componentAsJson.get<Rotatable>();
-								gameObject->AddComponent<Rotatable>(gameObject.get(), rotatable.GetEnabled());
-							}
-							else if (allComponentNames[j] == "FreeCamera")
-							{
-								auto freeCamera = componentAsJson.get<FreeCamera>();
-								gameObject->AddComponent<FreeCamera>(gameObject.get(), Application::Get().GetWindow(), freeCamera.GetEnabled(), freeCamera.m_Yaw, freeCamera.m_Pitch);
-								FreeCamera freeCameraComponent = gameObject->GetComponent<FreeCamera>();
-								freeCameraComponent.SetMovementSpeed(freeCamera.GetMovementSpeed());
-								freeCameraComponent.SetMouseSensitivity(freeCamera.GetMouseSensitivity());
-								freeCameraComponent.SetZoom(freeCamera.GetZoom());
-								freeCameraComponent.SetZNear(freeCamera.GetZNear());
-								freeCameraComponent.SetZFar(freeCamera.GetZFar());
-								scene.SetMainCamera(gameObject);
-							}
-							else if (allComponentNames[j] == "Renderable")
-							{
-								auto renderable = componentAsJson.get<Renderable>();
-								unsigned int shaderID = GetShaderID(componentsDirectory);
-								if (shaderID == 0)
-								{
-									FLOW_CORE_ERROR("Shader not found");
-									break;
-								}
-								std::string modelFilepath = GetModelFilepath(componentsDirectory);
-								if (modelFilepath.empty())
-								{
-									// is cube or plane or error
-									std::string cubeDirectory = componentsDirectory + "\\Model\\Cube";
-									std::string planeDirectory = componentsDirectory + "\\Model\\Plane";
-									if (std::experimental::filesystem::exists(cubeDirectory))
-									{
-										std::string cubePath = cubeDirectory + "\\cube.json";
-										std::ifstream cubeFile(cubePath);
-										json cubeAsJson;
-										cubeFile >> cubeAsJson;
-										auto cube = cubeAsJson.get<Cube>();
-										if (cube.GetIsTextured())
-										{
-											// Get the textures
-											std::string texturesDirectory = cubeDirectory + "\\Textures";
-											unsigned int diffuseTextureID;
-											unsigned int specularTextureID;
-											if (std::experimental::filesystem::exists(texturesDirectory))
-											{
-												diffuseTextureID = GetTextureID(texturesDirectory, "diffuse");
-												specularTextureID = GetTextureID(texturesDirectory, "specular");
-											}
-											else
-											{
-												FLOW_CORE_ERROR("no textures found");
-												break;
-											}
-
-											gameObject->AddComponent<Renderable>(gameObject.get(),
-												std::make_shared<Model>(std::make_shared<Cube>(ResourceManager::Get().FindTexture(diffuseTextureID),
-													ResourceManager::Get().FindTexture(specularTextureID))),
-												ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
-										}
-										else
-										{
-											gameObject->AddComponent<Renderable>(gameObject.get(),
-												std::make_shared<Model>(std::make_shared<Cube>(cube.GetColor())), ResourceManager::Get().FindShader(shaderID),
-												renderable.GetBlending(), renderable.GetEnabled());
-										}
-									}
-									else if (std::experimental::filesystem::exists(planeDirectory))
-									{
-										std::string planePath = planeDirectory + "\\plane.json";
-										std::ifstream planeFile(planePath);
-										json planeAsJson;
-										planeFile >> planeAsJson;
-										auto plane = planeAsJson.get<Plane>();
-										if (plane.GetIsTextured())
-										{
-											// Get the textures
-											std::string texturesDirectory = planeDirectory + "\\Textures";
-											unsigned int diffuseTextureID;
-											unsigned int specularTextureID;
-											if (std::experimental::filesystem::exists(texturesDirectory))
-											{
-												diffuseTextureID = GetTextureID(texturesDirectory, "diffuse");
-												specularTextureID = GetTextureID(texturesDirectory, "specular");
-											}
-											else
-											{
-												FLOW_CORE_ERROR("no textures found");
-												break;
-											}
-
-											gameObject->AddComponent<Renderable>(gameObject.get(),
-												std::make_shared<Model>(std::make_shared<Plane>(ResourceManager::Get().FindTexture(diffuseTextureID),
-													ResourceManager::Get().FindTexture(specularTextureID))),
-												ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
-										}
-										else
-										{
-											gameObject->AddComponent<Renderable>(gameObject.get(),
-												std::make_shared<Model>(std::make_shared<Plane>(plane.GetColor())), ResourceManager::Get().FindShader(shaderID),
-												renderable.GetBlending(), renderable.GetEnabled());
-										}
-									}
-									else
-										FLOW_CORE_ERROR("Model not found");
-								}
-								else
-								{
-									gameObject->AddComponent<Renderable>(gameObject.get(), ResourceManager::Get().FindModel(modelFilepath),
-										ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
-								}
-							}
-							else if (allComponentNames[j] == "DirectionalLight")
-							{
-								auto directionalLight = componentAsJson.get<DirectionalLight>();
-								gameObject->AddComponent<DirectionalLight>(gameObject.get(), directionalLight.m_Direction,
-									directionalLight.m_Ambient, directionalLight.m_Diffuse, directionalLight.m_Specular, directionalLight.GetEnabled());
-								scene.SetDirectionalLight(&gameObject->GetComponent<DirectionalLight>());
-							}
-							else if (allComponentNames[j] == "PointLight")
-							{
-								auto pointLight = componentAsJson.get<PointLight>();
-								gameObject->AddComponent<PointLight>(gameObject.get(), pointLight.m_Ambient, pointLight.m_Diffuse, pointLight.m_Specular,
-									pointLight.GetAttenuation(), pointLight.GetEnabled());
-								scene.AddPointLight(&gameObject->GetComponent<PointLight>());
-							}
-							else if (allComponentNames[j] == "SpotLight")
-							{
-								auto spotLight = componentAsJson.get<SpotLight>();
-								gameObject->AddComponent<SpotLight>(gameObject.get(), spotLight.m_Ambient, spotLight.m_Diffuse, spotLight.m_Specular,
-									spotLight.m_Cutoff, spotLight.m_OuterCutoff, spotLight.GetAttenuation(), spotLight.GetEnabled());
-								scene.AddSpotLight(&gameObject->GetComponent<SpotLight>());
-							}
-							else if (allComponentNames[j] == "ComponentToggler")
-							{
-								auto componentToggler = componentAsJson.get<ComponentToggler>();
-								gameObject->AddComponent<ComponentToggler>(gameObject.get(), componentToggler.GetEnabled());
-								gameObject->GetComponent<ComponentToggler>().componentsToToggle = componentToggler.componentsToToggle;
-							}
-							else if (allComponentNames[j] == "GameObjectToggler")
-							{
-								auto gameObjectToggler = componentAsJson.get<GameObjectToggler>();
-								gameObject->AddComponent<GameObjectToggler>(gameObject.get(), gameObjectToggler.GetEnabled());
-								gameObject->GetComponent<GameObjectToggler>().gameObjectsToToggle = gameObjectToggler.gameObjectsToToggle;
-
-								gameObjectsWithGameObjectToggler.push_back(gameObject);
-							}
+							ComponentManager::DeserializeComponent(allComponentNames[j], componentAsJson, *gameObject, scene, componentsDirectory, gameObjectsWithGameObjectToggler);
 						}
 					}
 				}

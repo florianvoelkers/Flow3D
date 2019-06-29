@@ -9,15 +9,18 @@
 #include "ComponentToggler.hpp"
 #include "GameObjectToggler.hpp"
 
+#include <json/json.hpp>
+#include <MetaStuff/include/JsonCast.h>
+
 class ComponentManager
 {
 
 public:
 
-	static void AddComponentToGameObject(std::string componentName, GameObject& gameObject);
 	static std::string ChooseComponentPopup(std::string componentName);
 	static void ShowComponentEditor(std::string componentName, std::vector<std::string> componentNames, Component* component, const std::vector<std::shared_ptr<Component>>& components);
 	static void SerializeComponent(const std::string& componentName, std::ofstream& myfile, Component* component, const std::string& componentDirectory);
+	static void DeserializeComponent(const std::string& componentName, json & json, GameObject & gameObject, Scene & scene, const std::string & componentsDirectory, std::vector<std::shared_ptr<GameObject>>& gameObjectsWithGameObjectToggler);
 
 	static std::vector<const char*> GetAllComponentNames() 
 	{ 
@@ -32,7 +35,7 @@ public:
 		componentNames.push_back("ComponentToggler");
 		componentNames.push_back("GameObjectToggler");
 
-		return componentNames; 
+		return componentNames;
 	}
 	
 };

@@ -29,11 +29,6 @@ CLASS_DEFINITION(Component, GameObjectToggler)
 #include <sys/stat.h>   // For stat().
 #include <filesystem>
 
-void ComponentManager::AddComponentToGameObject(std::string componentName, GameObject& gameObject)
-{
-
-}
-
 std::string ComponentManager::ChooseComponentPopup(std::string componentName)
 {
 	if (componentName == "Rotatable")
@@ -142,5 +137,41 @@ void ComponentManager::SerializeComponent(const std::string& componentName, std:
 	else if (componentName == "Renderable")
 	{
 		Serializer::SerializeRenderable(myfile, component, componentDirectory);
+	}
+}
+
+void ComponentManager::DeserializeComponent(const std::string& componentName, json & json, GameObject & gameObject, Scene & scene, const std::string & componentsDirectory, std::vector<std::shared_ptr<GameObject>>& gameObjectsWithGameObjectToggler)
+{
+	if (componentName == "Rotatable")
+	{
+		Serializer::DeserializeRotatable(json, gameObject, scene);
+	}
+	else if (componentName == "FreeCamera")
+	{
+		Serializer::DeserializeFreeCamera(json, gameObject, scene);
+	}
+	else if (componentName == "GameObjectToggler")
+	{
+		Serializer::DeserializeGameObjectToggler(json, gameObject, scene, gameObjectsWithGameObjectToggler);
+	}
+	else if (componentName == "ComponentToggler")
+	{
+		Serializer::DeserializeComponentToggler(json, gameObject, scene);
+	}
+	else if (componentName == "DirectionalLight")
+	{
+		Serializer::DeserializeDirectionalLight(json, gameObject, scene);
+	}
+	else if (componentName == "PointLight")
+	{
+		Serializer::DeserializePointLight(json, gameObject, scene);
+	}
+	else if (componentName == "SpotLight")
+	{
+		Serializer::DeserializeSpotLight(json, gameObject, scene);
+	}
+	else if (componentName == "Renderable")
+	{
+		Serializer::DeserializeRenderable(json, gameObject, scene, componentsDirectory);
 	}
 }
