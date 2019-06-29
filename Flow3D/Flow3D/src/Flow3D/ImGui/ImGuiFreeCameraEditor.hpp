@@ -12,6 +12,10 @@ struct FreeCameraEditor
 	{
 		if (freeCamera)
 		{
+			static bool isMainCamera = freeCamera->GetIsMainCamera();
+			if (ImGui::Checkbox("Main Camera", &isMainCamera))
+				freeCamera->SetIsMainCamera(isMainCamera);
+
 			ImGui::Text("Movement Speed");
 			ImGui::SameLine(0, 71);
 			ImGui::PushItemWidth(100);

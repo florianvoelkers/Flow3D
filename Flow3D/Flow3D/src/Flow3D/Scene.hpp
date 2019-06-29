@@ -27,7 +27,7 @@ public:
 	inline GameObject& GetMainCamera() { return *m_MainCamera; }
 	inline Skybox& GetSkybox() { return *m_Skybox; } // is this correct?
 
-	void SetMainCamera(std::shared_ptr<GameObject> mainCamera) { m_MainCamera = mainCamera; }
+	void SetMainCamera(GameObject* mainCamera) { m_MainCamera = mainCamera; }
 
 	void SetDirectionalLight(DirectionalLight* directionalLight);
 	inline DirectionalLight& GetDirectionalLight() { return *m_DirectionalLight; }
@@ -44,7 +44,7 @@ private:
 	const Window& m_Window;
 	std::unique_ptr<GameObject> m_Root;
 	std::string m_Name;
-	std::shared_ptr<GameObject> m_MainCamera;
+	GameObject* m_MainCamera;
 	std::unique_ptr<Skybox> m_Skybox;
 
 	DirectionalLight* m_DirectionalLight;

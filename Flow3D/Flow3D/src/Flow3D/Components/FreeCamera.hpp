@@ -113,7 +113,19 @@ public:
 	void SetZoom(float zoom) { m_Zoom = zoom; }
 	void SetZNear(float ZNear) { m_ZNear = ZNear; }
 	void SetZFar(float ZFar) { m_ZFar = ZFar; }
+	void SetIsMainCamera(bool isMainCamera)
+	{ 
+		if (!isMainCamera && m_IsMainCamera)
+			Application::Get().GetCurrentScene().SetMainCamera(nullptr);
+	
+		m_IsMainCamera = isMainCamera;
+		FLOW_CORE_INFO("in set is main camera, IsMainCamera is {0}", m_IsMainCamera);
 
+		if (m_IsMainCamera)
+			Application::Get().GetCurrentScene().SetMainCamera(m_GameObject);
+	}
+
+	bool GetIsMainCamera() const { return m_IsMainCamera; }
 	float GetMovementSpeed() const { return m_MovementSpeed; }
 	float GetMouseSensitivity() const { return m_MouseSensitivity; }
 	float GetZoom() const { return m_Zoom; }
@@ -138,6 +150,7 @@ private:
 	float m_Zoom;
 	float m_ZNear;
 	float m_ZFar;
+	bool m_IsMainCamera;
 
 	Input& m_Input;
 

@@ -221,7 +221,7 @@ void Serializer::DeserializeFreeCamera(json & json, GameObject & gameObject, Sce
 	freeCameraComponent.SetZoom(freeCamera.GetZoom());
 	freeCameraComponent.SetZNear(freeCamera.GetZNear());
 	freeCameraComponent.SetZFar(freeCamera.GetZFar());
-	scene.SetMainCamera(std::make_shared<GameObject>(gameObject));
+	freeCameraComponent.SetIsMainCamera(true);
 }
 
 void Serializer::DeserializeGameObjectToggler(json & json, GameObject & gameObject, Scene & scene, std::vector<std::shared_ptr<GameObject>>& gameObjectsWithGameObjectToggler)
