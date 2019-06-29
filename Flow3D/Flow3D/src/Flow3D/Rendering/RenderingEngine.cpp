@@ -44,23 +44,27 @@ void RenderingEngine::Render(const GameObject& root, GameObject& mainCamera, con
 	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
 	glEnable(GL_DEPTH_TEST);
 
-	viewPosition = mainCamera.GetTransform().GetWorldPosition();
 	// when beginning to render clear everything
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// receive the view matrix from the current main camera
-	FreeCamera& freeCamera = mainCamera.GetComponent<FreeCamera>();
-	Mat4 view = freeCamera.GetViewMatrix();
+	if (&mainCamera != nullptr)
+	{
+		viewPosition = mainCamera.GetTransform().GetWorldPosition();		
 
-	// get the projection matrix
-	Mat4 projection = Mat4();
-	projection = Mat4::GetPerspectiveProjection(Math::Radians(freeCamera.GetZoom()), 
-		(float)m_Window.GetWidth() / (float)m_Window.GetHeight(), freeCamera.GetZNear(), freeCamera.GetZFar());
+		// receive the view matrix from the current main camera
+		FreeCamera& freeCamera = mainCamera.GetComponent<FreeCamera>();
+		Mat4 view = freeCamera.GetViewMatrix();
 
-	// render the scene starting with the scenes root object which contains all scene objects
-	root.Render(view, projection, *this);
-	skybox.Draw(view, projection);
+		// get the projection matrix
+		Mat4 projection = Mat4();
+		projection = Mat4::GetPerspectiveProjection(Math::Radians(freeCamera.GetZoom()),
+			(float)m_Window.GetWidth() / (float)m_Window.GetHeight(), freeCamera.GetZNear(), freeCamera.GetZFar());
+
+		// render the scene starting with the scenes root object which contains all scene objects
+		root.Render(view, projection, *this);
+		skybox.Draw(view, projection);
+	}
 
 	// now bind back to default framebuffer and draw a quad plane with the attached framebuffer color texture
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

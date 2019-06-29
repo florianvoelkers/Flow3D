@@ -31,7 +31,6 @@ public:
 
 	inline static Application& Get() { return *s_Instance; }
 	inline const Window& GetWindow() const { return *m_Window; }
-	inline GameObject& GetMainCamera() { m_CurrentScene->GetMainCamera(); }
 	inline Scene& GetCurrentScene() { return *m_CurrentScene.get(); }
 	const std::vector<std::shared_ptr<GameObject>>& GetAllGameObjects() const { return m_CurrentScene->GetRoot().GetChildren(); }		
 	inline const unsigned int GetRenderTexture() const { return m_RenderingEngine->GetRenderTexture(); }
