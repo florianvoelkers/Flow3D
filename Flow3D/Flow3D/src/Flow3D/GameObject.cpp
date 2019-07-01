@@ -163,7 +163,7 @@ void GameObject::Destroy(GameObject * object)
 	{
 		if (componentNames[i] == "DirectionalLight")
 		{
-			FLOW_CORE_INFO("should be removed from array in scene");
+			currentScene.SetDirectionalLight(nullptr);
 		}
 		else if (componentNames[i] == "PointLight")
 		{

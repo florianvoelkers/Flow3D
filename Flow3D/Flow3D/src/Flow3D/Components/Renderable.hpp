@@ -43,10 +43,31 @@ public:
 		m_Shader->SetVec3("viewPos", renderingEngine.GetViewPosition());
 		// directional light
 		DirectionalLight& directionalLight = Application::Get().GetCurrentScene().GetDirectionalLight();
-		m_Shader->SetVec3("dirLight.direction", directionalLight.GetDirection());
-		m_Shader->SetVec3("dirLight.ambient", directionalLight.GetAmbientIntensity());
-		m_Shader->SetVec3("dirLight.diffuse", directionalLight.GetDiffuseIntensity());
-		m_Shader->SetVec3("dirLight.specular", directionalLight.GetSpecularIntensity());
+		if (&directionalLight == nullptr)
+		{
+			m_Shader->SetVec3("dirLight.direction", Vec3(0.0f));
+			m_Shader->SetVec3("dirLight.ambient", Vec3(0.0f));
+			m_Shader->SetVec3("dirLight.diffuse", Vec3(0.0f));
+			m_Shader->SetVec3("dirLight.specular", Vec3(0.0f));
+		}
+		else
+		{
+			if (directionalLight.GetEnabled())
+			{
+				m_Shader->SetVec3("dirLight.direction", directionalLight.GetDirection());
+				m_Shader->SetVec3("dirLight.ambient", directionalLight.GetAmbientIntensity());
+				m_Shader->SetVec3("dirLight.diffuse", directionalLight.GetDiffuseIntensity());
+				m_Shader->SetVec3("dirLight.specular", directionalLight.GetSpecularIntensity());
+			}
+			else
+			{
+				m_Shader->SetVec3("dirLight.direction", Vec3(0.0f));
+				m_Shader->SetVec3("dirLight.ambient", Vec3(0.0f));
+				m_Shader->SetVec3("dirLight.diffuse", Vec3(0.0f));
+				m_Shader->SetVec3("dirLight.specular", Vec3(0.0f));
+			}
+		}
+		
 
 		std::vector<PointLight*> pointLights = Application::Get().GetCurrentScene().GetPointLights();
 		std::string uniform;

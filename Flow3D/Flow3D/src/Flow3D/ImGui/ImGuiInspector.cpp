@@ -512,7 +512,8 @@ void Flow3DInspector::Draw()
 							}
 							else if (componentName == "DirectionalLight")
 							{
-								FLOW_CORE_INFO("should not be removed at the moment");
+								currentScene.SetDirectionalLight(nullptr);
+								currentGameObject->RemoveComponent(componentName);
 							}
 							else if (componentName == "PointLight")
 							{

@@ -8,9 +8,6 @@ Scene::Scene(std::string name, const Window& window)
 {
 	// The root object will contain all objects present in one scene as it's children and their children and so on.
 	m_Root = std::make_unique<GameObject>("root");
-	// set a default directional light
-	m_Root->AddComponent<DirectionalLight>(m_Root.get(), Vec3(0.0f), Vec3(0.0f), Vec3(0.0f), Vec3(0.0f));
-	SetDirectionalLight(&m_Root->GetComponent<DirectionalLight>());	
 }
 
 Scene::~Scene()
@@ -52,11 +49,7 @@ GameObject* Scene::FindGameObject(std::string name)
 void Scene::SetMainCamera(GameObject* mainCamera)
 {
 	if (m_MainCamera != nullptr)
-	{
-		m_MainCamera->GetComponent<FreeCamera>().m_IsActive = false;
-		FLOW_CORE_INFO("old camera is now {0}", m_MainCamera->GetComponent<FreeCamera>().m_IsActive);
-	}
-		
+		m_MainCamera->GetComponent<FreeCamera>().m_IsActive = false;		
 
 	m_MainCamera = mainCamera;
 }
