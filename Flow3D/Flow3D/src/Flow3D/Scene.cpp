@@ -52,7 +52,11 @@ GameObject* Scene::FindGameObject(std::string name)
 void Scene::SetMainCamera(GameObject* mainCamera)
 {
 	if (m_MainCamera != nullptr)
-		m_MainCamera->GetComponent<FreeCamera>().m_IsMainCamera = false;
+	{
+		m_MainCamera->GetComponent<FreeCamera>().m_IsActive = false;
+		FLOW_CORE_INFO("old camera is now {0}", m_MainCamera->GetComponent<FreeCamera>().m_IsActive);
+	}
+		
 
 	m_MainCamera = mainCamera;
 }

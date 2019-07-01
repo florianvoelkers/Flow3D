@@ -31,7 +31,7 @@ public:
 
 	}
 
-	FreeCamera(GameObject* gameObject, const Window& window, bool enabled = true, float yaw = -90.0f, float pitch = 0.0f)
+	FreeCamera(GameObject* gameObject, const Window& window, bool enabled = true, float yaw = -90.0f, float pitch = 0.0f, bool m_isActive = false)
 		: m_Window(window), Component(gameObject, enabled, "FreeCamera"), m_Input(Input::Get()), m_Yaw(yaw), m_Pitch(pitch)
 	{
 		m_MovementSpeed = SPEED;
@@ -58,52 +58,58 @@ public:
 
 	virtual void OnUpdate(double deltaTime) override
 	{
-		// calculate the velocity depending on the frame rate and user set movement speed
-		float velocity = m_MovementSpeed * (float)deltaTime;
+		if (m_IsActive)
+		{
+			// calculate the velocity depending on the frame rate and user set movement speed
+			float velocity = m_MovementSpeed * (float)deltaTime;
 
-		if (m_Input.GetKey(Keycode::W))
-		{
-			Vec3 forward = GetTransform().GetForwardVector();
-			forward = forward * velocity;
-			GetTransform().Translate(forward);
-		}
-		if (m_Input.GetKey(Keycode::S))
-		{
-			Vec3 forward = GetTransform().GetForwardVector();
-			forward = forward * velocity * -1.0f;
-			GetTransform().Translate(forward);
-		}
-		if (m_Input.GetKey(Keycode::D))
-		{
-			Vec3 right = GetTransform().GetRightVector();
-			right = right * velocity;
-			GetTransform().Translate(right);
-		}
-		if (m_Input.GetKey(Keycode::A))
-		{
-			Vec3 right = GetTransform().GetRightVector();
-			right = right * velocity * -1.0f;
-			GetTransform().Translate(right);
-		}
-		if (m_Input.GetKey(Keycode::PageUp))
-		{
-			Vec3 up = GetTransform().GetUpVector();
-			up = up * velocity;
-			GetTransform().Translate(up);
-		}
-		if (m_Input.GetKey(Keycode::PageDown))
-		{
-			Vec3 up = GetTransform().GetUpVector();
-			up = up * velocity * -1.0f;
-			GetTransform().Translate(up);
+			if (m_Input.GetKey(Keycode::W))
+			{
+				Vec3 forward = GetTransform().GetForwardVector();
+				forward = forward * velocity;
+				GetTransform().Translate(forward);
+			}
+			if (m_Input.GetKey(Keycode::S))
+			{
+				Vec3 forward = GetTransform().GetForwardVector();
+				forward = forward * velocity * -1.0f;
+				GetTransform().Translate(forward);
+			}
+			if (m_Input.GetKey(Keycode::D))
+			{
+				Vec3 right = GetTransform().GetRightVector();
+				right = right * velocity;
+				GetTransform().Translate(right);
+			}
+			if (m_Input.GetKey(Keycode::A))
+			{
+				Vec3 right = GetTransform().GetRightVector();
+				right = right * velocity * -1.0f;
+				GetTransform().Translate(right);
+			}
+			if (m_Input.GetKey(Keycode::PageUp))
+			{
+				Vec3 up = GetTransform().GetUpVector();
+				up = up * velocity;
+				GetTransform().Translate(up);
+			}
+			if (m_Input.GetKey(Keycode::PageDown))
+			{
+				Vec3 up = GetTransform().GetUpVector();
+				up = up * velocity * -1.0f;
+				GetTransform().Translate(up);
+			}
 		}
 	}
 
 	virtual void OnEvent(Event& event) override
 	{
-		EventDispatcher dispatcher(event);
-		dispatcher.Dispatch<MouseMovedEvent>(FLOW_BIND_EVENT_FUNCTION(FreeCamera::OnMouseMoved));
-		// TODO: mouse scroll
+		if (m_IsActive)
+		{
+			EventDispatcher dispatcher(event);
+			dispatcher.Dispatch<MouseMovedEvent>(FLOW_BIND_EVENT_FUNCTION(FreeCamera::OnMouseMoved));
+			// TODO: mouse scroll
+		}
 	}
 
 	Mat4 GetViewMatrix() 
@@ -117,24 +123,26 @@ public:
 	void SetZoom(float zoom) { m_Zoom = zoom; }
 	void SetZNear(float ZNear) { m_ZNear = ZNear; }
 	void SetZFar(float ZFar) { m_ZFar = ZFar; }
-	void SetIsMainCamera(bool isMainCamera)
+	void SetIsActive(bool isActive)
 	{ 
-		if (!isMainCamera && m_IsMainCamera)
+		if (!isActive && m_IsActive)
 		{
 			Application::Get().GetCurrentScene().SetMainCamera(nullptr);
+			GetTransform().SetIsCamera(false);
 		}
 			
-		m_IsMainCamera = isMainCamera;
+		m_IsActive = isActive;
 
-		if (m_IsMainCamera)
+		if (m_IsActive)
 		{
 			Application::Get().GetCurrentScene().SetMainCamera(m_GameObject);
 			UpdateVectors();
+			GetTransform().SetIsCamera(true);
 		}
 			
 	}
 
-	bool GetIsMainCamera() const { return m_IsMainCamera; }
+	bool GetIsActive() const { return m_IsActive; }
 	float GetMovementSpeed() const { return m_MovementSpeed; }
 	float GetMouseSensitivity() const { return m_MouseSensitivity; }
 	float GetZoom() const { return m_Zoom; }
@@ -143,7 +151,7 @@ public:
 
 	float m_Pitch;
 	float m_Yaw;
-	bool m_IsMainCamera;
+	bool m_IsActive;
 
 private:
 	const Window& m_Window;
@@ -247,7 +255,7 @@ namespace meta {
 				member("m_ZFar", &FreeCamera::GetZFar, &FreeCamera::SetZFar),
 				member("m_Pitch", &FreeCamera::m_Pitch),
 				member("m_Yaw", &FreeCamera::m_Yaw),
-				member("m_IsMainCamera", &FreeCamera::m_IsMainCamera)
+				member("m_IsMainCamera", &FreeCamera::m_IsActive)
 			)			
 		);
 	}
