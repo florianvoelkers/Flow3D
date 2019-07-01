@@ -49,6 +49,14 @@ GameObject* Scene::FindGameObject(std::string name)
 	return m_Root->Find(name);
 }
 
+void Scene::SetMainCamera(GameObject* mainCamera)
+{
+	if (m_MainCamera != nullptr)
+		m_MainCamera->GetComponent<FreeCamera>().m_IsMainCamera = false;
+
+	m_MainCamera = mainCamera;
+}
+
 void Scene::SetDirectionalLight(DirectionalLight* directionalLight)
 {
 	m_DirectionalLight = directionalLight;

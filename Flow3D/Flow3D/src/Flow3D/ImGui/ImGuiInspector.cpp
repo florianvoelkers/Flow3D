@@ -66,10 +66,6 @@ void Flow3DInspector::Draw()
 							{
 								currentGameObject->AddComponent<Rotatable>(currentGameObject);
 							}
-							else if (componentPopup == "FreeCamera")
-							{
-								FLOW_CORE_INFO("should not be added at the moment");
-							}
 							else
 							{
 								componentPopup = "Add " + componentPopup;
@@ -80,6 +76,8 @@ void Flow3DInspector::Draw()
 							FLOW_CORE_INFO("This component already exists. No duplicates are allowed.");
 																		
 					}	
+
+
 
 				ImGui::SetNextWindowBgAlpha(1.0f);
 				if (ImGui::BeginPopup("Add Renderable"))
@@ -187,6 +185,62 @@ void Flow3DInspector::Draw()
 						}
 							
 					}						
+
+					ImGui::EndPopup();
+				}
+
+				if (ImGui::BeginPopup("Add FreeCamera"))
+				{
+					static bool isMainCamera;
+					ImGui::Checkbox("Main Camera", &isMainCamera);
+
+					ImGui::Text("Movement Speed");
+					ImGui::SameLine(0, 71);
+					ImGui::PushItemWidth(100);
+
+					static float movementSpeed = 5.0f;
+					ImGui::DragFloat("##4", &movementSpeed, 0.1f);
+
+					ImGui::Text("Mouse Sensitivity");
+					ImGui::SameLine(0, 50);
+					ImGui::PushItemWidth(100);
+
+					static float mouseSensitivity = 0.1f;
+					ImGui::DragFloat("##5", &mouseSensitivity, 0.01f);
+
+					ImGui::Text("Field of view");
+					ImGui::SameLine(0, 78);
+					ImGui::PushItemWidth(100);
+
+					static float zoom = 45.0f;
+					ImGui::DragFloat("##6", &zoom, 0.1f, 0.0f, 100.0f);
+
+					ImGui::Text("Z-Near");
+					ImGui::SameLine(0, 127);
+					ImGui::PushItemWidth(100);
+
+					static float zNear = 0.1f;
+					ImGui::DragFloat("##7", &zNear, 0.1f, 0.0f, 100.0f);
+
+					ImGui::Text("Z-Far");
+					ImGui::SameLine(0, 134);
+					ImGui::PushItemWidth(100);
+
+					static float zFar = 100.0f;
+					ImGui::DragFloat("##8", &zFar, 0.1f, 0.0f, 1000.0f);
+
+					if (ImGui::Button("Add FreeCamera", ImVec2(320.0f, 20.0f)))
+					{
+						currentGameObject->AddComponent<FreeCamera>(currentGameObject, Application::Get().GetWindow());
+						FreeCamera& camera = currentGameObject->GetComponent<FreeCamera>();
+						camera.SetMovementSpeed(movementSpeed);
+						camera.SetMouseSensitivity(mouseSensitivity);
+						camera.SetZoom(zoom);
+						camera.SetZNear(zNear);
+						camera.SetZFar(zFar);
+						camera.SetIsMainCamera(isMainCamera);
+						ImGui::CloseCurrentPopup();
+					}
 
 					ImGui::EndPopup();
 				}

@@ -129,6 +129,7 @@ public:
 		if (m_IsMainCamera)
 		{
 			Application::Get().GetCurrentScene().SetMainCamera(m_GameObject);
+			UpdateVectors();
 		}
 			
 	}
