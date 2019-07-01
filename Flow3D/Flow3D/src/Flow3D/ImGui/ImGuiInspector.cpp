@@ -505,7 +505,8 @@ void Flow3DInspector::Draw()
 						{
 							if (componentName == "FreeCamera")
 							{
-								FLOW_CORE_INFO("should not be removed at the moment");
+								currentGameObject->GetComponent<FreeCamera>().SetIsMainCamera(false);
+								currentGameObject->RemoveComponent(componentName);
 							}
 							else if (componentName == "DirectionalLight")
 							{

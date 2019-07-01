@@ -26,7 +26,11 @@ class FreeCamera : public Component
 	CLASS_DECLARATION(FreeCamera)
 
 public:
-	FreeCamera() : m_Window(Application::Get().GetWindow()), m_Input(Input::Get()) {}
+	FreeCamera() : m_Window(Application::Get().GetWindow()), m_Input(Input::Get()) 
+	{
+
+	}
+
 	FreeCamera(GameObject* gameObject, const Window& window, bool enabled = true, float yaw = -90.0f, float pitch = 0.0f)
 		: m_Window(window), Component(gameObject, enabled, "FreeCamera"), m_Input(Input::Get()), m_Yaw(yaw), m_Pitch(pitch)
 	{
@@ -116,13 +120,17 @@ public:
 	void SetIsMainCamera(bool isMainCamera)
 	{ 
 		if (!isMainCamera && m_IsMainCamera)
+		{
 			Application::Get().GetCurrentScene().SetMainCamera(nullptr);
-	
+		}
+			
 		m_IsMainCamera = isMainCamera;
-		FLOW_CORE_INFO("in set is main camera, IsMainCamera is {0}", m_IsMainCamera);
 
 		if (m_IsMainCamera)
+		{
 			Application::Get().GetCurrentScene().SetMainCamera(m_GameObject);
+		}
+			
 	}
 
 	bool GetIsMainCamera() const { return m_IsMainCamera; }
@@ -134,6 +142,7 @@ public:
 
 	float m_Pitch;
 	float m_Yaw;
+	bool m_IsMainCamera;
 
 private:
 	const Window& m_Window;
@@ -149,8 +158,7 @@ private:
 	float m_MouseSensitivity;
 	float m_Zoom;
 	float m_ZNear;
-	float m_ZFar;
-	bool m_IsMainCamera;
+	float m_ZFar;	
 
 	Input& m_Input;
 
@@ -237,7 +245,8 @@ namespace meta {
 				member("m_ZNear", &FreeCamera::GetZNear, &FreeCamera::SetZNear),
 				member("m_ZFar", &FreeCamera::GetZFar, &FreeCamera::SetZFar),
 				member("m_Pitch", &FreeCamera::m_Pitch),
-				member("m_Yaw", &FreeCamera::m_Yaw)
+				member("m_Yaw", &FreeCamera::m_Yaw),
+				member("m_IsMainCamera", &FreeCamera::m_IsMainCamera)
 			)			
 		);
 	}

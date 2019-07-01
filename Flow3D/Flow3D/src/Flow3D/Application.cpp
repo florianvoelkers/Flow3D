@@ -60,6 +60,7 @@ void Application::Run()
 
 		m_Input->OnUpdate(elapsed);
 		m_CurrentScene->OnUpdate(elapsed);
+
 		m_RenderingEngine->Render(m_CurrentScene->GetRoot(), m_CurrentScene->GetMainCamera(), m_CurrentScene->GetSkybox());
 		m_ImGui->OnUpdate(elapsed);
 		m_Window->OnUpdate();

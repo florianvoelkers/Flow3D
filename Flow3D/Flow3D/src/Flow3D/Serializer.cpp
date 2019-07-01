@@ -215,13 +215,13 @@ void Serializer::DeserializeFreeCamera(json & json, GameObject & gameObject, Sce
 {
 	auto freeCamera = json.get<FreeCamera>();
 	gameObject.AddComponent<FreeCamera>(&gameObject, Application::Get().GetWindow(), freeCamera.GetEnabled(), freeCamera.m_Yaw, freeCamera.m_Pitch);
-	FreeCamera freeCameraComponent = gameObject.GetComponent<FreeCamera>();
+	FreeCamera& freeCameraComponent = gameObject.GetComponent<FreeCamera>();
 	freeCameraComponent.SetMovementSpeed(freeCamera.GetMovementSpeed());
 	freeCameraComponent.SetMouseSensitivity(freeCamera.GetMouseSensitivity());
 	freeCameraComponent.SetZoom(freeCamera.GetZoom());
 	freeCameraComponent.SetZNear(freeCamera.GetZNear());
 	freeCameraComponent.SetZFar(freeCamera.GetZFar());
-	freeCameraComponent.SetIsMainCamera(true);
+	freeCameraComponent.SetIsMainCamera(freeCamera.m_IsMainCamera);
 }
 
 void Serializer::DeserializeGameObjectToggler(json & json, GameObject & gameObject, Scene & scene, std::vector<std::shared_ptr<GameObject>>& gameObjectsWithGameObjectToggler)
@@ -369,7 +369,6 @@ void Serializer::SerializeChildren(const std::vector<std::shared_ptr<GameObject>
 
 		// Serialize all components of the GameObject
 		const std::vector<std::shared_ptr<Component>>& components = rootChildren[i]->GetComponents();
-		FLOW_CORE_INFO("name of the go is {0}", rootChildren[i]->GetName());
 		std::string componentDirectory = newDirectory + "/" + rootChildren[i]->GetName() + "_components";
 		if (components.size() > 0)
 			CreateDirectory(componentDirectory.c_str(), NULL);

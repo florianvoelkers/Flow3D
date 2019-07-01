@@ -1,11 +1,12 @@
 {
-    "m_Enabled": true,
-    "m_MouseSensitivity": 0.10000000149011612,
-    "m_MovementSpeed": 5.0,
-    "m_Name": "FreeCamera",
-    "m_Pitch": -0.8999871015548706,
-    "m_Yaw": -99.20003509521484,
-    "m_ZFar": 100.0,
-    "m_ZNear": 0.10000000149011612,
-    "m_Zoom": 45.0
+  "m_Enabled": true,
+  "m_IsMainCamera": true,
+  "m_MouseSensitivity": 0.10000000149011612,
+  "m_MovementSpeed": 5.0,
+  "m_Name": "FreeCamera",
+  "m_Pitch": -0.8999871015548706,
+  "m_Yaw": -99.20003509521484,
+  "m_ZFar": 100.0,
+  "m_ZNear": 0.10000000149011612,
+  "m_Zoom": 45.0
 }
