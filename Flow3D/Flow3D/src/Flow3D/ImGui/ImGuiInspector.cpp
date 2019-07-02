@@ -173,7 +173,7 @@ void Flow3DInspector::Draw()
 							else if (shapeType == 0 && fragmentType == 1)
 							{
 								currentGameObject->AddComponent<Renderable>(currentGameObject,
-									std::make_shared<Model>(std::make_shared<Cube>(color.x, color.y, color.z, color.w)), shaders[currentShader]);
+									std::make_shared<Model>(std::make_shared<Cube>(color.x, color.y, color.z, 1.0f)), shaders[currentShader]);
 							}
 							else if (shapeType == 1 && fragmentType == 0)
 							{
@@ -183,7 +183,7 @@ void Flow3DInspector::Draw()
 							else if (shapeType == 1 && fragmentType == 1)
 							{
 								currentGameObject->AddComponent<Renderable>(currentGameObject,
-									std::make_shared<Model>(std::make_shared<Plane>(color.x, color.y, color.z, color.w)), shaders[currentShader]);
+									std::make_shared<Model>(std::make_shared<Plane>(color.x, color.y, color.z, 1.0f)), shaders[currentShader]);
 							}
 							ImGui::CloseCurrentPopup();
 						}

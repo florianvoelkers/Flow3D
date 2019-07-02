@@ -83,6 +83,12 @@ void Application::OnEvent(Event& e)
 	m_CurrentScene->OnEvent(e);
 }
 
+void Application::CreateAndSetNewScene(std::string name)
+{
+	m_CurrentScene = std::make_unique<Scene>(name, *m_Window);
+	m_CurrentScene->OnAttach();
+}
+
 bool Application::OnWindowClose(WindowCloseEvent& e)
 {
 	m_Running = false;

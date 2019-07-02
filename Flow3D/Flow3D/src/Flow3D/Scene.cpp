@@ -23,7 +23,7 @@ void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
 
 void Scene::OnAttach()
 {
-	m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", true);
+	//m_Skybox = std::make_unique<Skybox>("resources/skyboxes", "jpg", true);
 }
 	 
 void Scene::OnDetach()

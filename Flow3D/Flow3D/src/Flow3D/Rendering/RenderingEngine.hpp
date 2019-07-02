@@ -15,7 +15,7 @@ public:
 	RenderingEngine(const Window& window);
 	virtual ~RenderingEngine() {}
 
-	void Render(const GameObject& root, GameObject& mainCamera, const Skybox& skybox);
+	void Render(const GameObject& root, GameObject& mainCamera, Skybox& skybox);
 	void SetBlending(bool blending);
 
 	inline const Vec3 GetViewPosition() const { return viewPosition; }

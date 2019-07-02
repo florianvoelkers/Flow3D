@@ -129,13 +129,18 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 	{
 		if (ImGui::BeginMenu("Flow3D"))
 		{
+			if (ImGui::MenuItem("Create new Scene"))
+			{
+				Application::Get().CreateAndSetNewScene("NewScene");
+			}
+
 			if (ImGui::MenuItem("Save current Scene")) 
 			{
 				Serializer::Serialize(Application::Get().GetCurrentScene());
 			}
 			ImGui::EndMenu();
 		}
-
+		
 		if (ImGui::BeginMenu("Edit"))
 		{
 			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
@@ -150,8 +155,15 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 		if (ImGui::BeginMenu("Settings"))
 		{
 			Skybox& skybox = app.GetCurrentScene().GetSkybox();
-			if (ImGui::MenuItem("Skybox", NULL, skybox.IsShown()))
-				skybox.ToggleShow();
+			if (&skybox != nullptr)
+			{
+				if (ImGui::MenuItem("Skybox", NULL, skybox.IsShown()))
+					skybox.ToggleShow();
+			}
+			else
+			{
+				FLOW_CORE_ERROR("no skybox is loaded");
+			}
 
 			ImGui::MenuItem("Resource Manager", NULL, &showResourceManager);
 

@@ -38,7 +38,7 @@ RenderingEngine::RenderingEngine(const Window& window)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void RenderingEngine::Render(const GameObject& root, GameObject& mainCamera, const Skybox& skybox)
+void RenderingEngine::Render(const GameObject& root, GameObject& mainCamera, Skybox& skybox)
 {
 	// bind to framebuffer and draw scene as we normally would to color texture 
 	glBindFramebuffer(GL_FRAMEBUFFER, m_Framebuffer);
@@ -63,7 +63,8 @@ void RenderingEngine::Render(const GameObject& root, GameObject& mainCamera, con
 
 		// render the scene starting with the scenes root object which contains all scene objects
 		root.Render(view, projection, *this);
-		skybox.Draw(view, projection);
+		if (&skybox != nullptr)
+			skybox.Draw(view, projection);
 	}
 
 	// now bind back to default framebuffer and draw a quad plane with the attached framebuffer color texture
