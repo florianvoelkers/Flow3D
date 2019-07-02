@@ -18,6 +18,8 @@ void Serializer::Serialize(Scene& scene)
 
 	CreateDirectory("serialization", NULL);
 	std::string directory = "serialization/" + scene.GetName();
+	std::string sceneFilename = scene.GetName() + ".scene";
+
 	CreateDirectory(directory.c_str(), NULL);
 	directory = directory + "/";
 	std::string filename = rootObject.GetName();

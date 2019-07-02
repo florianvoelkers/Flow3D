@@ -46,6 +46,8 @@ private:
 	std::string m_Name;
 	GameObject* m_MainCamera;
 	std::unique_ptr<Skybox> m_Skybox;
+	std::string skyboxID;
+	Color backgroundColor;
 
 	DirectionalLight* m_DirectionalLight;
 	std::vector<PointLight*> m_PointLights;

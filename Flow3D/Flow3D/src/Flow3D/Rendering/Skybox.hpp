@@ -13,7 +13,7 @@
 class Skybox
 {
 public:
-	Skybox(std::string skyboxDirectory, std::string filetype, bool show);
+	Skybox(std::string skyboxDirectory, std::string filetype, std::string name, unsigned int id, bool show);
 	~Skybox();
 
 	void Draw(Mat4 view, Mat4 projection) const;
@@ -26,6 +26,8 @@ private:
 	Shader* m_Shader;
 	unsigned int m_CubemapTexture;
 	bool m_Show;
+	unsigned int m_ID;
+	std::string m_Name;
 
 	void SetupCube(std::string skyboxDirectory, std::string filetype);
 	unsigned int LoadCubemap(std::vector<std::string> faces);

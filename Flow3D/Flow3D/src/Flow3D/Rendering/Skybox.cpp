@@ -1,11 +1,10 @@
 #include "Skybox.hpp"
 
-// code from https://learnopengl.com/Advanced-OpenGL/Cubemaps
-
 #include "Flow3D/Log.hpp"
 
-Skybox::Skybox(std::string skyboxDirectory, std::string filetype, bool show)
-	: m_Show(show)
+// code from https://learnopengl.com/Advanced-OpenGL/Cubemaps
+Skybox::Skybox(std::string skyboxDirectory, std::string filetype, std::string name, unsigned int id, bool show)
+	: m_Show(show), m_Name(name), m_ID(id)
 {
 	SetupCube(skyboxDirectory, filetype);
 }
