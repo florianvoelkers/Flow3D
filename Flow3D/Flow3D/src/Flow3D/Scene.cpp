@@ -56,6 +56,9 @@ void Scene::SetMainCamera(GameObject* mainCamera)
 
 void Scene::SetDirectionalLight(DirectionalLight* directionalLight)
 {
+	if (m_DirectionalLight != nullptr)
+		m_DirectionalLight->m_SetAsSceneLight = false;
+
 	m_DirectionalLight = directionalLight;
 }
 

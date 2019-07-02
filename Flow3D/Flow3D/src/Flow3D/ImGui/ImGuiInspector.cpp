@@ -248,7 +248,7 @@ void Flow3DInspector::Draw()
 					{
 						currentGameObject->AddComponent<DirectionalLight>(currentGameObject, Vec3(posX, posY, posZ),
 							Vec3(ambientR, ambientG, ambientB), Vec3(diffuseR, diffuseG, diffuseB), Vec3(specularR, specularG, specularB));
-						// currentScene.AddDirectionalLight(currentGameObject->GetComponent<DirectionalLight>());
+				
 						ImGui::CloseCurrentPopup();
 					}
 

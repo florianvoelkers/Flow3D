@@ -70,13 +70,17 @@ class DirectionalLight : public BaseLight
 
 public:
 	DirectionalLight() {}
-	DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, bool enabled = true)
-		: BaseLight(gameObject, ambient, diffuse, specular, "DirectionalLight", enabled), m_Direction(direction) {}
+	DirectionalLight(GameObject* gameObject, Vec3 direction, Vec3 ambient, Vec3 diffuse, Vec3 specular, bool enabled = true, bool setAsSceneLight = false)
+		: BaseLight(gameObject, ambient, diffuse, specular, "DirectionalLight", enabled), m_Direction(direction), m_SetAsSceneLight(setAsSceneLight) {}
 
 	inline void SetDirection(Vec3& direction) { m_Direction = direction; }
 	inline const Vec3& GetDirection() const { return m_Direction; }
 
+	void SetAsSceneLight(bool setAsSceneLight) { m_SetAsSceneLight = setAsSceneLight; }
+	bool GetIsSetAsSceneLight() { return m_SetAsSceneLight; }
+
 	Vec3 m_Direction;
+	bool m_SetAsSceneLight;
 
 	friend std::ostream& operator<<(std::ostream& os, const DirectionalLight& dl)
 	{
@@ -93,7 +97,8 @@ namespace meta {
 		return std::tuple_cat(
 			meta::getMembers<BaseLight>(),
 			members(
-				member("m_Direction", &DirectionalLight::m_Direction)
+				member("m_Direction", &DirectionalLight::m_Direction),
+				member("m_SetAsSceneLight", &DirectionalLight::m_SetAsSceneLight)
 			)
 		);
 	}

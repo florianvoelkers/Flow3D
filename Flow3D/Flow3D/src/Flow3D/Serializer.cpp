@@ -244,8 +244,9 @@ void Serializer::DeserializeDirectionalLight(json & json, GameObject & gameObjec
 {
 	auto directionalLight = json.get<DirectionalLight>();
 	gameObject.AddComponent<DirectionalLight>(&gameObject, directionalLight.m_Direction,
-		directionalLight.m_Ambient, directionalLight.m_Diffuse, directionalLight.m_Specular, directionalLight.GetEnabled());
-	scene.SetDirectionalLight(&gameObject.GetComponent<DirectionalLight>());
+		directionalLight.m_Ambient, directionalLight.m_Diffuse, directionalLight.m_Specular, directionalLight.GetEnabled(), directionalLight.m_SetAsSceneLight);
+	if (directionalLight.m_SetAsSceneLight)
+		scene.SetDirectionalLight(&gameObject.GetComponent<DirectionalLight>());
 }
 
 void Serializer::DeserializePointLight(json & json, GameObject & gameObject, Scene & scene)

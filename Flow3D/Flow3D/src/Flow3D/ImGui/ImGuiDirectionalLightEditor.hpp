@@ -17,6 +17,16 @@ struct DirectionalLightEditor
 			BaseLightEditor editor = BaseLightEditor();
 			editor.Draw(dynamic_cast<BaseLight*>(dl), "DirectionalLight");
 
+			bool setAsSceneLight = dl->GetIsSetAsSceneLight();
+			if (ImGui::Checkbox("Is set as the scene light", &setAsSceneLight))
+			{
+				dl->SetAsSceneLight(setAsSceneLight);
+				if (setAsSceneLight)
+					Application::Get().GetCurrentScene().SetDirectionalLight(dl);
+				else
+					Application::Get().GetCurrentScene().SetDirectionalLight(nullptr);
+			}				
+
 			Vec3 direction = dl->GetDirection();
 			float x, y, z;
 			x = direction.x;
