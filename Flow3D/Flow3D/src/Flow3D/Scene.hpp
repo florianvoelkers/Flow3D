@@ -23,9 +23,11 @@ public:
 	GameObject* FindGameObject(std::string name);
 
 	inline std::string GetName() { return m_Name; };
-	inline GameObject& GetRoot() { return *m_Root; } // is this correct?
+	inline GameObject& GetRoot() { return *m_Root; } 
 	inline GameObject& GetMainCamera() { return *m_MainCamera; }
-	inline Skybox& GetSkybox() { return *m_Skybox; } // is this correct?
+
+	inline Skybox& GetSkybox() { return *m_Skybox; }
+	void SetSkybox(std::shared_ptr<Skybox> skybox);
 
 	void SetMainCamera(GameObject* mainCamera);	
 
@@ -40,14 +42,17 @@ public:
 	void RemoveSpotLight(SpotLight* spotLight);
 	inline std::vector<SpotLight*> GetSpotLights() { return m_SpotLights; }
 
+	void SetBackgroundColor(Color color) { m_BackgroundColor = color; }
+	inline Color GetBackgroundColor() { return m_BackgroundColor; }
+
 private:
 	const Window& m_Window;
 	std::unique_ptr<GameObject> m_Root;
 	std::string m_Name;
 	GameObject* m_MainCamera;
 	std::shared_ptr<Skybox> m_Skybox;
-	std::string skyboxID;
-	Color backgroundColor;
+	std::string m_SkyboxName;
+	Color m_BackgroundColor;
 
 	DirectionalLight* m_DirectionalLight;
 	std::vector<PointLight*> m_PointLights;

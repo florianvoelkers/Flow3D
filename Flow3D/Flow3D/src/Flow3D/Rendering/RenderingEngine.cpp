@@ -45,7 +45,8 @@ void RenderingEngine::Render(const GameObject& root, GameObject& mainCamera, Sky
 	glEnable(GL_DEPTH_TEST);
 
 	// when beginning to render clear everything
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+	Color clearColor = Application::Get().GetCurrentScene().GetBackgroundColor();
+	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	if (&mainCamera != nullptr)

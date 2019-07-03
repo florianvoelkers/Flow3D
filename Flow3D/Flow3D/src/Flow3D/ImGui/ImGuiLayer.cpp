@@ -121,10 +121,8 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui::NewFrame();
 		
-	static bool show = true;
 	static bool showResourceManager = false;
-		
-	//ImGui::ShowDemoWindow(&show);
+	static bool showSceneManager = false;
 
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -153,12 +151,64 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 
 			ImGui::Separator();
 
-			if (ImGui::MenuItem("Scene settings"))
-			{
-
-			}
+			ImGui::MenuItem("Scene Manager", NULL, &showSceneManager);
 
 			ImGui::EndMenu();
+		}
+
+		if (showSceneManager)
+		{
+			ImGui::SetNextWindowContentSize(ImVec2(360.0f, 240.0f));
+			if (ImGui::Begin("Scene Manager"), &showSceneManager, ImGuiWindowFlags_NoResize)
+			{
+				ImGui::Separator();
+
+				Scene& scene = app.GetCurrentScene();
+
+				bool skyboxActive;
+
+				if (&scene.GetSkybox() != nullptr)
+					skyboxActive = scene.GetSkybox().IsShown();
+				else
+					skyboxActive = false;
+
+				if (ImGui::Checkbox("Skybox active", &skyboxActive))
+				{
+					if (&scene.GetSkybox() != nullptr)
+						scene.GetSkybox().SetShown(skyboxActive);
+				}
+
+				if (skyboxActive)
+				{
+					std::vector<std::shared_ptr<Skybox>> skyboxes = ResourceManager::Get().GetAllSkyboxes();
+					static int currentSkybox = -1;
+					std::vector<const char*> skyboxNames;
+					for (unsigned int i = 0; i < skyboxes.size(); i++)
+					{
+						
+						const char* skyboxName = skyboxes[i]->m_Name.c_str();
+						skyboxNames.push_back(skyboxName);
+
+						if (skyboxes[i]->GetName() == scene.GetSkybox().GetName())
+							currentSkybox = i;
+					}
+
+					ImGui::PushItemWidth(160);
+					if (ImGui::Combo("Skyboxes", &currentSkybox, &skyboxNames[0], (int)skyboxNames.size()))
+					{
+						scene.SetSkybox(skyboxes[currentSkybox]);
+					}
+				}
+
+				Color sceneBgColor = scene.GetBackgroundColor();
+				static ImVec4 color = ImColor(sceneBgColor.r, sceneBgColor.g, sceneBgColor.b, sceneBgColor.a);
+				ImGui::Text("Background Color:");
+				if (ImGui::ColorEdit4("##sceneBgColor", (float*)&color))
+					scene.SetBackgroundColor(Color(color.x, color.y, color.z, color.w));
+				
+
+				ImGui::End();
+			}
 		}
 
 		if (ImGui::BeginMenu("Tools"))
