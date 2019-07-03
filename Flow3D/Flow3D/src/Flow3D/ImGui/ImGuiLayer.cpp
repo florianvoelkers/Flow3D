@@ -129,26 +129,34 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 	{
 		if (ImGui::BeginMenu("Flow3D"))
 		{
+			
+			ImGui::EndMenu();
+		}
+		
+		if (ImGui::BeginMenu("Scene"))
+		{
 			if (ImGui::MenuItem("Create new Scene"))
 			{
 				Application::Get().CreateAndSetNewScene("NewScene");
 			}
 
-			if (ImGui::MenuItem("Save current Scene")) 
+			if (ImGui::MenuItem("Load scene"))
+			{
+
+			}
+
+			if (ImGui::MenuItem("Save current Scene"))
 			{
 				Serializer::Serialize(Application::Get().GetCurrentScene());
 			}
-			ImGui::EndMenu();
-		}
-		
-		if (ImGui::BeginMenu("Edit"))
-		{
-			if (ImGui::MenuItem("Undo", "CTRL+Z")) {}
-			if (ImGui::MenuItem("Redo", "CTRL+Y", false, false)) {}  // Disabled item
+
 			ImGui::Separator();
-			if (ImGui::MenuItem("Cut", "CTRL+X")) {}
-			if (ImGui::MenuItem("Copy", "CTRL+C")) {}
-			if (ImGui::MenuItem("Paste", "CTRL+V")) {}
+
+			if (ImGui::MenuItem("Scene settings"))
+			{
+
+			}
+
 			ImGui::EndMenu();
 		}
 
@@ -220,7 +228,7 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 	}
 
 	ImGui::SetNextWindowContentSize(ImVec2(240.0f, 960.0f));
-	if (ImGui::Begin("Hierarchy", &show))
+	if (ImGui::Begin("Hierarchy", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar))
 	{
 		if (ImGui::Button("Add GameObject", ImVec2(240.0f, 20.0f)))
 			ImGui::OpenPopup("Add GameObject");
@@ -250,11 +258,14 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 		ImGui::Separator();
 		ImGui::Columns(1);
 
-		// Iterate dummy objects with dummy members (all the same data)
+		ImGui::BeginChild("Hierarchy");
+
+		// Iterate through game objects
 		std::vector<std::shared_ptr<GameObject>> allGameObjects = Application::Get().GetAllGameObjects();
 		for (int i = 0; i < allGameObjects.size(); i++)
 			ShowGameObject(allGameObjects[i]->GetName().c_str(), allGameObjects[i]->GetObjectID(), *allGameObjects[i]);
 
+		ImGui::EndChild();
 		ImGui::Separator();
 
 		ImGui::End();
@@ -262,7 +273,7 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 			
 	ImGui::SetNextWindowContentSize(ImVec2(1280.0f, 720.0f));
 	// create our ImGui window
-	if (ImGui::Begin("Viewport", &show, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
+	if (ImGui::Begin("Viewport", NULL, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse))
 	{
 		//get the mouse position
 		ImVec2 pos = ImGui::GetCursorScreenPos();

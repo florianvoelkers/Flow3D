@@ -23,7 +23,7 @@ void Flow3DInspector::Draw()
 {
 	bool show = true;
 	ImGui::SetNextWindowContentSize(ImVec2(360.0f, 960.0f));
-	if (ImGui::Begin("Inspector", &show, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize))
+	if (ImGui::Begin("Inspector", NULL, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar))
 	{
 		if (gameObjectSet && currentGameObject != NULL)
 		{
@@ -438,7 +438,7 @@ void Flow3DInspector::Draw()
 				ImGui::EndPopup();
 			}
 
-			ImGui::Separator();
+			ImGui::Separator();			
 
 			bool gameObjectActive = currentGameObject->GetIsActive();
 			if (ImGui::Checkbox("", &gameObjectActive))
@@ -474,6 +474,8 @@ void Flow3DInspector::Draw()
 			}
 
 			ImGui::Separator();
+
+			ImGui::BeginChild("Inspector");
 
 			if (gameObjectSet && currentGameObject != NULL)
 			{
@@ -544,7 +546,9 @@ void Flow3DInspector::Draw()
 				}
 
 				ImGui::Separator();
-			}				
+			}		
+
+			ImGui::EndChild();
 		}
 
 

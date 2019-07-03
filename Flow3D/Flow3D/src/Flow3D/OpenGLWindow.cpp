@@ -39,6 +39,9 @@ void OpenGLWindow::Init(const WindowProperties& properties)
 	glfwWindowHint(GLFW_SAMPLES, 4);
 
 	// Create a window object
+	GLFWmonitor* primary = glfwGetPrimaryMonitor();
+	const GLFWvidmode* mode = glfwGetVideoMode(primary);
+	// for full screen window: glfwCreateWindow(mode->width, mode->height, properties.Title.c_str(), NULL, NULL);
 	m_Window = glfwCreateWindow(properties.Width, properties.Height, properties.Title.c_str(), NULL, NULL);
 	if (!m_Window)
 	{
