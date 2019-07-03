@@ -34,7 +34,7 @@ struct SkyboxEditor
 
 			if (ImGui::Button("Create", ImVec2(120, 0)))
 			{
-				ResourceManager::Get().
+				ResourceManager::Get().AddSkybox(std::make_shared<Skybox>(directory, filetype, nameBuffer, false));
 				ImGui::CloseCurrentPopup();
 			}
 			ImGui::SetItemDefaultFocus();
@@ -44,15 +44,21 @@ struct SkyboxEditor
 		}
 		ImGui::Separator();
 
-		std::vector<std::shared_ptr<Shader>> shaders = ResourceManager::Get().GetAllShaders();
-		ImGui::Columns(3);
-		ImGui::SetColumnWidth(0, 320.0f);
-		ImGui::SetColumnWidth(1, 320.0f);
-		ImGui::SetColumnWidth(2, 320.0f);
+		std::vector<std::shared_ptr<Skybox>> skyboxes = ResourceManager::Get().GetAllSkyboxes();
+		ImGui::Columns(5);
+		ImGui::SetColumnWidth(0, 200.0f);
+		ImGui::SetColumnWidth(1, 400.0f);
+		ImGui::SetColumnWidth(2, 100.0f);
+		ImGui::SetColumnWidth(3, 80.0f);
+		ImGui::SetColumnWidth(4, 180.0f);
 
 		ImGui::Text("Name");
 		ImGui::NextColumn();
-		ImGui::Text("ID");
+		ImGui::Text("Directory");
+		ImGui::NextColumn();
+		ImGui::Text("Filetype");
+		ImGui::NextColumn();
+		ImGui::Text("Shown");
 		ImGui::NextColumn();
 		ImGui::Text("Action");
 		ImGui::NextColumn();
@@ -60,26 +66,31 @@ struct SkyboxEditor
 		ImGui::Separator();
 		ImGui::Separator();
 
-		for (unsigned int i = 0; i < shaders.size(); i++)
+		for (unsigned int i = 0; i < skyboxes.size(); i++)
 		{
-			ImGui::Text(shaders[i]->m_Name.c_str());
+			ImGui::Text(skyboxes[i]->GetName().c_str());
 			ImGui::NextColumn();
-			std::string id = std::to_string(shaders[i]->m_ID);
-			ImGui::Text(id.c_str());
+			ImGui::Text(skyboxes[i]->GetDirectory().c_str());
 			ImGui::NextColumn();
+			ImGui::Text(skyboxes[i]->GetFiletype().c_str());
+			ImGui::NextColumn();
+			std::string shown = std::to_string(skyboxes[i]->IsShown());
+			ImGui::Text(shown.c_str());
+			ImGui::NextColumn();
+
 			std::string buttonName = "Delete ";
-			buttonName.append(shaders[i]->m_Name);
+			buttonName.append(skyboxes[i]->GetName());
 			if (ImGui::Button(buttonName.c_str()))
 				ImGui::OpenPopup(buttonName.c_str());
 
 			if (ImGui::BeginPopupModal(buttonName.c_str(), NULL, ImGuiWindowFlags_AlwaysAutoResize))
 			{
-				ImGui::Text("This shader will be deleted.\nPlease make sure no GameObject uses it.\n\n");
+				ImGui::Text("This skybox will be deleted.\n");
 				ImGui::Separator();
 
 				if (ImGui::Button("OK", ImVec2(120, 0)))
 				{
-					ResourceManager::Get().RemoveShader(i);
+					ResourceManager::Get().RemoveSkybox(i);
 					ImGui::CloseCurrentPopup();
 				}
 				ImGui::SetItemDefaultFocus();

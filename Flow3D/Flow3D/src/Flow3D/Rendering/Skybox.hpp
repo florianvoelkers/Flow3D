@@ -13,7 +13,7 @@
 class Skybox
 {
 public:
-	Skybox(std::string skyboxDirectory, std::string filetype, std::string name, unsigned int id, bool show);
+	Skybox(std::string skyboxDirectory, std::string filetype, std::string name, bool show);
 	~Skybox();
 
 	void Draw(Mat4 view, Mat4 projection) const;
@@ -22,15 +22,17 @@ public:
 	const void ToggleShow() { m_Show = !m_Show; }
 
 	inline const std::string GetName() const { return m_Name; }
-	inline const unsigned int GetID() const { return m_ID; }
+	inline const std::string GetDirectory() const { return m_Directory; }
+	inline const std::string GetFiletype() const { return m_Filetype; }
 
 private:
 	unsigned int VAO;
 	Shader* m_Shader;
 	unsigned int m_CubemapTexture;
 	bool m_Show;
-	unsigned int m_ID;
 	std::string m_Name;
+	std::string m_Directory;
+	std::string m_Filetype;
 
 	void SetupCube(std::string skyboxDirectory, std::string filetype);
 	unsigned int LoadCubemap(std::vector<std::string> faces);

@@ -13,6 +13,7 @@
 #include "ImGuiTextureEditor.hpp"
 #include "ImGuiShaderEditor.hpp"
 #include "ImGuiModelsEditor.hpp"
+#include "ImGuiSkyboxEditor.hpp"
 
 #include "Flow3D/Serializer.hpp"
 
@@ -123,7 +124,7 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 	static bool show = true;
 	static bool showResourceManager = false;
 		
-	ImGui::ShowDemoWindow(&show);
+	//ImGui::ShowDemoWindow(&show);
 
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -225,7 +226,8 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 				}
 				else if (selected == 3)
 				{
-
+					SkyboxEditor skyboxEditor;
+					skyboxEditor.Draw();
 				}
 
 				ImGui::End();
