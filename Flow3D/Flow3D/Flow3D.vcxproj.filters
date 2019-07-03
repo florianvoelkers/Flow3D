@@ -1263,6 +1263,9 @@
     <ClInclude Include="src\Flow3D\Components\ComponentManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Flow3D\ImGui\ImGuiSkyboxEditor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Flow3D\Application.cpp">

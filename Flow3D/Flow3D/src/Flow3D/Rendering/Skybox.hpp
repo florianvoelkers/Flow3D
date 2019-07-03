@@ -21,6 +21,9 @@ public:
 	inline const bool IsShown() const { return m_Show; }
 	const void ToggleShow() { m_Show = !m_Show; }
 
+	inline const std::string GetName() const { return m_Name; }
+	inline const unsigned int GetID() const { return m_ID; }
+
 private:
 	unsigned int VAO;
 	Shader* m_Shader;

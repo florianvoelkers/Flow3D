@@ -571,6 +571,7 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="src\Flow3D\ImGui\ImGuiRenderableEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiResourceEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiShaderEditor.hpp" />
+    <ClInclude Include="src\Flow3D\ImGui\ImGuiSkyboxEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiSpotLightEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiTextureEditor.hpp" />
     <ClInclude Include="src\Flow3D\ImGui\ImGuiTransformEditor.hpp" />

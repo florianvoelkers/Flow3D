@@ -26,6 +26,11 @@ ResourceManager::ResourceManager()
 	models.push_back(std::make_shared<Model>("resources/models/old_house/house.obj"));
 	models.push_back(std::make_shared<Model>("resources/models/house/house.obj"));
 	models.push_back(std::make_shared<Model>("resources/models/sword/Sword.obj"));
+
+	skyboxes.push_back(std::make_shared<Skybox>("resources/skyboxes/night_sea", "png", "night_sea", 1, true));
+	skyboxes.push_back(std::make_shared<Skybox>("resources/skyboxes/mp_heresy", "tga", "heresy", 2, false));
+	skyboxes.push_back(std::make_shared<Skybox>("resources/skyboxes/bright_sea", "jpg", "bright_sea", 3, false));
+	skyboxes.push_back(std::make_shared<Skybox>("resources/skyboxes/night_sky", "png", "night_sky", 4, false));
 }
 
 std::shared_ptr<Texture> ResourceManager::FindTexture(unsigned int id)
@@ -54,6 +59,16 @@ std::shared_ptr<Model> ResourceManager::FindModel(std::string path)
 	{
 		if (path == models[i]->filepath)
 			return models[i];
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Skybox> ResourceManager::FindSkybox(std::string name)
+{
+	for (unsigned int i = 0; i < skyboxes.size(); i++)
+	{
+		if (name == skyboxes[i]->GetName())
+			return skyboxes[i];
 	}
 	return nullptr;
 }

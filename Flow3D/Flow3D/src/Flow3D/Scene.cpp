@@ -23,7 +23,7 @@ void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
 
 void Scene::OnAttach()
 {
-	m_Skybox = std::make_unique<Skybox>("resources/skyboxes/night_sea", "png", "night_sea", 1, true);
+	m_Skybox = ResourceManager::Get().FindSkybox("night_sea");
 }
 	 
 void Scene::OnDetach()

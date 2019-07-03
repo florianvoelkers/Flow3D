@@ -160,7 +160,7 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Settings"))
+		if (ImGui::BeginMenu("Tools"))
 		{
 			Skybox& skybox = app.GetCurrentScene().GetSkybox();
 			if (&skybox != nullptr)
@@ -187,7 +187,7 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 			{
 				ImGui::Separator();
 
-				ImGui::Columns(3);
+				ImGui::Columns(4);
 				static int selected = -1;
 
 				if (ImGui::Selectable("Textures", selected == 0))
@@ -201,9 +201,12 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 				if (ImGui::Selectable("Models", selected == 2))
 					selected = 2;
 
+				ImGui::NextColumn();
+				if (ImGui::Selectable("Skyboxes", selected == 3))
+					selected = 3;
+
 				ImGui::Columns(1);
-				ImGui::Separator();
-					
+				ImGui::Separator();					
 
 				if (selected == 0)
 				{
@@ -220,7 +223,10 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 					ModelsEditor modelsEditor;
 					modelsEditor.Draw();
 				}
+				else if (selected == 3)
+				{
 
+				}
 
 				ImGui::End();
 			}

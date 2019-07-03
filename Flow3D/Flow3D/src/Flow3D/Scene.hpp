@@ -45,7 +45,7 @@ private:
 	std::unique_ptr<GameObject> m_Root;
 	std::string m_Name;
 	GameObject* m_MainCamera;
-	std::unique_ptr<Skybox> m_Skybox;
+	std::shared_ptr<Skybox> m_Skybox;
 	std::string skyboxID;
 	Color backgroundColor;
 

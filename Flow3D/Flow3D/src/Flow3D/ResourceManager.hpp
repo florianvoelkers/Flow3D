@@ -3,6 +3,7 @@
 #include "Rendering/Shader.hpp"
 #include "Rendering/Texture.hpp"
 #include "Rendering/Model.hpp"
+#include "Rendering/Skybox.hpp"
 
 enum class ResourceType {
 	Shader, Texture, Model
@@ -28,9 +29,14 @@ public:
 	void RemoveModel(int index) { models.erase(models.begin() + index); }
 	std::shared_ptr<Model> FindModel(std::string path);
 
+	void AddSkybox(std::shared_ptr<Skybox> skybox) { skyboxes.push_back(skybox); }
+	void RemoveSkybox(int index) { skyboxes.erase(skyboxes.begin() + index); }
+	std::shared_ptr<Skybox> FindSkybox(std::string name);
+
 	std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
 	std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
 	std::vector<std::shared_ptr<Model>> GetAllModels() { return models; }
+	std::vector<std::shared_ptr<Skybox>> GetAllSkyboxes() { return skyboxes; }
 		
 private:
 	static ResourceManager* s_Instance;
@@ -38,4 +44,5 @@ private:
 	std::vector<std::shared_ptr<Shader>> shaders;
 	std::vector<std::shared_ptr<Texture>> textures;
 	std::vector<std::shared_ptr<Model>> models;
+	std::vector<std::shared_ptr<Skybox>> skyboxes;
 };
