@@ -17,8 +17,15 @@ void Serializer::Serialize(Scene& scene)
 	std::ofstream myfile;
 
 	CreateDirectory("serialization", NULL);
+	
+	json sceneAsJson = scene;
+
 	std::string directory = "serialization/" + scene.GetName();
 	std::string sceneFilename = scene.GetName() + ".scene";
+	std::string scenePath = "serialization/" + sceneFilename;
+	myfile.open(scenePath.c_str());
+	myfile << std::setw(4) << sceneAsJson;
+	myfile.close();
 
 	CreateDirectory(directory.c_str(), NULL);
 	directory = directory + "/";
@@ -39,6 +46,15 @@ void Serializer::Deserialize(Scene& scene)
 {
 	std::string sceneName = scene.GetName();
 	std::string serializationDirectory = "serialization\\" + sceneName;
+
+	std::string sceneFilepath = serializationDirectory + ".scene";
+	std::ifstream sceneFile(sceneFilepath);
+	json sceneAsJson;
+	sceneFile >> sceneAsJson;
+	auto loadedScene = sceneAsJson.get<Scene>();
+	scene.SetBackgroundColor(loadedScene.GetBackgroundColor());
+	scene.SetSkybox(ResourceManager::Get().FindSkybox(loadedScene.m_SkyboxName));
+
 	GameObject& root = scene.GetRoot();
 	if (std::experimental::filesystem::exists(serializationDirectory.c_str()))
 	{		

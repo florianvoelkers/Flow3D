@@ -22,7 +22,7 @@ Application::Application()
 
 	m_ResourceManager = std::make_unique<ResourceManager>();
 
-	m_CurrentScene = std::make_unique<Scene>("TestScene", *m_Window);
+	m_CurrentScene = std::make_unique<Scene>("Geisterbahn");
 	m_CurrentScene->OnAttach();
 	Serializer::Deserialize(*m_CurrentScene);
 
@@ -85,7 +85,7 @@ void Application::OnEvent(Event& e)
 
 void Application::CreateAndSetNewScene(std::string name)
 {
-	m_CurrentScene = std::make_unique<Scene>(name, *m_Window);
+	m_CurrentScene = std::make_unique<Scene>(name);
 	m_CurrentScene->OnAttach();
 }
 

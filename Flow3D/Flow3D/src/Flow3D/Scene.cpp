@@ -2,9 +2,16 @@
 
 #include "ResourceManager.hpp"
 #include "Components/ComponentManager.cpp"
+#include "Application.hpp"
 
-Scene::Scene(std::string name, const Window& window)
-	: m_Name(name), m_Window(window)
+Scene::Scene()
+{
+	// The root object will contain all objects present in one scene as it's children and their children and so on.
+	m_Root = std::make_unique<GameObject>("root");
+}
+
+Scene::Scene(std::string name)
+	: m_Name(name)
 {
 	// The root object will contain all objects present in one scene as it's children and their children and so on.
 	m_Root = std::make_unique<GameObject>("root");
@@ -14,6 +21,10 @@ Scene::~Scene()
 {	
 	m_PointLights.clear();
 	m_SpotLights.clear();
+}
+
+Scene::Scene(const Scene & scene)
+{
 }
 
 void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
@@ -52,7 +63,7 @@ void Scene::SetSkybox(std::shared_ptr<Skybox> skybox)
 {
 	m_Skybox = skybox;
 	m_SkyboxName = skybox->GetName();
-	skybox->SetShown(true);
+	skybox->SetShown(skybox->IsShown());
 }
 
 void Scene::SetMainCamera(GameObject* mainCamera)

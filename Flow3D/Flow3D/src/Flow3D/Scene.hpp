@@ -10,8 +10,11 @@
 class Scene
 {
 public:
-	Scene(std::string name, const Window& window);
+
+	Scene();
+	Scene(std::string name);
 	~Scene();
+	Scene(const Scene& scene);
 
 	void AddToScene(std::shared_ptr<GameObject> gameObject);
 
@@ -45,16 +48,32 @@ public:
 	void SetBackgroundColor(Color color) { m_BackgroundColor = color; }
 	inline Color GetBackgroundColor() { return m_BackgroundColor; }
 
-private:
-	const Window& m_Window;
-	std::unique_ptr<GameObject> m_Root;
 	std::string m_Name;
-	GameObject* m_MainCamera;
-	std::shared_ptr<Skybox> m_Skybox;
 	std::string m_SkyboxName;
 	Color m_BackgroundColor;
 
+private:
+	std::unique_ptr<GameObject> m_Root;
+	
+	GameObject* m_MainCamera;
+	std::shared_ptr<Skybox> m_Skybox;
 	DirectionalLight* m_DirectionalLight;
 	std::vector<PointLight*> m_PointLights;
 	std::vector<SpotLight*> m_SpotLights;
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Scene>()
+	{
+		return members(
+			member("m_Name", &Scene::m_Name),
+			member("m_SkyboxName", &Scene::m_SkyboxName),
+			member("m_BackgroundColor", &Scene::m_BackgroundColor)
+		);
+	}
+
+} // end of namespace meta

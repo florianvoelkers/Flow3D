@@ -124,6 +124,8 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 	static bool showResourceManager = false;
 	static bool showSceneManager = false;
 
+	ImGui::ShowDemoWindow();
+
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("Flow3D"))
@@ -134,10 +136,24 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 		
 		if (ImGui::BeginMenu("Scene"))
 		{
-			if (ImGui::MenuItem("Create new Scene"))
+			ImGui::MenuItem("Create new Scene");
+
+			static char sceneName[32] = "NewScene";
+			if (ImGui::BeginPopupContextItem("", 1))
 			{
-				Application::Get().CreateAndSetNewScene("NewScene");
+				ImGui::Text("Edit name:");
+				ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
+				if (ImGui::Button("Create Scene"))
+				{
+					Application::Get().CreateAndSetNewScene(sceneName);
+					ImGui::CloseCurrentPopup();
+				}
+					
+				ImGui::EndPopup();
 			}
+
+			ImGui::SameLine();
+			ShowHelpMarker("right click to create a new scene");
 
 			if (ImGui::MenuItem("Load scene"))
 			{
