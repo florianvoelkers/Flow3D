@@ -27,22 +27,25 @@ void Serializer::Serialize(Scene& scene)
 	myfile << std::setw(4) << sceneAsJson;
 	myfile.close();
 
-	std::experimental::filesystem::remove_all(directory);
-	CreateDirectory(directory.c_str(), NULL);
-	directory = directory + "/";	
-	std::string filename = rootObject.GetName();
-	directory = directory + filename;
-	CreateDirectory(directory.c_str(), NULL);
-	filename.append(".json");
-	std::string path = directory + "/" + filename;
-	myfile.open(path.c_str());
-	myfile << std::setw(4) << rootAsJSON;
-	myfile.close();
+	if (std::experimental::filesystem::remove_all(directory))
+	{
+		CreateDirectory(directory.c_str(), NULL);
+		directory = directory + "/";
+		std::string filename = rootObject.GetName();
+		directory = directory + filename;
+		CreateDirectory(directory.c_str(), NULL);
+		filename.append(".json");
+		std::string path = directory + "/" + filename;
+		myfile.open(path.c_str());
+		myfile << std::setw(4) << rootAsJSON;
+		myfile.close();
 
-	const std::vector<std::shared_ptr<GameObject>>& rootChildren = rootObject.GetChildren();
-	SerializeChildren(rootChildren, directory, myfile);
+		const std::vector<std::shared_ptr<GameObject>>& rootChildren = rootObject.GetChildren();
+		SerializeChildren(rootChildren, directory, myfile);
 
-	SerializeResources(myfile);
+		SerializeResources(myfile);
+	}
+	
 }
 
 void Serializer::Deserialize(Scene& scene)
@@ -575,12 +578,15 @@ std::string Serializer::GetTexturePath(const std::string & texturesDirectory, co
 
 void Serializer::SerializeResources(std::ofstream& myfile)
 {
-	CreateDirectory("serialization/resources", NULL);
+	if (std::experimental::filesystem::remove_all("serialization/resources"))
+	{
+		CreateDirectory("serialization/resources", NULL);
 
-	SerializeTextures(myfile);
-	SerializeShaders(myfile);
-	SerializeModels(myfile);
-	SerializeSkyboxes(myfile);
+		SerializeTextures(myfile);
+		SerializeShaders(myfile);
+		SerializeModels(myfile);
+		SerializeSkyboxes(myfile);
+	}	
 }
 
 void Serializer::SerializeTextures(std::ofstream& myfile)
