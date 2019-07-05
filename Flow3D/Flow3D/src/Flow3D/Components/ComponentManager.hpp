@@ -17,6 +17,7 @@ class ComponentManager
 
 public:
 
+	static void DuplicateComponent(Component& component, GameObject& gameObject);
 	static std::string ChooseComponentPopup(std::string componentName);
 	static void ShowComponentEditor(std::string componentName, std::vector<std::string> componentNames, Component* component, const std::vector<std::shared_ptr<Component>>& components);
 	static void SerializeComponent(const std::string& componentName, std::ofstream& myfile, Component* component, const std::string& componentDirectory);

@@ -16,6 +16,7 @@
 #include "ImGuiSkyboxEditor.hpp"
 
 #include "Flow3D/Serializer.hpp"
+#include "Flow3D/Components/ComponentManager.hpp"
 
 ImGuiLayer::ImGuiLayer() {}
 
@@ -348,6 +349,45 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 					currentGameObject->AddChild(newGO);
 				else
 					app.GetCurrentScene().AddToScene(newGO);
+
+				ImGui::CloseCurrentPopup();
+			}
+
+			ImGui::EndPopup();
+		}
+
+		ImGui::Separator();
+
+		if (ImGui::Button("Duplicate GameObject", ImVec2(240.0f, 20.0f)))
+			ImGui::OpenPopup("Duplicate GameObject");
+
+		if (ImGui::BeginPopup("Duplicate GameObject"))
+		{
+			static char nameBuffer[64] = "GameObject";
+			ImGui::InputText("Name of GameObject", nameBuffer, IM_ARRAYSIZE(nameBuffer), ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue);
+
+			static bool addAsChild = false;
+			ImGui::Checkbox("Add as a child of the selected object", &addAsChild);
+
+			if (ImGui::Button("Duplicate GameObject", ImVec2(360.0f, 20.0f)))
+			{
+				if (currentGameObject != nullptr)
+				{
+					std::shared_ptr<GameObject> newGO = std::make_shared<GameObject>(nameBuffer);
+					const std::vector<std::shared_ptr<Component>>& allComponents = currentGameObject->GetComponents();
+
+					for (unsigned int i = 0; i < allComponents.size(); i++)
+					{
+						ComponentManager::DuplicateComponent(*allComponents[i], *newGO);
+					}					
+
+					if (addAsChild)
+						currentGameObject->AddChild(newGO);
+					else
+						app.GetCurrentScene().AddToScene(newGO);
+				}
+
+				
 
 				ImGui::CloseCurrentPopup();
 			}
