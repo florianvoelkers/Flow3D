@@ -34,9 +34,7 @@ void Scene::AddToScene(std::shared_ptr<GameObject> gameObject)
 
 void Scene::OnAttach()
 {
-	m_Skybox = ResourceManager::Get().FindSkybox("night_sea");
-	m_SkyboxName = m_Skybox->GetName();
-	m_Skybox->SetShown(true);
+
 }
 	 
 void Scene::OnDetach()

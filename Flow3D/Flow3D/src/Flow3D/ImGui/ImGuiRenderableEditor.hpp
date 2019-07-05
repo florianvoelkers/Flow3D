@@ -44,7 +44,7 @@ struct RenderableEditor
 
 			if (ImGui::Combo("Shader", &currentShader, &shaderNames[0], (int)shaderNames.size()))
 			{
-				//renderable->SetShader(shaders[currentShader]);
+				renderable->SetShader(shaders[currentShader]);
 			}
 			ImGui::SameLine();
 			ShowHelpMarker("Currently shaders should not be swapped, because that causes problems!");
@@ -76,11 +76,7 @@ struct RenderableEditor
 								cubePtr->SetSpecularTexture(textures[0]);
 								cubePtr->SetTextureInitialized(true);
 							}
-
-							renderable->SetShader(shaders[0]);
 						}
-						else
-							renderable->SetShader(shaders[1]);
 					}
 
 					if (hasTexture)

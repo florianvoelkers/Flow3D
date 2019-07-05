@@ -194,26 +194,24 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 						scene.GetSkybox().SetShown(skyboxActive);
 				}
 
-				if (skyboxActive)
+				std::vector<std::shared_ptr<Skybox>> skyboxes = ResourceManager::Get().GetAllSkyboxes();
+				static int currentSkybox = -1;
+				std::vector<const char*> skyboxNames;
+				for (unsigned int i = 0; i < skyboxes.size(); i++)
 				{
-					std::vector<std::shared_ptr<Skybox>> skyboxes = ResourceManager::Get().GetAllSkyboxes();
-					static int currentSkybox = -1;
-					std::vector<const char*> skyboxNames;
-					for (unsigned int i = 0; i < skyboxes.size(); i++)
-					{
-						
-						const char* skyboxName = skyboxes[i]->m_Name.c_str();
-						skyboxNames.push_back(skyboxName);
 
+					const char* skyboxName = skyboxes[i]->m_Name.c_str();
+					skyboxNames.push_back(skyboxName);
+
+					if (&scene.GetSkybox() != nullptr)
 						if (skyboxes[i]->GetName() == scene.GetSkybox().GetName())
 							currentSkybox = i;
-					}
+				}
 
-					ImGui::PushItemWidth(160);
-					if (ImGui::Combo("Skyboxes", &currentSkybox, &skyboxNames[0], (int)skyboxNames.size()))
-					{
-						scene.SetSkybox(skyboxes[currentSkybox]);
-					}
+				ImGui::PushItemWidth(160);
+				if (ImGui::Combo("Skyboxes", &currentSkybox, &skyboxNames[0], (int)skyboxNames.size()))
+				{
+					scene.SetSkybox(skyboxes[currentSkybox]);
 				}
 
 				Color sceneBgColor = scene.GetBackgroundColor();

@@ -15,6 +15,8 @@ class Shader {
 public:
 	unsigned int m_ID;
 	std::string m_Name;
+	std::string m_VertexPath;
+	std::string m_FragmentPath;
 
 	Shader() {}
 	Shader(const GLchar* vertexPath, const GLchar* fragmentPath, std::string name);
@@ -47,7 +49,9 @@ namespace meta {
 	{
 		return members(
 			member("m_ID", &Shader::m_ID),
-			member("m_Name", &Shader::m_Name)
+			member("m_Name", &Shader::m_Name),
+			member("m_VertexPath", &Shader::m_VertexPath),
+			member("m_FragmentPath", &Shader::m_FragmentPath)
 		);
 	}
 

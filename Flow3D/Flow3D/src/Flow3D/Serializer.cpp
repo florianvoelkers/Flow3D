@@ -27,8 +27,9 @@ void Serializer::Serialize(Scene& scene)
 	myfile << std::setw(4) << sceneAsJson;
 	myfile.close();
 
+	std::experimental::filesystem::remove_all(directory);
 	CreateDirectory(directory.c_str(), NULL);
-	directory = directory + "/";
+	directory = directory + "/";	
 	std::string filename = rootObject.GetName();
 	directory = directory + filename;
 	CreateDirectory(directory.c_str(), NULL);
@@ -40,20 +41,27 @@ void Serializer::Serialize(Scene& scene)
 
 	const std::vector<std::shared_ptr<GameObject>>& rootChildren = rootObject.GetChildren();
 	SerializeChildren(rootChildren, directory, myfile);
+
+	SerializeResources(myfile);
 }
 
 void Serializer::Deserialize(Scene& scene)
 {
+	DeserializeResources();
+
 	std::string sceneName = scene.GetName();
 	std::string serializationDirectory = "serialization\\" + sceneName;
 
-	std::string sceneFilepath = serializationDirectory + ".scene";
-	std::ifstream sceneFile(sceneFilepath);
-	json sceneAsJson;
-	sceneFile >> sceneAsJson;
-	auto loadedScene = sceneAsJson.get<Scene>();
-	scene.SetBackgroundColor(loadedScene.GetBackgroundColor());
-	scene.SetSkybox(ResourceManager::Get().FindSkybox(loadedScene.m_SkyboxName));
+	if (std::experimental::filesystem::exists(serializationDirectory.c_str()))
+	{
+		std::string sceneFilepath = serializationDirectory + ".scene";
+		std::ifstream sceneFile(sceneFilepath);
+		json sceneAsJson;
+		sceneFile >> sceneAsJson;
+		auto loadedScene = sceneAsJson.get<Scene>();
+		scene.SetBackgroundColor(loadedScene.GetBackgroundColor());
+		scene.SetSkybox(ResourceManager::Get().FindSkybox(loadedScene.m_SkyboxName));
+	}
 
 	GameObject& root = scene.GetRoot();
 	if (std::experimental::filesystem::exists(serializationDirectory.c_str()))
@@ -286,8 +294,8 @@ void Serializer::DeserializeSpotLight(json & json, GameObject & gameObject, Scen
 void Serializer::DeserializeRenderable(json & componentAsJson, GameObject & gameObject, Scene & scene, const std::string & componentsDirectory)
 {
 	auto renderable = componentAsJson.get<Renderable>();
-	unsigned int shaderID = GetShaderID(componentsDirectory);
-	if (shaderID == 0)
+	std::string shaderName = GetShaderName(componentsDirectory);
+	if (shaderName.empty())
 		FLOW_CORE_ERROR("Shader not found");
 
 	std::string modelFilepath = GetModelFilepath(componentsDirectory);
@@ -307,25 +315,25 @@ void Serializer::DeserializeRenderable(json & componentAsJson, GameObject & game
 			{
 				// Get the textures
 				std::string texturesDirectory = cubeDirectory + "\\Textures";
-				unsigned int diffuseTextureID;
-				unsigned int specularTextureID;
+				std::string diffusePath;
+				std::string specularPath;
 				if (std::experimental::filesystem::exists(texturesDirectory))
 				{
-					diffuseTextureID = GetTextureID(texturesDirectory, "diffuse");
-					specularTextureID = GetTextureID(texturesDirectory, "specular");
+					diffusePath = GetTexturePath(texturesDirectory, "diffuse");
+					specularPath = GetTexturePath(texturesDirectory, "specular");
 				}
 				else
 					FLOW_CORE_ERROR("no textures found");
 
 				gameObject.AddComponent<Renderable>(&gameObject,
-					std::make_shared<Model>(std::make_shared<Cube>(ResourceManager::Get().FindTexture(diffuseTextureID),
-						ResourceManager::Get().FindTexture(specularTextureID))),
-					ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
+					std::make_shared<Model>(std::make_shared<Cube>(ResourceManager::Get().FindTexture(diffusePath),
+						ResourceManager::Get().FindTexture(specularPath))),
+					ResourceManager::Get().FindShader(shaderName), renderable.GetBlending(), renderable.GetEnabled());
 			}
 			else
 			{
 				gameObject.AddComponent<Renderable>(&gameObject,
-					std::make_shared<Model>(std::make_shared<Cube>(cube.GetColor())), ResourceManager::Get().FindShader(shaderID),
+					std::make_shared<Model>(std::make_shared<Cube>(cube.GetColor())), ResourceManager::Get().FindShader(shaderName),
 					renderable.GetBlending(), renderable.GetEnabled());
 			}
 		}
@@ -340,25 +348,25 @@ void Serializer::DeserializeRenderable(json & componentAsJson, GameObject & game
 			{
 				// Get the textures
 				std::string texturesDirectory = planeDirectory + "\\Textures";
-				unsigned int diffuseTextureID;
-				unsigned int specularTextureID;
+				std::string diffusePath;
+				std::string specularPath;
 				if (std::experimental::filesystem::exists(texturesDirectory))
 				{
-					diffuseTextureID = GetTextureID(texturesDirectory, "diffuse");
-					specularTextureID = GetTextureID(texturesDirectory, "specular");
+					diffusePath = GetTexturePath(texturesDirectory, "diffuse");
+					specularPath = GetTexturePath(texturesDirectory, "specular");
 				}
 				else
 					FLOW_CORE_ERROR("no textures found");
 
 				gameObject.AddComponent<Renderable>(&gameObject,
-					std::make_shared<Model>(std::make_shared<Plane>(ResourceManager::Get().FindTexture(diffuseTextureID),
-						ResourceManager::Get().FindTexture(specularTextureID))),
-					ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
+					std::make_shared<Model>(std::make_shared<Plane>(ResourceManager::Get().FindTexture(diffusePath),
+						ResourceManager::Get().FindTexture(specularPath))),
+					ResourceManager::Get().FindShader(shaderName), renderable.GetBlending(), renderable.GetEnabled());
 			}
 			else
 			{
 				gameObject.AddComponent<Renderable>(&gameObject,
-					std::make_shared<Model>(std::make_shared<Plane>(plane.GetColor())), ResourceManager::Get().FindShader(shaderID),
+					std::make_shared<Model>(std::make_shared<Plane>(plane.GetColor())), ResourceManager::Get().FindShader(shaderName),
 					renderable.GetBlending(), renderable.GetEnabled());
 			}
 		}
@@ -368,7 +376,7 @@ void Serializer::DeserializeRenderable(json & componentAsJson, GameObject & game
 	else
 	{
 		gameObject.AddComponent<Renderable>(&gameObject, ResourceManager::Get().FindModel(modelFilepath),
-			ResourceManager::Get().FindShader(shaderID), renderable.GetBlending(), renderable.GetEnabled());
+			ResourceManager::Get().FindShader(shaderName), renderable.GetBlending(), renderable.GetEnabled());
 	}
 }
 
@@ -512,7 +520,7 @@ std::vector<std::string> Serializer::get_directories(const std::string & s)
 	return directSubDirectories;
 }
 
-unsigned int Serializer::GetShaderID(const std::string& componentsDirectory)
+std::string Serializer::GetShaderName(const std::string & componentsDirectory)
 {
 	// get shader
 	std::string shaderDirectory = componentsDirectory + "\\Shader";
@@ -525,10 +533,10 @@ unsigned int Serializer::GetShaderID(const std::string& componentsDirectory)
 			json shaderAsJson;
 			shaderFile >> shaderAsJson;
 			auto shader = shaderAsJson.get<Shader>();
-			return shader.m_ID;
+			return shader.m_Name;
 		}
 	}
-	return 0;
+	return "";
 }
 
 std::string Serializer::GetModelFilepath(const std::string & componentsDirectory)
@@ -550,7 +558,7 @@ std::string Serializer::GetModelFilepath(const std::string & componentsDirectory
 	return "";
 }
 
-unsigned int Serializer::GetTextureID(const std::string& texturesDirectory, const std::string& type)
+std::string Serializer::GetTexturePath(const std::string & texturesDirectory, const std::string & type)
 {
 	std::string texturePath = texturesDirectory + "\\" + type + ".json";
 	if (std::experimental::filesystem::exists(texturePath))
@@ -559,8 +567,154 @@ unsigned int Serializer::GetTextureID(const std::string& texturesDirectory, cons
 		json textureAsJson;
 		textureFile >> textureAsJson;
 		auto texture = textureAsJson.get<Texture>();
-		return texture.id;
+		return texture.path;
 	}
 
-	return 0;
+	return "";
+}
+
+void Serializer::SerializeResources(std::ofstream& myfile)
+{
+	CreateDirectory("serialization/resources", NULL);
+
+	SerializeTextures(myfile);
+	SerializeShaders(myfile);
+	SerializeModels(myfile);
+	SerializeSkyboxes(myfile);
+}
+
+void Serializer::SerializeTextures(std::ofstream& myfile)
+{
+	CreateDirectory("serialization/resources/textures", NULL);
+
+	std::vector<std::shared_ptr<Texture>> textures = ResourceManager::Get().GetAllTextures();
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		json textureAsJson = *textures[i];
+
+		std::string textureFilepath = "serialization/resources/textures/" + textures[i]->name + ".texture";
+		myfile.open(textureFilepath.c_str());
+		myfile << std::setw(4) << textureAsJson;
+		myfile.close();
+	}	
+}
+
+void Serializer::SerializeShaders(std::ofstream& myfile)
+{
+	CreateDirectory("serialization/resources/shaders", NULL);
+
+	std::vector<std::shared_ptr<Shader>> shaders = ResourceManager::Get().GetAllShaders();
+	for (unsigned int i = 0; i < shaders.size(); i++)
+	{
+		json shaderAsJson = *shaders[i];
+		
+		std::string shaderFilepath = "serialization/resources/shaders/" + shaders[i]->m_Name + ".shader";
+		myfile.open(shaderFilepath.c_str());
+		myfile << std::setw(4) << shaderAsJson;
+		myfile.close();
+	}
+}
+
+void Serializer::SerializeModels(std::ofstream& myfile)
+{
+	CreateDirectory("serialization/resources/models", NULL);
+
+	std::vector<std::shared_ptr<Model>> models = ResourceManager::Get().GetAllModels();
+	for (unsigned int i = 0; i < models.size(); i++)
+	{
+		json modelsAsJson = *models[i];
+
+		std::string modelFilepath = "serialization/resources/models/" + models[i]->name + ".model";
+		myfile.open(modelFilepath.c_str());
+		myfile << std::setw(4) << modelsAsJson;
+		myfile.close();
+	}	
+}
+
+void Serializer::SerializeSkyboxes(std::ofstream& myfile)
+{
+	CreateDirectory("serialization/resources/skyboxes", NULL);
+
+	std::vector<std::shared_ptr<Skybox>> skyboxes = ResourceManager::Get().GetAllSkyboxes();
+	for (unsigned int i = 0; i < skyboxes.size(); i++)
+	{
+		json skyboxAsJson = *skyboxes[i];
+
+		std::string skyboxFilepath = "serialization/resources/skyboxes/" + skyboxes[i]->m_Name + ".skybox";
+		myfile.open(skyboxFilepath.c_str());
+		myfile << std::setw(4) << skyboxAsJson;
+		myfile.close();
+	}
+}
+
+void Serializer::DeserializeResources()
+{
+	DeserializeTextures();
+	DeserializeShaders();
+	DeserializeModels();
+	DeserializeSkyboxes();
+}
+
+void Serializer::DeserializeTextures()
+{
+	std::string path = "serialization/resources/textures";
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(path))
+	{
+		// load json of the skybox		
+		std::ifstream textureFile(entry.path());
+		json textureJson;
+		textureFile >> textureJson;
+
+		// Create Model and add it to the resources
+		auto texture = textureJson.get<Texture>();
+		ResourceManager::Get().AddTexture(std::make_shared<Texture>(texture.path, texture.type, texture.m_Flip));
+	}		
+}
+
+void Serializer::DeserializeShaders()
+{
+	std::string path = "serialization/resources/shaders";
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(path))
+	{
+		// load json of the skybox		
+		std::ifstream shaderFile(entry.path());
+		json shaderJson;
+		shaderFile >> shaderJson;
+
+		// Create Model and add it to the resources
+		auto shaderFromJson = shaderJson.get<Shader>();
+		ResourceManager::Get().AddShader(std::make_shared<Shader>(shaderFromJson.m_VertexPath.c_str(), shaderFromJson.m_FragmentPath.c_str(), shaderFromJson.m_Name));
+	}
+}
+
+void Serializer::DeserializeModels()
+{
+	std::string path = "serialization/resources/models";
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(path))
+	{
+		// load json of the model		
+		std::ifstream modelFile(entry.path());
+		json modelJson;
+		modelFile >> modelJson;
+
+		// Create Model and add it to the resources
+		auto modelFromJson = modelJson.get<Model>();
+		ResourceManager::Get().AddModel(std::make_shared<Model>(modelFromJson.filepath));
+	}
+}
+
+void Serializer::DeserializeSkyboxes()
+{
+	std::string path = "serialization/resources/skyboxes";
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(path))
+	{
+		// load json of the skybox		
+		std::ifstream skyboxFile(entry.path());
+		json skyboxJson;
+		skyboxFile >> skyboxJson;
+
+		// Create Model and add it to the resources
+		auto skyboxFromJson = skyboxJson.get<Skybox>();
+		ResourceManager::Get().AddSkybox(std::make_shared<Skybox>(skyboxFromJson.m_Directory, skyboxFromJson.m_Filetype, skyboxFromJson.m_Name, skyboxFromJson.m_Show));
+	}
 }

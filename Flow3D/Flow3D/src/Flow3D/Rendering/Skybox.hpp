@@ -13,6 +13,8 @@
 class Skybox
 {
 public:
+
+	Skybox () {}
 	Skybox(std::string skyboxDirectory, std::string filetype, std::string name, bool show);
 	~Skybox();
 
@@ -40,4 +42,21 @@ private:
 	unsigned int LoadCubemap(std::vector<std::string> faces);
 
 };
+
+#include <MetaStuff/include/Meta.h>
+
+namespace meta {
+
+	template <>
+	inline auto registerMembers<Skybox>()
+	{
+		return members(
+			member("m_Show", &Skybox::m_Show),
+			member("m_Name", &Skybox::m_Name),
+			member("m_Directory", &Skybox::m_Directory),
+			member("m_Filetype", &Skybox::m_Filetype)
+		);
+	}
+
+} // end of namespace meta
 

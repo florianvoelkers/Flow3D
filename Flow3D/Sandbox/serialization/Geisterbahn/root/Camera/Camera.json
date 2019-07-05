@@ -1,0 +1,32 @@
+{
+    "m_IsActive": true,
+    "m_Name": "Camera",
+    "m_Transform": {
+        "constrainPositionX": false,
+        "constrainPositionY": false,
+        "constrainPositionZ": false,
+        "constrainRotationX": false,
+        "constrainRotationY": false,
+        "constrainRotationZ": false,
+        "constrainScaleX": false,
+        "constrainScaleY": false,
+        "constrainScaleZ": false,
+        "m_IsCamera": true,
+        "m_Orientation": {
+            "w": 0.9918593764305115,
+            "x": 0.12530089914798737,
+            "y": 0.022508423775434494,
+            "z": -0.0028434735722839832
+        },
+        "m_Position": {
+            "x": -1.1099073886871338,
+            "y": 2.09578537940979,
+            "z": 6.355373382568359
+        },
+        "m_Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    }
+}

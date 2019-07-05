@@ -6,7 +6,7 @@
 #include "Flow3D\Log.hpp"
 
 Shader::Shader(const GLchar *vertexPath, const GLchar *fragmentPath, std::string name)
-	: m_Name(name)
+	: m_Name(name), m_VertexPath(vertexPath), m_FragmentPath(fragmentPath)
 {
 	// 1. retrieve the vertex/fragment source code from the file paths
 	std::string vertexCode;
