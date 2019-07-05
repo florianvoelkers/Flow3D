@@ -139,13 +139,13 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 			ImGui::MenuItem("Create new Scene");
 
 			static char sceneName[32] = "NewScene";
-			if (ImGui::BeginPopupContextItem("", 1))
+			if (ImGui::BeginPopupContextItem("New Scene", 1))
 			{
 				ImGui::Text("Edit name:");
 				ImGui::InputText("##edit", sceneName, IM_ARRAYSIZE(sceneName));
 				if (ImGui::Button("Create Scene"))
 				{
-					Application::Get().CreateAndSetNewScene(sceneName);
+					app.CreateAndSetNewScene(sceneName);
 					ImGui::CloseCurrentPopup();
 				}
 					
@@ -155,14 +155,42 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 			ImGui::SameLine();
 			ShowHelpMarker("right click to create a new scene");
 
-			if (ImGui::MenuItem("Load scene"))
+			ImGui::MenuItem("Load scene");
+			if (ImGui::BeginPopupContextItem("Load scene", 1))
 			{
+				static int currentScene = -1;
+				std::vector<const char*> sceneNames;
+				std::vector<std::string> allSceneNames = ResourceManager::Get().GetAllSceneNames();
+				for (unsigned int i = 0; i < allSceneNames.size(); i++)
+				{
+					if (app.GetCurrentScene().GetName() != allSceneNames[i])
+					{
+						const char* sceneName = allSceneNames[i].c_str();
+						sceneNames.push_back(sceneName);
+					}
+				}
 
+				ImGui::PushItemWidth(160);
+				ImGui::Combo("Scenes", &currentScene, &sceneNames[0], (int)sceneNames.size());
+
+				if (ImGui::Button("Load Scene"))
+				{
+					if (currentScene != -1)
+					{
+						app.CreateAndSetNewScene(sceneNames[currentScene]);
+						ImGui::CloseCurrentPopup();
+					}						
+				}
+
+				ImGui::EndPopup();
 			}
+
+			ImGui::SameLine();
+			ShowHelpMarker("right click to load a scene");
 
 			if (ImGui::MenuItem("Save current Scene"))
 			{
-				Serializer::Serialize(Application::Get().GetCurrentScene());
+				Serializer::Serialize(app.GetCurrentScene());
 			}
 
 			ImGui::Separator();
@@ -319,7 +347,7 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 				if (addAsChild && currentGameObject != nullptr)
 					currentGameObject->AddChild(newGO);
 				else
-					Application::Get().GetCurrentScene().AddToScene(newGO);
+					app.GetCurrentScene().AddToScene(newGO);
 
 				ImGui::CloseCurrentPopup();
 			}
@@ -333,7 +361,7 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 		ImGui::BeginChild("Hierarchy");
 
 		// Iterate through game objects
-		std::vector<std::shared_ptr<GameObject>> allGameObjects = Application::Get().GetAllGameObjects();
+		std::vector<std::shared_ptr<GameObject>> allGameObjects = app.GetAllGameObjects();
 		for (int i = 0; i < allGameObjects.size(); i++)
 			ShowGameObject(allGameObjects[i]->GetName().c_str(), allGameObjects[i]->GetObjectID(), *allGameObjects[i]);
 

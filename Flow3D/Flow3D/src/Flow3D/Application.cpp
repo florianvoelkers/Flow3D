@@ -25,6 +25,7 @@ Application::Application()
 	m_CurrentScene = std::make_unique<Scene>("Geisterbahn");
 	m_CurrentScene->OnAttach();
 	Serializer::Deserialize(*m_CurrentScene);
+	Serializer::LoadSceneNames();
 
 	m_ImGui = std::make_unique<ImGuiLayer>();
 	m_ImGui->OnAttach();				
@@ -87,6 +88,7 @@ void Application::CreateAndSetNewScene(std::string name)
 {
 	m_CurrentScene = std::make_unique<Scene>(name);
 	m_CurrentScene->OnAttach();
+	Serializer::Deserialize(*m_CurrentScene);
 }
 
 bool Application::OnWindowClose(WindowCloseEvent& e)

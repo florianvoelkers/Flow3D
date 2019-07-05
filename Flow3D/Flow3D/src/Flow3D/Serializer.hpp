@@ -19,6 +19,8 @@ class Serializer
 {
 
 public:
+
+	static void LoadSceneNames();
 	
 	static void Serialize(Scene& scene);
 	static void Deserialize(Scene& scene);

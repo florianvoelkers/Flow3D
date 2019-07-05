@@ -33,10 +33,13 @@ public:
 	void RemoveSkybox(int index) { skyboxes.erase(skyboxes.begin() + index); }
 	std::shared_ptr<Skybox> FindSkybox(std::string name);
 
+	void AddSceneName(std::string sceneName) { sceneNames.push_back(sceneName); }
+
 	std::vector<std::shared_ptr<Texture>> GetAllTextures() { return textures; }
 	std::vector<std::shared_ptr<Shader>> GetAllShaders() { return shaders; }
 	std::vector<std::shared_ptr<Model>> GetAllModels() { return models; }
 	std::vector<std::shared_ptr<Skybox>> GetAllSkyboxes() { return skyboxes; }
+	std::vector<std::string> GetAllSceneNames() { return sceneNames; }
 		
 private:
 	static ResourceManager* s_Instance;
@@ -45,4 +48,5 @@ private:
 	std::vector<std::shared_ptr<Texture>> textures;
 	std::vector<std::shared_ptr<Model>> models;
 	std::vector<std::shared_ptr<Skybox>> skyboxes;
+	std::vector<std::string> sceneNames; 
 };

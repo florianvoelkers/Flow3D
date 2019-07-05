@@ -8,6 +8,22 @@
 #include <sys/stat.h>   // For stat().
 #include <filesystem>
 
+void Serializer::LoadSceneNames()
+{
+	std::string path = "serialization";
+	for (const auto & entry : std::experimental::filesystem::directory_iterator(path))
+	{
+		std::string fileExtension = ".scene";
+		if (entry.path().extension() == fileExtension)
+		{
+			std::string path_string = entry.path().u8string();
+			size_t fileExtensionPosition = path_string.find(".scene");
+			std::string sceneName = path_string.substr(path.size() + 1, path_string.size() - path.size() - 1 - fileExtension.size());
+			ResourceManager::Get().AddSceneName(sceneName);
+		}
+		
+	}
+}
 
 void Serializer::Serialize(Scene& scene)
 {
