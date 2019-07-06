@@ -1,6 +1,6 @@
 {
     "m_IsActive": true,
-    "m_Name": "Plane",
+    "m_Name": "Plane(9)",
     "m_Transform": {
         "constrainPositionX": false,
         "constrainPositionY": false,
@@ -20,8 +20,8 @@
         },
         "m_Position": {
             "x": 0.0,
-            "y": 0.0,
-            "z": 0.0
+            "y": -0.0010000000474974513,
+            "z": 17.0
         },
         "m_Scale": {
             "x": 17.0,

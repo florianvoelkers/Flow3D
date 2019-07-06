@@ -1,6 +1,6 @@
 {
     "m_IsActive": true,
-    "m_Name": "Camera",
+    "m_Name": "Plane(5)",
     "m_Transform": {
         "constrainPositionX": false,
         "constrainPositionY": false,
@@ -11,22 +11,22 @@
         "constrainScaleX": false,
         "constrainScaleY": false,
         "constrainScaleZ": false,
-        "m_IsCamera": true,
+        "m_IsCamera": false,
         "m_Orientation": {
-            "w": 0.9935888648033142,
-            "x": 0.04511898010969162,
-            "y": -0.10355377197265625,
-            "z": 0.004702388308942318
+            "w": 0.7071068286895752,
+            "x": 0.7071067690849304,
+            "y": 0.0,
+            "z": 0.0
         },
         "m_Position": {
-            "x": 1.6388609409332275,
-            "y": 1.6121941804885864,
-            "z": 8.530193328857422
+            "x": 0.0,
+            "y": -0.0010000000474974513,
+            "z": -17.0
         },
         "m_Scale": {
-            "x": 1.0,
-            "y": 1.0,
-            "z": 1.0
+            "x": 17.0,
+            "y": 17.0,
+            "z": 17.0
         }
     }
 }

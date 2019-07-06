@@ -373,9 +373,13 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 			{
 				if (currentGameObject != nullptr)
 				{
-					std::shared_ptr<GameObject> newGO = std::make_shared<GameObject>(nameBuffer);
-					const std::vector<std::shared_ptr<Component>>& allComponents = currentGameObject->GetComponents();
+					// copy game object with transform
+					std::shared_ptr<GameObject> newGO = std::make_shared<GameObject>(nameBuffer, 
+						currentGameObject->GetTransform().GetPosition(), currentGameObject->GetTransform().GetOrientation(),
+						currentGameObject->GetTransform().GetScale(), currentGameObject->GetIsActive());
 
+					// copy components
+					const std::vector<std::shared_ptr<Component>>& allComponents = currentGameObject->GetComponents();
 					for (unsigned int i = 0; i < allComponents.size(); i++)
 					{
 						ComponentManager::DuplicateComponent(*allComponents[i], *newGO);
@@ -384,7 +388,7 @@ void ImGuiLayer::OnUpdate(double deltaTime)
 					if (addAsChild)
 						currentGameObject->AddChild(newGO);
 					else
-						app.GetCurrentScene().AddToScene(newGO);
+						currentGameObject->GetParent()->AddChild(newGO);
 				}
 
 				
