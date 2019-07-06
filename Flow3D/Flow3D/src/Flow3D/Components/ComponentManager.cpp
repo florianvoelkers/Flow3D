@@ -65,8 +65,8 @@ std::string ComponentManager::ChooseComponentPopup(std::string componentName)
 	}
 }
 
-void ComponentManager::DuplicateComponent(Component & component, GameObject& gameObject)
-{
+void ComponentManager::DuplicateComponent(Component& component, GameObject& gameObject)
+{	
 	std::string componentName = component.GetName();
 	if (componentName == "FreeCamera")
 	{
@@ -76,8 +76,8 @@ void ComponentManager::DuplicateComponent(Component & component, GameObject& gam
 	{
 		gameObject.AddComponent<GameObjectToggler>(&gameObject, component.GetEnabled());
 
-		GameObjectToggler* goToggler = dynamic_cast<GameObjectToggler*>(&component);
-		std::vector<std::tuple<GameObject*, std::string, Keycode>>& gameObjectsToToggle = goToggler->GetGameObjectsToToggle();
+		GameObjectToggler& goToggler = *dynamic_cast<GameObjectToggler*>(&component);
+		std::vector<std::tuple<GameObject*, std::string, Keycode>>& gameObjectsToToggle = goToggler.GetGameObjectsToToggle();
 
 		GameObjectToggler& togglerOfNewGameObject = gameObject.GetComponent<GameObjectToggler>();
 		for (unsigned int i = 0; i < gameObjectsToToggle.size(); i++)
@@ -90,8 +90,8 @@ void ComponentManager::DuplicateComponent(Component & component, GameObject& gam
 	{
 		gameObject.AddComponent<ComponentToggler>(&gameObject, component.GetEnabled());
 
-		ComponentToggler* toggler = dynamic_cast<ComponentToggler*>(&component);
-		std::vector<std::tuple<Component*, Keycode>>& componentsToToggle = toggler->GetComponentsToToggle();
+		ComponentToggler& toggler = *dynamic_cast<ComponentToggler*>(&component);
+		std::vector<std::tuple<Component*, Keycode>>& componentsToToggle = toggler.GetComponentsToToggle();
 
 		ComponentToggler& togglerOfNewGameObject = gameObject.GetComponent<ComponentToggler>();
 		for (unsigned int i = 0; i < componentsToToggle.size(); i++)
@@ -106,21 +106,72 @@ void ComponentManager::DuplicateComponent(Component & component, GameObject& gam
 	}
 	else if (componentName == "PointLight")
 	{
-		PointLight* pointLight = dynamic_cast<PointLight*>(&component);
-		gameObject.AddComponent<PointLight>(&gameObject, pointLight->GetAmbientIntensity(), pointLight->GetDiffuseIntensity(), pointLight->GetSpecularIntensity(),
-			pointLight->GetAttenuation(), pointLight->GetEnabled());
+		PointLight& pointLight = *dynamic_cast<PointLight*>(&component);
+		gameObject.AddComponent<PointLight>(&gameObject, pointLight.GetAmbientIntensity(), pointLight.GetDiffuseIntensity(), pointLight.GetSpecularIntensity(),
+			pointLight.GetAttenuation(), pointLight.GetEnabled());
 		Application::Get().GetCurrentScene().AddPointLight(&gameObject.GetComponent<PointLight>());
 	}
 	else if (componentName == "SpotLight")
 	{
-		SpotLight* spotLight = dynamic_cast<SpotLight*>(&component);
-		gameObject.AddComponent<SpotLight>(&gameObject, spotLight->GetAmbientIntensity(), spotLight->GetDiffuseIntensity(), spotLight->GetSpecularIntensity(),
-			spotLight->GetCutoff(), spotLight->GetOuterCutoff(), spotLight->GetAttenuation(), spotLight->GetEnabled());
+		SpotLight& spotLight = *dynamic_cast<SpotLight*>(&component);
+		gameObject.AddComponent<SpotLight>(&gameObject, spotLight.GetAmbientIntensity(), spotLight.GetDiffuseIntensity(), spotLight.GetSpecularIntensity(),
+			spotLight.GetCutoff(), spotLight.GetOuterCutoff(), spotLight.GetAttenuation(), spotLight.GetEnabled());
 		Application::Get().GetCurrentScene().AddPointLight(&gameObject.GetComponent<PointLight>());
 	}
 	else if (componentName == "Renderable")
 	{
-		
+		Renderable& renderable = *dynamic_cast<Renderable*>(&component);
+		std::string shaderName = renderable.GetShader().m_Name;
+
+		Model& model = renderable.GetModel();
+		std::string modelFilepath = model.filepath;
+		if (modelFilepath.empty())
+		{
+			if (model.GetCube() != nullptr)
+			{
+				Cube& cube = *model.GetCube();
+				if (cube.GetIsTextured())
+				{
+					Texture& diffuseTexture = cube.GetDiffuseTexture();
+					std::string diffusePath = diffuseTexture.path;
+					Texture& specularTexture = cube.GetSpecularTexture();
+					std::string specularPath = specularTexture.path;
+					gameObject.AddComponent<Renderable>(&gameObject, std::make_shared<Model>(std::make_shared<Cube>(ResourceManager::Get().FindTexture(diffusePath),
+						ResourceManager::Get().FindTexture(specularPath))),
+						ResourceManager::Get().FindShader(shaderName), renderable.GetBlending(), renderable.GetEnabled());
+				}
+				else
+				{
+					gameObject.AddComponent<Renderable>(&gameObject, std::make_shared<Model>(std::make_shared<Cube>(cube.GetColor())),
+						ResourceManager::Get().FindShader(shaderName), renderable.GetBlending(), renderable.GetEnabled());
+				}
+				
+			}
+			else if (model.GetPlane() != nullptr)
+			{
+				Plane& plane = *model.GetPlane();
+				if (plane.GetIsTextured())
+				{
+					Texture& diffuseTexture = plane.GetDiffuseTexture();
+					std::string diffusePath = diffuseTexture.path;
+					Texture& specularTexture = plane.GetSpecularTexture();
+					std::string specularPath = specularTexture.path;
+					gameObject.AddComponent<Renderable>(&gameObject, std::make_shared<Model>(std::make_shared<Plane>(ResourceManager::Get().FindTexture(diffusePath),
+						ResourceManager::Get().FindTexture(specularPath))),
+						ResourceManager::Get().FindShader(shaderName), renderable.GetBlending(), renderable.GetEnabled());
+				}
+				else
+				{
+					gameObject.AddComponent<Renderable>(&gameObject, std::make_shared<Model>(std::make_shared<Plane>(plane.GetColor())),
+						ResourceManager::Get().FindShader(shaderName), renderable.GetBlending(), renderable.GetEnabled());
+				}				
+			}
+		}
+		else
+		{
+			gameObject.AddComponent<Renderable>(&gameObject, ResourceManager::Get().FindModel(modelFilepath),
+				ResourceManager::Get().FindShader(shaderName), renderable.GetBlending(), renderable.GetEnabled());
+		}
 	}
 }
 
