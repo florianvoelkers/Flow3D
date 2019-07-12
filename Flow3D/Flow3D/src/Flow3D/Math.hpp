@@ -6,6 +6,7 @@
 #include <glm/gtx/transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/component_wise.hpp>
 
 #include <iostream>
 #define _USE_MATH_DEFINES
@@ -132,7 +133,30 @@ public:
 		return Vec3(normalized);
 	}
 
+	float Length()
+	{
+		float length = glm::length(glm::vec3(x, y, z));
+		return length;
+	}
+
+	float Length() const
+	{
+		float length = glm::length(glm::vec3(x, y, z));
+		return length;
+	}
+
+	float Dot(const Vec3 &r) const
+	{
+		float dotProduct = glm::dot(glm::vec3(x, y, z), glm::vec3(r.x, r.y, r.z));
+		return dotProduct;
+	}
+
 	Vec3 operator+(const Vec3 &r)
+	{
+		return Vec3(x + r.x, y + r.y, z + r.z);
+	}
+
+	Vec3 operator+(const Vec3 &r) const
 	{
 		return Vec3(x + r.x, y + r.y, z + r.z);
 	}
@@ -150,12 +174,35 @@ public:
 		return Vec3(x - r.x, y - r.y, z - r.z);
 	}
 
+	Vec3 operator-(const Vec3 &r) const
+	{
+		return Vec3(x - r.x, y - r.y, z - r.z);
+	}
+
+	Vec3 Max(const Vec3& r)
+	{
+		glm::vec3 maxVector = glm::max(glm::vec3(x, y, z), glm::vec3(r.x, r.y, r.z));
+		return Vec3(maxVector);
+	}
+
+	float Max()
+	{
+		float maxValue = glm::compMax(glm::vec3(x, y, z));
+		return maxValue;
+	}
+
 	Vec3 operator-=(const Vec3 &r)
 	{
 		x -= r.x;
 		y -= r.y;
 		z -= r.z;
 		return *this;
+	}
+
+	Vec3 operator/(const Vec3 &r) const
+	{
+		glm::vec3 divided = glm::vec3(x, y, z) / glm::vec3(r.x, r.y, r.z);
+		return Vec3(divided);
 	}
 
 	Vec3 operator*(const float &value)

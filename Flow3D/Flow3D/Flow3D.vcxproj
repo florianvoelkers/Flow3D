@@ -540,6 +540,11 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClInclude Include="external_libraries\stb_image\stb_image.h" />
     <ClInclude Include="src\Flow3D.hpp" />
     <ClInclude Include="src\Flow3D\Application.hpp" />
+    <ClInclude Include="src\Flow3D\Collision\AABB.hpp" />
+    <ClInclude Include="src\Flow3D\Collision\BoundingSphere.hpp" />
+    <ClInclude Include="src\Flow3D\Collision\Collider.hpp" />
+    <ClInclude Include="src\Flow3D\Collision\IntersectData.hpp" />
+    <ClInclude Include="src\Flow3D\Collision\PlaneCollider.hpp" />
     <ClInclude Include="src\Flow3D\Color.hpp" />
     <ClInclude Include="src\Flow3D\Components\ComponentManager.hpp" />
     <ClInclude Include="src\Flow3D\Components\ComponentToggler.hpp" />
@@ -604,6 +609,10 @@ xcopy /E /Y "$(SolutionDir)Sandbox\resources" "$(SolutionDir)bin\Release-x64\San
     <ClCompile Include="external_libraries\imgui\imgui_widgets.cpp" />
     <ClCompile Include="external_libraries\MetaStuff\include\StringCast.cpp" />
     <ClCompile Include="src\Flow3D\Application.cpp" />
+    <ClCompile Include="src\Flow3D\Collision\AABB.cpp" />
+    <ClCompile Include="src\Flow3D\Collision\BoundingSphere.cpp" />
+    <ClCompile Include="src\Flow3D\Collision\Collider.cpp" />
+    <ClCompile Include="src\Flow3D\Collision\PlaneCollider.cpp" />
     <ClCompile Include="src\Flow3D\Components\ComponentManager.cpp" />
     <ClCompile Include="src\Flow3D\GameObject.cpp" />
     <ClCompile Include="src\Flow3D\ImGui\ImGuiInspector.cpp" />
