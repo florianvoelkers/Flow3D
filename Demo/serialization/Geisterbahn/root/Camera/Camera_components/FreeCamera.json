@@ -1,0 +1,12 @@
+{
+    "m_Enabled": true,
+    "m_IsMainCamera": true,
+    "m_MouseSensitivity": 0.10000000149011612,
+    "m_MovementSpeed": 5.0,
+    "m_Name": "FreeCamera",
+    "m_Pitch": -24.100055694580078,
+    "m_Yaw": 78.50000762939453,
+    "m_ZFar": 100.0,
+    "m_ZNear": 0.10000000149011612,
+    "m_Zoom": 45.0
+}
