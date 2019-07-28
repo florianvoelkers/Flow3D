@@ -1,0 +1,32 @@
+{
+    "m_IsActive": true,
+    "m_Name": "Door4",
+    "m_Transform": {
+        "constrainPositionX": false,
+        "constrainPositionY": false,
+        "constrainPositionZ": false,
+        "constrainRotationX": false,
+        "constrainRotationY": false,
+        "constrainRotationZ": false,
+        "constrainScaleX": false,
+        "constrainScaleY": false,
+        "constrainScaleZ": false,
+        "m_IsCamera": false,
+        "m_Orientation": {
+            "w": 0.731353759765625,
+            "x": 0.0,
+            "y": 0.6819983124732971,
+            "z": 0.0
+        },
+        "m_Position": {
+            "x": -6.150000095367432,
+            "y": 1.4500000476837158,
+            "z": 8.5
+        },
+        "m_Scale": {
+            "x": -1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    }
+}

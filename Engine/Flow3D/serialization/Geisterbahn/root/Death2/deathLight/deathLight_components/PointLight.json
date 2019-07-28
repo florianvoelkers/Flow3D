@@ -1,0 +1,24 @@
+{
+    "m_Ambient": {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+    },
+    "m_Attenuation": {
+        "m_Constant": 1.2899999618530273,
+        "m_Exponent": 0.0,
+        "m_Linear": 0.8799999952316284
+    },
+    "m_Diffuse": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "m_Enabled": true,
+    "m_Name": "PointLight",
+    "m_Specular": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    }
+}

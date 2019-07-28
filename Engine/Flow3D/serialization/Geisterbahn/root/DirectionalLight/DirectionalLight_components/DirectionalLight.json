@@ -16,7 +16,7 @@
     },
     "m_Enabled": true,
     "m_Name": "DirectionalLight",
-    "m_SetAsSceneLight": true,
+    "m_SetAsSceneLight": false,
     "m_Specular": {
         "x": 0.0,
         "y": 0.0,
