@@ -20,9 +20,10 @@ void Serializer::LoadSceneNames()
 			size_t fileExtensionPosition = path_string.find(".scene");
 			std::string sceneName = path_string.substr(path.size() + 1, path_string.size() - path.size() - 1 - fileExtension.size());
 			ResourceManager::Get().AddSceneName(sceneName);
+			FLOW_CORE_INFO("scene added to scene names");
 		}
-		
 	}
+	FLOW_CORE_INFO("load scene names ending");
 }
 
 void Serializer::Serialize(Scene& scene)
@@ -43,36 +44,35 @@ void Serializer::Serialize(Scene& scene)
 	myfile << std::setw(4) << sceneAsJson;
 	myfile.close();
 
-	if (std::experimental::filesystem::remove_all(directory))
-	{
-		CreateDirectory(directory.c_str(), NULL);
-		directory = directory + "/";
-		std::string filename = rootObject.GetName();
-		directory = directory + filename;
-		CreateDirectory(directory.c_str(), NULL);
-		filename.append(".json");
-		std::string path = directory + "/" + filename;
-		myfile.open(path.c_str());
-		myfile << std::setw(4) << rootAsJSON;
-		myfile.close();
+	CreateDirectory(directory.c_str(), NULL);
 
-		const std::vector<std::shared_ptr<GameObject>>& rootChildren = rootObject.GetChildren();
-		SerializeChildren(rootChildren, directory, myfile);
+	directory = directory + "/";
+	std::string filename = rootObject.GetName();
+	directory = directory + filename;
+	CreateDirectory(directory.c_str(), NULL);
+	filename.append(".json");
+	std::string path = directory + "/" + filename;
+	myfile.open(path.c_str());
+	myfile << std::setw(4) << rootAsJSON;
+	myfile.close();
 
-		SerializeResources(myfile);
-	}
+	const std::vector<std::shared_ptr<GameObject>>& rootChildren = rootObject.GetChildren();
+	SerializeChildren(rootChildren, directory, myfile);
+
+	SerializeResources(myfile);
 	
 }
 
 void Serializer::Deserialize(Scene& scene)
 {
 	DeserializeResources();
-
+	FLOW_CORE_INFO("resources deserialized");
 	std::string sceneName = scene.GetName();
 	std::string serializationDirectory = "serialization\\" + sceneName;
 
 	if (std::experimental::filesystem::exists(serializationDirectory.c_str()))
 	{
+		FLOW_CORE_INFO("scene directory exists");
 		std::string sceneFilepath = serializationDirectory + ".scene";
 		std::ifstream sceneFile(sceneFilepath);
 		json sceneAsJson;
@@ -594,15 +594,12 @@ std::string Serializer::GetTexturePath(const std::string & texturesDirectory, co
 
 void Serializer::SerializeResources(std::ofstream& myfile)
 {
-	if (std::experimental::filesystem::remove_all("serialization/resources"))
-	{
-		CreateDirectory("serialization/resources", NULL);
+	CreateDirectory("serialization/resources", NULL);
 
-		SerializeTextures(myfile);
-		SerializeShaders(myfile);
-		SerializeModels(myfile);
-		SerializeSkyboxes(myfile);
-	}	
+	SerializeTextures(myfile);
+	SerializeShaders(myfile);
+	SerializeModels(myfile);
+	SerializeSkyboxes(myfile);
 }
 
 void Serializer::SerializeTextures(std::ofstream& myfile)
