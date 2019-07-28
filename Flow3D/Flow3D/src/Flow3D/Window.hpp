@@ -10,7 +10,7 @@ struct WindowProperties {
 	unsigned int Width;
 	unsigned int Height;
 
-	WindowProperties(const std::string& title = "Flow3D", unsigned int width = 1840, unsigned int height = 1035)
+	WindowProperties(const std::string& title = "Flow3D Demo Application", unsigned int width = 1920, unsigned int height = 1080)
 		: Title(title), Width(width), Height(height) {}
 };
 

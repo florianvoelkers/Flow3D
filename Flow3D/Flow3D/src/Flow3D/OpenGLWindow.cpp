@@ -41,8 +41,9 @@ void OpenGLWindow::Init(const WindowProperties& properties)
 	// Create a window object
 	GLFWmonitor* primary = glfwGetPrimaryMonitor();
 	const GLFWvidmode* mode = glfwGetVideoMode(primary);
-	// for full screen window: glfwCreateWindow(mode->width, mode->height, properties.Title.c_str(), NULL, NULL);
-	m_Window = glfwCreateWindow(properties.Width, properties.Height, properties.Title.c_str(), NULL, NULL);
+	// for full screen window: 
+	m_Window = glfwCreateWindow(mode->width, mode->height, properties.Title.c_str(), NULL, NULL);
+	//m_Window = glfwCreateWindow(properties.Width, properties.Height, properties.Title.c_str(), NULL, NULL);
 	if (!m_Window)
 	{
 		FLOW_CORE_ERROR("Failed to create GLFW window");
@@ -52,7 +53,7 @@ void OpenGLWindow::Init(const WindowProperties& properties)
 	glfwMakeContextCurrent(m_Window);
 	glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
-	ShowMouse(true);
+	ShowMouse(false);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{

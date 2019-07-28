@@ -31,8 +31,10 @@ Application::Application()
 	Serializer::Deserialize(*m_CurrentScene);
 	Serializer::LoadSceneNames();
 
+	/*
 	m_ImGui = std::make_unique<ImGuiLayer>();
 	m_ImGui->OnAttach();
+	*/
 }
 
 Application::~Application()
@@ -58,7 +60,7 @@ void Application::Run()
 		numberOfFrames++;
 		if (current - lastSecond >= 1.0)
 		{
-			m_ImGui->GetLogger().AddLog("fps: %d\n", numberOfFrames);
+			//m_ImGui->GetLogger().AddLog("fps: %d\n", numberOfFrames);
 			numberOfFrames = 0;
 			lastSecond += 1.0f;
 		}
@@ -67,7 +69,7 @@ void Application::Run()
 		m_CurrentScene->OnUpdate(elapsed);
 
 		m_RenderingEngine->Render(m_CurrentScene->GetRoot(), m_CurrentScene->GetMainCamera(), m_CurrentScene->GetSkybox());
-		m_ImGui->OnUpdate(elapsed);
+		//m_ImGui->OnUpdate(elapsed);
 		m_Window->OnUpdate();
 	}
 }
@@ -83,7 +85,7 @@ void Application::OnEvent(Event& e)
 	dispatcher.Dispatch<WindowCloseEvent>(FLOW_BIND_EVENT_FUNCTION(Application::OnWindowClose));
 	dispatcher.Dispatch<KeyPressedEvent>(FLOW_BIND_EVENT_FUNCTION(Application::OnKeyPressed));
 
-	m_ImGui->OnEvent(e);
+	//m_ImGui->OnEvent(e);
 	m_Input->OnEvent(e);		
 	m_CurrentScene->OnEvent(e);
 }
@@ -110,7 +112,7 @@ bool Application::OnKeyPressed(KeyPressedEvent& e)
 	{
 		bool receiveEvents = m_ImGui->GetReceiveEvents();
 		m_Window->ShowMouse(!receiveEvents);
-		m_ImGui->ToggleReceiveEvents();
+		//m_ImGui->ToggleReceiveEvents();
 	}			
 
 	return false; // returns false because other functions should be able to receive those events as well
