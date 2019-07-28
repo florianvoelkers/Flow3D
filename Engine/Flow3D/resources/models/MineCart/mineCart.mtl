@@ -1,32 +1,13 @@
 # Blender MTL File: 'mineCart.blend'
-# Material Count: 3
+# Material Count: 1
 
-newmtl Material.001
-Ns 225.000000
+newmtl Material.004
+Ns 0.000000
 Ka 1.000000 1.000000 1.000000
-Kd 0.158127 0.157228 0.173362
-Ks 0.500000 0.500000 0.500000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
 Ke 0.0 0.0 0.0
 Ni 1.450000
 d 1.000000
-illum 3
-
-newmtl Material.002
-Ns 225.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.299441 0.299441 0.299441
-Ks 0.500000 0.500000 0.500000
-Ke 0.0 0.0 0.0
-Ni 1.000000
-d 1.000000
-illum 2
-
-newmtl Material.003
-Ns 225.000000
-Ka 1.000000 1.000000 1.000000
-Kd 0.073220 0.039468 0.014284
-Ks 0.500000 0.500000 0.500000
-Ke 0.0 0.0 0.0
-Ni 1.000000
-d 1.000000
-illum 2
+illum 1
+map_Kd mineCart_texture.png
