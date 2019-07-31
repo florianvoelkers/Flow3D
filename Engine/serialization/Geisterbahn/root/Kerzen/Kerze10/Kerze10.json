@@ -1,0 +1,32 @@
+{
+    "m_IsActive": true,
+    "m_Name": "Kerze10",
+    "m_Transform": {
+        "constrainPositionX": false,
+        "constrainPositionY": false,
+        "constrainPositionZ": false,
+        "constrainRotationX": false,
+        "constrainRotationY": false,
+        "constrainRotationZ": false,
+        "constrainScaleX": false,
+        "constrainScaleY": false,
+        "constrainScaleZ": false,
+        "m_IsCamera": false,
+        "m_Orientation": {
+            "w": 3.259629011154175e-08,
+            "x": 5.166900978251232e-19,
+            "y": -1.0,
+            "z": 1.3355217539506858e-12
+        },
+        "m_Position": {
+            "x": 35.599998474121094,
+            "y": 0.0,
+            "z": -1.100000023841858
+        },
+        "m_Scale": {
+            "x": 1.0,
+            "y": 1.0,
+            "z": 1.0
+        }
+    }
+}

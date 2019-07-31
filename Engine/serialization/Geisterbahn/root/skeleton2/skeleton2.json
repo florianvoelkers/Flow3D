@@ -1,0 +1,32 @@
+{
+    "m_IsActive": true,
+    "m_Name": "skeleton2",
+    "m_Transform": {
+        "constrainPositionX": false,
+        "constrainPositionY": false,
+        "constrainPositionZ": false,
+        "constrainRotationX": false,
+        "constrainRotationY": false,
+        "constrainRotationZ": false,
+        "constrainScaleX": false,
+        "constrainScaleY": false,
+        "constrainScaleZ": false,
+        "m_IsCamera": false,
+        "m_Orientation": {
+            "w": 0.9953961968421936,
+            "x": 0.0,
+            "y": -0.09584574401378632,
+            "z": 0.0
+        },
+        "m_Position": {
+            "x": -6.599999904632568,
+            "y": 0.3499999940395355,
+            "z": 4.699999809265137
+        },
+        "m_Scale": {
+            "x": 0.699999988079071,
+            "y": 0.699999988079071,
+            "z": 0.699999988079071
+        }
+    }
+}

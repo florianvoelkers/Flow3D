@@ -1,0 +1,32 @@
+{
+    "m_IsActive": true,
+    "m_Name": "Spider2",
+    "m_Transform": {
+        "constrainPositionX": false,
+        "constrainPositionY": false,
+        "constrainPositionZ": false,
+        "constrainRotationX": false,
+        "constrainRotationY": false,
+        "constrainRotationZ": false,
+        "constrainScaleX": false,
+        "constrainScaleY": false,
+        "constrainScaleZ": false,
+        "m_IsCamera": false,
+        "m_Orientation": {
+            "w": 0.7431448698043823,
+            "x": 0.0,
+            "y": 0.6691305637359619,
+            "z": 0.0
+        },
+        "m_Position": {
+            "x": -7.0,
+            "y": 0.20000000298023224,
+            "z": 1.2000000476837158
+        },
+        "m_Scale": {
+            "x": 0.699999988079071,
+            "y": 0.699999988079071,
+            "z": 0.699999988079071
+        }
+    }
+}

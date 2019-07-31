@@ -1,0 +1,32 @@
+{
+    "m_IsActive": true,
+    "m_Name": "Lampe2",
+    "m_Transform": {
+        "constrainPositionX": false,
+        "constrainPositionY": false,
+        "constrainPositionZ": false,
+        "constrainRotationX": false,
+        "constrainRotationY": false,
+        "constrainRotationZ": false,
+        "constrainScaleX": false,
+        "constrainScaleY": false,
+        "constrainScaleZ": false,
+        "m_IsCamera": false,
+        "m_Orientation": {
+            "w": 0.551348090171814,
+            "x": 0.7056382298469543,
+            "y": 0.4422026574611664,
+            "z": -0.05046659708023071
+        },
+        "m_Position": {
+            "x": -9.300000190734863,
+            "y": 0.009999999776482582,
+            "z": 4.0
+        },
+        "m_Scale": {
+            "x": 0.10000000149011612,
+            "y": 0.10000000149011612,
+            "z": 0.10000000149011612
+        }
+    }
+}
